@@ -10,30 +10,7 @@ interface CategoryPageProps {
   };
 }
 
-interface ProductData {
-  _id: string;
-  name: string;
-  description: string;
-  ref: string;
-  price: number;
-  imageUrl?: string;
-  brand: Brand;
-  stock: number;
-  discount?: number;
-  color?: string;
-  material?: string;
-  status?: string;
-category:Category;
-slug:string;
-}
-interface Category {
-  name: string;
-  slug:string;
-}
-interface Brand {
-  _id: string;
-  name: string;
-}
+
 
 // Fetch category data by ID
 const fetchCategoryData = async (id: string): Promise<ICategory | null> => {

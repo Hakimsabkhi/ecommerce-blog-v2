@@ -40,7 +40,6 @@ const Products: React.FC<ProductsProps> = ({ products, brands }) => {
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
 
   // Helper function to get unique values
   const getUniqueValues = (array: (string | undefined)[]) => {
