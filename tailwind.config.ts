@@ -9,9 +9,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        accent: 'var(--color-accent)',
+        background: 'var(--color-background)',
+        text: 'var(--color-text)',
+        starsCard: 'var(--color-starsCard)',
+        productNameCard: 'var(--color-productNameCard)',
+        HomePageTitles: 'var(--color-HomePageTitles)',
+      }
     },
   },
   plugins: [],
