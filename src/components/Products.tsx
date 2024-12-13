@@ -142,33 +142,43 @@ const Products: React.FC<ProductsProps> = ({ params }) => {
     <div className="py-8 desktop max-2xl:w-[95%] gap-8 max-md:items-center xl:flex xl:flex-cols-2 ">
       {/* Display error message if any */}
       {error && <div className="text-red-500 mb-4">{error}</div>}
-
+  
+      {/* Display message when no products are found */}
+      {!error && products.length === 0 && (
+        <div className="text-gray-500 text-center mb-4">No Products Found</div>
+      )}
+  
       {/* Filter */}
-      <div className="xl:w-1/6 sm:w-5/6 mx-auto border-2 p-2 rounded-lg shadow-md">
-        <FilterProducts
-          selectedBrand={selectedBrand}
-          setSelectedBrand={setSelectedBrand}
-          selectedColor={selectedColor}
-          setSelectedColor={setSelectedColor}
-          selectedMaterial={selectedMaterial}
-          setSelectedMaterial={setSelectedMaterial}
-          minPrice={minPrice}
-          setMinPrice={setMinPrice}
-          maxPrice={maxPrice}
-          setMaxPrice={setMaxPrice}
-          brands={brands}
-          uniqueColors={uniqueColors}
-          uniqueMaterials={uniqueMaterials}
-        />
-      </div>
-
+      {products.length > 0 && (
+        <div className="xl:w-1/6 sm:w-5/6 mx-auto border-2 p-2 rounded-lg shadow-md">
+          <FilterProducts
+            selectedBrand={selectedBrand}
+            setSelectedBrand={setSelectedBrand}
+            selectedColor={selectedColor}
+            setSelectedColor={setSelectedColor}
+            selectedMaterial={selectedMaterial}
+            setSelectedMaterial={setSelectedMaterial}
+            minPrice={minPrice}
+            setMinPrice={setMinPrice}
+            maxPrice={maxPrice}
+            setMaxPrice={setMaxPrice}
+            brands={brands}
+            uniqueColors={uniqueColors}
+            uniqueMaterials={uniqueMaterials}
+          />
+        </div>
+      )}
+  
       {/* Products */}
-      <div className="xl:w-5/6">
-        <OrderPrice setSortOrder={setSortOrder} sortOrder={sortOrder} />
-        <ProductList products={sortedProducts} />
-      </div>
+      {products.length > 0 && (
+        <div className="xl:w-5/6">
+          <OrderPrice setSortOrder={setSortOrder} sortOrder={sortOrder} />
+          <ProductList products={sortedProducts} />
+        </div>
+      )}
     </div>
   );
+  
 };
 
 export default Products;

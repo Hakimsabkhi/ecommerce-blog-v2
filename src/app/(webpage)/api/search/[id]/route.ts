@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Category from '@/models/Category';
-import Brand from '@/models/Brand';
-import User from '@/models/User';
 import Product from '@/models/Product';
 
 export async function GET(
@@ -12,9 +10,7 @@ export async function GET(
   await dbConnect();
 
   try {
-   
     const category = params.id;
-
 
     if (!category || typeof category !== 'string') {
       return NextResponse.json(
@@ -24,15 +20,33 @@ export async function GET(
     }
 
     // Find the category by name
-    const foundCategory = await Category.findOne({ slug: category ,vadmin: "approve"})
+    const foundCategory = await Category.findOne({ slug: category, vadmin: 'approve' });
 
     if (!foundCategory) {
       return NextResponse.json({ message: 'Category not found' }, { status: 404 });
     }
-    await User.find({});
-    await Brand.find({});
-    // Find products by the category ID
-    const products = await Product.find({ category: foundCategory._id , vadmin:"approve"}).populate('category brand user').exec();
+
+    // Check if there are any products for this category
+    const productExists = await Product.exists({
+      category: foundCategory._id,
+      vadmin: 'approve',
+    });
+
+    if (!productExists) {
+      return NextResponse.json(
+        { message: 'No products found for this category', products: [] },
+        { status: 200 }
+      );
+    }
+
+    // Fetch the products if they exist
+    const products = await Product.find({
+      category: foundCategory._id,
+      vadmin: 'approve',
+    })
+      .populate('category brand user')
+      .exec();
+
     return NextResponse.json(products, { status: 200 });
   } catch (error) {
     console.error(error);
