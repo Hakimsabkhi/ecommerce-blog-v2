@@ -81,7 +81,7 @@ const Products: React.FC<ProductsProps> = ({ params }) => {
         if (Array.isArray(productsData)) {
           setProducts(productsData);
         } else {
-          throw new Error("Unexpected products data format.");
+          throw new Error("Unexpected products.");
         }
   
         if (Array.isArray(brandsData)) {
