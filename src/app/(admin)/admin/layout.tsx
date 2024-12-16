@@ -1,44 +1,19 @@
-
 import NavAdmin from "@/components/NavAdmin";
-import StoreProviders from "@/components/ProviderComp/StoreProvider";
+import HeaderAdmin from "@/components/menu/HeaderAdmin";
 import { Poppins } from "next/font/google";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import "@/app/globals.css";
 
-import HeaderAdmin from "@/components/menu/HeaderAdmin";
+// Load the Google font
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
-const RootLayout = async ({ children }: { children: React.ReactNode }) => {
-  // Fetch the session server-side
-
-
+const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en">
-     <body className={`${poppins.className} w-full`}>
- 
-    <StoreProviders>
-    <HeaderAdmin/>
-    <ToastContainer
-              position="top-center"
-              autoClose={2000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="colored"
-            />
-      <NavAdmin  />
-      {children}    
-
-    </StoreProviders>
- 
-    </body>
-    </html>
+    <div className={`${poppins.className} w-full`}>
+      <HeaderAdmin />
+      <NavAdmin />
+      <main>{children}</main>
+    </div>
   );
 };
 
-export default RootLayout;
+export default AdminLayout;
