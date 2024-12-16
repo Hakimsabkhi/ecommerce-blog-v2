@@ -1,44 +1,43 @@
-import mongoose from 'mongoose';
+import mongoose, { Connection } from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
+const MONGODB_URI: string = process.env.MONGODB_URI || '';
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
+
 mongoose.set('strictQuery', false);
 
 interface MongooseCache {
-  conn: mongoose.Connection | null;
-  promise: Promise<mongoose.Connection> | null;
+  conn: Connection | null;
+  promise: Promise<Connection> | null;
 }
 
 // Global cache to avoid multiple connections
 declare global {
+  // eslint-disable-next-line no-var
   var mongoose: MongooseCache;
 }
 
-// Ensure the cache is defined globally
 global.mongoose = global.mongoose || { conn: null, promise: null };
 
-async function connectToDatabase(): Promise<mongoose.Connection> {
+async function connectToDatabase(): Promise<Connection> {
+  if (typeof window !== 'undefined') {
+    throw new Error('Database connection should only be initiated on the server side.');
+  }
+
   if (global.mongoose.conn) {
     return global.mongoose.conn;
   }
 
   if (!global.mongoose.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-
-    global.mongoose.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose.connection;
-    });
+    global.mongoose.promise = mongoose.connect(MONGODB_URI).then((mongoose) => mongoose.connection);
   }
 
   try {
     global.mongoose.conn = await global.mongoose.promise;
   } catch (error) {
-    global.mongoose.promise = null; // Reset the promise in case of failure
+    global.mongoose.promise = null;
     throw error;
   }
 
