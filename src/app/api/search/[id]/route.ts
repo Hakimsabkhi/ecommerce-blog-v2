@@ -5,51 +5,69 @@ import Product from '@/models/Product';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+
+
+  // Ensure database connection
   await dbConnect();
 
   try {
-    const category = params.id;
+    const { params } = context;
+    const categorySlug = params?.id;
+    console.log('Category ID (Slug):', categorySlug);
 
-    if (!category || typeof category !== 'string') {
+    // Validate the categorySlug parameter
+    if (!categorySlug || typeof categorySlug !== 'string') {
       return NextResponse.json(
-        { message: 'Category name is required and should be a string' },
+        { error: 'Category slug is required and must be a string.' },
         { status: 400 }
       );
     }
 
-    // Find the category by name
-    const foundCategory = await Category.findOne({ slug: category, vadmin: 'approve' });
+    // Find the category by slug with "approve" status
+    const foundCategory = await Category.findOne({ slug: categorySlug, vadmin: 'approve' });
 
     if (!foundCategory) {
-      return NextResponse.json({ message: 'Category not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Category not found. Please check the slug.' },
+        { status: 404 }
+      );
     }
 
-    // Check if there are any products for this category
-    const productExists = await Product.exists({
+    // Check if products exist for the category
+    const productCount = await Product.countDocuments({
       category: foundCategory._id,
       vadmin: 'approve',
     });
 
-    if (!productExists) {
+    if (productCount === 0) {
       return NextResponse.json(
-        { message: 'No products found for this category', products: [] },
+        { message: 'No products found for this category.', products: [] },
         { status: 200 }
       );
     }
 
-    // Fetch the products if they exist
+    // Fetch the products with populated references
     const products = await Product.find({
       category: foundCategory._id,
       vadmin: 'approve',
     })
-      .populate('category brand user')
+      .populate('category', 'name slug') // Populate category with only needed fields
+      .populate('brand', 'name')        // Populate brand with only needed fields
+      .populate('user', 'name email')  // Populate user with only needed fields
       .exec();
 
-    return NextResponse.json(products, { status: 200 });
+    return NextResponse.json(
+      { message: 'Products fetched successfully.', products },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    console.error('Error fetching products:', error);
+
+    return NextResponse.json(
+      { error: 'An internal server error occurred. Please try again later.' },
+      { status: 500 }
+    );
   }
 }

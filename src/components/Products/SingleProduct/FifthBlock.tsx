@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation'; // Use 'next/navigation' for Next.js App Route
 import ProductCard from '../ProductPage/ProductCard';
-const noimage ='https://res.cloudinary.com/dx499gc6x/image/upload/v1723623372/na_mma1mw.webp';
+
+
 interface ProductData {
   _id: string;
   name: string;

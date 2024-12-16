@@ -1,4 +1,3 @@
-// /app/api/search/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db'; // Connect to MongoDB

@@ -10,62 +10,58 @@ interface CategoryPageProps {
   };
 }
 
-
-
 // Fetch category data by ID
 const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
+  if (!id) return null; // Early return if the ID is invalid
   try {
-    if (!id) return notFound(); // Check if id is valid
     const res = await fetch(`${process.env.NEXTAUTH_URL}/api/searchcategory/${id}`, {
       method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      next: { revalidate: 0 }, 
+      next: { revalidate: 0 }, // Disable caching for dynamic data
     });
 
-
     if (!res.ok) {
-      console.log('Category not found');
-      return notFound();
+      console.error('Failed to fetch category data:', res.statusText);
+      return null;
     }
 
     const data: ICategory = await res.json();
     return data;
   } catch (error) {
     console.error('Error fetching category data:', error);
-    return notFound();
+    return null;
   }
 };
 
-
-// HomePage component
+// CategoryPage component
 async function CategoryPage({ params }: CategoryPageProps) {
+  // Await the params object if it is a Promise
+  const resolvedParams = await params;
 
- const id = params?.slugCategory;
+  const id = resolvedParams?.slugCategory;
 
-  // Early return if no product id
   if (!id) {
     return notFound();
   }
 
+  // Fetch category data
   const category = await fetchCategoryData(id);
-  /* const products = await fetchProductsData(id);
-  const brand = await fetchBrandData(); */
 
-  // Return 404 if no category or products found
-  if (!category ) {
+  if (!category) {
     return notFound();
-  } 
+  }
 
+  // Render category-specific components
   return (
     <div>
-      {/* Uncomment the following if you need to show a banner */}
+      {/* Banner showcasing category details */}
       <Chairsbanner category={category} />
-        <Products params={params}  /> 
+      {/* Products listing */}
+      <Products params={resolvedParams} />
     </div>
   );
 }
 
-// Export the HomePage component at the end
 export default CategoryPage;
