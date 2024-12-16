@@ -5,21 +5,23 @@ import Product from '@/models/Product';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     // Ensure database connection
     await dbConnect();
 
-    // Validate and ensure `params` is available
-    if (!params || !params.id) {
+    // Await the params object
+    const { id: categorySlug } = await context.params;
+
+    // Validate and ensure `categorySlug` is available
+    if (!categorySlug) {
       return NextResponse.json(
         { error: 'Category slug is required.' },
         { status: 400 }
       );
     }
 
-    const categorySlug = params.id; // Extract the slug
     console.log('Category ID (Slug):', categorySlug);
 
     // Find the category by slug with "approve" status
