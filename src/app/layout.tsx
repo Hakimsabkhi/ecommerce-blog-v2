@@ -3,7 +3,6 @@ import { authOptions } from "@/lib/authOptions"; // Ensure the path is correct
 import SessionProviderWrapper from "@/components/ProviderComp/SessionProviderWrapper";
 import { Poppins } from "next/font/google";
 import "@/app/globals.css";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import StoreProviders from "@/components/ProviderComp/StoreProvider";
@@ -19,18 +18,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       <body className={poppins.className}>
         <SessionProviderWrapper session={session}>
           <StoreProviders>
-            <ToastContainer
-              position="top-center"
-              autoClose={2000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="colored"
-            />
+            
             {children}
           </StoreProviders>
         </SessionProviderWrapper>

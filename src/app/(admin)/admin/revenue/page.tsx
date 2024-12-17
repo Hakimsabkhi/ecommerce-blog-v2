@@ -1,15 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  LinearScale,
-  CategoryScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { FaMoneyBillWave } from "react-icons/fa";
 import { FaArrowTrendUp } from "react-icons/fa6";
 
@@ -19,9 +10,6 @@ interface Order {
   total: number;
   orderStatus: string;
 }
-
-// Register the necessary components
-ChartJS.register(LinearScale, CategoryScale, PointElement, LineElement, Tooltip, Legend);
 
 const RevenueDashboard: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -42,10 +30,17 @@ const RevenueDashboard: React.FC = () => {
 
         const data = await response.json();
         setOrders(data);
-      } catch (err: any) {
-        setError(`[Orders_GET] ${err.message}`);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(`[Orders_GET] ${err.message}`);
+          console.error(`[Orders_GET] ${err.message}`);
+        } else {
+          setError("[Orders_GET] An unknown error occurred.");
+          console.error("[Orders_GET] An unknown error occurred.");
+        }
       }
     };
+
     getOrders();
   }, []);
 
@@ -57,42 +52,33 @@ const RevenueDashboard: React.FC = () => {
     const currentDay = selectedDateObj.getDate();
 
     if (timeframe === "day") {
-      // Display the last 7 days including the selected date
       for (let i = 6; i >= 0; i--) {
         const date = new Date(selectedDateObj);
-        date.setDate(currentDay - i); // Move back days
+        date.setDate(currentDay - i);
         const dayString = date.toISOString().split("T")[0];
-        revenueByDate[dayString] = 0; // Initialize to 0 if no orders for the date
+        revenueByDate[dayString] = 0;
       }
     }
 
     if (timeframe === "month") {
-      // Display the last 4 months including the selected month
       for (let i = 3; i >= 0; i--) {
         const date = new Date(selectedDateObj);
-        date.setMonth(currentMonth - i); // Move back months
-        const monthYear = date.toLocaleDateString("fr-FR", {
-          month: "long",
-          year: "numeric",
-        });
-        revenueByDate[monthYear] = 0; // Initialize to 0 if no orders for the month
+        date.setMonth(currentMonth - i);
+        const monthYear = date.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+        revenueByDate[monthYear] = 0;
       }
     }
 
     if (timeframe === "year") {
-      // Display the last 4 years including the selected year
       for (let i = 3; i >= 0; i--) {
         const year = currentYear - i;
-        revenueByDate[year] = 0; // Initialize to 0 if no orders for the year
+        revenueByDate[year] = 0;
       }
     }
 
-    // Aggregate the orders into the appropriate timeframe
     orders.forEach((order) => {
       const orderDate = new Date(order.updatedAt);
       const orderYear = orderDate.getFullYear();
-      const orderMonth = orderDate.getMonth();
-      const orderDay = orderDate.getDate();
 
       if (timeframe === "day") {
         const orderDateString = orderDate.toISOString().split("T")[0];
@@ -102,10 +88,7 @@ const RevenueDashboard: React.FC = () => {
       }
 
       if (timeframe === "month") {
-        const orderMonthYear = orderDate.toLocaleDateString("fr-FR", {
-          month: "long",
-          year: "numeric",
-        });
+        const orderMonthYear = orderDate.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
         if (revenueByDate[orderMonthYear] !== undefined) {
           revenueByDate[orderMonthYear] += order.total;
         }
@@ -118,55 +101,11 @@ const RevenueDashboard: React.FC = () => {
       }
     });
 
-    return revenueByDate;
+    return Object.entries(revenueByDate).map(([date, total]) => ({ date, total }));
   };
 
   const revenueData = aggregateRevenue();
-  const labels = Object.keys(revenueData);
-  const data = Object.values(revenueData);
-
-  // Chart data
-  const chartData = {
-    labels,
-    datasets: [
-      {
-        label: "Revenue (TND)",
-        data,
-        borderColor: "rgba(54, 162, 235, 1)",
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
-        fill: true,
-        tension: 0.4,
-      },
-    ],
-  };
-
-// Chart options
-const options = {
-  responsive: true,
-  scales: {
-    y: {
-      beginAtZero: true,
-      ticks: {
-        color: "#000",
-      },
-      grid: {
-        color: "rgba(0, 0, 0, 0.1)",
-      },
-    },
-    x: {
-      ticks: {
-        color: "#000",
-      },
-      grid: {
-        color: "rgba(0, 0, 0, 0.1)",
-      },
-      offset: true,  // This adds spacing before the first label and after the last label
-    },
-  },
-};
-
-
-  const totalRevenue = data.reduce((a, b) => a + b, 0).toFixed(2);
+  const totalRevenue = revenueData.reduce((sum, entry) => sum + entry.total, 0).toFixed(2);
 
   return (
     <div className="p-6">
@@ -175,6 +114,13 @@ const options = {
         <h1 className="text-2xl font-bold">Revenue</h1>
       </div>
 
+      {/* Error Handling */}
+      {error && (
+        <div className="text-red-500 font-medium mb-4">
+          {error}
+        </div>
+      )}
+
       {/* Revenue Section */}
       <div className="flex flex-col-2 gap-11 justify-center">
         <div className="bg-white rounded-lg w-[50%] h-full border-2 p-6">
@@ -182,25 +128,19 @@ const options = {
             <h2 className="text-xl font-semibold">Revenue</h2>
             <button
               onClick={() => setTimeframe("year")}
-              className={`p-2 ${
-                timeframe === "year" ? "bg-green-500 text-white" : "bg-gray-300 text-black"
-              }`}
+              className={`p-2 ${timeframe === "year" ? "bg-green-500 text-white" : "bg-gray-300 text-black"}`}
             >
               Par Année
             </button>
             <button
               onClick={() => setTimeframe("month")}
-              className={`p-2 ${
-                timeframe === "month" ? "bg-green-500 text-white" : "bg-gray-300 text-black"
-              }`}
+              className={`p-2 ${timeframe === "month" ? "bg-green-500 text-white" : "bg-gray-300 text-black"}`}
             >
               Par Mois
             </button>
             <button
               onClick={() => setTimeframe("day")}
-              className={`p-2 ${
-                timeframe === "day" ? "bg-green-500 text-white" : "bg-gray-300 text-black"
-              }`}
+              className={`p-2 ${timeframe === "day" ? "bg-green-500 text-white" : "bg-gray-300 text-black"}`}
             >
               Par Jour
             </button>
@@ -234,7 +174,16 @@ const options = {
 
         {/* Revenue Chart */}
         <div className="bg-white rounded-lg w-[40%] h-full border-2 p-2">
-          <Line data={chartData} options={options} />
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={revenueData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="total" stroke="#8884d8" activeDot={{ r: 8 }} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>
