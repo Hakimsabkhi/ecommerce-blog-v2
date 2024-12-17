@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.7.0",
     "@reduxjs/toolkit": "^2.5.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.1",

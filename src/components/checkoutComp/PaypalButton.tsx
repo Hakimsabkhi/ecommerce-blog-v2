@@ -1,11 +1,11 @@
 import React from 'react';
-import {  PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
-import { OnApproveData } from '@paypal/paypal-js';
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { toast } from 'react-toastify';
+import type { CreateOrderActions, OnApproveActions, OnApproveData } from '@paypal/paypal-js';
 
 interface PaypalButtonProps {
-  amount: string;
-  onSuccess: (details: any) => void;
+  amount: string; // Payment amount as a string
+  onSuccess: (details: Record<string, unknown>) => void; // Callback for successful payment
 }
 
 const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
@@ -17,35 +17,38 @@ const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
       }}
     >
       <PayPalButtons
-        
-        createOrder={async (data: any, actions: any) => {
+        createOrder={async (
+          data: Record<string, unknown>,
+          actions: CreateOrderActions
+        ) => {
           try {
-            const response = await fetch('/api/paypal/create-order', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ amount }),
+            // Use actions to create the order with intent and purchase_units
+            const orderId = await actions.order.create({
+              intent: 'CAPTURE', // Explicitly add the intent
+              purchase_units: [
+                {
+                  amount: {
+                    currency_code: 'USD', // Specify the currency code
+                    value: amount, // The payment amount
+                  },
+                },
+              ],
             });
-
-            if (!response.ok) {
-              throw new Error('Failed to create order');
-            }
-
-            const order = await response.json();
-            return order.id; // Pass the order ID to PayPal
+            return orderId; // Return the order ID to proceed with the payment
           } catch (error) {
             console.error('Error creating PayPal order:', error);
+            toast.error('Order creation failed. Please try again.');
             return Promise.reject('Order creation failed');
           }
         }}
-    
-        onApprove={async (data, actions) => {
+        onApprove={async (
+          data: OnApproveData,
+          actions: OnApproveActions
+        ) => {
           try {
             const details = await actions.order?.capture();
             if (details) {
               onSuccess(details); // Trigger success logic
-              
               toast.success('Payment successful!');
             }
           } catch (error) {
@@ -53,12 +56,11 @@ const PaypalButton: React.FC<PaypalButtonProps> = ({ amount, onSuccess }) => {
             toast.error('Payment failed. Please try again.');
           }
         }}
-        onError={(err: any) => {
+        onError={(err: unknown) => {
           console.error('PayPal Error:', err);
+          toast.error('An error occurred with PayPal. Please try again.');
         }}
-        forceReRender={[amount]} // Re-render when amount or address changes
-         // Ensure loading spinner is hidden after PayPal button initialization
-    
+        forceReRender={[amount]} // Re-render when amount changes
       />
     </PayPalScriptProvider>
   );
