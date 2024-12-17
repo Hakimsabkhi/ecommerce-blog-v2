@@ -1,10 +1,10 @@
-
-import cloudinary from 'cloudinary';
+import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from 'cloudinary';
 import stream from 'stream';
-cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+  api_key: process.env.CLOUDINARY_API_KEY!,
+  api_secret: process.env.CLOUDINARY_API_SECRET!,
 });
 
 const uploadImage = async (folder: string, file: File): Promise<string> => {
@@ -13,12 +13,13 @@ const uploadImage = async (folder: string, file: File): Promise<string> => {
     const bufferStream = new stream.PassThrough();
     bufferStream.end(Buffer.from(fileBuffer));
 
-    const result = await new Promise<any>((resolve, reject) => {
-      const uploadStream = cloudinary.v2.uploader.upload_stream(
+    const result: UploadApiResponse = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
         { folder, format: 'webp' },
-        (error, result) => {
+        (error: UploadApiErrorResponse | undefined, result: UploadApiResponse | undefined) => {
           if (error) reject(error);
-          else resolve(result);
+          else if (result) resolve(result);
+          else reject(new Error('Upload failed without an error.'));
         }
       );
       bufferStream.pipe(uploadStream);
