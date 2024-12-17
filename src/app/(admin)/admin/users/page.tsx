@@ -58,8 +58,18 @@ const AdminDashboard = () => {
       }
       const data = await res.json();
       setUsers(data);
-    } catch (err: any) {
-      console.log(`[get users] ${err.message}`);
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

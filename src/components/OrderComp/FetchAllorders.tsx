@@ -6,8 +6,6 @@ import DeletePopup from "../Popup/DeletePopup";
 import ConfirmPopup  from "../Popup/ConfirmPopup";
 import { FaSpinner, FaTrashAlt, FaRegEye } from "react-icons/fa";
 import Pagination from "../Pagination";
-import { useRouter } from "next/navigation";
-import { items } from "@/assets/data";
 import useIs2xl from "@/hooks/useIs2x";
 type User = {
   _id: string;
@@ -37,7 +35,6 @@ interface Order {
 }
 
 const ListOrders: React.FC = () => {
-  const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]); // All orders
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]); // Filtered orders
   const [error, setError] = useState<string | null>(null);
@@ -91,8 +88,18 @@ const ListOrders: React.FC = () => {
       window.open(`/admin/invoice/${data.ref._id}`, '_blank');
       setIsPopupOpeninvoice(false);
      
-    } catch (error) {
-      toast.error("Failed to create invoice");
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
     }
   };
   const DeleteOrder = async (id: string) => {
@@ -108,8 +115,18 @@ const ListOrders: React.FC = () => {
       toast.success("order delete successfully!");
 
       await getOrders();
-    } catch (err: any) {
-      toast.error(`[order_DELETE] ${err.message}`);
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setLoadingOrderId(null);
     }
@@ -127,8 +144,18 @@ const ListOrders: React.FC = () => {
       const data = await response.json();
       setOrders(data); // Store all orders
       setFilteredOrders(data); // Initially, filteredOrders are the same as orders
-    } catch (err: any) {
-      setError(`[Orders_GET] ${err.message}`);
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -293,8 +320,6 @@ const ListOrders: React.FC = () => {
     indexOfLastOrder
   );
   const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
-
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   if (error) {
     return <div>Error: {error}</div>;

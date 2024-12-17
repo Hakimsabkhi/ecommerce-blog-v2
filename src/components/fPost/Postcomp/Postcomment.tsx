@@ -64,7 +64,7 @@ const BlogComment: React.FC<BlogCommentProps> = ({ blog }) => {
   const { data: session } = useSession();
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState<comment[]>([]);
-
+  
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`/api/comments/getComments/${blog._id}`);
@@ -73,8 +73,15 @@ const BlogComment: React.FC<BlogCommentProps> = ({ blog }) => {
       }
       const comments = await response.json();
       setComments(comments);
-    } catch (err: any) {
-      console.error('Failed to fetch data:', err);
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+      } else {
+        console.error("Unknown error:", error);
+      }
     }
   }, [blog._id]);
 

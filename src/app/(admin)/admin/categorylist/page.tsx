@@ -63,9 +63,19 @@ const AddedCategories: React.FC = () => {
       );
 
       toast.success("Category deleted successfully!");
-    } catch (err: any) {
-      toast.error(`Failed to delete category: ${err.message}`);
-    } finally {
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
+    }  finally {
       handleClosePopup();
     }
   };
@@ -115,8 +125,18 @@ const AddedCategories: React.FC = () => {
 
         const data = await response.json();
         setAddedCategory(data);
-      } catch (err: any) {
-        setError(`[Category_GET] ${err.message}`);
+      } catch (error: unknown) {
+        // Handle different error types effectively
+        if (error instanceof Error) {
+          console.error("Error deleting category:", error.message);
+          setError(error.message);
+        } else if (typeof error === "string") {
+          console.error("String error:", error);
+          setError(error);
+        } else {
+          console.error("Unknown error:", error);
+          setError("An unexpected error occurred. Please try again.");
+        }
       } finally {
         setLoading(false);
       }

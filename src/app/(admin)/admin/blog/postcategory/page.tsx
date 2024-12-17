@@ -1,9 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { toast } from "react-toastify";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import Pagination from "@/components/Pagination";
 import DeletePopup from "@/components/Popup/DeletePopup";
 import { FaSpinner } from "react-icons/fa6";
@@ -65,11 +63,19 @@ const AddedCategories: React.FC = () => {
       handleClosePopup();
       getCategory();
       toast.success("Category delete successfully!");
-    } catch (err: any) {
-      /*  setError(`[Category_DELETE] ${err.message}`);
-          setError(`Error: ${err.message}`); */
-      toast.error("faild Category_DELETE");
-    }finally {
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
+    } finally {
       setLoadingCategoryId(null);
     }
   };
@@ -85,8 +91,14 @@ const AddedCategories: React.FC = () => {
       const data = await response.json();
       setAddedCategory(data);
       setFilteredCategory(data);
-    } catch (err: any) {
-      setError(`[Category_GET] ${err.message}`);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        // Safe to access error.message
+        console.error(error.message);
+      } else {
+        // Handle unexpected error types
+        console.error('An unexpected error occurred:', error);
+      }
     } finally {
       setLoading(false);
     }
@@ -140,10 +152,6 @@ const AddedCategories: React.FC = () => {
     indexOfLastCategory
   );
   const totalPages = Math.ceil(filteredCategory.length / categoriesPerPage);
-
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-  
 
   if (error) {
     return <div>Error: {error}</div>;

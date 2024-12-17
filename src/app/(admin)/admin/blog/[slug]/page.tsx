@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 interface blog {
     title: string;
-    description: String;
+    description: string;
     imageUrl: string;
     slug: string;
     blogCategory:{slug:string};

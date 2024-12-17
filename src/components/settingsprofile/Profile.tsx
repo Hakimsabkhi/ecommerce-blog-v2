@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import PopupProfileUpdate from './PopupProfileUpdate';
-import { useSession } from 'next-auth/react';
 
 interface UserProfile {
   username: string;
@@ -26,8 +25,18 @@ const Profile = () => {
       }
       const data = await response.json();
       setProfile(data);
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong');
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

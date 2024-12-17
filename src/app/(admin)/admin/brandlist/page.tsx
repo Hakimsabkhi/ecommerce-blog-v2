@@ -27,7 +27,6 @@ interface User {
 const AddedBrands: React.FC = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [filteredBrands, setFilteredBrands] = useState<Brand[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const is2xl = useIs2xl();
@@ -63,9 +62,16 @@ const AddedBrands: React.FC = () => {
       handleClosePopup();
       toast.success("Brand deleted successfully!");
       setBrands(brands.filter((brand) => brand._id !== brandId));
-    } catch (err: any) {
-      toast.error(`[Brand_DELETE] ${err.message}`);
-    } finally {
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+      } else {
+        console.error("Unknown error:", error);
+      }
+    }  finally {
       setLoadingBrandId(null);
     }
   };
@@ -85,9 +91,16 @@ const AddedBrands: React.FC = () => {
 
       const data: Brand[] = await response.json();
       setBrands(data);
-    } catch (err: any) {
-      setError(`[Brand_GET] ${err.message}`);
-    } finally {
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+      } else {
+        console.error("Unknown error:", error);
+      }
+    }  finally {
       setLoading(false);
     }
   };

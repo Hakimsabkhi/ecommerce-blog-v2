@@ -11,7 +11,6 @@ type Address = {
 
 const Addresse: React.FC = () => {
     
-  const [error, setError] = useState<string | null>(null);
     const [addresses, setAddresses] = useState<Address[]>([]);
     const [isFormVisible, setIsFormVisible] = useState(false);
     const toggleFormVisibility = () => {
@@ -34,8 +33,15 @@ const Addresse: React.FC = () => {
         const data = await response.json();
         setIsFormVisible(false);
         setAddresses(data); // Update state with fetched data
-      } catch (err: any) {
-        setError(`[address_GET] ${err.message}`);
+      } catch (error: unknown) {
+        // Handle different error types effectively
+        if (error instanceof Error) {
+          console.error("Error deleting category:", error.message);
+        } else if (typeof error === "string") {
+          console.error("String error:", error);
+        } else {
+          console.error("Unknown error:", error);
+        }
       }
     }, []);
   

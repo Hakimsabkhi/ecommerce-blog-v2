@@ -3,11 +3,9 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaSpinner, FaTrashAlt, FaRegEye } from "react-icons/fa";
 import { toast } from "react-toastify";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import DeletePopup from "@/components/Popup/DeletePopup";
 import Pagination from "@/components/Pagination";
 import Image from "next/image";
-import { items } from "@/assets/data";
 import useIs2xl from "@/hooks/useIs2x";
 
 type User = {
@@ -78,9 +76,19 @@ const AddedProducts: React.FC = () => {
       setProducts(products.filter((Product) => Product._id !== productId));
       toast.success(`Product ${selectedProduct.name} deleted successfully!`);
       handleClosePopup();
-    } catch (err: any) {
-      toast.error(`Failed to delete product: ${err.message}`);
-    } finally {
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
+    }  finally {
       setLoadingProductId(null);
     }
   };
@@ -199,8 +207,18 @@ const AddedProducts: React.FC = () => {
         }
         const data: Product[] = await response.json();
         setProducts(data);
-      } catch (err: any) {
-        setError(`[products_GET] ${err.message}`);
+      } catch (error: unknown) {
+        // Handle different error types effectively
+        if (error instanceof Error) {
+          console.error("Error deleting category:", error.message);
+          setError(error.message);
+        } else if (typeof error === "string") {
+          console.error("String error:", error);
+          setError(error);
+        } else {
+          console.error("Unknown error:", error);
+          setError("An unexpected error occurred. Please try again.");
+        }
       } finally {
         setLoading(false);
       }

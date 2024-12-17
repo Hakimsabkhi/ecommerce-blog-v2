@@ -44,10 +44,14 @@ const AddCategory = () => {
       
       toast.success(`Category ${name} Add successfully!`);
       router.push("/admin/blog/postcategory");
-    } catch (err: any) {
-      toast.error(
-        `Error: ${err instanceof Error ? err.message : "Unknown error"}`
-      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        // Safe to access error.message
+        console.error(error.message);
+      } else {
+        // Handle unexpected error types
+        console.error('An unexpected error occurred:', error);
+      }
     }
   };
 

@@ -4,20 +4,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import AddAddress from './AddAddress';
 import { toast } from 'react-toastify';
 import UpdateAddress from './UpdateAddress';
-import { set } from 'mongoose';
-import { tree } from 'next/dist/build/templates/app-page';
-
-
-interface Governorate {
-  id: number;
-  name: string;
-}
-
-interface Municipality {
-  id: number;
-  name: string;
-  governorate_id: number;
-}
 
 type Address = {
   _id: string;
@@ -61,10 +47,15 @@ const Address = () => {
        
         getAddress();
         toast.success("address delete successfully!");
-      } catch (err: any) {
-        /*  setError(`[Category_DELETE] ${err.message}`);
-            setError(`Error: ${err.message}`); */
-        toast.error("faild Category_DELETE");
+      } catch (error: unknown) {
+        // Handle different error types effectively
+        if (error instanceof Error) {
+          console.error("Error deleting category:", error.message);
+        } else if (typeof error === "string") {
+          console.error("String error:", error);
+        } else {
+          console.error("Unknown error:", error);
+        }
       }
     };
    function togglecloseUpdateVisibility(){
@@ -87,8 +78,15 @@ const Address = () => {
       const data = await response.json();
    
       setAddresses(data); // Update state with fetched data
-    } catch (err: any) {
-      console.log(`[address_GET] ${err.message}`);
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+      } else {
+        console.error("Unknown error:", error);
+      }
     }
   }, []);
 

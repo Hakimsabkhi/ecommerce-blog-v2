@@ -25,7 +25,7 @@ const UpdateAddress: React.FC<AddressProps> = ({ address, togglecloseUpdateVisib
   });
 
   const [filteredMunicipalities, setFilteredMunicipalities] = useState<{ id: number, name: string }[]>([]);
-
+  
   useEffect(() => {
     if (address) {
       setAddressData(address);
@@ -85,8 +85,15 @@ const UpdateAddress: React.FC<AddressProps> = ({ address, togglecloseUpdateVisib
       getAddress();
       togglecloseUpdateVisibility();
       toast.success( result.message);
-    } catch (err: any) {
-      console.error(err.message);
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+      } else {
+        console.error("Unknown error:", error);
+      }
     }
   };
 

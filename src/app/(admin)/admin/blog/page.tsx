@@ -65,9 +65,15 @@ const BlogTable: React.FC = () => {
       );
 
       toast.success("Blog deleted successfully!");
-    } catch (err: any) {
-      toast.error(`Failed to delete blog: ${err.message}`);
-    } finally {
+  } catch (error: unknown) {
+  if (error instanceof Error) {
+    setError('An error occurred while fetching data.');
+    console.error(error.message);
+  } else {
+    // Handle unexpected error types
+    console.error('An unexpected error occurred:', error);
+  }
+} finally {
       handleClosePopup();
     }
   };
@@ -116,9 +122,15 @@ const BlogTable: React.FC = () => {
         const data = await response.json();
         console.log(data);
         setpostlist(data);
-      } catch (err: any) {
-        setError(`[Blog_GET] ${err.message}`);
-      } finally {
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          // Safe to access error.message
+          console.error(error.message);
+        } else {
+          // Handle unexpected error types
+          console.error('An unexpected error occurred:', error);
+        }
+      }finally {
         setLoading(false);
       }
     };

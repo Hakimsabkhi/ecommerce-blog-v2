@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import useIs2xl from "@/hooks/useIs2x";
-import { useRouter } from "next/navigation";
 import { FaTrashAlt,FaSpinner } from "react-icons/fa";
 import Pagination from "@/components/Pagination";
 import DeletePopup from "@/components/Popup/DeletePopup";
@@ -34,7 +33,6 @@ interface invoice {
 }
 
 const Listinvoice: React.FC = () => {
-  const router = useRouter();
   const [invoice, setinvoice] = useState<invoice[]>([]); // All invoice
   const [filteredinvoice, setFilteredinvoice] = useState<invoice[]>([]); // Filtered invoice
   const [error, setError] = useState<string | null>(null);
@@ -76,9 +74,19 @@ const Listinvoice: React.FC = () => {
       toast.success("invoice delete successfully!");
 
       await getinvoice();
-    } catch (err: any) {
-      toast.error(`[invoice_DELETE] ${err.message}`);
-    } finally {
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
+    }  finally {
       setLoadinginvoiceId(null);
     }
   };
@@ -95,9 +103,19 @@ const Listinvoice: React.FC = () => {
       const data = await response.json();
       setinvoice(data); // Store all invoice
       setFilteredinvoice(data); // Initially, filteredinvoice are the same as invoice
-    } catch (err: any) {
-      setError(`[invoice_GET] ${err.message}`);
-    } finally {
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
+    }  finally {
       setLoading(false);
     }
   }, []);

@@ -2,12 +2,6 @@
 import Image from 'next/image';
 import React from 'react';
 import Link from "next/link"
-import {
-    luxehome
-} from '@/assets/image';
-import { CiShop, CiShoppingCart,CiUser } from "react-icons/ci";
-import { CiFilter } from "react-icons/ci";
-import { GoHeart } from "react-icons/go";
 import { CiPhone } from "react-icons/ci";
 import { CiMail } from "react-icons/ci";
 import { FaFacebookF } from "react-icons/fa6";
@@ -15,21 +9,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa6";
 
-interface Address {
-    _id: string;
-    governorate: string;
-    city: string;
-    address: string;
-    zipcode: number;
-  }
-  
-  interface CompanyData {
-    name: string;
-    addresse: Address;
-    email: string;
-    phone: number;
-    logoUrl:string
-  }
+
   async function fetchCompanyData() {
     const res = await fetch(`${process.env.NEXTAUTH_URL}/api/company/getCompany`, {
         method: "GET",

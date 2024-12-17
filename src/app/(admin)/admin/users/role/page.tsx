@@ -2,7 +2,7 @@
 
 import DeletePopup from "@/components/Popup/DeletePopup";
 import React, { useEffect, useMemo, useState } from "react";
-import { FaTrash, FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import { pages } from "@/lib/page";
 import Pagination from "@/components/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
@@ -14,7 +14,6 @@ const Page = () => {
   >([]);
   const [newRole, setNewRole] = useState("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isAddingRole, setIsAddingRole] = useState(false);
   const [updatingRole, setUpdatingRole] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState({ id: "", name: "" });
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -22,11 +21,6 @@ const Page = () => {
   const is2xl = useIs2xl();
   const usersPerPage = is2xl ? 8 : 5;
 
-  const currentUser = useMemo(() => {
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    return roles.slice(indexOfFirstUser, indexOfLastUser);
-  }, [currentPage, roles, usersPerPage]);
 
   const totalPages = useMemo(() => {
     return Math.ceil(roles.length / usersPerPage);
@@ -49,9 +43,16 @@ const Page = () => {
       }
       handleClosePopup();
       await fetchRoles();
-    } catch (err: any) {
-      console.error(`[order_DELETE] ${err.message}`);
-    } finally {
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+      } else {
+        console.error("Unknown error:", error);
+      }
+    }  finally {
       setUpdatingRole(null);
     }
   };
@@ -117,8 +118,6 @@ const Page = () => {
       alert("Role name cannot be empty.");
       return;
     }
-
-    setIsAddingRole(true);
 
     try {
       const formData = new FormData();

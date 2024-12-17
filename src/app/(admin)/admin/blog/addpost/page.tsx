@@ -22,17 +22,7 @@ interface Postfirstsubsection {
   imageFile?: File; // Temporary property to store the selected file before upload
 }
 
-interface PostMainSection {
-  title: string;
-  description: string;
-  Postfirstsubsections: Postfirstsubsection[];
-  blogCategory:string; 
-  imageUrl?: string;
-}
-interface blogCategory{
-  _id:string;
-  name:string;
-}
+
 const toRoman = (num: number): string => {
   const romanNumerals: { [key: number]: string } = {
     1: "I",

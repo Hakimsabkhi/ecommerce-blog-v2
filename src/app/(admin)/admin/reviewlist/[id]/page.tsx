@@ -56,8 +56,18 @@ const ListReview: React.FC = () => {
 
       const data = await response.json();
       setAddedReviews(data);
-    } catch (err: any) {
-      setError(`[Reviews_GET] ${err.message}`);
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -114,9 +124,19 @@ const ListReview: React.FC = () => {
       toast.success("Review deleted successfully!");
       handleClosePopup();
       getReviews();
-    } catch (err: any) {
-      setError(`[Reviews_DELETE] ${err.message}`);
-    }
+    } catch (error: unknown) {
+      // Handle different error types effectively
+      if (error instanceof Error) {
+        console.error("Error deleting category:", error.message);
+        setError(error.message);
+      } else if (typeof error === "string") {
+        console.error("String error:", error);
+        setError(error);
+      } else {
+        console.error("Unknown error:", error);
+        setError("An unexpected error occurred. Please try again.");
+      }
+    } 
   };
 
   const handleReplyClick = (id: string) => {
