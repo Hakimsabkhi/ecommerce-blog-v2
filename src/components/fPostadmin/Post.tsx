@@ -1,13 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { mackay, share, comment, left, right } from "@/assets/image";
 import { itemsblog } from "@/assets/data";
 import { FaArrowLeft, FaArrowRight, FaReadme } from "react-icons/fa6";
 import Link from "next/link";
 interface blog {
   title: string;
-  description: String;
+  description: string;
   imageUrl: string;
   slug: string;
  blogCategory:{slug:string};

@@ -36,20 +36,6 @@ interface Product {
   quantity: number;
 }
 
-// invoice and Address interfaces
-interface invoice {
-  _id: string;
-  user: User;
-  ref: string;
-  address: Address;
-  Items: Items[];
-  paymentMethod: string;
-  deliveryCost: number;
-deliveryMethod:string
-  statustimbre:boolean;
-  total: number;
-  createdAt: string;
-}
 
 interface User {
   _id: string;
@@ -99,8 +85,7 @@ export default function Dashboard() {
   const [OpenCustomer,setOpenCustomer]=useState<boolean>(false);
   const [isOn, setIsOn] = useState(false);
 
-  // Toggle state on click
-  const handleToggle = () => setIsOn(!isOn);
+
   const handleSearchCustomers = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
     setSearchTerm(query);

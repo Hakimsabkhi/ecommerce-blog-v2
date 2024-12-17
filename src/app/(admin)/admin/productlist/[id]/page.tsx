@@ -19,16 +19,6 @@ interface ProductData {
     user: string;
 }
 
-interface Category {
-    _id: string;
-    name: string;
-}
-
-interface Brand {
-    _id: string;
-    name: string;
-}
-
 const Page = () => {
     const params = useParams() as { id: string };
     const [productData, setProductData] = useState<ProductData | null>(null);

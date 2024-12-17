@@ -35,7 +35,8 @@ export default (function () {
 
     const NumberToLetter: NumberToLetterFn = (nombre, U = null, D = null) => {
         let numberToLetter = '';
-        let nb = parseFloat(nombre.toString().replace(/ /gi, ""));
+        const nb = parseFloat(nombre.toString().replace(/ /gi, ""));
+
         
         // Check for invalid numbers
         if (nb.toString().replace(/ /gi, "").length > 15) return "dépassement de capacité";

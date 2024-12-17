@@ -59,21 +59,19 @@ const BlogTable: React.FC = () => {
       if (!response.ok) {
         throw new Error("Failed to delete blog");
       }
-
       setpostlist((prevBlogs) =>
         prevBlogs.filter((blog) => blog._id !== blogId)
       );
-
       toast.success("Blog deleted successfully!");
-  } catch (error: unknown) {
-  if (error instanceof Error) {
-    setError('An error occurred while fetching data.');
-    console.error(error.message);
-  } else {
-    // Handle unexpected error types
-    console.error('An unexpected error occurred:', error);
-  }
-} finally {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError("An error occurred while fetching data.");
+        console.error(error.message);
+      } else {
+        // Handle unexpected error types
+        console.error("An unexpected error occurred:", error);
+      }
+    } finally {
       handleClosePopup();
     }
   };
@@ -128,9 +126,9 @@ const BlogTable: React.FC = () => {
           console.error(error.message);
         } else {
           // Handle unexpected error types
-          console.error('An unexpected error occurred:', error);
+          console.error("An unexpected error occurred:", error);
         }
-      }finally {
+      } finally {
         setLoading(false);
       }
     };
@@ -152,8 +150,6 @@ const BlogTable: React.FC = () => {
   const totalPages = useMemo(() => {
     return Math.ceil(filteredBlogs.length / blogsPerPage);
   }, [filteredBlogs.length, blogsPerPage]);
-
-
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -184,117 +180,124 @@ const BlogTable: React.FC = () => {
         className="mt-4 p-2 border border-gray-300 rounded"
       />
       <div className="max-2xl:h-80 h-[50vh]">
-      <table className="w-full rounded overflow-hidden table-fixed">
-        <thead>
-          <tr className="bg-gray-800">
-            <th className="px-4 py-3 border-r-white w-[15%]">Title</th>
-            <th className="px-4 py-3 border-r-white w-[10%] ">Category</th>
-            <th className="px-4 py-3 border-r-white w-[10%] ">ImageURL</th>
-            <th className="px-4 py-3 border-r-white w-[15%] ">Author</th>
-            <th className="px-4 py-3 border-r-white w-[10%] ">Role</th>
-            <th className="px-4 py-3 border-r-white text-center">Action</th>
-          </tr>
-        </thead>
-        {loading ? (
-          <tbody>
-            <tr>
-              <td colSpan={6}>
-                <div className="flex justify-center items-center h-full w-full py-6">
-                  <FaSpinner className="animate-spin text-[30px]" />
-                </div>
-              </td>
+        <table className="w-full rounded overflow-hidden table-fixed">
+          <thead>
+            <tr className="bg-gray-800">
+              <th className="px-4 py-3 border-r-white w-[15%]">Title</th>
+              <th className="px-4 py-3 border-r-white w-[10%] ">Category</th>
+              <th className="px-4 py-3 border-r-white w-[10%] ">ImageURL</th>
+              <th className="px-4 py-3 border-r-white w-[15%] ">Author</th>
+              <th className="px-4 py-3 border-r-white w-[10%] ">Role</th>
+              <th className="px-4 py-3 border-r-white text-center">Action</th>
             </tr>
-          </tbody>
-        ) : filteredBlogs.length === 0 ? (
-          <tbody>
-            <tr>
-              <td colSpan={6}>
-                <div className="text-center py-6 text-gray-600 w-full">
-                  <p>Aucun blog trouvé.</p>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        ) : (
-          <tbody>
-            {currentBlogs.map((blog) => (
-              <tr key={blog._id} className="bg-white text-black">
-                <td className="border px-4 py-2">{blog.title.slice(0, 19)}</td>
-                <td className="border px-4 py-2">{blog.blogCategory?.name}</td>
-                <td className="border px-4 py-2 flex  justify-center">
-                  
+          </thead>
+          {loading ? (
+            <tbody>
+              <tr>
+                <td colSpan={6}>
+                  <div className="flex justify-center items-center h-full w-full py-6">
+                    <FaSpinner className="animate-spin text-[30px]" />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          ) : filteredBlogs.length === 0 ? (
+            <tbody>
+              <tr>
+                <td colSpan={6}>
+                  <div className="text-center py-6 text-gray-600 w-full">
+                    <p>Aucun blog trouvé.</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          ) : (
+            <tbody>
+              {currentBlogs.map((blog) => (
+                <tr key={blog._id} className="bg-white text-black">
+                  <td className="border px-4 py-2">
+                    {blog.title.slice(0, 19)}
+                  </td>
+                  <td className="border px-4 py-2">
+                    {blog.blogCategory?.name}
+                  </td>
+                  <td className="border px-4 py-2 flex  justify-center">
                     <Link href={blog.imageUrl}>
                       <Image
                         src={blog.imageUrl}
                         alt={blog.title}
-                        
                         width={40}
                         height={40} // Makes image fill the container
-                         // Ensures image covers the div without stretching/distorting
+                        // Ensures image covers the div without stretching/distorting
                         // Optional: rounded corners on the image
                       />
                     </Link>
-                  
-                </td>
+                  </td>
 
-                <td className="border px-4 py-2">{blog?.user?.username}</td>
-                <td className="border px-4 py-2">{blog?.user?.role}</td>
-                <td className="border px-4 py-2">
-                  <div className="flex items-center justify-center gap-2">
-                    <select
-                      className={`w-50 text-black rounded-md p-2 ${
-                        blog.vadmin === "not-approve"
-                          ? "bg-gray-400 text-white"
-                          : "bg-green-500 text-white"
-                      }`}
-                      value={blog.vadmin}
-                      onChange={(e) =>
-                        updateBlogStatus(blog._id, e.target.value)
-                      }
-                    >
-                      <option value="approve" className="text-white uppercase">
-                        Approve
-                      </option>
-                      <option
-                        value="not-approve"
-                        className="text-white uppercase"
+                  <td className="border px-4 py-2">{blog?.user?.username}</td>
+                  <td className="border px-4 py-2">{blog?.user?.role}</td>
+                  <td className="border px-4 py-2">
+                    <div className="flex items-center justify-center gap-2">
+                      <select
+                        className={`w-50 text-black rounded-md p-2 ${
+                          blog.vadmin === "not-approve"
+                            ? "bg-gray-400 text-white"
+                            : "bg-green-500 text-white"
+                        }`}
+                        value={blog.vadmin}
+                        onChange={(e) =>
+                          updateBlogStatus(blog._id, e.target.value)
+                        }
                       >
-                        Not approve
-                      </option>
-                    </select>
-                    <Link href={`/admin/blog/edit/${blog._id}`}>
-                      <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md uppercase">
-                        Modify
-                      </button>
-                    </Link>
-                    <button
-                      onClick={() => handleDeleteClick(blog)}
-                      className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                      disabled={selectedPost?._id === blog._id}
-                    >
-                      {selectedPost?._id === blog._id
-                        ? "Processing..."
-                        :  <FaTrashAlt />}
-                    </button>
-
-                    {blog.blogCategory && (
-                      <Link
-                        href={`/${
-                          blog.vadmin === "approve" ? "" : "admin/"
-                        }blog/${blog.blogCategory.slug}/${blog.slug}`}
-                      >
-                        <button className="bg-gray-800 text-white w-36 h-10 hover:bg-gray-600 rounded-md uppercase">
-                          See Blog
+                        <option
+                          value="approve"
+                          className="text-white uppercase"
+                        >
+                          Approve
+                        </option>
+                        <option
+                          value="not-approve"
+                          className="text-white uppercase"
+                        >
+                          Not approve
+                        </option>
+                      </select>
+                      <Link href={`/admin/blog/edit/${blog._id}`}>
+                        <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md uppercase">
+                          Modify
                         </button>
                       </Link>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        )}
-      </table> </div>
+                      <button
+                        onClick={() => handleDeleteClick(blog)}
+                        className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                        disabled={selectedPost?._id === blog._id}
+                      >
+                        {selectedPost?._id === blog._id ? (
+                          "Processing..."
+                        ) : (
+                          <FaTrashAlt />
+                        )}
+                      </button>
+
+                      {blog.blogCategory && (
+                        <Link
+                          href={`/${
+                            blog.vadmin === "approve" ? "" : "admin/"
+                          }blog/${blog.blogCategory.slug}/${blog.slug}`}
+                        >
+                          <button className="bg-gray-800 text-white w-36 h-10 hover:bg-gray-600 rounded-md uppercase">
+                            See Blog
+                          </button>
+                        </Link>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          )}
+        </table>{" "}
+      </div>
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}

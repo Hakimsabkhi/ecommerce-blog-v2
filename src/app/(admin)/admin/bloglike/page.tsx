@@ -40,16 +40,7 @@ interface blogCategory {
   _id: string;
   name: string;
 }
-interface comment {
-  _id: string;
-  text: string;
-  user: {
-    _id: string;
-    username: string;
-  };
-  likes: User[];
-  createdAt: string;
-}
+
 interface User {
   _id: string;
   username: string;

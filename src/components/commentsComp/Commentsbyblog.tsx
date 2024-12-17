@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaStar, FaReply, FaTrash } from 'react-icons/fa';
+import { FaReply, FaTrash } from 'react-icons/fa';
 
 interface CommentsbyblogProps {
   addedComments: blogData[];

@@ -33,11 +33,7 @@ interface Brand {
   _id: string;
   name: string;
 }
-interface ProductsProps {
-  params: {
-    slugCategory?: string;
-  };
-}
+
 
 const ProductPromotion: React.FC = () => {
 

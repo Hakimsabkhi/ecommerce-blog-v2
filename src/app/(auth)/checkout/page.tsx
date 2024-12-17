@@ -6,9 +6,8 @@ import PaymentSummary from '@/components/checkoutComp/PaymentSummary';
 import PaymentMethode from '@/components/checkoutComp/PaymentMethode';
 import Addresse from '@/components/checkoutComp/addresse';
 
-import { CartItem, clearCart, removeItem, updateItemQuantity } from '@/store/cartSlice';
+import { CartItem, removeItem, updateItemQuantity } from '@/store/cartSlice';
 import { RootState } from '@/store';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DeliveryMethod from '@/components/checkoutComp/DeliveryMethod';

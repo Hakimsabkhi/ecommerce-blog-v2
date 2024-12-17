@@ -1,7 +1,6 @@
 "use client";
 import { FaSpinner, FaTrashAlt } from "react-icons/fa";
 import { useEffect, useMemo, useState, useCallback } from "react";
-import { useSession } from "next-auth/react";
 import DeletePopup from "@/components/Popup/DeletePopup";
 import { toast } from "react-toastify";
 import Link from "next/link";
@@ -19,11 +18,9 @@ interface Role {
 }
 
 const AdminDashboard = () => {
-  const { data: session, status } = useSession();
   const [users, setUsers] = useState<User[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
-  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedRole, setSelectedRole] = useState<string>("");
@@ -35,11 +32,6 @@ const AdminDashboard = () => {
   const is2xl = useIs2xl();
   const usersPerPage = is2xl ? 8 : 5;
 
-  const currentUser = useMemo(() => {
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    return users.slice(indexOfFirstUser, indexOfLastUser);
-  }, [currentPage, users, usersPerPage]);
 
   const totalPages = useMemo(() => {
     return Math.ceil(users.length / usersPerPage);
@@ -62,13 +54,10 @@ const AdminDashboard = () => {
       // Handle different error types effectively
       if (error instanceof Error) {
         console.error("Error deleting category:", error.message);
-        setError(error.message);
       } else if (typeof error === "string") {
         console.error("String error:", error);
-        setError(error);
       } else {
         console.error("Unknown error:", error);
-        setError("An unexpected error occurred. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -127,7 +116,7 @@ const AdminDashboard = () => {
       toast.success("User deleted successfully!");
       handleClosePopup();
     } catch (error) {
-      toast.error("Failed to delete user.");
+      console.error("Failed to delete user.",error);
     } finally {
       setLoadingUserId(null);
     }
@@ -147,7 +136,6 @@ const AdminDashboard = () => {
         const errorData = await response.json();
         throw new Error(errorData.error || "Failed to update role");
       }
-      setDropdownOpen(null);
       fetchUsers();
     } catch (error) {
       console.error("Error changing role:", error);

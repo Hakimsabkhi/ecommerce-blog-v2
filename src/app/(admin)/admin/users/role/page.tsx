@@ -26,11 +26,12 @@ const Page = () => {
     return Math.ceil(roles.length / usersPerPage);
   }, [roles.length, usersPerPage]);
 
-  const handleDeleteClick = (role: any) => {
+  const handleDeleteClick = (role: { _id: string; name: string; access: Record<string, boolean> }) => {
     setUpdatingRole(role._id);
-    setSelectedRole({ id: role._id, name: role.ref });
+    setSelectedRole({ id: role._id, name: role.name });
     setIsPopupOpen(true);
   };
+  
 
   const Deleterole = async (id: string) => {
     try {

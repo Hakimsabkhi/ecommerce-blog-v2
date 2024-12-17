@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { Key, useEffect, useRef, useState } from "react";
+import React, { Key, useEffect, useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 import jsPDF from "jspdf";

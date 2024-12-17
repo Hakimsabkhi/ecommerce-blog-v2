@@ -1,8 +1,8 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import Image from "next/image"; // Make sure to import Image if you're using it
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const DisplayBanner: React.FC = () => {
 

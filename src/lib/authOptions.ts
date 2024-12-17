@@ -133,7 +133,7 @@ export const authOptions: NextAuthOptions = {
       try {
         await connectToDatabase();
     
-        let existingUser = await UserModel.findOne({ email: user.email }).exec() as UserType | null;
+        const existingUser = await UserModel.findOne({ email: user.email }).exec() as UserType | null;
     
         if (!existingUser) {
           const newUser = new UserModel({
