@@ -40,7 +40,6 @@ const ProductPromotion: React.FC = () => {
 
   const [products, setProducts] = useState<ProductData[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProductsData = async () => {
@@ -61,7 +60,6 @@ const ProductPromotion: React.FC = () => {
         setProducts(data);
       } catch (error) {
         console.error('Error fetching products data:', error);
-        setError('Failed to fetch products.');
       }
     };
 
@@ -83,7 +81,6 @@ const ProductPromotion: React.FC = () => {
         setBrands(data);
       } catch (error) {
         console.error('Error fetching brand data:', error);
-        setError('Failed to fetch brands.');
       }
     };
 

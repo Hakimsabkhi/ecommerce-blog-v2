@@ -36,21 +36,6 @@ interface Product {
   quantity: number;
 }
 
-// order and Address interfaces
-interface order {
-  _id: string;
-  user: User;
-  ref: string;
-  address: Address;
-  Items: Items[];
-  paymentMethod: string;
-  deliveryCost: number;
-deliveryMethod:string
-  statustimbre:boolean;
-  total: number;
-  createdAt: string;
-}
-
 interface User {
   _id: string;
   username: string;
