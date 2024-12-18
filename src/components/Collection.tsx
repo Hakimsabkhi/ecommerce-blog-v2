@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import ProductCard from "./Products/ProductPage/ProductCard";
 
 interface Brand {
@@ -66,7 +65,7 @@ const Collection: React.FC = async () => {
 
       <div className="grid grid-cols-4 w-full max-sm:grid-cols-1 max-xl:grid-cols-2 group max-2xl:grid-cols-3 gap-8 max-md:gap-3">
         {products.map(
-          (item, _id) =>
+          (item) =>
             item.statuspage === "best-collection" && (
               <ProductCard key={item._id} item={item} />
             )

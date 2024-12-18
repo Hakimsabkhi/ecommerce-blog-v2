@@ -24,12 +24,6 @@ const Blog: React.FC<blogprops> = ({ blogs }) => {
   // Calculate the total number of pages
   const totalPages = Math.ceil(itemsblog.length / itemsPerPage);
 
-  // Get the items to display on the current page
-  const currentItems = itemsblog.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 800, behavior: "smooth" });

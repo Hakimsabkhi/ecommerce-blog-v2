@@ -3,79 +3,70 @@ import bcrypt from 'bcryptjs';
 import connectToDatabase from '@/lib/db';
 import UserModel from '@/models/User';
 
-// In-memory rate limiting store
+// In-memory rate-limiting store
 const rateLimit = new Map<string, { count: number; lastRequest: number }>();
 
-// ZeroBounce API Key (replace with your actual API key)
-const ZEROBOUNCE_API_KEY = process.env.ZEROBOUNCE_API_KEY;
-
 export async function POST(req: NextRequest) {
-  const formData = await req.formData();
-  const name = formData.get('name') as string;
-  const lastname = formData.get('lastname') as string;
-  const email = (formData.get('email') as string).toLowerCase();
-  const password = formData.get('password') as string;
-  const role = formData.get('role') as string;
-  const username = `${name} ${lastname}`;
-
-  if (!username || !email || !password) {
-    return NextResponse.json({ message: 'Username, email, and password are required' }, { status: 400 });
-  }
-
   try {
-    // Rate limiting logic
-    const clientIp = req.headers.get('x-forwarded-for') || req.ip || 'unknown-ip';
-    const rateLimitInfo = rateLimit.get(clientIp) || { count: 0, lastRequest: Date.now() };
+    const formData = await req.formData();
+    const name = formData.get('name')?.toString().trim();
+    const lastname = formData.get('lastname')?.toString().trim();
+    const email = formData.get('email')?.toString().toLowerCase().trim();
+    const password = formData.get('password')?.toString();
+    const role = formData.get('role')?.toString() || 'Visiteur';
 
-    if (Date.now() - rateLimitInfo.lastRequest < 60000 && rateLimitInfo.count >= 5) {
-      return NextResponse.json({ error: 'Rate limit exceeded. Please wait a minute before trying again.' }, { status: 429 });
+    if (!name || !lastname || !email || !password) {
+      return NextResponse.json({ message: 'All fields are required.' }, { status: 400 });
     }
 
-    rateLimitInfo.count++;
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ message: 'Invalid email format.' }, { status: 400 });
+    }
+
+    // Extract client IP address
+    const forwardedFor = req.headers.get('x-forwarded-for');
+    const clientIp = forwardedFor?.split(',')[0] || 'unknown-ip';
+
+    // Rate limiting logic
+    const rateLimitInfo = rateLimit.get(clientIp) || { count: 0, lastRequest: 0 };
+
+    if (Date.now() - rateLimitInfo.lastRequest < 60000 && rateLimitInfo.count >= 5) {
+      return NextResponse.json(
+        { message: 'Too many requests. Please wait a minute and try again.' },
+        { status: 429 }
+      );
+    }
+
+    rateLimitInfo.count += 1;
     rateLimitInfo.lastRequest = Date.now();
     rateLimit.set(clientIp, rateLimitInfo);
 
-    // Validate email with ZeroBounce API
-    const emailValidationResult = await validateEmailWithZeroBounce(email);
-
-    if (!emailValidationResult || emailValidationResult.status !== 'valid') {
-      return NextResponse.json({ message: 'Invalid email address' }, { status: 403 });
-    }
-
     await connectToDatabase();
 
+    // Check if the user already exists
     const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
-      return NextResponse.json({ message: 'User already exists' }, { status: 400 });
+      return NextResponse.json({ message: 'User with this email already exists.' }, { status: 400 });
     }
 
-    const hashedPassword = bcrypt.hashSync(password, 12);
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    // Create a new user
     const newUser = new UserModel({
-      username,
+      username: `${name} ${lastname}`,
       email,
       password: hashedPassword,
-      role: role || 'Visiteur', // Default role if not provided
+      role,
     });
 
     await newUser.save();
-    return NextResponse.json({ message: 'User created successfully' }, { status: 201 });
+
+    return NextResponse.json({ message: 'User registered successfully.' }, { status: 201 });
   } catch (error) {
-    console.error('Error during signup:', error);
-    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+    console.error('Error during user registration:', error);
+    return NextResponse.json({ message: 'Internal server error.' }, { status: 500 });
   }
-}
-
-// Function to validate email with ZeroBounce API
-async function validateEmailWithZeroBounce(email: string) {
-  const response = await fetch(`https://api.zerobounce.net/v2/validate?api_key=${ZEROBOUNCE_API_KEY}&email=${email}`, {
-    method: 'GET',
-  });
-
-  if (!response.ok) {
-    console.error('Failed to validate email with ZeroBounce:', response.statusText);
-    return null;
-  }
-
-  const data = await response.json();
-  return data;
 }

@@ -5,9 +5,21 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { CiSearch } from "react-icons/ci";
 
+interface Product {
+  _id: string;
+  category: {
+    slug: string;
+  };
+  slug: string;
+  imageUrl: string;
+  name: string;
+  price: number;
+  discount?: number;
+}
+
 const SearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   useEffect(() => {
     const handler = setTimeout(() => {

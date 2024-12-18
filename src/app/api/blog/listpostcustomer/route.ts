@@ -1,10 +1,10 @@
-import { NextResponse, NextRequest } from 'next/server';
+import { NextResponse} from 'next/server';
 import connectToDatabase from '@/lib/db';
 import PostMainSection from '@/models/PostSections/PostMainSectionModel';
 import User from '@/models/User';
 import BlogCategory from '@/models/PostSections/BlogCategory';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     await connectToDatabase();
 

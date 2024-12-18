@@ -25,6 +25,6 @@ export async function GET(req: NextRequest) {
 console.log(comments)
     return NextResponse.json(comments);
   } catch (error) {
-    return NextResponse.json({ message: 'Error fetching Review' }, { status: 500 });
+    console.log(error)
   }
 }
