@@ -42,6 +42,6 @@ if(!existblog){
     await newcomments.save(); 
     return NextResponse.json( newcomments, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ message: 'Error creating category' }, { status: 500 });
+    return NextResponse.json({ message: 'Error creating category', error }, { status: 500 });
   }
 }

@@ -6,7 +6,6 @@ import Link from "next/link";
 import { FaEye, FaRegHeart, FaHeart, FaCartShopping, FaStar, FaRegStar } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { addItem } from "@/store/cartSlice";
-import { toast } from "react-toastify";
 import { addToWishlist } from "@/store/wishlistSlice";
 import { FaStarHalfAlt } from "react-icons/fa";
 

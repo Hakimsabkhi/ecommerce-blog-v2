@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ success: false, message: "Missing required connect" }, { status: 505 });
     }
 
-    const { totalDiscount, items, totalWithShipping,paymentMethod,address,selectedMethod,deliveryCost} = body;
+    const { items, totalWithShipping,paymentMethod,address,selectedMethod,deliveryCost} = body;
    
     // Validate required fields
     if (!user || !address || !items || !paymentMethod||!selectedMethod||!totalWithShipping) {

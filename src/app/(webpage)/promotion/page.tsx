@@ -1,6 +1,4 @@
 import React from 'react';
-import Products from '@/components/Products';
-import Chairsbanner from '@/components/Chairsbanner';
 import { IPromotion } from '@/models/Promotion';
 import { notFound } from 'next/navigation';
 import ChairsPromation from '@/components/promotioncomp/promotionf/ChairsPromotion';

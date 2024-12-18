@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { FaRegStar, FaStar } from "react-icons/fa6";
@@ -38,15 +37,14 @@ const CustomerReview: React.FC<CustomerReviewProps> = ({
 }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
 
-  const [error, setError] = useState<string | null>(null);
-  const { data: session } = useSession();
+
   useEffect(() => {
     const loadReviews = async () => {
       try {
         const data = await fetchReviews(productId);
         setReviews(data);
       } catch (error) {
-        setError((error as Error).message);
+        console.log ("error not defined", error)
       }
     };
 
