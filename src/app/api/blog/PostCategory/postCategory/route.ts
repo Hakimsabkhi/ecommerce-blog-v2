@@ -35,14 +35,11 @@ export async function POST(req: NextRequest) {
     if (existingCategory) {
       return NextResponse.json({ message: 'Category with this name already exists' }, { status: 400 });
     }
-
-  
-    
     const newCategory = new Category({ name, user });
 
     await newCategory.save();
     return NextResponse.json(newCategory, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ message: 'Error creating category' }, { status: 500 });
+    console.log(error)
   }
 }
