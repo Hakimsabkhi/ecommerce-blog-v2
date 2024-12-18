@@ -4,7 +4,6 @@ import React, { Key, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { FiCheckCircle } from 'react-icons/fi';
 import LoadingSpinner from '../LoadingSpinner';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 

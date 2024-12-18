@@ -2,30 +2,23 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {pageUrls} from "@/lib/page"
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
 import { useSessionData } from "@/lib/useSessionData"; // Adjust the import path as necessary
 
 const NavAdmin = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
-  const router = useRouter();
-  const pathname = usePathname();
-  const { session, loading } = useSessionData();
-  const [selectedPath, setSelectedPath] = useState<string>(pathname);
+  const { session } = useSessionData();
   const [allowedPages, setAllowedPages] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
+
     const handleClick = (link: string) => {
     setActiveLink(link);
   };
-  useEffect(() => {
-    setSelectedPath(pathname);
-  }, [pathname]);
+
   useEffect(() => {
     const fetchAllowedPages = async () => {
       if (!session?.user?.role) return;
 
       try {
-        setError(null); // Reset error state
+
         const response = await fetch(`/api/roles/access?role=${session.user.role}`);
         if (!response.ok) throw new Error("Failed to fetch role access");
 
@@ -33,7 +26,6 @@ const NavAdmin = () => {
         setAllowedPages(data.allowedPages || []);
       } catch (error) {
         console.error("Error fetching role access:", error);
-        setError("Unable to load navigation. Please try again.");
       }
     };
 
@@ -43,10 +35,6 @@ const NavAdmin = () => {
     }
   }, [session]);
 
-  const navigateTo = (path: string) => {
-    router.push(path);
-    setSelectedPath(path);
-  };
 
   const filteredNavigationItems = session?.user?.role === "Admin" || session?.user?.role === "SuperAdmin"
     ? pageUrls // Show all pages for Admin and SuperAdmin

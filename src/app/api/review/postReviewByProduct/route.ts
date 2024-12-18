@@ -21,23 +21,21 @@ export async function POST(req: NextRequest) {
 
       productExist.save();
 
-         // Validate fields and prepare error message
-    let errorMessage = '';
     
     if (!rating) {
-      errorMessage = 'Rating is required';
+      console.log('Rating is required');
     } else if (!text) {
-      errorMessage = 'Text is required';
+      console.log('Text is required');
     } else if (!email) {
-      errorMessage = 'Email is required';
+      console.log('Email is required');
     } 
     else if (!name) {
-      errorMessage = 'name is required';
+    console.log('name is required');
     } 
     else if (!/^\S+@\S+\.\S+$/.test(email)) {
-      errorMessage = 'Invalid email format';
+      console.log('Invalid email format');
     } else if (isNaN(Number(rating)) || Number(rating) < 1 || Number(rating) > 5) {
-      errorMessage = 'Rating must be a number between 1 and 5';
+      console.log('Rating must be a number between 1 and 5') ;
     }
       const existingReviw = await Review.findOne({ email:email ,product:product });
       if (existingReviw) {
@@ -60,6 +58,6 @@ export async function POST(req: NextRequest) {
       // Return a success response
       return NextResponse.json({ message: 'Review submitted successfully' }, { status: 200 });
     } catch (error) {
-      return NextResponse.json({ message: 'Error creating Review' }, { status: 500 });
+      return console.log('Error creating Review',error);
     }
   }
