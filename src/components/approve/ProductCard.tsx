@@ -7,9 +7,8 @@ import { FaEye, FaRegHeart } from "react-icons/fa";
 import { FaCartShopping, FaHeart } from "react-icons/fa6";
 import { star } from "@/assets/image";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addItem } from "@/store/cartSlice";
-import { RootState } from "@/store";
 import { toast } from "react-toastify";
 
 interface Brand {
@@ -54,8 +53,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
 
   const noimage =
     "https://res.cloudinary.com/dx499gc6x/image/upload/v1723623372/na_mma1mw.webp";
-
-  const items = useSelector((state: RootState) => state.cart.items);
  
 
   const dispatch = useDispatch();

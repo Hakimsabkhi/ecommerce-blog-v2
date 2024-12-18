@@ -83,7 +83,7 @@ const FormAddress: React.FC<FormAddressProps> = ({ isFormVisible , toggleForminV
         }
         return; // Exit function to avoid proceeding with the success case
       }
-      toggleForminVisibility
+      toggleForminVisibility();
       getAddress();
       toast.success(`Address added successfully!`);
       await response.json(); // or await response.text() if you expect text response

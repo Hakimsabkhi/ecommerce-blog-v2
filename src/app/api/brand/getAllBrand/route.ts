@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import {NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import Brand from '@/models/Brand';
 import User from '@/models/User';
 
 
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     await connectToDatabase(); // Ensure the database connection is established
     await User.find({})

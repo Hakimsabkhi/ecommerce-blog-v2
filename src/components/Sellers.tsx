@@ -61,7 +61,7 @@ const Sellers: React.FC = async () => {
         </h3>
       </div>}
       <div className="grid grid-cols-4 w-full max-sm:grid-cols-1 max-xl:grid-cols-2 group max-2xl:grid-cols-3 gap-8 max-md:gap-3">
-        {products.map((item, _id) => (
+        {products.map((item) => (
           item.statuspage==="home-page" &&<ProductCard key={item._id} item={item} />
         ))}
       </div>
