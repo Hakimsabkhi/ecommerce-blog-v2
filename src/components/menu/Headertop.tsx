@@ -1,21 +1,7 @@
 import React from "react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa"; // Import social media icons
 
-// Define interfaces for company data and address
-interface Address {
-  _id: string;
-  governorate: string;
-  city: string;
-  address: string;
-  zipcode: number;
-}
 
-interface CompanyData {
-  name: string;
-  addresse: Address;
-  email: string;
-  phone: number;
-}
 
 async function fetchCompanyData() {
   const res = await fetch(

@@ -1,16 +1,11 @@
 "use client";
 import React, { useState, MouseEvent, useEffect } from "react";
 import Image from "next/image";
-import { star } from "@/assets/image";
 import { IoCheckboxOutline } from "react-icons/io5";
-
 import Head from "next/head";
 import ProductQ from "./ProductQ";
-
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { addItem } from "../../../store/cartSlice";
-import { RootState } from "../../../store";
-import { toast } from "react-toastify";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import { FaStarHalfAlt } from "react-icons/fa";
 
@@ -22,11 +17,11 @@ const noimage =
     description: string;
     info: string;
     ref: string;
-    tva?: number; // Required in Product
+    tva?: number; 
     price: number;
     imageUrl?: string;
     images?: string[];
-    brand?: Brand; // Make brand optional
+    brand?: Brand; 
     stock: number;
     dimensions?: string;
     discount?: number;
@@ -72,7 +67,6 @@ const fetchReviews = async (productId: string) => {
   return data; // Ensure you return the fetched data
 };
 const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
-  const [count, setCount] = useState<number>(0);
   const [mainImage, setMainImage] = useState<string>(
     product?.imageUrl || noimage
   );
@@ -133,13 +127,6 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
     setSelectedImage(image); // Set the selected image
   };
 
-  const increment = () => setCount(count + 1);
-  const decrement = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
-  };
-  const items = useSelector((state: RootState) => state.cart.items);
 
   const dispatch = useDispatch();
 

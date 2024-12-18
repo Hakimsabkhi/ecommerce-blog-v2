@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { AiOutlineLike} from 'react-icons/ai';
-import { IoStorefrontOutline } from 'react-icons/io5';
 import { useSession } from 'next-auth/react';
 
 interface Review {
@@ -54,8 +53,6 @@ const fetchReviews = async (productId: string) => {
 
 const ReviewBlock: React.FC<ReviewBlockProps> = ({ productId, product,refresh }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession() ;
   useEffect(() => {
     const loadReviews = async () => {
@@ -63,10 +60,8 @@ const ReviewBlock: React.FC<ReviewBlockProps> = ({ productId, product,refresh })
         const data = await fetchReviews(productId);
         setReviews(data);
       } catch (error) {
-        setError((error as Error).message);
-      } finally {
-        setLoading(false);
-      }
+        console.log(error)
+      } 
     };
 
     loadReviews();

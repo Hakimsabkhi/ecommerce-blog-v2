@@ -1,13 +1,10 @@
 "use client";
-import Product from "@/models/Product";
+
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { CiSearch } from "react-icons/ci";
-interface product{
-  _id:string;
-  name:string
-}
+
 const SearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState<any[]>([]);

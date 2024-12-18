@@ -2,9 +2,6 @@
 import React, { FormEvent, useState } from "react";
 import ReviewBlock from "./ReviewBlock";
 import { FaStar } from "react-icons/fa";
-import { FaRegStar } from "react-icons/fa";
-import { useParams } from "next/navigation";
-import {  toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import CustomerReview from "./CustomerReview";
 
@@ -35,9 +32,6 @@ interface Brand {
   imageUrl: string;
 }
 
-interface user {
-  username: string;
-}
 
 
 const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
@@ -48,10 +42,7 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
   
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [saveInfo, setSaveInfo] = useState<boolean>(false);
-  const params = useParams<{ id?: string }>(); // Adjust params based on your route setup
-  //const productId = params.id ?? "";
-  const productId = product?._id|| '';
+  const [productId] = product?._id|| '';
   const { data: session } = useSession();
   const [key, setKey] = useState(0);
   const handleSubmit = async (e: FormEvent) => {
@@ -89,7 +80,6 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
     setEmail('');
     setReview('');
     setRating(0);
-    setSaveInfo(false);
 
 
       // Force re-render by changing key

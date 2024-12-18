@@ -4,10 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-interface CompanyData {
 
-  logoUrl:string
-}
 async function fetchCompanyData() {
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/company/getCompany`, {
       method: "GET",
