@@ -1,14 +1,9 @@
-import React from "react";
-import Products from "@/components/approve/Products";
-import Chairsbanner from "@/components/approve/Chairsbanner";
-import { ICategory } from "@/models/Category";
-import { notFound } from "next/navigation";
+'use client';
 
-interface CategoryPageProps {
-  params: {
-    slugCategory?: string;
-  };
-}
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import Products from '@/components/approve/Products';
+import Chairsbanner from '@/components/approve/Chairsbanner';
 
 interface ProductData {
   _id: string;
@@ -28,6 +23,7 @@ interface ProductData {
 }
 
 interface Category {
+  _id: string;
   name: string;
   slug: string;
 }
@@ -37,87 +33,86 @@ interface Brand {
   name: string;
 }
 
-// Fetch category data
-const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
-  if (!id) {
-    return null; // Return null instead of calling `notFound()` directly here
-  }
-  try {
-    const res = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/searchcategoryadmin/${id}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        next: { revalidate: 0 },
+export default function CategoryPage() {
+  const { slugCategory } = useParams();
+  const [category, setCategory] = useState<Category | null>(null);
+  const [products, setProducts] = useState<ProductData[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+
+  useEffect(() => {
+    const fetchCategoryData = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/searchcategoryadmin/${slugCategory}`,
+          {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          }
+        );
+
+        if (!res.ok) {
+          console.error('Category not found');
+          return;
+        }
+
+        const data = await res.json();
+        setCategory(data);
+      } catch (error) {
+        console.error('Error fetching category data:', error);
       }
-    );
+    };
 
-    if (!res.ok) {
-      return null; // Handle errors appropriately
-    }
+    const fetchProductsData = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/searchadmin/${slugCategory}`,
+          {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          }
+        );
 
-    return res.json();
-  } catch (error) {
-    console.error("Error fetching category data:", error);
-    return null;
-  }
-};
+        if (!res.ok) {
+          console.error('Products not found');
+          return;
+        }
 
-
-// Fetch products by category ID
-const fetchProductsData = async (id: string): Promise<ProductData[]> => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/searchadmin/${id}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        next: { revalidate: 0 },
+        const data = await res.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products data:', error);
       }
-    );
+    };
 
-    if (!res.ok) throw new Error("Products not found");
-    return res.json();
-  } catch (error) {
-    console.error("Error fetching products data:", error);
-    return [];
-  }
-};
+    const fetchBrandData = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/brand/getAllBrand`,
+          {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          }
+        );
 
-// Fetch all brands
-const fetchBrandData = async (): Promise<Brand[]> => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/brand/getAllBrand`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        next: { revalidate: 0 },
+        if (!res.ok) {
+          console.error('Brands not found');
+          return;
+        }
+
+        const data = await res.json();
+        setBrands(data);
+      } catch (error) {
+        console.error('Error fetching brand data:', error);
       }
-    );
+    };
 
-    if (!res.ok) throw new Error("Brand not found");
-    return res.json();
-  } catch (error) {
-    console.error("Error fetching brand data:", error);
-    return [];
-  }
-};
-
-// Category Page component
-export default async function CategoryPage({ params }: CategoryPageProps) {
-  const id = params?.slugCategory;
-
-  if (!id) return notFound();
-
-  const [category, products, brands] = await Promise.all([
-    fetchCategoryData(id),
-    fetchProductsData(id),
-    fetchBrandData(),
-  ]);
+    fetchCategoryData();
+    fetchProductsData();
+    fetchBrandData();
+  }, [slugCategory]);
 
   if (!category) {
-    return notFound();
+    return <div>Category not found or loading...</div>;
   }
 
   return (
