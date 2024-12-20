@@ -38,6 +38,7 @@ interface Brand {
   imageUrl: string;
 }
 
+
 interface PageProps {
   params: {
     slugCategory: string;
@@ -77,9 +78,13 @@ export const generateMetadata = async ({
 }: PageProps): Promise<Metadata> => {
   const { slugCategory, slugProduct } = params;
 
+  // Ensure async calls (if any) are resolved properly
+  const metadataTitle = `Product: ${slugProduct} - Category: ${slugCategory}`;
+  const metadataDescription = `Explore ${slugProduct} under the ${slugCategory} category.`;
+
   return {
-    title: `Product: ${slugProduct} - Category: ${slugCategory}`,
-    description: `Explore ${slugProduct} under the ${slugCategory} category.`,
+    title: metadataTitle,
+    description: metadataDescription,
   };
 };
 

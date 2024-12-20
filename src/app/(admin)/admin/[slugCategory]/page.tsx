@@ -39,7 +39,9 @@ interface Brand {
 
 // Fetch category data
 const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
-  if (!id) return notFound();
+  if (!id) {
+    return null; // Return null instead of calling `notFound()` directly here
+  }
   try {
     const res = await fetch(
       `${process.env.NEXTAUTH_URL}/api/searchcategoryadmin/${id}`,
@@ -50,13 +52,17 @@ const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
       }
     );
 
-    if (!res.ok) return notFound();
+    if (!res.ok) {
+      return null; // Handle errors appropriately
+    }
+
     return res.json();
   } catch (error) {
     console.error("Error fetching category data:", error);
-    return notFound();
+    return null;
   }
 };
+
 
 // Fetch products by category ID
 const fetchProductsData = async (id: string): Promise<ProductData[]> => {
@@ -110,7 +116,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     fetchBrandData(),
   ]);
 
-  if (!category) return notFound();
+  if (!category) {
+    return notFound();
+  }
 
   return (
     <div>
