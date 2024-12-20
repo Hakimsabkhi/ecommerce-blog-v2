@@ -6,11 +6,10 @@ import stream from "stream";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
 
-// Define Cloudinary upload result type
 interface CloudinaryUploadResult {
   secure_url: string;
   public_id: string;
-  [key: string]: any; // Extend as needed
+  [key: string]: string; // Assuming additional properties are strings
 }
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {

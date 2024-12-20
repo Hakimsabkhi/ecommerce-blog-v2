@@ -29,7 +29,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
      
       return NextResponse.json( comment, { status: 201 });
     } catch (error) {
-      return NextResponse.json({ message: 'Error creating category' }, { status: 500 });
+      console.log(error)
     }
   }
   

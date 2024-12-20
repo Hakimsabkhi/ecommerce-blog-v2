@@ -7,7 +7,8 @@ import Order from '@/models/order';
 import Company from '@/models/Company';
 import Address from '@/models/Address';
 
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
+
 
 export async function POST(req: NextRequest) {
   await connectDB();

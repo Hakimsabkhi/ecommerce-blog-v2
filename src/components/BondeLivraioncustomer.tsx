@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image';
-import React, { Key, useEffect, useRef, useState } from 'react'
+import React, { Key, useEffect, useState } from 'react'
 import LoadingSpinner from './LoadingSpinner';
 import { useParams } from 'next/navigation';
 import jsPDF from 'jspdf';

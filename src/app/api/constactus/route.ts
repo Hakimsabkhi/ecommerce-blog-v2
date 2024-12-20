@@ -1,7 +1,7 @@
 import { contactFormTemplate } from '@/lib/sendconctusts';
 import { NextRequest, NextResponse } from 'next/server';
 
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 export async function POST(req: NextRequest) {
   try {
