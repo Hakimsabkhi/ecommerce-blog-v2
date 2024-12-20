@@ -8,7 +8,7 @@ export async function GET() {
     const roles = await Role.find({});
     return NextResponse.json({ roles });
   } catch (err) {
-    return NextResponse.json({ error: 'Failed to fetch roles' }, { status: 500 });
+    console.log(err)
   }
 }
 
@@ -24,6 +24,6 @@ export async function POST(req: Request) {
     await role.save();
     return NextResponse.json({ role });
   } catch (err) {
-    return NextResponse.json({ error: 'Failed to add role' }, { status: 500 });
+    console.log(err)
   }
 }

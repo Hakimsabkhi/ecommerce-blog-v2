@@ -6,6 +6,10 @@ import stream from "stream";
 import { getToken } from "next-auth/jwt";
 import User from "@/models/User";
 
+interface CloudinaryUploadResult {
+  secure_url: string;
+}
+
 // Utility function to extract public ID from the image URL
 const extractPublicId = (url: string): string => {
     const matches = url.match(/\/([^\/]+)\.(jpg|jpeg|png|gif|webp)$/);
@@ -73,15 +77,16 @@ export async function PUT( req: NextRequest ){
         const imageStream = new stream.PassThrough();
         imageStream.end(imageBuffer);
   
-        const { secure_url: newImageUrl } = await new Promise<any>(
+        const { secure_url: newImageUrl } = await new Promise<CloudinaryUploadResult>(
           (resolve, reject) => {
             const uploadStream = cloudinary.uploader.upload_stream(
-              { folder: "Promotion",
-                format: 'webp' 
-               },
+              {
+                folder: "Promotion",
+                format: "webp",
+              },
               (error, result) => {
                 if (error) return reject(new Error(`Image upload failed: ${error.message}`));
-                resolve(result);
+                resolve(result as CloudinaryUploadResult); // Ensure the result is typed correctly
               }
             );
             imageStream.pipe(uploadStream);
