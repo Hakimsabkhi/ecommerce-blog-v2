@@ -1,8 +1,9 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Document, Model, Types } from "mongoose";
 import { IUser } from "./User"; // Assuming IUser is defined in the User model
 
 // Define the IBrand interface
 export interface IBrand extends Document {
+  _id: Types.ObjectId;
   name: string;
   place: string;
   logoUrl?: string;

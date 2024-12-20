@@ -31,6 +31,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json( role , { status: 200 });
 
   } catch (error) {
-    return NextResponse.json({ message: 'Error creating Role' }, { status: 500 });
+    console.log(error)
   }
 }

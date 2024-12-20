@@ -1,7 +1,7 @@
 "use client";
 import Blog from '@/components/fPost/Post';
 import Link from 'next/link';
-import { notFound, useParams } from 'next/navigation';
+import {useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FaReadme } from 'react-icons/fa';
 import Image from 'next/image'; // Import Image component from next/image

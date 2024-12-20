@@ -54,8 +54,7 @@ const PopupProfileUpdate: React.FC<PopupProfileUpdateParam> = ({ close,selectupd
         return; // Exit if there's an error
       }
   
-      // Success - Handle the response
-      const data = await response.json();
+
       if (response.status === 200) {
         toast.success('User updated successfully!');
         fetchProfile();

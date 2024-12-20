@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import {NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import Promotion from '@/models/Promotion';
 
 
 
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     await connectToDatabase(); // Ensure the database connection is established
 

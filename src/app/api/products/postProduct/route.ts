@@ -8,6 +8,10 @@ import stream from "stream";
 import User from "@/models/User";
 import { getToken } from 'next-auth/jwt';
 
+interface CloudinaryUploadResult {
+  secure_url: string;
+}
+
 export async function POST(req: NextRequest) {
   await connectToDatabase();
 
@@ -62,27 +66,25 @@ export async function POST(req: NextRequest) {
     if (!brand || brand.trim() === "") {
       brand = null;
     } else {
-      // Validate if the brand is provided, it should exist in the database
       const validBrand = await Brand.findOne({ _id: brand });
       if (!validBrand) {
         return NextResponse.json({ message: 'Invalid brand selected' }, { status: 400 });
       }
       brand = validBrand._id.toString(); // Ensure it stores as a string
     }
-    const existingcategory = await Category.findById(category);
-    if (!existingcategory){
-      return NextResponse.json({ message: 'Error product ' }, { status: 402 });
+    const existingCategory = await Category.findById(category);
+    if (!existingCategory) {
+      return NextResponse.json({ message: 'Invalid category' }, { status: 400 });
     }
-    existingcategory.numberproduct += 1; // Increment the review count
+    existingCategory.numberproduct += 1;
+    await existingCategory.save();
 
-    existingcategory.save();
-    // Check if a product with the same ref already exists
     const existingProduct = await Products.findOne({ ref });
     if (existingProduct) {
       return NextResponse.json({ message: 'Product with this ref already exists' }, { status: 400 });
     }
 
-    // Upload a single image (optional)
+    // Upload a single image
     let imageUrl = '';
     const imageFile = formData.get('image') as File | null;
     if (imageFile) {
@@ -90,45 +92,45 @@ export async function POST(req: NextRequest) {
       const bufferStream = new stream.PassThrough();
       bufferStream.end(Buffer.from(imageBuffer));
 
-      const result = await new Promise<any>((resolve, reject) => {
+      const result = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
           { folder: 'Products', format: 'webp' },
           (error, result) => {
             if (error) {
               return reject(error);
             }
-            resolve(result);
+            resolve(result as CloudinaryUploadResult);
           }
         );
         bufferStream.pipe(uploadStream);
       });
-      imageUrl = result.secure_url; // Extract the secure_url from the result
+      imageUrl = result.secure_url;
     }
 
-    // Upload multiple images to Cloudinary
+    // Upload multiple images
     const uploadedImages = await Promise.all(
       imageFiles.map(async (imageFile) => {
         const imageBuffer = await imageFile.arrayBuffer();
         const bufferStream = new stream.PassThrough();
         bufferStream.end(Buffer.from(imageBuffer));
 
-        const result = await new Promise<any>((resolve, reject) => {
+        const result = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
             { folder: 'Products/images', format: 'webp' },
             (error, result) => {
               if (error) {
                 return reject(error);
               }
-              resolve(result);
+              resolve(result as CloudinaryUploadResult);
             }
           );
           bufferStream.pipe(uploadStream);
         });
-        return result.secure_url; // Extract the secure_url
+
+        return result.secure_url;
       })
     );
 
-    // Create and save the new product
     const newProduct = new Products({
       name,
       info,
@@ -139,7 +141,7 @@ export async function POST(req: NextRequest) {
       warranty,
       dimensions,
       category,
-      brand, // Brand is either a valid brand ID as a string or null
+      brand,
       stock,
       tva,
       price,
@@ -155,7 +157,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(newProduct, { status: 201 });
 
   } catch (error) {
-    console.error('Error creating Product:', error); // Log error for debugging
+    console.error('Error creating Product:', error);
     return NextResponse.json({ message: 'Error creating Product' }, { status: 500 });
   }
 }

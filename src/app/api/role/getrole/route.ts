@@ -8,7 +8,7 @@ export async function GET() {
     const roles = await Role.find({ name: { $nin: ['Admin', 'SuperAdmin'] }}, { name: 1, access: 1 }).lean();
     return NextResponse.json({ roles });
   } catch (err) {
-    return NextResponse.json({ error: 'Failed to fetch roles' }, { status: 500 });
+    console.log(err)
   }
 }
 
