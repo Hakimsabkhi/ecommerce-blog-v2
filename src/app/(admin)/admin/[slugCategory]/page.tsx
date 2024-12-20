@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Products from '@/components/approve/Products';
-import Chairsbanner from '@/components/approve/Chairsbanner';
+import Banner from '@/components/approve/Banner';
 
 interface ProductData {
   _id: string;
@@ -35,28 +35,28 @@ interface Brand {
 
 export default function CategoryPage() {
   const { slugCategory } = useParams();
+  console.log (slugCategory);
   const [category, setCategory] = useState<Category | null>(null);
   const [products, setProducts] = useState<ProductData[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
-
+  console.log (category);
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/searchcategoryadmin/${slugCategory}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/category/admin/GetCategoryNotApproved/${slugCategory}`,
           {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
           }
         );
-
         if (!res.ok) {
           console.error('Category not found');
           return;
         }
 
         const data = await res.json();
-        setCategory(data);
+        setCategory(data); // Update if response wraps data
       } catch (error) {
         console.error('Error fetching category data:', error);
       }
@@ -84,7 +84,7 @@ export default function CategoryPage() {
       }
     };
 
-    const fetchBrandData = async () => {
+/*     const fetchBrandData = async () => {
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/brand/getAllBrand`,
@@ -105,19 +105,16 @@ export default function CategoryPage() {
         console.error('Error fetching brand data:', error);
       }
     };
-
+ */
     fetchCategoryData();
-    fetchProductsData();
-    fetchBrandData();
-  }, [slugCategory]);
+  /*   fetchProductsData(); */
+  /*   fetchBrandData(); */
+  },  [slugCategory]);
 
-  if (!category) {
-    return <div>Category not found or loading...</div>;
-  }
 
   return (
     <div>
-      <Chairsbanner category={category} />
+      <Banner category={category} />
       <Products products={products} brands={brands} />
     </div>
   );

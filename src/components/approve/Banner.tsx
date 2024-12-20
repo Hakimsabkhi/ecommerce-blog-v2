@@ -4,14 +4,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 
-interface ChairsbannerProps {
+interface BannerProps {
   category?: {
     name: string;
     bannerUrl?: string;
   };
 }
 
-const Chairsbanner: React.FC <ChairsbannerProps>= ({ category }) => {
+const Banner: React.FC <BannerProps>= ({ category }) => {
 
 
 
@@ -45,4 +45,4 @@ const Chairsbanner: React.FC <ChairsbannerProps>= ({ category }) => {
   );
 }
 
-export default Chairsbanner;
+export default Banner;

@@ -47,7 +47,7 @@ export default function ProductPage() {
     const fetchProduct = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/products/fgetProductByIdadmin/${slugProduct}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products/getProductByIdAdmin/${slugProduct}`,
           {
             method: 'GET',
             headers: {
