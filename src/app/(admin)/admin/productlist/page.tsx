@@ -196,7 +196,7 @@ const AddedProducts: React.FC = () => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await fetch("/api/products/getAllProduct", {
+        const response = await fetch("/api/products/admin/getAllProduct", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

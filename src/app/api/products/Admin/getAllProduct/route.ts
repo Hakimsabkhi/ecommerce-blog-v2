@@ -3,6 +3,8 @@ import connectToDatabase from "@/lib/db";
 import Products from "@/models/Product";
 import User from "@/models/User";
 import { getToken } from 'next-auth/jwt';
+import Brand from '@/models/Brand';
+import Category from '@/models/Category';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,7 +32,9 @@ export async function GET(req: NextRequest) {
     if ('error' in result) {
       return NextResponse.json({ error: result.error }, { status: result.status });
     }
-
+    await Brand.find();
+    await Category.find();
+    await User.find();
     // Fetch products and populate references
     const products = await Products.find({})
       .populate("user")
