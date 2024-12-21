@@ -1,11 +1,24 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Category from "@/models/Category";
 import Product from "@/models/Product";
+import { getToken } from "next-auth/jwt";
+import User from "@/models/User";
 
-export async function GET(context: { params: Promise<{ id: string }> }) {
+export async function GET( req: NextRequest,context: { params: Promise<{ id: string }> }) {
   await dbConnect();
 
+ 
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // Fetch the user
+  const user = await User.findOne({ email: token.email });
+  if (!user || !(user.role === 'Admin' || user.role === 'Consulter' || user.role === 'SuperAdmin')) {
+    return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 403 });
+  }
   try {
     const { id: categorySlug } = await context.params;
 

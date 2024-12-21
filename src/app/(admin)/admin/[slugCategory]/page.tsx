@@ -65,7 +65,7 @@ export default function CategoryPage() {
     const fetchProductsData = async () => {
       try {
         const res = await fetch(
-          `/api/products/Admin/GetNotApprovedProduct/${slugCategory}`,
+          `/api/products/admin/GetNotApprovedProduct/${slugCategory}`,
           {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
