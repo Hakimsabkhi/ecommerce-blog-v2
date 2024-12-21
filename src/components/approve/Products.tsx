@@ -24,6 +24,7 @@ interface ProductData {
   category:Category;
   slug:string;
 }
+
 interface Category {
   name: string;
   slug:string;

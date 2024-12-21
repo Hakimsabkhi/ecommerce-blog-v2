@@ -23,9 +23,9 @@ interface ProductData {
 }
 
 interface Category {
-  _id: string;
   name: string;
   slug: string;
+  bannerUrl: string;
 }
 
 interface Brand {
@@ -36,7 +36,7 @@ interface Brand {
 export default function CategoryPage() {
   const { slugCategory } = useParams();
   console.log (slugCategory);
-  const [category, setCategory] = useState<Category | null>(null);
+  const [category, setCategory] = useState<Category []>([]);
   const [products, setProducts] = useState<ProductData[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
   console.log (category);
@@ -44,7 +44,7 @@ export default function CategoryPage() {
     const fetchCategoryData = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/category/admin/GetCategoryNotApproved/${slugCategory}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/category/admin/GetNotApprovedCategory/${slugCategory}`,
           {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -65,7 +65,7 @@ export default function CategoryPage() {
     const fetchProductsData = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/searchadmin/${slugCategory}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products/Admin/GetNotApprovedProduct/${slugCategory}`,
           {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -84,7 +84,7 @@ export default function CategoryPage() {
       }
     };
 
-/*     const fetchBrandData = async () => {
+    const fetchBrandData = async () => {
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/brand/getAllBrand`,
@@ -105,10 +105,10 @@ export default function CategoryPage() {
         console.error('Error fetching brand data:', error);
       }
     };
- */
+
     fetchCategoryData();
-  /*   fetchProductsData(); */
-  /*   fetchBrandData(); */
+    fetchProductsData();
+    fetchBrandData();
   },  [slugCategory]);
 
 
