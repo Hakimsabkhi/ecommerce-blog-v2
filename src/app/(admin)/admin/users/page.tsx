@@ -152,7 +152,7 @@ const AdminDashboard = () => {
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <Link href="/admin/brandlist/addbrand">
+        <Link href="/admin/brand/addbrand">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-[200px] h-10">
             Role
           </button>

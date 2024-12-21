@@ -17,7 +17,7 @@ export const pages: Page[] = [
 // Map pages to URLs for the admin panel
 export  const pageUrls = [
     { name: 'Users', path: '/admin/users' },
-    { name: 'Brands', path: '/admin/brandlist' },
+    { name: 'Brands', path: '/admin/brand' },
     { name: 'Categories', path: '/admin/categorylist' },
     { name: 'Products', path: '/admin/productlist' },
     { name: 'Promation', path: '/admin/promotionlist' },

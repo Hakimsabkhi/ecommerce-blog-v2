@@ -51,7 +51,7 @@ const AddedBrands: React.FC = () => {
 
   const deleteBrand = async (brandId: string) => {
     try {
-      const response = await fetch(`/api/brand/deleteBrand/${brandId}`, {
+      const response = await fetch(`/api/brand/admin/deleteBrand/${brandId}`, {
         method: 'DELETE',
       });
 
@@ -78,7 +78,7 @@ const AddedBrands: React.FC = () => {
 
   const getBrands = async (): Promise<void> => {
     try {
-      const response = await fetch(`/api/brand/getAllBrandAdmin`, {
+      const response = await fetch(`/api/brand/admin/getAllBrandAdmin`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +128,7 @@ const AddedBrands: React.FC = () => {
     <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
       <div className="flex items-center justify-between">
         <p className='text-3xl font-bold'>ALL Brands</p>
-        <Link href="/admin/brandlist/addbrand" className="w-[15%]">
+        <Link href="/admin/brand/addbrand" className="w-[15%]">
           <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-full h-10'>
             Add a new Brand
           </button>
@@ -191,7 +191,7 @@ const AddedBrands: React.FC = () => {
               <td className="border px-4 py-3">{item.place}</td>
               <td className="border px-4 py-3">{item?.user?.username}</td>
               <td className="flex items-center justify-center gap-2">
-                <Link href={`/admin/brandlist/${item._id}`}>
+                <Link href={`/admin/brand/${item._id}`}>
                   <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md uppercase">
                     Modify
                   </button>

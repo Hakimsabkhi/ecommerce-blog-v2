@@ -70,7 +70,7 @@ const AddBrand = () => {
     formData.append("place", place);
 
     try {
-      const response = await fetch("/api/brand/postBrand", {
+      const response = await fetch("/api/brand/admin/postBrand", {
         method: "POST",
         body: formData,
       });
@@ -81,7 +81,7 @@ const AddBrand = () => {
       toast.success(`Brand ${name} Add successfully!`);
       await response.json(); // or await response.text() if you expect text response
 
-      router.push("/admin/brandlist");
+      router.push("/admin/brand");
     } catch (error: unknown) {
       // Handle different error types effectively
       if (error instanceof Error) {
@@ -187,7 +187,7 @@ const AddBrand = () => {
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <Link href="/admin/brandlist">
+          <Link href="/admin/brand">
             <button className="bg-white border-2 border-gray-400 hover:bg-gray-600 hover:border-0 hover:text-white rounded-md w-full h-10 flex items-center justify-center">
               <p className=" font-bold">Cancel</p>
             </button>

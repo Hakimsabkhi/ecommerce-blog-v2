@@ -27,7 +27,7 @@ const ModifyBrand = () => {
     // Fetch brand data by ID
     const fetchBrandData = async () => {
       try {
-        const response = await fetch(`/api/brand/getBrandById/${params.id}`);
+        const response = await fetch(`/api/brand/admin/getBrandById/${params.id}`);
         if (!response.ok) {
           throw new Error("Error fetching brand data");
         }
@@ -75,7 +75,7 @@ const ModifyBrand = () => {
     }
   
     try {
-      const response = await fetch(`/api/brand/updateBrand/${params.id}`, {
+      const response = await fetch(`/api/brand/admin/updateBrand/${params.id}`, {
         method: "PUT",
         body: formData,
        
@@ -85,7 +85,7 @@ const ModifyBrand = () => {
         throw new Error("Error updating brand");
       }
       toast.success(`Brand  ${brandData.name} modification successfully!`);
-    router.push('/admin/brandlist');
+    router.push('/admin/brand');
     } catch (error) {
       toast.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
@@ -203,7 +203,7 @@ const ModifyBrand = () => {
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <Link href="/admin/brandlist">
+          <Link href="/admin/brand">
             <button className="bg-white border-2 border-gray-400 hover:bg-gray-600 hover:border-0 hover:text-white rounded-md w-full h-10 flex items-center justify-center">
               <p className=" font-bold">Cancel</p>
             </button>

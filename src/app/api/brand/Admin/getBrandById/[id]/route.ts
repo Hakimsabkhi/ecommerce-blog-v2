@@ -8,11 +8,11 @@ import Brand from "@/models/Brand"; // Import Brand model
 // GET function to handle GET requests
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }>   }
 ) {
   await connectToDatabase();
 
-  const { id } = params;
+  const { id } =  await params;
 
   if (!id) {
     return NextResponse.json(

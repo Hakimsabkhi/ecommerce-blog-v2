@@ -25,7 +25,7 @@ const extractPublicId = (url: string): string => {
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }:  { params: Promise<{ id: string }>}
 ) {
   await connectToDatabase();
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -48,7 +48,7 @@ export async function PUT(
     const imageFile = formData.get("image") as File | null;
     const logoFile = formData.get("logo") as File | null;
 
-    const { id } = params; // Get ID from params
+    const { id } = await params; // Get ID from params
 
     if (!id) {
       return NextResponse.json(
