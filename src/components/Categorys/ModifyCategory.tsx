@@ -34,7 +34,7 @@ const ModifyCategory = () => {
     // Fetch category data by ID
     const fetchCategoryData = async () => {
       try {
-        const response = await fetch(`/api/category/getCategoryById/${params.id}`);
+        const response = await fetch(`/api/category/admin/getCategoryById/${params.id}`);
   
         if (!response.ok) {
           throw new Error('Failed to fetch category data');
@@ -96,7 +96,7 @@ const ModifyCategory = () => {
   
   
     try {
-      const response = await fetch(`/api/category/updateCategory/${params.id}`, {
+      const response = await fetch(`/api/category/admin/updateCategory/${params.id}`, {
         method: 'PUT',
         body: formData,
         // Content-Type header is automatically set by the browser when using FormData

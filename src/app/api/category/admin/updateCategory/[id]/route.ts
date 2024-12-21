@@ -12,7 +12,7 @@ interface CloudinaryUploadResult {
   [key: string]: string; // Assuming additional properties are strings
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }:{ params: Promise<{ id: string }> }) {
   await connectToDatabase();
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
@@ -31,7 +31,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const imageFile = formData.get("image") as File | null;
     const logoFile = formData.get("logo") as File | null;
     const bannerFile = formData.get("banner") as File | null;
-    const id = params.id;
+    const {id} = await params;
 
     if (!id) {
       return NextResponse.json({ message: "ID is required" }, { status: 400 });
