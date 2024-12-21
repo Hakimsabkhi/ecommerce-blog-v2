@@ -87,7 +87,7 @@ export default function CategoryPage() {
     const fetchBrandData = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/brand/getAllBrand`,
+          `/api/brand/getAllBrand`,
           {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
