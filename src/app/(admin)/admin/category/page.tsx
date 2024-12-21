@@ -47,7 +47,7 @@ const AddedCategories: React.FC = () => {
   const deleteCategory = async (categoryId: string) => {
     try {
       const response = await fetch(
-        `/api/category/deleteCategory/${categoryId}`,
+        `/api/category/admin/deleteCategory/${categoryId}`,
         {
           method: "DELETE",
         }
@@ -113,7 +113,7 @@ const AddedCategories: React.FC = () => {
   useEffect(() => {
     const getCategory = async () => {
       try {
-        const response = await fetch("/api/category/getAllCategoryAdmin", {
+        const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -169,7 +169,7 @@ const AddedCategories: React.FC = () => {
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL categories</p>
 
-        <Link href="categorylist/addcategory" className="w-[15%]">
+        <Link href="category/addcategory" className="w-[15%]">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-full h-10">
             Add a new category
           </button>
@@ -256,7 +256,7 @@ const AddedCategories: React.FC = () => {
                       Not approve{" "}
                     </option>
                   </select>
-                  <Link href={`/admin/categorylist/${category._id}`}>
+                  <Link href={`/admin/category/${category._id}`}>
                     <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md uppercase">
                       Modify
                     </button>

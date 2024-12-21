@@ -18,7 +18,7 @@ export const pages: Page[] = [
 export  const pageUrls = [
     { name: 'Users', path: '/admin/users' },
     { name: 'Brands', path: '/admin/brand' },
-    { name: 'Categories', path: '/admin/categorylist' },
+    { name: 'Categories', path: '/admin/category' },
     { name: 'Products', path: '/admin/productlist' },
     { name: 'Promation', path: '/admin/promotionlist' },
     { name: 'Reviews', path: '/admin/reviewlist' },

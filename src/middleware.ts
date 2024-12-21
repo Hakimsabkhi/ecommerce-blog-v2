@@ -51,7 +51,7 @@ if (req.nextUrl.pathname.startsWith('/admin/users')) {
   }
 }
 
-if ( req.nextUrl.pathname.startsWith('/admin/categorylist') || 
+if ( req.nextUrl.pathname.startsWith('/admin/category') || 
 req.nextUrl.pathname.startsWith('/admin/productlist')||
 req.nextUrl.pathname.startsWith('/admin/brand')||
 req.nextUrl.pathname.startsWith('/admin/reviewlist')||

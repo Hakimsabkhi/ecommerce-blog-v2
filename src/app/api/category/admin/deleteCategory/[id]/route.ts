@@ -9,7 +9,7 @@ import Review from "@/models/Review";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }:  { params: Promise<{ id: string }> } 
 ) {
   await connectToDatabase();
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -32,7 +32,7 @@ export async function DELETE(
       { status: 404 }
     );
   }
-  const { id } = params;
+  const { id } = await params;
 
   if (!id) {
     return NextResponse.json(

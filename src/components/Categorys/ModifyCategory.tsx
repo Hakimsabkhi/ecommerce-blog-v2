@@ -107,7 +107,7 @@ const ModifyCategory = () => {
       }
    
       toast.success(`Category ${categoryData.name} modification successfully!`);
-    router.push('/admin/categorylist')
+    router.push('/admin/category')
     } catch (error) {
       toast.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
@@ -251,7 +251,7 @@ const ModifyCategory = () => {
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <Link href="/admin/categorylist">
+          <Link href="/admin/category">
             <button className="bg-white border-2 border-gray-400 text-black hover:bg-gray-600 hover:text-white hover:border-0 rounded-md w-full h-10 flex items-center justify-center">
               <p className="font-bold">Cancel</p>
             </button>
