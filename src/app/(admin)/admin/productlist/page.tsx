@@ -329,7 +329,7 @@ const AddedProducts: React.FC = () => {
               <tr>
                 <td colSpan={6}>
                   <div className="text-center py-6 text-gray-600 w-full">
-                    <p>Aucune categorie trouvée.</p>
+                    <p>Aucune Products trouvée.</p>
                   </div>
                 </td>
               </tr>

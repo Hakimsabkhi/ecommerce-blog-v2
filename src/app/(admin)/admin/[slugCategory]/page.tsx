@@ -44,7 +44,7 @@ export default function CategoryPage() {
     const fetchCategoryData = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/category/admin/GetNotApprovedCategory/${slugCategory}`,
+          `/api/category/admin/GetNotApprovedCategory/${slugCategory}`,
           {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -65,7 +65,7 @@ export default function CategoryPage() {
     const fetchProductsData = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/products/Admin/GetNotApprovedProduct/${slugCategory}`,
+          `/api/products/Admin/GetNotApprovedProduct/${slugCategory}`,
           {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },

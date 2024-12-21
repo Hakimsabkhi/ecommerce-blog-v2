@@ -88,7 +88,7 @@ const AddedCategories: React.FC = () => {
       updateFormData.append("vadmin", newStatus);
 
       const response = await fetch(
-        `/api/category/updateCategoryvadmin/${categoryId}`,
+        `/api/category/admin/updateCategoryvadmin/${categoryId}`,
         {
           method: "PUT",
           body: updateFormData,
