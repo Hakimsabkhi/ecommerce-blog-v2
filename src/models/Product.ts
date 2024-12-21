@@ -72,8 +72,7 @@ ProductSchema.pre('save', function (next) {
   next();
 });
 
-// Ensure the slug is unique by creating an index
-ProductSchema.index({ slug: 1 }, { unique: true });
+
 
 // Create and export the Product model
 const Product: Model<IProduct> = mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
