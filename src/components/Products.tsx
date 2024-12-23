@@ -74,12 +74,12 @@ const Products: React.FC<ProductsProps> = ({ params }) => {
   
         if (!productsRes.ok) throw new Error("Failed to fetch products.");
         if (!brandsRes.ok) throw new Error("Failed to fetch brands.");
-  
-        const productsData = await productsRes.json();
+
+        const {products }= await productsRes.json();
         const brandsData = await brandsRes.json();
   
-        if (Array.isArray(productsData)) {
-          setProducts(productsData);
+        if (Array.isArray(products)) {
+          setProducts(products);
         } else {
           throw new Error("Unexpected products.");
         }

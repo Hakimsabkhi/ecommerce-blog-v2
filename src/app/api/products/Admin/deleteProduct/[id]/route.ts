@@ -38,7 +38,7 @@ const deleteImagesFromCloudinary = async (urls: string[]) => {
   }
 };
 
-  export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  export async function DELETE(req: NextRequest,  { params }:{ params: Promise<{ id: string }> }) {
     await dbConnect();
     const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
     if (!token) {
@@ -54,7 +54,7 @@ const deleteImagesFromCloudinary = async (urls: string[]) => {
         return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
       }
     try {
-      const { id } = params;
+      const { id } = await params;
       
       // Find the product by ID
       const product = await Product.findById(id);

@@ -30,12 +30,12 @@ interface ProductUpdates {
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }:{ params: Promise<{ id: string }> } 
 ) {
   await dbConnect();
   try {
     const formData = await req.formData();
-    const id = params.id;
+    const {id} = await params;
 
     if (!id) {
       return NextResponse.json({ message: "ID is required" }, { status: 400 });

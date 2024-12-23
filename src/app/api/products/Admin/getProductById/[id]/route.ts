@@ -8,11 +8,11 @@ import Brand from "@/models/Brand";
 // Handler for GET requests
 export async function GET(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }:{ params: Promise<{ id: string }> }
   ) {
     try {
       await dbConnect();
-      const { id } = params; // Get `id` from params
+      const { id } = await params; // Get `id` from params
       
       if (!id) {
         return new NextResponse(JSON.stringify({ message: "Invalid or missing product ID" }), { status: 400 });

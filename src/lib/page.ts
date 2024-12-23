@@ -19,7 +19,7 @@ export  const pageUrls = [
     { name: 'Users', path: '/admin/users' },
     { name: 'Brands', path: '/admin/brand' },
     { name: 'Categories', path: '/admin/category' },
-    { name: 'Products', path: '/admin/productlist' },
+    { name: 'Products', path: '/admin/product' },
     { name: 'Promation', path: '/admin/promotionlist' },
     { name: 'Reviews', path: '/admin/reviewlist' },
     { name: 'Orders', path: '/admin/orderlist' },

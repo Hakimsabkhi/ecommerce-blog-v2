@@ -66,7 +66,8 @@ async function getProduct(id: string): Promise<Product> {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { slugCategory, slugProduct } = params;
+  const { slugCategory } = await params;
+  const { slugProduct } = await params;
 
   const product = await getProduct(slugProduct);
 

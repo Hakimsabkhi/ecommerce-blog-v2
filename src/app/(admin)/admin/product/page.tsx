@@ -64,7 +64,7 @@ const AddedProducts: React.FC = () => {
 
   const deleteProduct = async (productId: string) => {
     try {
-      const response = await fetch(`/api/products/deleteProduct/${productId}`, {
+      const response = await fetch(`/api/products/admin/deleteProduct/${productId}`, {
         method: "DELETE",
       });
 
@@ -93,14 +93,14 @@ const AddedProducts: React.FC = () => {
     }
   };
 
-  const updateProductStatus = async (productId: string, newStatus: string) => {
+  const updateProductStatusstock = async (productId: string, newStatus: string) => {
     setLoadingProductId(productId);
     try {
       const updateFormData = new FormData();
       updateFormData.append("status", newStatus);
 
       const response = await fetch(
-        `/api/products/updateStatusProduct/${productId}`,
+        `/api/products/admin/updateStatusProductstock/${productId}`,
         {
           method: "PUT",
           body: updateFormData,
@@ -132,7 +132,7 @@ const AddedProducts: React.FC = () => {
       updateFormData.append("vadmin", newStatus);
 
       const response = await fetch(
-        `/api/products/updateProductvadmin/${productId}`,
+        `/api/products/admin/updateProductvadmin/${productId}`,
         {
           method: "PUT",
           body: updateFormData,
@@ -166,7 +166,7 @@ const AddedProducts: React.FC = () => {
       updateFormData.append("statuspage", statuspage);
 
       const response = await fetch(
-        `/api/products/updatePlaceProduct/${productId}`,
+        `/api/products/admin/updatePlaceProduct/${productId}`,
         {
           method: "PUT",
           body: updateFormData,
@@ -225,7 +225,7 @@ const AddedProducts: React.FC = () => {
     };
     const fetchCategories = async () => {
       try {
-        const response = await fetch("/api/category/getAllCategoryAdmin", {
+        const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
           method: "GET",
           next: { revalidate: 0 }, // Disable caching to always fetch the latest data
         });
@@ -270,7 +270,7 @@ const AddedProducts: React.FC = () => {
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL Products</p>
-        <Link href="/admin/productlist/addproduct">
+        <Link href="/admin/product/addproduct">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-[200px] h-10">
             <p>Add the new Product</p>
           </button>
@@ -391,7 +391,7 @@ const AddedProducts: React.FC = () => {
                           }`}
                           value={item.status}
                           onChange={(e) =>
-                            updateProductStatus(item._id, e.target.value)
+                            updateProductStatusstock(item._id, e.target.value)
                           }
                         >
                           <option value="in-stock" className="text-white">
@@ -424,7 +424,7 @@ const AddedProducts: React.FC = () => {
                         <option value="promotion">Promotion</option>
                       </select>
 
-                      <Link href={`/admin/productlist/${item._id}`}>
+                      <Link href={`/admin/product/${item._id}`}>
                         <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md uppercase">
                           Modify
                         </button>
