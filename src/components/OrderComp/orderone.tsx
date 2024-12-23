@@ -54,7 +54,7 @@ const Orderone = () => {
       // Fetch category data by ID
       const fetchOrderData = async () => {
         try {
-          const response = await fetch(`/api/order/getorderbyref/${params.id}`);
+          const response = await fetch(`/api/order/admin/getorderbyref/${params.id}`);
     
           if (!response.ok) {
             throw new Error('Failed to fetch order data');
@@ -147,7 +147,7 @@ if (loading) {
                 </div>))}
                 <div className="flex max-md:flex-col border-t-2">
                 <div className="flex items-center cursor-pointer justify-center gap-4 p-8 w-[20%] max-md:w-full lg:border-r-2">
-                <button onClick={()=>router.push("/admin/orderlist")} type='button' className='flex flex-col-2 items-center gap-2'>  <RxCross1 size={35}/>
+                <button onClick={()=>router.push("/admin/order")} type='button' className='flex flex-col-2 items-center gap-2'>  <RxCross1 size={35}/>
                         <p className='text-xl font-bold'>Cancel </p></button> 
                     </div>
                     <div className="flex items-center justify-between p-8 w-[80%] max-md:w-full max-md:border-t-2 text-xl font-bold font-poppins  ">

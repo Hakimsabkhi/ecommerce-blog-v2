@@ -203,7 +203,7 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
   formData.append("userId", customer); // Append userId
 
   try {
-    const res = await fetch(`/api/address/postaddressbyuser`, {
+    const res = await fetch(`/api/address/admin/postaddressbyuser`, {
       method: "POST",
       body: formData, // Send FormData as the request body
     });

@@ -5,10 +5,10 @@ import User from '@/models/User';
 import { getToken } from 'next-auth/jwt';
 
 export async function GET(req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
   ) {
     try{
-    const { id } = params;
+    const { id } = await params;
     await connectToDatabase(); // Ensure the database connection is established
     const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
     if (!token) {
@@ -20,7 +20,6 @@ export async function GET(req: NextRequest,
     }
     // Fetch all categories but only return the name and imageUrl fields
     const address = await Address.find({user:id}).sort({ createdAt: -1 })// Only select the 'name' and 'imageUrl' fields
-
     // Return the fetched category names and image URLs
     return NextResponse.json(address, { status: 200 });
   } catch (error) {

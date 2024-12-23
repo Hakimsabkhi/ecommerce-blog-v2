@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import OrderTable from "@/components/OrderComp/OrderTable";
 import OrderAddress from "@/components/OrderComp/OrderAddress";
 import Orderitemslistproduct from "@/components/OrderComp/Orderitemslistproduct";
@@ -36,7 +36,6 @@ interface Product {
   quantity: number;
 }
 
-
 interface User {
   _id: string;
   username: string;
@@ -53,6 +52,7 @@ interface Address {
 }
 
 export default function Dashboard() {
+    const params = useParams() as { id: string };
   const [itemList, setItemList] = useState<Items[]>([]);
   const [customer, setCustomer] = useState<string>("");
   const [ref, setRef] = useState<string>("");
@@ -148,6 +148,8 @@ export default function Dashboard() {
   
   // Calculate total amount
   const calculateTotal = (items: Items[], deliveryCost: number, isOn: boolean): number => {
+    console.log(items);
+    
     // Calculate total items cost after applying the discount
     const totalItemsCost = items.reduce((total, item) => {
       const discountedPrice = item.price - (item.price * (item.discount / 100)); // Apply discount
@@ -201,7 +203,7 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
   formData.append("userId", customer); // Append userId
 
   try {
-    const res = await fetch(`/api/address/postaddressbyuser`, {
+    const res = await fetch(`/api/address/admin/postaddressbyuser`, {
       method: "POST",
       body: formData, // Send FormData as the request body
     });
@@ -234,8 +236,14 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Handle creating the order here
-
-   const orderData = {
+ /*    console.log(itemList)
+    console.log(calculateTotal(itemList,costs))
+    console.log(Deliverymethod)
+    console.log(costs)
+    console.log(customer);
+   console.log(address);
+   console.log(paymentMethod); */
+const orderData = {
     itemList: itemList,
     totalCost: calculateTotal(itemList, costs,isOn),
     deliveryMethod: Deliverymethod,
@@ -245,11 +253,11 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
     statustimbre:isOn,
     paymentMethod: paymentMethod,
   };
-
+  console.log(orderData); 
   try {
     // Send POST request to API
-    const response = await fetch('/api/order/createorder', {
-      method: 'POST',
+    const response = await fetch(`/api/order/admin/updateorderbyid/${params.id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -260,7 +268,7 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
       // Handle success
       const data = await response.json();
       
-      router.push(`/admin/Bondelivraison/${data.ref}`)
+      router.push(`/admin/order/bondelivraison/${data.ref}`)
 
     } else {
       // Handle error
@@ -324,7 +332,7 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
   useEffect(() => {
 
     const fetchAddress = async () => {
-      const res = await fetch(`/api/address/getaddressbyid/${customer}`);
+      const res = await fetch(`/api/address/admin/getaddressbyid/${customer}`);
       const data = await res.json();
       setAddresses(data);
     };
@@ -334,20 +342,29 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
   // Fetch customers and products on component mount
   useEffect(() => {
     const fetchData = async () => {
-      const [usersResponse, productsResponse] = await Promise.all([
+      const [usersResponse, productsResponse,ordersResponse] = await Promise.all([
         fetch("/api/users/userdashboard"),
-        fetch("/api/products/getAllProduct"),
+        fetch("/api/products/admin/getAllProduct"),
+        fetch(`/api/order/admin/getorderbyref/${params.id}`),
       ]);
 
       const usersData = await usersResponse.json();
       const productsData = await productsResponse.json();
-
+      const ordersdata = await ordersResponse.json();
+      console.log(ordersdata)
+      setItemList(ordersdata.orderItems);
+      handleCustomerSelect(ordersdata.user._id,ordersdata.user.username);
+      setAddress(ordersdata.address._id);
+      setPaymentMethod(ordersdata.paymentMethod);
+      setDeliverymethod(ordersdata.deliveryMethod); // Example: Default delivery method
+      setCost(ordersdata.deliveryCost);
+      setIsOn(ordersdata.statustimbre);
       setCustomers(usersData);
       setProducts(productsData);
       setFilteredProducts(productsData); // Initialize filtered products
     };
     fetchData();
-  }, []);
+  }, [params.id]);
 
   return (
     <div className="w-full">
@@ -356,7 +373,7 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
           <h2 className="font-bold text-2xl mb-3">Add new order</h2>
 
           <form className="w-full flex flex-col" onSubmit={handleFormSubmit}>
-           <Ordercustomerinfo searchTerm={searchTerm} 
+          <Ordercustomerinfo searchTerm={searchTerm} 
            handleSearchCustomers={handleSearchCustomers } 
            OpenCustomer={OpenCustomer} 
            filteredCustomers={filteredCustomers} 
@@ -373,8 +390,9 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
            isOn={isOn} 
            handleToggle={handleToggle }/>
           
+          
             {/* Items */}
-           <Orderitemslistproduct searchQuery={searchQuery} handleSearchChange={handleSearchChange } 
+            <Orderitemslistproduct searchQuery={searchQuery} handleSearchChange={handleSearchChange } 
            handleProductSelect={handleProductSelect} 
            filteredProducts={filteredProducts} refa={ref}
             setRef={setRef} itemName={itemName} 
@@ -400,7 +418,7 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
               className="bg-gray-800 hover:bg-gray-600 text-white w-full py-4 rounded mt-6"
               type="submit"
             >
-              SAVE & PREVIEW ORDER
+              UPDATE & PREVIEW ORDER
             </button>
           </form>
 

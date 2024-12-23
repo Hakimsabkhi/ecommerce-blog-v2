@@ -7,7 +7,7 @@ import Product from "@/models/Product";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -33,7 +33,7 @@ export async function PUT(
   try {
     // Handle form data
 
-    const id = params.id; // Get ID from params
+    const {id} = await params; // Get ID from params
     const body = await req.json();
     if (!id) {
       return NextResponse.json(
@@ -51,7 +51,6 @@ export async function PUT(
 
     for (let i = 0; i < ordersItems.length; i++) {
       // Your loop body here
-      console.log(ordersItems[i].product); // Example: access each item in orderItems
       const oldproduct = await Product.findOne({ _id: ordersItems[i].product });
       if (oldproduct) {
         if (ordersItems[i].quantity) {
@@ -75,7 +74,7 @@ export async function PUT(
     if (itemList) {
       for (let i = 0; i < itemList.length; i++) {
         // Your loop body here
-        console.log(itemList[i].product); // Example: access each item in orderItems
+        
         const oldproduct = await Product.findOne({ _id: itemList[i].product });
         if (oldproduct) {
           if (oldproduct.stock >= itemList[i].quantity) {

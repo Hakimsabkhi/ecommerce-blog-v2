@@ -22,7 +22,7 @@ export  const pageUrls = [
     { name: 'Products', path: '/admin/product' },
     { name: 'Promation', path: '/admin/promotion' },
     { name: 'Reviews', path: '/admin/review' },
-    { name: 'Orders', path: '/admin/orderlist' },
+    { name: 'Orders', path: '/admin/order' },
     { name: 'Invoice', path: '/admin/invoice' },
     { name: 'Company', path: '/admin/company' },
     { name: 'Revenue', path: '/admin/revenue' },
