@@ -16,8 +16,7 @@ const fetchpromotionData = async () => {
       next: { revalidate: 0 },
     });
 
-    console.log(res);
-
+    
     if (!res.ok) {
       console.log('Promotion not found');
       return notFound();

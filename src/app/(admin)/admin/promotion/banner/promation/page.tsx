@@ -23,7 +23,7 @@ function CreateCompany() {
   };
   const fetchpromotionData =  async () => {
     try {
-      const response = await fetch(`/api/promotion/getpromotion`, {
+      const response = await fetch(`/api/promotion/admin/getpromotion`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +63,7 @@ function CreateCompany() {
       formData.append('banner', bannerFile);
     }
     try {
-      const response = await fetch('/api/promotion/postBannerPromotion', {
+      const response = await fetch('/api/promotion/admin/postBannerPromotion', {
         method: 'POST',
         body: formData,
       });
@@ -74,7 +74,7 @@ function CreateCompany() {
 
       const data = await response.json();
       fetchpromotionData();
-      router.push("/admin/promotionlist/banner");
+      router.push("/admin/promotion/banner");
       console.log('promotion added successfully:', data);
     } catch (error) {
       console.error('Error submitting the form:', error);
@@ -93,7 +93,7 @@ function CreateCompany() {
       formData.append('banner', bannerFile);
     }
     try {
-      const response = await fetch('/api/promotion/updateBannerPromotion', {
+      const response = await fetch('/api/promotion/admin/updateBannerPromotion', {
         method: 'put',
         body: formData,
       });
@@ -104,7 +104,7 @@ function CreateCompany() {
 
       const data = await response.json();
       fetchpromotionData();
-      router.push("/admin/promotionlist/banner");
+      router.push("/admin/promotion/banner");
       console.log('Company added successfully:', data);
     } catch (error) {
       console.error('Error submitting the form:', error);
@@ -165,7 +165,7 @@ function CreateCompany() {
             type="button"
             className="bg-gray-400 text-white hover:bg-gray-600 rounded-md w-[30%] h-10"
           >
-             <Link href={"/admin/promotionlist/banner"}>
+             <Link href={"/admin/promotion/banner"}>
             <p className="text-white"> Cancel</p>
             </Link>
           </button>

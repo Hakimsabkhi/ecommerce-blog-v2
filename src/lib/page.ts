@@ -20,7 +20,7 @@ export  const pageUrls = [
     { name: 'Brands', path: '/admin/brand' },
     { name: 'Categories', path: '/admin/category' },
     { name: 'Products', path: '/admin/product' },
-    { name: 'Promation', path: '/admin/promotionlist' },
+    { name: 'Promation', path: '/admin/promotion' },
     { name: 'Reviews', path: '/admin/reviewlist' },
     { name: 'Orders', path: '/admin/orderlist' },
     { name: 'Invoice', path: '/admin/invoice' },

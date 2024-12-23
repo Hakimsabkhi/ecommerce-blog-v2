@@ -14,7 +14,7 @@ const DisplayBanner: React.FC = () => {
   const router = useRouter();
   const fetchPomotionData = async () => {
     try {
-      const response = await fetch(`/api/promotion/getpromotion`, {
+      const response = await fetch(`/api/promotion/admin/getpromotion`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const DisplayBanner: React.FC = () => {
       <button
         type="button"
         className="bg-gray-800 text-white hover:bg-gray-600 rounded-md w-[20%] h-10  mb-6 max-lg:w-[30%]"
-        onClick={() => router.push("/admin/promotionlist")}
+        onClick={() => router.push("/admin/promotion")}
       >
         <p className="text-white">
           {" "}

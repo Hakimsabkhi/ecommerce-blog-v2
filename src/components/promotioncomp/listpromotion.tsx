@@ -51,7 +51,7 @@ const ListPromotion: React.FC = () => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await fetch("/api/promotion/getproductpromotionB", {
+        const response = await fetch("/api/promotion/admin/getproductpromotionB", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const ListPromotion: React.FC = () => {
     };
     const fetchCategories = async () => {
       try {
-        const response = await fetch("/api/category/getAllCategoryAdmin", {
+        const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
           method: "GET",
           next: { revalidate: 0 }, // Disable caching to always fetch the latest data
         });
@@ -125,7 +125,7 @@ const ListPromotion: React.FC = () => {
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex justify-between">
         <p className="text-3xl font-bold">ALL Products Promotion</p>
-        <Link href="/admin/promotionlist/banner">
+        <Link href="/admin/promotion/banner">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-[200px] h-10 uppercase">
             <p>Banner promotion</p>
           </button>
