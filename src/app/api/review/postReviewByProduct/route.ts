@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
       const text = formData.get('text') as string | null;
       const name = formData.get('name') as string | null;
       const email = formData.get('email') as string | null;
+     
       const productExist= await Product.findById(product)
       if (!productExist){
         return NextResponse.json({ message: 'Error product ' }, { status: 402 });

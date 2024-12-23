@@ -21,7 +21,7 @@ export  const pageUrls = [
     { name: 'Categories', path: '/admin/category' },
     { name: 'Products', path: '/admin/product' },
     { name: 'Promation', path: '/admin/promotion' },
-    { name: 'Reviews', path: '/admin/reviewlist' },
+    { name: 'Reviews', path: '/admin/review' },
     { name: 'Orders', path: '/admin/orderlist' },
     { name: 'Invoice', path: '/admin/invoice' },
     { name: 'Company', path: '/admin/company' },

@@ -78,7 +78,7 @@ const DisplayBanner: React.FC = () => {
       </button>
       <button
         type="button"
-        className="bg-gray-800 text-white hover:bg-gray-600 rounded-md w-[20%] h-10 mb-6 max-lg:w-[30%]"
+        className="bg-gray-800 text-white hover:bg-gray-600 rounded-md w-[30%] h-10 mb-6 max-lg:w-[30%]"
         onClick={() => router.push("banner/promation")}
       >
         <p className="text-white">

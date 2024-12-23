@@ -7,11 +7,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
   ) {
     await connectToDatabase();
   
-    const { id } = params;
+    const { id } = await params;
     const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

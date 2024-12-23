@@ -40,7 +40,7 @@ const ListReview: React.FC = () => {
 
     try {
       const response = await fetch(
-        `/api/review/getAllReviewByProduct?id=${productId}`,
+        `/api/review/admin/getAllReviewByProduct?id=${productId}`,
         {
           method: "GET",
           headers: {
@@ -97,7 +97,7 @@ const ListReview: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append("reply", "");
-      const response = await fetch(`/api/review/updateReviwerById/${id}`, {
+      const response = await fetch(`/api/review/admin/updateReviwerById/${id}`, {
         method: "PUT",
         body: formData,
       });
@@ -114,7 +114,7 @@ const ListReview: React.FC = () => {
 
   const handleDeleteConfirm = async (id: string) => {
     try {
-      const response = await fetch(`/api/review/deleteReviwerById/${id}`, {
+      const response = await fetch(`/api/review/admin/deleteReviwerById/${id}`, {
         method: "DELETE",
       });
 

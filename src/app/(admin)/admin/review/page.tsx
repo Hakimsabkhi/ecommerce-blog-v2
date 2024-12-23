@@ -29,7 +29,7 @@ const Page = () => {
     const productsPerPage =is2xl ? 8 : 5;
     const fetchProducts = async () => {
             try {
-                const response = await fetch('/api/review/getAllProductReview', {
+                const response = await fetch('/api/review/admin/getAllProductReview', {
                     method: "GET",
                     headers: {
                       "Content-Type": "application/json",
@@ -147,7 +147,7 @@ const Page = () => {
                 />
               </td>
               <td className="border px-4 py-2 flex justify-center items-center">
-                <Link href={`/admin/reviewlist/${item._id}`}>
+                <Link href={`/admin/review/${item._id}`}>
                   <button className="bg-gray-800 hover:bg-gray-600 text-white  w-28 h-10 rounded-md uppercase">
                     Reviews 
                   </button>

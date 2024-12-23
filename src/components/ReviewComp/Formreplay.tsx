@@ -15,7 +15,7 @@ const FormReply: React.FC<FormReplyProps> = ({ id, close, getReviews }) => {
 
     if (reply) {
       try {
-        const response = await fetch(`/api/review/updateReviwerById/${id}`, {
+        const response = await fetch(`/api/review/admin/updateReviwerById/${id}`, {
           method: "PUT",
           body: formData,
         });
