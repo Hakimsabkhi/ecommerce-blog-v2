@@ -39,7 +39,7 @@ const ListReview: React.FC = () => {
 
     try {
       const response = await fetch(
-        `/api/comments/getAllcommentByblog?id=${blogId}`,
+        `/api/comments/admin/getAllcommentByblog?id=${blogId}`,
         {
           method: "GET",
           headers: {
@@ -97,7 +97,7 @@ const ListReview: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append("reply", "");
-      const response = await fetch(`/api/comments/updatecommentById/${id}`, {
+      const response = await fetch(`/api/comments/admin/updatecommentById/${id}`, {
         method: "PUT",
         body: formData,
       });
@@ -114,7 +114,7 @@ const ListReview: React.FC = () => {
 
   const handleDeleteConfirm = async (id: string) => {
     try {
-      const response = await fetch(`/api/comments/deletecommentById/${id}`, {
+      const response = await fetch(`/api/comments/admin/deletecommentById/${id}`, {
         method: "DELETE",
       });
 

@@ -214,7 +214,7 @@ function AddPost() {
     };
   
     // Send data to backend
-    const response = await fetch('/api/blog/postblog', {
+    const response = await fetch('/api/blog/admin/postblog', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dataToSend),

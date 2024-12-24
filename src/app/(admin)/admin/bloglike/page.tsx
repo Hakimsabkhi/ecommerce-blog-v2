@@ -73,7 +73,7 @@ const BlogLikes = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("/api/comments/getbolgcomments", {
+        const response = await fetch("/api/comments/admin/getbolgcomments", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

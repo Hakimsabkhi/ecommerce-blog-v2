@@ -18,7 +18,7 @@ interface Blog {
 }
 
 const fetchBlogData = async (id: string): Promise<Blog[]> => {
-  const res = await fetch(`/api/blog/PostBySlugCategoryAdmin/${id}`, {
+  const res = await fetch(`/api/blog/admin/PostBySlugCategoryAdmin/${id}`, {
     method: 'GET',
     next: { revalidate: 0 },
   });

@@ -42,7 +42,7 @@ interface blogCategory{
 
 const fetchBlogData = async (id: string): Promise<blog> => {
   
-      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blog/PostBySlugAdmin/${id}`, {
+      const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blog/admin/PostBySlugAdmin/${id}`, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",

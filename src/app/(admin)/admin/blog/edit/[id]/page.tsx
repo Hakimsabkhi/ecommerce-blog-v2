@@ -119,7 +119,7 @@ export default function UpdatePost({ params }: { params: { id: string } }) {
     };
 
     const fetchTitle = async () => {
-      const response = await fetch(`/api/blog/ListPostadmin/${id}`);
+      const response = await fetch(`/api/blog/admin/ListPostadmin/${id}`);
       if (response.ok) {
         const data = await response.json();
         setpostData(data);
@@ -421,7 +421,7 @@ const handleback=()=>{
     
 
       // Step 4: Update the title with new data
-      const response = await fetch(`/api/blog/ListPostadmin/${id}`, {
+      const response = await fetch(`/api/blog/admin/ListPostadmin/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
