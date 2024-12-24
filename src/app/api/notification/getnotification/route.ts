@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import Notification from '@/models/Notifications';
 import { getToken } from 'next-auth/jwt';
+import Order from '@/models/order';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,7 +15,7 @@ export async function GET(req: NextRequest) {
 
     const page = Number(req.nextUrl.searchParams.get('page')) || 1;
     const limit = Number(req.nextUrl.searchParams.get('limit')) || 10;
-
+    await Order.find();
     const notifications = await Notification.find({ seen: false })
       .populate({
         path: 'order',

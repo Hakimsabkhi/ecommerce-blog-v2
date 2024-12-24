@@ -7,7 +7,7 @@ import { getToken } from "next-auth/jwt";
 
 export async function PUT(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
   ) {
     await dbConnect();
     const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
@@ -29,7 +29,7 @@ export async function PUT(
       const vadmin = formData.get('vadmin')as string;
        
        
-      const id = params.id; // Get ID from params
+      const {id} = await params; // Get ID from params
   
       if (!id) {
         return NextResponse.json(

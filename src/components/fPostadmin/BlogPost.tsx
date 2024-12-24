@@ -3,7 +3,7 @@ import React from 'react';
 
 
 import Blogcomp from './Postcomp/Postcomp';
-import Blogright from './Postcomp/Postright';
+
 
 interface Postsecondsubsection {
   secondtitle: string;
@@ -55,8 +55,7 @@ const BlogPost: React.FC<blogprops> = ({ blog }) => {
                 {/* 1 */}
                 <Blogcomp blog={blog}/>
             </div>
-            {/* Second Half */}
-            <Blogright/>
+       
         </div>
     );
 };

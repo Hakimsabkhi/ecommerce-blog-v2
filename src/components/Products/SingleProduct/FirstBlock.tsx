@@ -162,6 +162,7 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
                   width={1000}
                   height={1000}
                   className="transition-transform duration-300 ease-in-out"
+          
                 />
                 {isZoomed && (
                   <div

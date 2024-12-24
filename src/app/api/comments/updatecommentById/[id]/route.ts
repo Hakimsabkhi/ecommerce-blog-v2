@@ -7,7 +7,7 @@ import comments from '@/models/PostSections/CommentPost';
 
 export async function PUT(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params:Promise< { id: string }> }
   ) {
     await connectToDatabase();
     const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
@@ -24,12 +24,12 @@ export async function PUT(
         return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
       }
     try {
-        const { id } = params; // Get ID from params
+        const { id } = await params; // Get ID from params
       // Handle form data
       const formData = await req.formData();
  
       const reply = formData.get("reply") as string;
-      console.log(`${id}`,reply)
+      
 
   
       if (!id) {

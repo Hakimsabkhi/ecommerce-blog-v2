@@ -47,7 +47,7 @@ const AddProduct = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/category/getAllCategoryAdmin', {
+        const response = await fetch('/api/category/admin/getAllCategoryAdmin', {
           method: 'GET',
           next: { revalidate: 0 }, // Disable caching to always fetch the latest data
         });
@@ -61,7 +61,7 @@ const AddProduct = () => {
 
     const fetchBrands = async () => {
       try {
-        const response = await fetch("/api/brand/getAllBrand");
+        const response = await fetch("/api/brand/admin/getAllBrand");
         if (!response.ok) throw new Error("Failed to fetch brands");
         const data = await response.json();
         setBrands(data);
@@ -150,7 +150,7 @@ const AddProduct = () => {
       images.forEach((img, index) => formData.append(`images[${index}]`, img));
     }
     try {
-      const response = await fetch("/api/products/postProduct", {
+      const response = await fetch("/api/products/admin/postProduct", {
         method: "POST",
         body: formData,
       });
@@ -161,7 +161,7 @@ const AddProduct = () => {
       }
 
       toast.success(`Product ${productData.name} added successfully!`);
-      router.push("/admin/productlist");
+      router.push("/admin/product");
     } catch (error: unknown) {
       // Handle different error types effectively
       if (error instanceof Error) {
@@ -463,7 +463,7 @@ const AddProduct = () => {
           <p className="text-white">Add the New Product</p>
         </button>
         <Link
-          href="/admin/productlist"
+          href="/admin/product"
           className="border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10 text-black hover:text-white hover:bg-gray-600"
         >
           Cancel

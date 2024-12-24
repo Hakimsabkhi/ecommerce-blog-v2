@@ -59,7 +59,7 @@ const BondeLivraison=()=>{
       // Fetch category data by ID
       const fetchOrderData = async () => {
         try {
-          const response = await fetch(`/api/order/getorderbyref/${params.id}`, {
+          const response = await fetch(`/api/order/admin/getorderbyref/${params.id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -299,31 +299,31 @@ if (loading) {
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         Qty
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {item.quantity}
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         PU Brut
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {(item.price / (1 + item.tva / 100)).toFixed(3)} TND
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         Rem
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {item.discount}%
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         PU HT
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {item.discount != null && item.discount > 0 ? (
                           <p>
                             {(
@@ -338,7 +338,7 @@ if (loading) {
                             {(item.price / (1 + item.tva / 100)).toFixed(3)} TND
                           </p>
                         )}
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
@@ -482,10 +482,10 @@ if (loading) {
     </div>
 <div className='flex gap-2 justify-between'>
     <div className="mt-6 flex justify-s gap-x-3">
-    <button onClick={()=>router.push("/admin/orderlist")} type='button' className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" >
+    <button onClick={()=>router.push("/admin/order")} type='button' className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" >
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round"/>
 </svg>
        close
       </button>
@@ -493,11 +493,11 @@ if (loading) {
     <div className="mt-6 flex justify-end gap-x-3">
       
       <button onClick={  generatePDF} type='button' className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" >
-      <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+      <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
       Bon de Livraison PDF
       </button>
       <button onClick={ handlePrint} type='button'  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-primary text-white hover:bg-[#15335E] focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" >
-        <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+        <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
         Print
       </button>
     </div>

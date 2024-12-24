@@ -104,7 +104,7 @@ const ListOrders: React.FC = () => {
   };
   const DeleteOrder = async (id: string) => {
     try {
-      const response = await fetch(`/api/order/deleteorderbyid/${id}`, {
+      const response = await fetch(`/api/order/admin/deleteorderbyid/${id}`, {
         method: "DELETE",
       });
 
@@ -133,7 +133,7 @@ const ListOrders: React.FC = () => {
   };
   const getOrders = useCallback(async () => {
     try {
-      const response = await fetch("/api/order/getallorder", {
+      const response = await fetch("/api/order/admin/getallorder", {
         method: "GET",
       });
 
@@ -167,7 +167,7 @@ const ListOrders: React.FC = () => {
     const updateFormData = new FormData();
     updateFormData.append("vadmin", newStatus);
     const response = await fetch(
-      `/api/order/updatestatusinvoice/${orderId}`,
+      `/api/order/admin/updatestatusinvoice/${orderId}`,
       {
         method: "PUT",
         body: updateFormData,
@@ -200,7 +200,7 @@ const ListOrders: React.FC = () => {
       const updateFormData = new FormData();
       updateFormData.append("vadmin", newStatus);
       const response = await fetch(
-        `/api/order/updatestatusinvoice/${orderId}`,
+        `/api/order/admin/updatestatusinvoice/${orderId}`,
         {
           method: "PUT",
           body: updateFormData,
@@ -235,7 +235,7 @@ const ListOrders: React.FC = () => {
       const updateFormData = new FormData();
       updateFormData.append("status", newStatus);
 
-      const response = await fetch(`/api/order/updateStatusorder/${orderId}`, {
+      const response = await fetch(`/api/order/admin/updateStatusorder/${orderId}`, {
         method: "PUT",
         body: updateFormData,
       });
@@ -330,7 +330,7 @@ const ListOrders: React.FC = () => {
       <div className="flex justify-between">
         <p className="text-3xl font-bold">ALL Orders</p>
         <Link
-          href={"orderlist/addorder"}
+          href={"order/addorder"}
           className="bg-gray-800 text-white w-1/5  hover:bg-gray-400 rounded-md flex items-center justify-center"
         >
           <button type="button" className="uppercase ">
@@ -497,12 +497,12 @@ const ListOrders: React.FC = () => {
                         <option value="Cancelled">Annulée</option>
                         <option value="Refunded">Remboursée</option>
                       </select>
-                      <Link href={`/admin/orderlist/${item.ref}`}>
+                      <Link href={`/admin/order/${item.ref}`}>
                         <button className="bg-gray-800 text-white p-3 hover:bg-gray-600 rounded-md uppercase">
                           <FaRegEye />
                         </button>
                       </Link>
-                      <Link href={`/admin/orderlist/editorder/${item.ref}`}>
+                      <Link href={`/admin/order/editorder/${item.ref}`}>
                         <button className="bg-gray-800 text-white px-4 h-10 hover:bg-gray-600 rounded-md uppercase">
                           Edit
                         </button>
@@ -526,7 +526,7 @@ const ListOrders: React.FC = () => {
                         </option>
                       </select>
                       {item.statusinvoice === false ? (
-                        <Link href={`/admin/Bondelivraison/${item.ref}`}>
+                        <Link href={`/admin/order/bondelivraison/${item.ref}`}>
                           <button className="bg-gray-800 text-white px-4 h-10 hover:bg-gray-600 rounded-md uppercase">
                             INVOICE
                           </button>

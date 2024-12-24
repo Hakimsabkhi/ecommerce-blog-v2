@@ -5,13 +5,13 @@ import BlogMainSection from '@/models/PostSections/PostMainSectionModel';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
 
   try {
    
-    const blogcategory = params.id;
+    const {id:blogcategory} = await params;
 
     if (!blogcategory || typeof blogcategory !== 'string') {
       return NextResponse.json(
@@ -30,7 +30,7 @@ export async function GET(
    
     // Find products by the category ID
     const blog = await BlogMainSection.find({ blogCategory: foundCategory._id ,vadmin: "approve"}).populate('blogCategory' , 'slug').exec();
-    console.log(blog)
+
     return NextResponse.json(blog, { status: 200 });
   } catch (error) {
     console.error(error);

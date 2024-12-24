@@ -1,3 +1,4 @@
+"use server"
 import BlogPost from '@/components/fPostadmin/BlogPost';
 import { notFound } from 'next/navigation';
 import React from 'react';
@@ -60,8 +61,8 @@ const fetchBlogData = async (id: string): Promise<blog> => {
   };
   
   export default async function Page({ params }: { params: {PostSlug: string } }) {
-    const id = params.PostSlug;
 
+    const {PostSlug:id} = await params;
     // Early return if no product id
     if (!id) {
       return notFound();

@@ -76,7 +76,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/category/getAllCategoryAdmin', {
+        const response = await fetch('/api/category/admin/getAllCategoryAdmin', {
           method: 'GET',
           next: { revalidate: 0 }, // Disable caching to always fetch the latest data
         });
@@ -92,7 +92,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
 
     const fetchBrands = async () => {
       try {
-        const response = await fetch('/api/brand/getAllBrandAdmin', {
+        const response = await fetch('/api/brand/admin/getAllBrandAdmin', {
           method: 'GET',
           next: { revalidate: 0 }, // Disable caching to always fetch the latest data
         });
@@ -184,7 +184,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
       try {
         // Loop through removedImageIds and delete each image
         for (const removeimage of removedImageIds) {
-          const response = await fetch(`/api/products/deleteimageproduct/${formData._id}`, {
+          const response = await fetch(`/api/products/admin/deleteimageproduct/${formData._id}`, {
             method: 'DELETE',
             body: JSON.stringify({ imageUrl: removeimage }),
             headers: {
@@ -233,7 +233,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     images.forEach((img, index) => updateFormData.append(`images[${index}]`, img));
 
     try {
-      const response = await fetch(`/api/products/updateProduct/${formData._id}`, {
+      const response = await fetch(`/api/products/admin/updateProduct/${formData._id}`, {
         method: 'PUT',
         body: updateFormData,
       });
@@ -243,7 +243,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         throw new Error(errorData.message || 'An error occurred');
       }
       toast.success(`Product ${formData.name} modified successfully!`);
-      router.push('/admin/productlist');
+      router.push('/admin/product');
     } catch (error: unknown) {
       // Handle different error types effectively
       if (error instanceof Error) {
@@ -527,7 +527,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
         <button type="submit" className='bg-gray-800 hover:bg-slate-600 rounded-md w-[20%] max-lg:w-[50%] h-10'>
             <p className="text-white">Modify Product</p>
         </button>
-        <Link href="/admin/productlist" className='border border-gray-400 hover:bg-gray-600 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10'>
+        <Link href="/admin/product" className='border border-gray-400 hover:bg-gray-600 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10'>
         
           <p className="text-black hover:text-white ">Cancel</p>
        

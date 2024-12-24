@@ -61,8 +61,8 @@ const fetchBlogData = async (id: string): Promise<blog> => {
     
   };
   
-  export default async function Page({ params }: { params: {PostSlug: string } }) {
-    const id = params?.PostSlug;
+  export default async function Page({ params }: { params: Promise<{PostSlug: string }> }) {
+    const {PostSlug:id} = await params;
 
  
     if (!id) {

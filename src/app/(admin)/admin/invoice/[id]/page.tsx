@@ -321,31 +321,31 @@ const BondeLivraison = () => {
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         Qty
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {item.quantity}
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         PU Brut
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {(item.price / (1 + item.tva / 100)).toFixed(3)} TND
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         Rem
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {item.discount}%
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         PU HT
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {item.discount != null && item.discount > 0 ? (
                           <p>
                             {(
@@ -360,7 +360,7 @@ const BondeLivraison = () => {
                             {(item.price / (1 + item.tva / 100)).toFixed(3)} TND
                           </p>
                         )}
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
@@ -527,14 +527,14 @@ const BondeLivraison = () => {
                 <path
                   d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5"
                   stroke="#1C274C"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
                 />
                 <path
                   d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7"
                   stroke="#1C274C"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
                 />
               </svg>
               close
@@ -554,9 +554,9 @@ const BondeLivraison = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="7 10 12 15 17 10" />
@@ -577,9 +577,9 @@ const BondeLivraison = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <polyline points="6 9 6 2 18 2 18 9" />
                 <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />

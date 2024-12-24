@@ -39,7 +39,7 @@ const FifthBlock: React.FC = () => {
   const categoryId = params.slugCategory; // Safe access
   const [products, setProducts] = useState<ProductData[]>([]);
   const [error, setError] = useState<string | null>(null);
-
+console.log(products)
   useEffect(() => {
     const fetchCategory = async () => {
       if (categoryId) {
@@ -49,7 +49,7 @@ const FifthBlock: React.FC = () => {
             throw new Error('Failed to fetch products');
           }
           const data = await response.json();
-          setProducts(data);
+          setProducts(data.products);
         } catch (error) {
           setError(error instanceof Error ? error.message : 'An unexpected error occurred');
         }  

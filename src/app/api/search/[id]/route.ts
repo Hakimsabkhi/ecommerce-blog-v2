@@ -22,7 +22,7 @@ export async function GET(
       );
     }
 
-    console.log('Category ID (Slug):', categorySlug);
+  
 
     // Find the category by slug with "approve" status
     const foundCategory = await Category.findOne({ slug: categorySlug, vadmin: 'approve' });
@@ -33,7 +33,7 @@ export async function GET(
         { status: 404 }
       );
     }
-
+    
     // Check if products exist for the category
     const productCount = await Product.countDocuments({
       category: foundCategory._id,
@@ -56,7 +56,6 @@ export async function GET(
       .populate('brand', 'name')        // Populate brand with only needed fields
       .populate('user', 'name email')  // Populate user with only needed fields
       .exec();
-
     return NextResponse.json(
       { message: 'Products fetched successfully.', products },
       { status: 200 }

@@ -5,6 +5,7 @@ import { FaStar } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import CustomerReview from "./CustomerReview";
 
+
 interface Product {
   _id: string;
   name: string;
@@ -42,7 +43,7 @@ const ForthBlock: React.FC<{ product: Product | null }> = ({ product }) => {
   
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [productId] = product?._id|| '';
+  const productId = product?._id|| '';
   const { data: session } = useSession();
   const [key, setKey] = useState(0);
   const handleSubmit = async (e: FormEvent) => {

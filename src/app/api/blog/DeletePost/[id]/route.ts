@@ -16,7 +16,7 @@ const extractPublicId = (url: string): string => {
     return lastSegment ? lastSegment.split(".")[0] : "";
 };
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise< { id: string } >}) {
     await connectToDatabase();
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
@@ -30,7 +30,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
         return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 403 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
         return NextResponse.json({ message: "Invalid or missing blog ID" }, { status: 400 });

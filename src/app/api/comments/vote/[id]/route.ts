@@ -8,15 +8,15 @@ import mongoose from 'mongoose';
 // POST handler
 export async function POST(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         await dbConnect();
 
-        const { id } = params;
+        const { id } = await params;
        const formData = await req.formData();
         const action = formData.get("action") as string | null;
-        console.log(params);
+      
         if (!id || !action) {
             return NextResponse.json({ message: 'Missing parameters' }, { status: 400 });
         }

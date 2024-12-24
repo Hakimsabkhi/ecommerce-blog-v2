@@ -203,7 +203,7 @@ const handleAddNewAddress = async (e: React.FormEvent) => {
   formData.append("userId", customer); // Append userId
 
   try {
-    const res = await fetch(`/api/address/postaddressbyuser`, {
+    const res = await fetch(`/api/address/admin/postaddressbyuser`, {
       method: "POST",
       body: formData, // Send FormData as the request body
     });
@@ -332,7 +332,7 @@ const invoiceData = {
   useEffect(() => {
 
     const fetchAddress = async () => {
-      const res = await fetch(`/api/address/getaddressbyid/${customer}`);
+      const res = await fetch(`/api/address/admin/getaddressbyid/${customer}`);
       const data = await res.json();
       setAddresses(data);
     };
@@ -344,7 +344,7 @@ const invoiceData = {
     const fetchData = async () => {
       const [usersResponse, productsResponse,invoicesResponse] = await Promise.all([
         fetch("/api/users/userdashboard"),
-        fetch("/api/products/getAllProduct"),
+        fetch("/api/products/admin/getAllProduct"),
         fetch(`/api/invoice/getinvoicebyid/${params.id}`),
       ]);
 

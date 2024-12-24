@@ -54,7 +54,7 @@ const Notification: React.FC = () => {
         method: "PUT",
       });
       if (response.ok) {
-        router.push(`/admin/orderlist/${item.order.ref}`);
+        router.push(`/admin/order/${item.order.ref}`);
         setListVisible(false);
         fetchNotifications();
       } else {

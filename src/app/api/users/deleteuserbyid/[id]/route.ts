@@ -3,11 +3,11 @@ import { getToken } from 'next-auth/jwt';
 import  connectToDatabase  from '@/lib/db';
 import User from '@/models/User';
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Connect to the database
     await connectToDatabase();
-    const { id } = params;
+    const { id } = await params;
 
     // Check the token for authorization
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
