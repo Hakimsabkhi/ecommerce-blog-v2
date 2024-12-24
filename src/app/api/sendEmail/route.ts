@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No data' }, { status: 400 });
     }
 
-    const ref = body;
-    console.log(ref)
+    const {ref} = body;
+
     const orders = await Order.findOne({ ref });
     if (!orders) {
       return NextResponse.json({ message: 'Order not found' }, { status: 404 });
