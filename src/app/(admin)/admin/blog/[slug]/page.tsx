@@ -1,5 +1,3 @@
-
-"use server"
 import Blog from '@/components/fPostadmin/Post';
 import { notFound } from 'next/navigation';
 
@@ -31,7 +29,9 @@ interface blog {
     return data;
 };
 
-export default async function Page({ params }: { params: { slug: string } }) {
+type Params = Promise<{ slug: string }>;
+
+export default async function Page({ params }: { params: Params }) {
   const {slug:id} = await params;
       const blog = await fetchBlogData(id);
 
