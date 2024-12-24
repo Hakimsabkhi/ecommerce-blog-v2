@@ -20,9 +20,9 @@ async function getUserFromToken(req: NextRequest) {
   return { user };
 }
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params:Promise< { id: string }> }) {
   await connectToDatabase();
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const result = await getUserFromToken(request);

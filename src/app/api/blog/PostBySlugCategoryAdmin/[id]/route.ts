@@ -5,13 +5,13 @@ import BlogMainSection from '@/models/PostSections/PostMainSectionModel';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
 
   try {
    
-    const blogcategory = params.id;
+    const {id:blogcategory} = await params;
 
     if (!blogcategory || typeof blogcategory !== 'string') {
       return NextResponse.json(

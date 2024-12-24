@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   
     const comments = await CommentPost.find({ Post: blogId }).populate('user','_id username email') .populate('likes', '_id username email')
     .populate('dislikes', '_id username email');
-console.log(comments)
+
     return NextResponse.json(comments);
   } catch (error) {
     console.log(error)

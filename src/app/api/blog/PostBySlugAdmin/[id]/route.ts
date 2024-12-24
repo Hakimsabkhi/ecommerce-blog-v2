@@ -4,11 +4,11 @@ import BlogMainSection from '@/models/PostSections/PostMainSectionModel';
 import User from '@/models/User';
 import BlogCategory from '@/models/PostSections/BlogCategory';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Ensure the database connection is established
     await connectToDatabase(); 
-    const slugblog = params.id;
+    const {id:slugblog} = await params;
 
     // Validate the slugblog parameter
     if (!slugblog || typeof slugblog !== 'string') {

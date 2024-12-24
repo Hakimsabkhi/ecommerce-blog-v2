@@ -72,7 +72,7 @@ function AddPost() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("/api/blog/PostCategory/getAllCategory");
+        const response = await fetch("/api/blog/PostCategory/admin/getAllCategory");
         if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
         setListPostCategorie(data);

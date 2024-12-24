@@ -233,7 +233,7 @@ const AdminDashboard = () => {
                   <td className="px-6 py-1 text-center">
                     <button
                       onClick={() => handleDeleteClick(user)}
-                      className="bg-gray-800 text-white w-10 h-10 hover:bg-gray-600 rounded-md"
+                      className="bg-gray-800 text-white w-10 h-10 pl-3 hover:bg-gray-600 rounded-md"
                       disabled={loadingUserId === user._id}
                     >
                       {loadingUserId === user._id ? "Processing..." : <FaTrashAlt />}

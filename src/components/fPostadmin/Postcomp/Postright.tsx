@@ -7,7 +7,7 @@ interface blogCategory{
     slug:string;
 }
 const fetchBlogCategories = async (): Promise<blogCategory[]> => {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blog/PostCategory/getAllCategory`, {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blog/PostCategory/admin/getAllCategory`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",

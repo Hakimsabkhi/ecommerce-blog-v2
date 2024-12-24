@@ -32,7 +32,7 @@ const AddCategory = () => {
    
 
     try {
-      const response = await fetch("/api/blog/PostCategory/postCategory", {
+      const response = await fetch("/api/blog/PostCategory/admin/postCategory", {
         method: "POST",
         body: formData,
       });

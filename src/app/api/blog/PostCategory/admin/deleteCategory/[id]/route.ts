@@ -8,7 +8,7 @@ import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params:Promise< { id: string }> }
   ) {
     await connectToDatabase();
     const token=await getToken({req,secret:process.env.NEXTAUTH_SECRET});
@@ -24,7 +24,7 @@ export async function DELETE(
       if (!user || user.role !== 'Admin' && user.role !== 'Consulter'&& user.role !== 'SuperAdmin') {
         return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
       }
-    const { id } = params;
+    const { id } = await params;
   
     if (!id) {
       return NextResponse.json(

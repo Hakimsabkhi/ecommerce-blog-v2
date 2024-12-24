@@ -55,8 +55,7 @@ const BlogPost: React.FC<blogprops> = ({ blog }) => {
                 {/* 1 */}
                 <Blogcomp blog={blog}/>
             </div>
-            {/* Second Half */}
-            <Blogright/>
+       
         </div>
     );
 };
