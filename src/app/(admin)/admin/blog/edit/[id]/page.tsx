@@ -67,6 +67,7 @@ const toRoman = (num: number): string => {
   return roman;
 };
 const removedImageUrls: string[] = [];
+type Params = Promise<{ slug: string }>;
 export default function UpdatePost({ params }: { params: { id: string } }) {
   const router = useRouter();
 
