@@ -353,7 +353,7 @@ const AddedProducts: React.FC = () => {
                       />
                     </div>
                   </td>
-                  <td className="border px-4 py-2">{item.user.username}</td>
+                  <td className="border px-4 py-2">{item?.user?.username}</td>
                   <td className="border px-4 py-2">
                     <div className="flex items-center justify-center gap-2">
                       <select
