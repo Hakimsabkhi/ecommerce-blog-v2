@@ -3,7 +3,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "react-toastify";
-import { FaSpinner, FaTrashAlt } from "react-icons/fa";
+import { FaRegEdit, FaRegEye, FaSpinner, FaTrashAlt } from "react-icons/fa";
 import DeletePopup from "@/components/Popup/DeletePopup";
 import Pagination from "@/components/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
@@ -236,7 +236,7 @@ const AddedCategories: React.FC = () => {
               <td className="border px-4 py-2">
                 <div className="flex items-center justify-center gap-2">
                   <select
-                    className={`w-50 text-black rounded-md p-2 ${
+                    className={` text-black rounded-md p-2 ${
                       category.vadmin === "not-approve"
                         ? "bg-gray-400 text-white"
                         : "bg-green-500 text-white"
@@ -253,12 +253,12 @@ const AddedCategories: React.FC = () => {
                       value="not-approve"
                       className="text-white uppercase"
                     >
-                      Not approve{" "}
+                      Not approve
                     </option>
                   </select>
                   <Link href={`/admin/category/${category._id}`}>
-                    <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md uppercase">
-                      Modify
+                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                    <FaRegEdit />
                     </button>
                   </Link>
                   <button
@@ -276,8 +276,8 @@ const AddedCategories: React.FC = () => {
                       category.slug
                     }`}
                   >
-                    <button className="bg-gray-800 text-white w-36 h-10 hover:bg-gray-600 rounded-md uppercase">
-                      See Category 
+                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                      <FaRegEye />
                     </button>
                   </Link>
                 </div>

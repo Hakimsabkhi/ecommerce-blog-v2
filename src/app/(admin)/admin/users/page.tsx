@@ -3,7 +3,6 @@ import { FaSpinner, FaTrashAlt } from "react-icons/fa";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import DeletePopup from "@/components/Popup/DeletePopup";
 import { toast } from "react-toastify";
-import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 
@@ -152,19 +151,15 @@ const AdminDashboard = () => {
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <Link href="/admin/brand/addbrand">
-          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-[200px] h-10">
-            Role
-          </button>
-        </Link>
+        
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center border">
         <input
           type="text"
           placeholder="Search users"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="mt-4 p-2 border border-gray-300 rounded"
+          className="p-2 border border-gray-300 rounded-lg"
         />
         <select
           name="Role"

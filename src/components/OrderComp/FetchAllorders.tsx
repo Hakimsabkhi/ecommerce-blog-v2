@@ -466,7 +466,7 @@ const ListOrders: React.FC = () => {
                     {item.ref.slice(0, 10)}...
                   </td>
                   <td className="border px-4 py-2 uppercase">
-                    {item.user.username}
+                    {item?.user?.username}
                   </td>
                   <td className="border px-4 py-2 text-start">
                     {item.total.toFixed(2)} TND

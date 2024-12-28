@@ -17,7 +17,8 @@ const HeaderAdmin = async () => {
   return (
     <>
      
-      <div className="w-full h-[80px] bg-white flex justify-center items-center max-lg:justify-around gap-4 border-y border-gray-600 ">
+      <div className="w-full h-[80px]  flex justify-center items-center max-lg:justify-around gap-4 border-y border-gray-600
+         sm:bg-slate-400 md:bg-cyan-800 lg:bg-violet-600  xl:bg-yellow-400 2xl:bg-green-400 ">
         <div className="w-[90%] flex justify-between items-center max-lg:justify-around gap-4">
           <LogoComponentAdmin />
           <div className="flex">

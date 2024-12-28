@@ -186,9 +186,9 @@ const AddedCategories: React.FC = () => {
         <thead>
           <tr className="bg-gray-800 ">
             
-            <th className="px-4 py-3  w-1/4">Name</th>
-            <th className=" px-4 py-3 w-1/4"> Created By</th>
-            <th className="px-4 text-center py-3"> Action</th>
+            <th className="px-4 py-3 w-1/3">Name</th>
+            <th className="px-4 py-3 w-1/3"> Created By</th>
+            <th className="px-4 py-3 w-1/3 text-center"> Action</th>
           </tr>
         </thead>
         {loading ? (
