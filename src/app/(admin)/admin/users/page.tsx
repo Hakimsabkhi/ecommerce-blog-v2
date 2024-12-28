@@ -153,13 +153,13 @@ const AdminDashboard = () => {
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center border">
         <input
           type="text"
           placeholder="Search users"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="mt-4 p-2 border border-gray-300 rounded"
+          className="p-2 border border-gray-300 rounded-lg"
         />
         <select
           name="Role"
