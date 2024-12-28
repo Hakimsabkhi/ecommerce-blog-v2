@@ -10,7 +10,7 @@ import UserModel from '@/models/User';
 declare module 'next-auth' {
   interface Session {
     user: {
-      id: string;
+      _id: string;
       name?: string | null;
       email?: string | null;
       role?: string | null; // This can remain as string | null
@@ -121,9 +121,8 @@ export const authOptions: NextAuthOptions = {
     },
     
     async session({ session, token }: { session: Session, token: JWT }) {
-      console.log('Session Callback - Token Role:', token.role);
       if (token) {
-        session.user.id = token.id as string;
+        session.user._id = token._id as string;
         session.user.role = token.role as string; // Ensure role is nullable
       }
       return session;
@@ -138,13 +137,13 @@ export const authOptions: NextAuthOptions = {
         if (!existingUser) {
           const newUser = new UserModel({
             _id: new mongoose.Types.ObjectId(),
-            username: user.name!,
+            username: user.name! ,
             email: user.email as string,
-            role: user.role, // Set role to 'Visiteur' for first-time users
+            role: user.role,
           });
     
           const savedUser = await newUser.save();
-          user.id = savedUser._id.toString();
+          user.id = (savedUser._id as mongoose.Types.ObjectId).toString();
           user.role = savedUser.role || null; // Ensure role is nullable
         } else {
           user.id = existingUser._id.toString();

@@ -49,7 +49,6 @@ const AddedProducts: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState({ id: "", name: "" });
   const [loadingProductId, setLoadingProductId] = useState<string | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const handleDeleteClick = (product: Product) => {
     setLoadingProductId(product._id);
@@ -223,20 +222,6 @@ const AddedProducts: React.FC = () => {
         setLoading(false);
       }
     };
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
-          method: "GET",
-          next: { revalidate: 0 }, // Disable caching to always fetch the latest data
-        });
-        if (!response.ok) throw new Error("Failed to fetch categories");
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-    fetchCategories();
     getProducts();
   }, []);
 
@@ -293,12 +278,12 @@ const AddedProducts: React.FC = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[20%] block p-2.5"
             required
           >
-            <option value="">Select Category</option>
+            {/* <option value="">Select Category</option>
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.name}
               </option>
-            ))}
+            ))} */}
           </select>
         </div>
       

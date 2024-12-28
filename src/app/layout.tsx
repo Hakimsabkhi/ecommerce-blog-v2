@@ -5,7 +5,6 @@ import { Poppins } from "next/font/google";
 import "@/app/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import StoreProviders from "@/components/ProviderComp/StoreProvider";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -16,11 +15,8 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <SessionProviderWrapper session={session}>
-          <StoreProviders>
-            
+        <SessionProviderWrapper session={session}>    
             {children}
-          </StoreProviders>
         </SessionProviderWrapper>
       </body>
     </html>
