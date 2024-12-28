@@ -284,7 +284,7 @@ const Listinvoice: React.FC = () => {
               >
                 <td className="border px-4 py-2">{item.ref}</td>
                 <td className="border px-4 py-2 uppercase">
-                  {item.user.username}
+                  {item?.user?.username}
                 </td>
                 <td className="border px-4 py-2 text-start">
                   {item.total.toFixed(3)} TND
