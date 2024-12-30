@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaSpinner, FaTrashAlt, FaRegEye } from "react-icons/fa";
+import { FaSpinner, FaTrashAlt, FaRegEye, FaRegEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 import DeletePopup from "@/components/Popup/DeletePopup";
 import Pagination from "@/components/Pagination";
@@ -324,8 +324,8 @@ const AddedProducts: React.FC = () => {
               {currentProducts.map((item) => (
                 <tr key={item._id} className="bg-white text-black">
                   <td className="border px-4 py-2">{item.ref}</td>
-                  <td className="border px-4 py-2">
-                    {item.name.slice(0, 10)}...
+                  <td className="border px-4 py-2 truncate">
+                    {item.name}
                   </td>
                   <td className="border px-4 py-2 text-center">{item.stock}</td>
                   <td className="border px-4 py-2 ">
@@ -410,13 +410,13 @@ const AddedProducts: React.FC = () => {
                       </select>
 
                       <Link href={`/admin/product/${item._id}`}>
-                        <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md uppercase">
-                          Modify
+                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                          <FaRegEdit />
                         </button>
                       </Link>
                       <button
                         onClick={() => handleDeleteClick(item)}
-                        className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                        className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
                         disabled={loadingProductId === item._id}
                       >
                         {loadingProductId === item._id ? (
@@ -430,7 +430,7 @@ const AddedProducts: React.FC = () => {
                           item.category?.slug
                         }/${item.slug}`}
                       >
-                        <button className="bg-gray-800 text-white mt-1.5 pl-3 w-10 h-10 hover:bg-gray-600 rounded-md justify-center">
+                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                           <FaRegEye />
                         </button>
                       </Link>

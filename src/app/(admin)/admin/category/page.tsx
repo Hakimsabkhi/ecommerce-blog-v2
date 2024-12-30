@@ -30,6 +30,8 @@ const AddedCategories: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
+  
+  const [colSpan, setColSpan] = useState(2);
 
   const is2xl = useIs2xl();
   const categoriesPerPage =is2xl ? 8 : 5;
@@ -111,6 +113,32 @@ const AddedCategories: React.FC = () => {
     }
   };
   useEffect(() => {
+    const updateColSpan = () => {
+      const isSmallestScreen = window.innerWidth <= 640; // max-sm
+      const isSmallScreen = window.innerWidth <= 768; // max-md
+      const isMediumScreen = window.innerWidth <= 1024; // max-lg
+
+      if (isSmallestScreen) {
+        setColSpan(2); // max-sm: colSpan = 3
+      } else if (isSmallScreen) {
+        setColSpan(3); // max-md: colSpan = 4
+      } else if (isMediumScreen) {
+        setColSpan(4); // max-lg: colSpan = 5
+      } else {
+        setColSpan(5); // Default: colSpan = 6
+      }
+    };
+
+    // Initial check
+    updateColSpan();
+
+    // Add event listener
+    window.addEventListener("resize", updateColSpan);
+
+    // Cleanup event listener
+    return () => window.removeEventListener("resize", updateColSpan);
+  }, []);
+  useEffect(() => {
     const getCategory = async () => {
       try {
         const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
@@ -164,13 +192,16 @@ const AddedCategories: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
+  
+    
+
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL categories</p>
 
-        <Link href="category/addcategory" className="w-[15%]">
-          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-full h-10">
+        <Link href="category/addcategory">
+          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
             Add a new category
           </button>
         </Link>
@@ -180,24 +211,24 @@ const AddedCategories: React.FC = () => {
         placeholder="Search categories"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mt-4 p-2 border border-gray-300 rounded"
+        className="p-2 border border-gray-300 rounded-lg max-w-max"
       />
       <div className="max-2xl:h-80 h-[50vh]">
       <table className="w-full rounded overflow-hidden table-fixed">
         <thead>
           <tr className="bg-gray-800">
-            <th className="py-3 px-4 text-left border-r-white w-[20px]">Icon</th>
-            <th className="py-3 px-4 text-left border-r-white w-[120px]">ImageURL</th>
+            <th className="py-3 px-4  border-r-white w-11 max-sm:hidden">Icon</th>
+            <th className="py-3 px-4 text-left border-r-white w-[120px] max-md:hidden">ImageURL</th>
             <th className="py-3 px-4 text-left border-r-white w-[80px]">Name</th>
-            <th className="py-3 px-4 text-left border-r-white w-[80px]">Created By</th>
-            <th className="py-3 px-4 text-left border-r-white w-[200px]">Action</th>
+            <th className="py-3 px-4 text-left border-r-white w-[80px] max-lg:hidden">Created By</th>
+            <th className="py-3 px-4 text-center border-r-white w-[200px]">Action</th>
           </tr>
         </thead>
 
         {loading ? (
             <tbody>
               <tr>
-                <td colSpan={5}>
+                <td colSpan={colSpan}>
                   <div className="flex justify-center items-center h-full w-full py-6">
                     <FaSpinner className="animate-spin text-[30px]" />
                   </div>
@@ -207,7 +238,7 @@ const AddedCategories: React.FC = () => {
           ) : filteredCategory.length === 0 ? (
             <tbody>
               <tr>
-                <td colSpan={5}>
+                <td colSpan={colSpan}>
                   <div className="text-center py-6 text-gray-600 w-full">
                     <p>Aucune categorie trouvée.</p>
                   </div>
@@ -218,7 +249,7 @@ const AddedCategories: React.FC = () => {
         <tbody>
           {currentCategories.map((category) => (
             <tr key={category._id}>
-              <td className="border px-4 py-2">
+              <td className="border px-4 py-2 max-sm:hidden">
                 <Image
                   src={category.logoUrl}
                   width={30}
@@ -226,15 +257,15 @@ const AddedCategories: React.FC = () => {
                   alt="icon"
                 />
               </td>
-              <td className="border px-4 py-2">
+              <td className="border px-4 py-2 max-md:hidden truncate">
                 <Link href={category.imageUrl}>
                   {category.imageUrl.split("/").pop()}
                 </Link>
               </td>
-              <td className="border px-4 py-2">{category.name}</td>
-              <td className="border px-4 py-2">{category?.user?.username}</td>
+              <td className="border px-4 py-2 truncate">{category.name}</td>
+              <td className="border px-4 py-2 max-lg:hidden">{category?.user?.username}</td>
               <td className="border px-4 py-2">
-                <div className="flex items-center justify-center gap-2">
+                <div className="flex items-center justify-center gap-2 ">
                   <select
                     className={` text-black rounded-md p-2 ${
                       category.vadmin === "not-approve"
@@ -263,7 +294,7 @@ const AddedCategories: React.FC = () => {
                   </Link>
                   <button
                     onClick={() => handleDeleteClick(category)}
-                    className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                    className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
                     disabled={selectedCategory?._id === category._id}
                   >
                     {selectedCategory?._id === category._id
