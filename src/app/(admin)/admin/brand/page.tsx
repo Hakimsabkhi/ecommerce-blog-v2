@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaSpinner, FaTrashAlt } from "react-icons/fa";
+import { FaRegEdit, FaSpinner, FaTrashAlt } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import DeletePopup from "@/components/Popup/DeletePopup";
 import Pagination from '@/components/Pagination';
@@ -122,14 +122,39 @@ const AddedBrands: React.FC = () => {
   const currentBrands = filteredBrands.slice(indexOfFirstBrand, indexOfLastBrand);
   const totalPages = Math.ceil(filteredBrands.length / brandsPerPage);
 
+  const [colSpan, setColSpan] = useState(4);
+
+  useEffect(() => {
+    const updateColSpan = () => {
+      const isSmallScreen = window.matchMedia("(max-width: 768px)").matches; // max-md
+      const isMediumScreen = window.matchMedia("(max-width: 1024px)").matches; // max-lg
+
+      if (isSmallScreen) {
+        setColSpan(4); // max-md: colSpan = 4
+      } else if (isMediumScreen) {
+        setColSpan(5); // max-lg: colSpan = 5
+      } else {
+        setColSpan(6); // Default: colSpan = 6
+      }
+    };
+
+    // Initial check
+    updateColSpan();
+
+    // Add event listener
+    window.addEventListener("resize", updateColSpan);
+
+    // Cleanup event listener
+    return () => window.removeEventListener("resize", updateColSpan);
+  }, []);
 
 
   return (
     <div className='mx-auto w-[90%] py-8 flex flex-col gap-8'>
       <div className="flex items-center justify-between">
         <p className='text-3xl font-bold'>ALL Brands</p>
-        <Link href="/admin/brand/addbrand" className="w-[15%]">
-          <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-full h-10'>
+        <Link href="/admin/brand/addbrand">
+          <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2'>
             Add a new Brand
           </button>
         </Link>
@@ -140,25 +165,25 @@ const AddedBrands: React.FC = () => {
         placeholder="Search brands"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className='mt-4 p-2 border border-gray-300 rounded'
+        className="p-2 border border-gray-300 rounded-lg max-w-max"
       />
 
       <div className='max-2xl:h-80 h-[50vh]'>
       <table className="w-full  rounded overflow-hidden table-fixed ">
         <thead>
           <tr className='bg-gray-800'>
-            <th className="px-4 text-left border-r-white py-3 w-[20px]">Icon</th>
-            <th className="px-4 text-left border-r-white py-3 w-[120px]">ImageURL</th>
-            <th className="px-4 text-left border-r-white py-3 w-[80px]">Name</th>
-            <th className="px-4 text-left border-r-white py-3 w-[80px]">Place</th>
-            <th className="px-4 text-left border-r-white py-3 w-[80px]">Created By</th>
-            <th className="px-4 text-left border-r-white py-3 w-[200px]">Action</th>
+            <th className="px-4 border-r-white py-3 w-[10%]">Icon</th>
+            <th className="px-4 text-left border-r-white py-3 w-[20%]">ImageURL</th>
+            <th className="px-4 text-left border-r-white py-3 w-[15%]">Name</th>
+            <th className="px-4 text-left border-r-white py-3 w-[20%] max-md:hidden">Place</th>
+            <th className="px-4 text-left border-r-white py-3 w-[20%] max-lg:hidden">Created By</th>
+            <th className="px-4 text-center border-r-white py-3 w-[20%]">Action</th>
           </tr>
         </thead>
         {loading ? (
             <tbody>
               <tr>
-                <td colSpan={6}>
+                <td colSpan={colSpan}>
                   <div className="flex justify-center items-center h-full w-full py-6">
                     <FaSpinner className="animate-spin text-[30px] items-center" />
                   </div>
@@ -168,7 +193,7 @@ const AddedBrands: React.FC = () => {
           ) : filteredBrands.length === 0 ? (
             <tbody>
               <tr>
-                <td colSpan={6}>
+                <td colSpan={colSpan}>
                   <div className="text-center py-6 text-gray-600 w-full">
                     <p>Aucune marque trouvée.</p>
                   </div>
@@ -182,18 +207,18 @@ const AddedBrands: React.FC = () => {
               <td className="border px-4 py-3">
                 <Image src={item.logoUrl} width={30} height={30} alt="icon" />
               </td>
-              <td className="border px-4 py-3">
+              <td className="border px-4 py-3 truncate">
                 <Link href={item.imageUrl}>
                   {item.imageUrl.split('/').pop()}
                 </Link>
               </td>
               <td className="border px-4 py-3">{item.name}</td>
-              <td className="border px-4 py-3">{item.place}</td>
-              <td className="border px-4 py-3">{item?.user?.username}</td>
+              <td className="border px-4 py-3 max-md:hidden">{item.place}</td>
+              <td className="border px-4 py-3 max-lg:hidden">{item?.user?.username}</td>
               <td className="flex items-center justify-center gap-2">
                 <Link href={`/admin/brand/${item._id}`}>
-                  <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md uppercase">
-                    Modify
+                  <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                    <FaRegEdit />
                   </button>
                 </Link>
                 <button

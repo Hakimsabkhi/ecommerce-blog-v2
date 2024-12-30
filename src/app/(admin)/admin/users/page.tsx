@@ -148,12 +148,12 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
+    <div className="mx-auto w-[95%] sm:w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         
       </div>
-      <div className="flex justify-between items-center border">
+      <div className="flex justify-between items-center">
         <input
           type="text"
           placeholder="Search users"
@@ -165,7 +165,7 @@ const AdminDashboard = () => {
           name="Role"
           value={selectedRole}
           onChange={handleSearchRole}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[20%] block p-2.5"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg sm:w-[20%] block p-2.5"
         >
           <option value="">All</option>
           {roles.map((role, index) => (
@@ -179,9 +179,9 @@ const AdminDashboard = () => {
         <table className="w-full rounded overflow-hidden table-fixed">
           <thead>
             <tr className="bg-gray-800">
-              <th className="px-6 py-3 w-1/3">Email</th>
-              <th className="px-6 py-3 w-1/3 text-center">Role</th>
-              <th className="px-6 py-3 w-1/3 text-center">Actions</th>
+              <th className="pl-6 py-3 w-1/3 max-sm:w-1/2">Email</th>
+              <th className=" py-3 w-1/3 max-sm:w-auto text-center">Role</th>
+              <th className=" py-3 w-1/3 max-sm:w-auto text-center">Actions</th>
             </tr>
           </thead>
           {loading ? (
@@ -208,12 +208,12 @@ const AdminDashboard = () => {
             <tbody>
               {filteredUsers.map((user) => (
                 <tr key={user._id}>
-                  <td className="px-6 py-1 font-medium text-gray-900 dark:text-white">
+                  <td className="sm:px-6 py-1 font-medium text-gray-900 dark:text-white truncate">
                     {user.email}
                   </td>
-                  <td className="px-6 py-1 text-center">
+                  <td className=" py-1 text-center">
                     <select
-                      className="w-[50%] text-center border-2 p-2"
+                      className="sm:w-[50%] sm:text-center border-2 sm:p-2 py-2"
                       value={user.role}
                       onChange={(e) => handleChangeRole(user._id, e.target.value)}
                       disabled={loadingUserId === user._id}
