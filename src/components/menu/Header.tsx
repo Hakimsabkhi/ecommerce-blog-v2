@@ -1,4 +1,3 @@
-// components/menu/Header.tsx
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions";
