@@ -9,7 +9,7 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className={`${poppins.className} w-full`}>
+    <div className={`${poppins.className} w-full flex flex-col`}>
       <ToastContainer
               position="top-center"
               autoClose={2000}

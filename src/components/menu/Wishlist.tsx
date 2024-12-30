@@ -7,8 +7,6 @@ import Listmywish from "./Listmywish";
 
 const Wishlist: React.FC = () => {
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
-
-
   return (
     <div>
       {wishlistItems.length > 0 ? (
