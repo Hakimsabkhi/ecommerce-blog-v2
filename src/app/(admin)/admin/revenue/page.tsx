@@ -122,11 +122,13 @@ const RevenueDashboard: React.FC = () => {
       )}
 
       {/* Revenue Section */}
-      <div className="flex flex-col-2 gap-11 justify-center">
-        <div className="bg-white rounded-lg w-[50%] h-full border-2 p-6">
-          <div className="flex items-center gap-4 flex-col-2">
-            <h2 className="text-xl font-semibold">Revenue</h2>
-            <button
+      <div className="flex xl:flex-col-2  xl:items-center max-xl:flex-col gap-[5%] ">
+        <div className="bg-white rounded-lg xl:w-[50%] h-full border-2 p-6">
+          
+            <h2 className="text-xl font-semibold">Revenue:</h2>
+            <div className="flex items-center gap-4 flex-col">
+            <div className="flex gap-4">
+              <button
               onClick={() => setTimeframe("year")}
               className={`p-2 ${timeframe === "year" ? "bg-green-500 text-white" : "bg-gray-300 text-black"}`}
             >
@@ -144,6 +146,7 @@ const RevenueDashboard: React.FC = () => {
             >
               Par Jour
             </button>
+            </div>
             <input
               type={timeframe === "year" ? "number" : "date"}
               className="border rounded p-2 ml-4"
@@ -173,7 +176,7 @@ const RevenueDashboard: React.FC = () => {
         </div>
 
         {/* Revenue Chart */}
-        <div className="bg-white rounded-lg w-[40%] h-full border-2 p-2">
+        <div className="bg-white rounded-lg xl:w-[40%] h-full border-2 p-2">
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />

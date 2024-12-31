@@ -25,6 +25,7 @@ const Page = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [currentPage, setCurrentPage] = useState<number>(1);
+     const [colSpan, setColSpan] = useState(5);
     const is2xl = useIs2xl();
     const productsPerPage =is2xl ? 8 : 5;
     const fetchProducts = async () => {
@@ -44,6 +45,32 @@ const Page = () => {
                 console.error('Error fetching products:', error);
             }
         };
+        useEffect(() => {
+              const updateColSpan = () => {
+                const isSmallestScreen = window.innerWidth <= 640; // max-sm
+                
+                const isMediumScreen = window.innerWidth <= 1024; // max-lg
+          
+                if (isSmallestScreen) {
+                  setColSpan(3); // max-sm: colSpan = 3
+                
+                } else if (isMediumScreen) {
+                  setColSpan(4); // max-lg: colSpan = 5
+                } else {
+                  setColSpan(5); // Default: colSpan = 6
+                }
+              };
+          
+              // Initial check
+              updateColSpan();
+          
+              // Add event listener
+              window.addEventListener("resize", updateColSpan);
+          
+              // Cleanup event listener
+              return () => window.removeEventListener("resize", updateColSpan);
+            }, []);
+        
     useEffect(() => {
         setFilteredProducts(products);
         setCurrentPage(1);
@@ -94,7 +121,7 @@ const Page = () => {
           placeholder="Search products"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="mt-4 p-2 border border-gray-300 rounded"
+          className="p-2 border border-gray-300 rounded-lg max-w-max"
         />
       </div>
       <div className='max-2xl:h-80 h-[50vh] pt-1'>
@@ -103,8 +130,8 @@ const Page = () => {
           <tr className="bg-gray-800 ">
             <th className="px-4 py-3">REF</th>
             <th className="px-4 py-3">Name</th>
-            <th className="px-4 py-3">Number Review</th>
-            <th className="px-4 py-3 ">ImageURL</th>
+            <th className="px-4 py-3 max-lg:hidden">Number Review</th>
+            <th className="px-4 py-3 max-sm:hidden">ImageURL</th>
             <th className="px-4 py-3">
               Action
             </th>
@@ -113,7 +140,7 @@ const Page = () => {
         {loading ? (
             <tbody>
               <tr>
-                <td colSpan={5}>
+                <td colSpan={colSpan}>
                   <div className="flex justify-center items-center h-full w-full py-6">
                     <FaSpinner className="animate-spin text-[30px]" />
                   </div>
@@ -123,7 +150,7 @@ const Page = () => {
           ) : filteredProducts.length === 0 ? (
             <tbody>
               <tr>
-                <td colSpan={5}>
+                <td colSpan={colSpan}>
                   <div className="text-center py-6 text-gray-600 w-full">
                     <p>Aucun review trouvée.</p>
                   </div>
@@ -135,9 +162,9 @@ const Page = () => {
           {currentProducts.map((item) => (
             <tr key={item._id} className="bg-white text-balck">
               <td className="border px-4 py-2 text-center">{item.ref}</td>
-              <td className="border px-4 py-2 text-center">{item.name}</td>
-              <td className="border px-4 py-2 text-center">{item.nbreview}</td>
-              <td className="border px-4 py-2  text-center">
+              <td className="border px-4 py-2 text-center truncate">{item.name}</td>
+              <td className="border px-4 py-2 text-center max-lg:hidden">{item.nbreview}</td>
+              <td className="border px-4 py-2 max-sm:hidden text-center">
                 <Image
                   alt={item.name}
                   src={item.imageUrl}
@@ -148,7 +175,7 @@ const Page = () => {
               </td>
               <td className="border px-4 py-2 flex justify-center items-center">
                 <Link href={`/admin/review/${item._id}`}>
-                  <button className="bg-gray-800 hover:bg-gray-600 text-white  w-28 h-10 rounded-md uppercase">
+                  <button className="bg-gray-800 text-white px-2 h-10 hover:bg-gray-600 rounded-md max-sm:text-sm">
                     Reviews 
                   </button>
                 </Link>

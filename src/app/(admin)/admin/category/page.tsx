@@ -31,7 +31,7 @@ const AddedCategories: React.FC = () => {
     null
   );
   
-  const [colSpan, setColSpan] = useState(2);
+  const [colSpan, setColSpan] = useState(5);
 
   const is2xl = useIs2xl();
   const categoriesPerPage =is2xl ? 8 : 5;
@@ -217,11 +217,13 @@ const AddedCategories: React.FC = () => {
       <table className="w-full rounded overflow-hidden table-fixed">
         <thead>
           <tr className="bg-gray-800">
-            <th className="py-3 px-4  border-r-white w-11 max-sm:hidden">Icon</th>
-            <th className="py-3 px-4 text-left border-r-white w-[120px] max-md:hidden">ImageURL</th>
-            <th className="py-3 px-4 text-left border-r-white w-[80px]">Name</th>
-            <th className="py-3 px-4 text-left border-r-white w-[80px] max-lg:hidden">Created By</th>
-            <th className="py-3 px-4 text-center border-r-white w-[200px]">Action</th>
+            
+
+            <th className="px-4 border-r-white py-3 max-sm:w-1/5 w-[10%] max-sm:hidden">Icon</th>
+            <th className="px-4 text-left border-r-white py-3 max-sm:w-1/4 w-[20%] max-md:hidden">ImageURL</th>
+            <th className="px-4 text-left border-r-white py-3 max-md:w-1/4 w-[15%]">Name</th>
+            <th className="px-4 text-left border-r-white py-3 w-[20%] max-lg:hidden">Created By</th>
+            <th className="px-4 text-center border-r-white py-3   md:w-[30%]">Action</th>
           </tr>
         </thead>
 

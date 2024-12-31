@@ -122,7 +122,7 @@ const AddedBrands: React.FC = () => {
   const currentBrands = filteredBrands.slice(indexOfFirstBrand, indexOfLastBrand);
   const totalPages = Math.ceil(filteredBrands.length / brandsPerPage);
 
-  const [colSpan, setColSpan] = useState(4);
+  const [colSpan, setColSpan] = useState(6);
 
   useEffect(() => {
     const updateColSpan = () => {
@@ -172,9 +172,9 @@ const AddedBrands: React.FC = () => {
       <table className="w-full  rounded overflow-hidden table-fixed ">
         <thead>
           <tr className='bg-gray-800'>
-            <th className="px-4 border-r-white py-3 w-[10%]">Icon</th>
-            <th className="px-4 text-left border-r-white py-3 w-[20%]">ImageURL</th>
-            <th className="px-4 text-left border-r-white py-3 w-[15%]">Name</th>
+            <th className="px-4 border-r-white py-3 max-sm:w-1/5 w-[10%]">Icon</th>
+            <th className="px-4 text-left border-r-white py-3 max-sm:w-1/4 w-[20%]">ImageURL</th>
+            <th className="px-4 text-left border-r-white py-3 max-sm:w-1/4 w-[15%]">Name</th>
             <th className="px-4 text-left border-r-white py-3 w-[20%] max-md:hidden">Place</th>
             <th className="px-4 text-left border-r-white py-3 w-[20%] max-lg:hidden">Created By</th>
             <th className="px-4 text-center border-r-white py-3 w-[20%]">Action</th>

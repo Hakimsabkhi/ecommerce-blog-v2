@@ -103,6 +103,31 @@ const BlogTable: React.FC = () => {
       toast.error("Failed to update blog status");
     }
   };
+   const [colSpan, setColSpan] = useState(6);
+  
+    useEffect(() => {
+      const updateColSpan = () => {
+        const isSmallScreen = window.matchMedia("(max-width: 768px)").matches; // max-md
+        const isMediumScreen = window.matchMedia("(max-width: 1024px)").matches; // max-lg
+  
+        if (isSmallScreen) {
+          setColSpan(4); // max-md: colSpan = 4
+        } else if (isMediumScreen) {
+          setColSpan(5); // max-lg: colSpan = 5
+        } else {
+          setColSpan(6); // Default: colSpan = 6
+        }
+      };
+  
+      // Initial check
+      updateColSpan();
+  
+      // Add event listener
+      window.addEventListener("resize", updateColSpan);
+  
+      // Cleanup event listener
+      return () => window.removeEventListener("resize", updateColSpan);
+    }, []);
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -161,12 +186,12 @@ const BlogTable: React.FC = () => {
         <p className="text-3xl font-bold">ALL Blogs</p>
         <div className="grid grid-cols-2 gap-2 items-center justify-center">
           <Link href="blog/postcategory" className="w-full">
-            <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg pl-4 pr-4  h-10">
+            <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
               CATEGORY BLOG
             </button>
           </Link>
           <Link href="blog/addpost" className="w-full">
-            <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg  pl-4 pr-4  h-10">
+            <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
               Add a new blog
             </button>
           </Link>
@@ -177,24 +202,24 @@ const BlogTable: React.FC = () => {
         placeholder="Search blogs"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mt-4 p-2 border border-gray-300 rounded"
+        className="p-2 border border-gray-300 rounded-lg max-w-max"
       />
       <div className="max-2xl:h-80 h-[50vh]">
         <table className="w-full rounded overflow-hidden table-fixed">
           <thead>
             <tr className="bg-gray-800">
               <th className="px-4 py-3 border-r-white w-[15%]">Title</th>
-              <th className="px-4 py-3 border-r-white w-[10%] ">Category</th>
-              <th className="px-4 py-3 border-r-white w-[10%] ">ImageURL</th>
-              <th className="px-4 py-3 border-r-white w-[15%] ">Author</th>
-              <th className="px-4 py-3 border-r-white w-[10%] ">Role</th>
+              <th className="px-4 py-3 border-r-white w-[20%] ">Category</th>
+              <th className="px-4 py-3 border-r-white w-[20%] ">ImageURL</th>
+              <th className="px-4 py-3 border-r-white w-[15%] max-md:hidden">Author</th>
+              <th className="px-4 py-3 border-r-white w-[10%] max-lg:hidden">Role</th>
               <th className="px-4 py-3 border-r-white text-center">Action</th>
             </tr>
           </thead>
           {loading ? (
             <tbody>
               <tr>
-                <td colSpan={6}>
+                <td colSpan={colSpan}>
                   <div className="flex justify-center items-center h-full w-full py-6">
                     <FaSpinner className="animate-spin text-[30px]" />
                   </div>
@@ -204,7 +229,7 @@ const BlogTable: React.FC = () => {
           ) : filteredBlogs.length === 0 ? (
             <tbody>
               <tr>
-                <td colSpan={6}>
+                <td colSpan={colSpan}>
                   <div className="text-center py-6 text-gray-600 w-full">
                     <p>Aucun blog trouvé.</p>
                   </div>
@@ -215,8 +240,8 @@ const BlogTable: React.FC = () => {
             <tbody>
               {currentBlogs.map((blog) => (
                 <tr key={blog._id} className="bg-white text-black">
-                  <td className="border px-4 py-2">
-                    {blog.title.slice(0, 19)}
+                  <td className="border px-4 py-2 truncate">
+                    {blog.title}
                   </td>
                   <td className="border px-4 py-2">
                     {blog.blogCategory?.name}
@@ -234,8 +259,8 @@ const BlogTable: React.FC = () => {
                     </Link>
                   </td>
 
-                  <td className="border px-4 py-2">{blog?.user?.username}</td>
-                  <td className="border px-4 py-2">{blog?.user?.role}</td>
+                  <td className="border px-4 py-2 max-md:hidden truncate">{blog?.user?.username}</td>
+                  <td className="border px-4 py-2 max-lg:hidden">{blog?.user?.role}</td>
                   <td className="border px-4 py-2">
                     <div className="flex items-center justify-center gap-2">
                       <select

@@ -53,6 +53,9 @@ const ListOrders: React.FC = () => {
   const [isPopupOpeninvoice, setIsPopupOpeninvoice] = useState(false);
   const [selectedorderid, setSelectedorderid] = useState<string>("");
   const [selectedval, setSelectedval] = useState<string>("");
+  const [colSpan, setColSpan] = useState(5);
+
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStatus(e.target.value);
     console.log(e.target.value); // Do something with the selected value (e.g., filter data)
@@ -257,6 +260,30 @@ const ListOrders: React.FC = () => {
   };
 
   useEffect(() => {
+      const updateColSpan = () => {
+        
+        const isSmallScreen = window.innerWidth <= 768; // max-md
+        const isMediumScreen = window.innerWidth <= 1024; // max-lg
+  
+         if (isSmallScreen) {
+          setColSpan(3); // max-md: colSpan = 4
+        } else if (isMediumScreen) {
+          setColSpan(4); // max-lg: colSpan = 5
+        } else {
+          setColSpan(5); // Default: colSpan = 6
+        }
+      };
+  
+      // Initial check
+      updateColSpan();
+  
+      // Add event listener
+      window.addEventListener("resize", updateColSpan);
+  
+      // Cleanup event listener
+      return () => window.removeEventListener("resize", updateColSpan);
+    }, []);
+  useEffect(() => {
     getOrders();
   }, [getOrders]);
 
@@ -331,29 +358,29 @@ const ListOrders: React.FC = () => {
         <p className="text-3xl font-bold">ALL Orders</p>
         <Link
           href={"order/addorder"}
-          className="bg-gray-800 text-white w-1/5  hover:bg-gray-400 rounded-md flex items-center justify-center"
+          className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2"
         >
-          <button type="button" className="uppercase ">
+          <button type="button">
             create order
           </button>
         </Link>
       </div>
       
       
-      <div className="flex justify-between">
+      <div className="flex max-lg:flex-col max-lg:gap-4 justify-between">
         <input
           type="text"
           placeholder="Search orders"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 border border-gray-300 rounded w-1/5"
+          className="p-2 border border-gray-300 rounded-lg md:max-xl:w-[30%] lg:w-1/5"
         />
         
           <select
             name="category"
             value={status}
             onChange={handleChange}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded  block w-1/5"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg md:max-xl:w-[30%] lg:w-1/5 h-10 block"
             required
           >
             <option value="">All</option>
@@ -364,7 +391,7 @@ const ListOrders: React.FC = () => {
             <option value="Refunded">Remboursée</option>
           </select>
         
-        <div className="flex justify-between w-[500px]">
+        <div className="flex justify-between md:w-[70%] lg:w-[50%] xl:w-[40%]  ">
           <button
             onClick={() => setTimeframe("year")}
             className={`p-2 rounded ${
@@ -387,7 +414,7 @@ const ListOrders: React.FC = () => {
           </button>
           <button
             onClick={() => setTimeframe("day")}
-            className={`p-2 mr-8 rounded ${
+            className={`p-2 md:mr-8 rounded ${
               timeframe === "day"
                 ? "bg-gray-800 text-white"
                 : "bg-gray-300 text-white"
@@ -403,7 +430,7 @@ const ListOrders: React.FC = () => {
                 ? "month"
                 : "date"
             }
-            className="border rounded p-2 w-44"
+            className="border rounded-lg p-2 w-36"
             value={
               timeframe === "year"
                 ? selectedDate.split("-")[0]
@@ -423,22 +450,22 @@ const ListOrders: React.FC = () => {
           />
         </div>
       </div>
-      <div className="max-2xl:h-80 h-[50vh] pt-4">
+      <div className="max-2xl:h-80 h-[50vh]">
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
-              <th className="px-4 py-3 w-[12%]">REF</th>
-              <th className="px-4 py-3 w-[13%]">Customer Name</th>
-              <th className="px-4 py-3 w-[15%]">Total</th>
+              <th className="px-4 py-3 w-2/12">REF</th>
+              <th className="px-4 py-3 w-3/12 max-lg:hidden">Customer Name</th>
+              <th className="px-4 py-3 w-3/12 md:table-cell hidden">Total</th>
 
-              <th className="px-4 py-3 w-[15%]">Date</th>
-              <th className="px-4 text-center py-3 w-[45%]">Action</th>
+              <th className="px-4 py-3 w-3/12">Date</th>
+              <th className="px-4 text-center py-3 w-4/12">Action</th>
             </tr>
           </thead>
           {loading ? (
             <tbody>
               <tr>
-                <td colSpan={5}>
+                <td colSpan={colSpan}>
                   <div className="flex justify-center items-center h-full w-full py-6">
                     <FaSpinner className="animate-spin text-[30px]" />
                   </div>
@@ -448,7 +475,7 @@ const ListOrders: React.FC = () => {
           ) : filteredOrders.length === 0 ? (
             <tbody>
               <tr>
-                <td colSpan={5}>
+                <td colSpan={colSpan}>
                   <div className="text-center py-6 text-gray-600 w-full">
                     <p>Aucune commande trouvée.</p>
                   </div>
@@ -462,13 +489,13 @@ const ListOrders: React.FC = () => {
                   key={item._id}
                   className="bg-white text-black "
                 >
-                  <td className="border px-4 py-2 uppercase ">
-                    {item.ref.slice(0, 10)}...
+                  <td className="border px-4 py-2 uppercase truncate">
+                    {item.ref}
                   </td>
-                  <td className="border px-4 py-2 uppercase">
+                  <td className="border px-4 py-2 uppercase max-lg:hidden truncate">
                     {item?.user?.username}
                   </td>
-                  <td className="border px-4 py-2 text-start">
+                  <td className="border px-4 py-2 text-start md:table-cell hidden">
                     {item.total.toFixed(2)} TND
                   </td>
                   <td className="border px-4 py-2 ">

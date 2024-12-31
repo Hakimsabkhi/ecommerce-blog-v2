@@ -48,6 +48,7 @@ const Listinvoice: React.FC = () => {
   // Timeframe state (par an, par mois, par jour)
   const [timeframe, setTimeframe] = useState<"year" | "month" | "day">("month");
   const [selectedDate, setSelectedDate] = useState<string>("");
+    const [colSpan, setColSpan] = useState(5);
 
   const handleDeleteClick = (invoice: invoice) => {
     setLoadinginvoiceId(invoice._id);
@@ -121,6 +122,34 @@ const Listinvoice: React.FC = () => {
   }, []);
 
   useEffect(() => {
+        const updateColSpan = () => {
+          
+          const isSmallScreen = window.innerWidth <= 768; // max-md
+          const isMediumScreen = window.innerWidth <= 1024; // max-lg
+          const isXlLScreen = window.innerWidth <= 1280; // max-lg
+    
+          if (isSmallScreen) {
+            setColSpan(3); // max-md: colSpan = 4
+          } else if (isMediumScreen) {
+            setColSpan(4); // max-lg: colSpan = 5
+          } else if (isXlLScreen) {
+            setColSpan(5);
+          } else {
+            setColSpan(6); // Default: colSpan = 6
+          }
+        };
+    
+        // Initial check
+        updateColSpan();
+    
+        // Add event listener
+        window.addEventListener("resize", updateColSpan);
+    
+        // Cleanup event listener
+        return () => window.removeEventListener("resize", updateColSpan);
+      }, []);
+
+  useEffect(() => {
     getinvoice();
   }, [getinvoice]);
   useEffect(() => {
@@ -187,15 +216,15 @@ const Listinvoice: React.FC = () => {
       <div className="flex justify-between">
         <p className="text-3xl font-bold">ALL invoice</p>
       </div>
-      <div className="flex justify-between">
+      <div className="flex max-lg:flex-col max-lg:gap-4 justify-between">
       <input
         type="text"
         placeholder="Search invoice"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className=" p-2 border border-gray-300 rounded w-1/5"
+        className="p-2 border border-gray-300 rounded-lg md:max-xl:w-[30%] lg:w-1/5"
       />
-      <div className="flex justify-between w-[500px] ">
+      <div className="flex justify-between md:w-[70%] lg:w-[50%] xl:w-[40%]  ">
         <button
           onClick={() => setTimeframe("year")}
           className={`p-2 rounded ${
@@ -218,7 +247,7 @@ const Listinvoice: React.FC = () => {
         </button>
         <button
           onClick={() => setTimeframe("day")}
-          className={`p-2 mr-8 rounded ${
+          className={`p-2 md:mr-8 rounded ${
             timeframe === "day"
               ? "bg-gray-800 text-white"
               : "bg-gray-300 text-white"
@@ -228,7 +257,7 @@ const Listinvoice: React.FC = () => {
         </button>
                   <input
               type={timeframe === "year" ? "number" : timeframe === "month" ? "month" : "date"}
-              className="border rounded p-2  w-44"
+              className="border rounded-lg p-2 w-36"
               value={timeframe === "year" ? selectedDate.split("-")[0] : timeframe === "month" ? selectedDate.slice(0, 7) : selectedDate}
               onChange={(e) => {
                 if (timeframe === "year") {
@@ -247,10 +276,10 @@ const Listinvoice: React.FC = () => {
         <thead>
           <tr className="bg-gray-800">
             <th className="px-4 py-3 w-[15%]">REF</th>
-            <th className="px-4 py-3 w-[15%]">Customer Name</th>
-            <th className="px-4 py-3 w-[10%]">Total</th>
+            <th className="px-4 py-3 w-[15%] max-lg:hidden">Customer Name</th>
+            <th className="px-4 py-3 w-[10%] md:table-cell hidden">Total</th>
 
-            <th className="px-4 py-3 w-[15%]">Payment Method</th>
+            <th className="px-4 py-3 w-[15%] max-xl:hidden ">Payment Method</th>
             <th className="px-4 py-3 w-[15%]">Date</th>
             <th className="px-4 text-center py-3 w-[30%]">Action</th>
           </tr>
@@ -258,7 +287,7 @@ const Listinvoice: React.FC = () => {
         {loading ? (
           <tbody>
             <tr>
-              <td colSpan={6}>
+              <td colSpan={colSpan}>
                 <div className="flex justify-center items-center h-full w-full py-6">
                   <FaSpinner className="animate-spin text-[30px]" />
                 </div>
@@ -268,7 +297,7 @@ const Listinvoice: React.FC = () => {
         ) : filteredinvoice.length === 0 ? (
           <tbody>
             <tr>
-              <td colSpan={6}>
+              <td colSpan={colSpan}>
                 <div className="text-center py-6 text-gray-600 w-full">
                   <p>Aucune invoice trouvée.</p>
                 </div>
@@ -283,14 +312,14 @@ const Listinvoice: React.FC = () => {
                 className="bg-white text-black whitespace-nowrap"
               >
                 <td className="border px-4 py-2">{item.ref}</td>
-                <td className="border px-4 py-2 uppercase">
+                <td className="border px-4 py-2 uppercase max-lg:hidden">
                   {item?.user?.username}
                 </td>
-                <td className="border px-4 py-2 text-start">
+                <td className="border px-4 py-2 text-start md:table-cell hidden">
                   {item.total.toFixed(3)} TND
                 </td>
 
-                <td className="border px-4 py-2 uppercase">
+                <td className="border px-4 py-2 uppercase  max-xl:hidden">
                   {item.paymentMethod}
                 </td>
                 <td className="border px-4 py-2 ">
