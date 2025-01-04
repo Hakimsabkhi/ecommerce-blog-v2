@@ -1,17 +1,13 @@
 
 import "@/app/globals.css";
-import Footer from "@/components/menu/Footer";
-import Header from "@/components/menu/Header";
 import StoreProviders from "@/components/ProviderComp/StoreProvider";
 
 
 const SubLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div >
+    <div className="w-[90%] mx-auto" >
       <StoreProviders>
-        <Header />
         <main>{children}</main>
-        <Footer />
       </StoreProviders>
     </div>
   );
