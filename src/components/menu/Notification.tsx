@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { AiOutlineBell } from "react-icons/ai";
+import { FaSpinner } from "react-icons/fa"; // <-- import spinner icon
 import ListNotification from "./listNotification";
-import { useRouter } from "next/navigation";
 import useClickOutside from "@/hooks/useClickOutside";
+import { usePathname, useRouter } from "next/navigation";
 
+/**
+ * Types for clarity
+ */
 export interface User {
   username: string;
 }
@@ -19,105 +23,172 @@ export interface Order {
 export interface Notification {
   _id: string;
   order: Order;
-  look: string;
+  seen: boolean;
+  look: boolean; // unread or read
   createdAt: string;
-  updatedAt: string; // Ensure updatedAt is included
+  updatedAt: string;
 }
 
-
 const Notification: React.FC = () => {
-  const [notif, setNotif] = useState<number>(0);
-  const [notifs, setNotifs] = useState<Notification[]>([]);
-  const [notificationState, setNotificationState] = useState({
-    isOnScroll: false,
-    isOpen: false,
-  });
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [notif, setNotif] = useState<number>(0);           // unread count
+  const [notifs, setNotifs] = useState<Notification[]>([]); // detailed notifications
+  const [notificationState, setNotificationState] = useState({ isOpen: false });
+
+  // NEW: loading state for fetching the detailed list
+  const [loadingNotifList, setLoadingNotifList] = useState<boolean>(false);
+
+  const pathname = usePathname();
   const router = useRouter();
   const ListNotificationsWrapperRef = useRef<HTMLDivElement>(null);
 
-  const fetchNotifications = useCallback(async () => {
+  /**
+   * 1) Poll the unread count
+   */
+  const fetchUnreadCount = async () => {
     try {
-      const response = await fetch(`/api/notification/getnotification?page=${currentPage}&limit=10`);
-      if (!response.ok) throw new Error("Failed to fetch notifications");
-
-      const { notifications } = await response.json();
-      if (!Array.isArray(notifications)) throw new Error("Invalid data format from API");
-
-      const unreadCount = notifications.filter((notification) => notification.look === "false").length;
-
+      const response = await fetch("/api/notification/unreadcount");
+      if (!response.ok) {
+        throw new Error("Failed to fetch unread count");
+      }
+      const { unreadCount } = await response.json();
       setNotif(unreadCount);
+    } catch (err) {
+      console.error("Error fetching unread count:", err);
+    }
+  };
+
+  /**
+   * 2) Fetch the full list of notifications
+   */
+  const fetchNotifications = async () => {
+    try {
+      setLoadingNotifList(true); // show spinner while fetching
+      const response = await fetch("/api/notification/getnotification", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch notifications");
+      }
+      const { notifications } = await response.json();
       setNotifs(notifications);
+
+      // Optional: update unread count based on what's returned
+      const unreadNotifications = notifications.filter(
+        (n: Notification) => !n.look
+      ).length;
+      setNotif(unreadNotifications);
     } catch (err) {
       console.error("Error fetching notifications:", err);
+    } finally {
+      setLoadingNotifList(false); // hide spinner when done
     }
-  }, [currentPage]);
+  };
 
+  /**
+   * 3) Toggle the dropdown list of notifications
+   */
   const toggleListNotifications = () => {
-    setNotificationState((prevState) => ({
-      ...prevState,
-      isOpen: !prevState.isOpen,
-    }));
+    setNotificationState((prevState) => {
+      const isOpening = !prevState.isOpen;
+      if (isOpening) {
+        // Only fetch the full notifications when opening
+        fetchNotifications();
+      }
+      return { isOpen: isOpening };
+    });
   };
 
+  /**
+   * 4) Close the dropdown
+   */
   const closeListNotifications = () => {
-    setNotificationState((prevState) => ({
-      ...prevState,
-      isOpen: false,
-    }));
+    setNotificationState({ isOpen: false });
   };
 
+  /**
+   * 5) Mark notification as read & navigate
+   */
   const handleViewOrder = async (item: Notification) => {
     try {
       const response = await fetch(`/api/notification/updatenotification/${item._id}`, {
         method: "PUT",
       });
       if (response.ok) {
+        // Navigate to the order page
         router.push(`/admin/order/${item.order.ref}`);
+        // Refresh the lists
         fetchNotifications();
+        fetchUnreadCount();
       } else {
-        console.error("Error updating notification");
+        console.error("Error updating notification to 'read'");
       }
     } catch (err) {
       console.error("Error handling order view:", err);
     }
   };
 
+  /**
+   * 6) Use a custom hook to close dropdown if user clicks outside
+   */
   useClickOutside(ListNotificationsWrapperRef, closeListNotifications);
 
+  /**
+   * 7) Close dropdown if route changes
+   */
   useEffect(() => {
-    fetchNotifications();
-  }, [fetchNotifications]);
+    closeListNotifications();
+  }, [pathname]);
 
+  /**
+   * 8) Poll for unread count every 30 seconds + on initial mount
+   */
+  useEffect(() => {
+    // Initial fetch
+    fetchUnreadCount();
+    // Poll
+    const intervalId = setInterval(() => {
+      fetchUnreadCount();
+    }, 30000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  /**
+   * 9) Render
+   */
   return (
-    <div className="flex items-center justify-center w-[200px] max-lg:w-fit text-primary cursor-pointer select-none">
+    <div className="flex items-center justify-center w-fit text-primary cursor-pointer select-none">
       <div
-        className="flex items-center justify-center gap-2 w-fit max-lg:w-fit text-primary"
+        className="flex items-center justify-center gap-2 w-fit text-primary"
         onClick={toggleListNotifications}
       >
-        <div className="relative my-auto mx-2">
-          <div>
-            <AiOutlineBell size={40} aria-label="Notification bell" />
-            {notif >= 0 && (
-              <span className="w-4 flex justify-center h-4 items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-secondary">
-                {notif}
-              </span>
-            )}
-          </div>
-          <div
-            className="absolute max-md:fixed shadow-xl z-30 flex gap-2 flex-col top-12 left-1/2 -translate-x-1/3 max-md:-translate-x-1/2 max-md:top-16"
-            ref={ListNotificationsWrapperRef}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {notificationState.isOpen && (
-              <ListNotification
-                data={notifs}
-                handleViewOrder={handleViewOrder}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-              />
-            )}
-          </div>
+        <div className="relative my-auto mx-2" ref={ListNotificationsWrapperRef}>
+          <AiOutlineBell size={40} aria-label="Notification bell" />
+          {notif > 0 && (
+            <span className="w-5 h-5 flex justify-center items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-secondary">
+              {notif}
+            </span>
+          )}
+
+          {notificationState.isOpen && (
+            <div
+              className="absolute shadow-xl z-30 flex gap-2 flex-col top-12 left-1/2 -translate-x-1/3 bg-white p-2 w-[14rem]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* If we are loading notifications, show a spinner */}
+              {loadingNotifList ? (
+                <div className="flex justify-center items-center py-6">
+                  <FaSpinner className="animate-spin text-[30px] text-gray-800" />
+                </div>
+              ) : (
+                // Otherwise render the list
+                <ListNotification data={notifs} handleViewOrder={handleViewOrder} />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
