@@ -47,6 +47,7 @@ const ListPromotion: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+   const [colSpan, setColSpan] = useState(4);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -94,6 +95,31 @@ const ListPromotion: React.FC = () => {
     fetchCategories();
     getProducts();
   }, []);
+  useEffect(() => {
+      const updateColSpan = () => {
+        const isSmallestScreen = window.innerWidth <= 640; // max-sm
+        
+        const isMediumScreen = window.innerWidth <= 1024; // max-lg
+  
+        if (isSmallestScreen) {
+          setColSpan(3); // max-sm: colSpan = 3
+        
+        } else if (isMediumScreen) {
+          setColSpan(4); // max-lg: colSpan = 5
+        } else {
+          setColSpan(5); // Default: colSpan = 6
+        }
+      };
+  
+      // Initial check
+      updateColSpan();
+  
+      // Add event listener
+      window.addEventListener("resize", updateColSpan);
+  
+      // Cleanup event listener
+      return () => window.removeEventListener("resize", updateColSpan);
+    }, []);
 
   useEffect(() => {
     const filtered = products.filter((product) => {
@@ -124,9 +150,9 @@ const ListPromotion: React.FC = () => {
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex justify-between">
-        <p className="text-3xl font-bold">ALL Products Promotion</p>
+        <p className="text-3xl font-bold">ALL Products Promotion</p> 
         <Link href="/admin/promotion/banner">
-          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-[200px] h-10 uppercase">
+          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
             <p>Banner promotion</p>
           </button>
         </Link>
@@ -138,13 +164,13 @@ const ListPromotion: React.FC = () => {
           placeholder="Search products"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="mt-4 p-2 border border-gray-300 rounded"
+          className="p-2 border border-gray-300 rounded-lg max-sm:w-[50%]"
         />
         <select
           name="category"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[20%] block p-2.5"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block p-2.5 min-w-32"
           required
         >
           <option value="">Select Category</option>
@@ -162,15 +188,15 @@ const ListPromotion: React.FC = () => {
             <tr className="bg-gray-800">
               <th className="px-4 py-3 w-1/5">REF</th>
               <th className="px-4 py-3 w-1/5">Name</th>
-              <th className="px-4 py-3 w-1/5">ImageURL</th>
-              <th className="px-4 py-3 w-1/5">Created By</th>
+              <th className="px-4 py-3 w-1/5 max-sm:hidden">ImageURL</th>
+              <th className="px-4 py-3 w-1/5 max-lg:hidden">Created By</th>
               <th className="px-4 text-center py-3 w-1/5">Action</th>
             </tr>
           </thead>
           {loading ? (
             <tbody>
               <tr>
-                <td colSpan={5}>
+                <td colSpan={colSpan}>
                   <div className="flex justify-center items-center h-full w-full py-6">
                     <FaSpinner className="animate-spin text-[30px]" />
                   </div>
@@ -180,7 +206,7 @@ const ListPromotion: React.FC = () => {
           ) : filteredProducts.length === 0 ? (
             <tbody>
               <tr>
-                <td colSpan={5}>
+                <td colSpan={colSpan}>
                   <div className="text-center py-6 text-gray-600 w-full">
                     <p>Aucune categorie trouvée.</p>
                   </div>
@@ -191,9 +217,9 @@ const ListPromotion: React.FC = () => {
             <tbody>
               {currentProducts.map((item) => (
                 <tr key={item._id} className="bg-white text-black">
-                  <td className="border px-4 py-2">{item.ref}</td>
-                  <td className="border px-4 py-2">{item.name}</td>
-                  <td className="border px-4 py-2 ">
+                  <td className="border px-4 py-2 truncate">{item.ref}</td>
+                  <td className="border px-4 py-2 truncate">{item.name}</td>
+                  <td className="border px-4 py-2 max-sm:hidden">
                     <div className="items-center justify-center flex">
                       <Image
                         alt={item.name}
@@ -203,7 +229,7 @@ const ListPromotion: React.FC = () => {
                       />
                     </div>
                   </td>
-                  <td className="border px-4 py-2">{item?.user?.username}</td>
+                  <td className="border px-4 py-2 max-lg:hidden">{item?.user?.username}</td>
                   <td className="border px-4 py-2">
                     <div className="flex items-center justify-center gap-2">
                       <Link
@@ -211,7 +237,7 @@ const ListPromotion: React.FC = () => {
                           item.category?.slug
                         }/${item.slug}`}
                       >
-                        <button className="bg-gray-800 text-white w-36 h-10 hover:bg-gray-600 rounded-md uppercase">
+                        <button className="bg-gray-800 text-white px-2 h-10 hover:bg-gray-600 rounded-md max-sm:text-sm">
                           See Product
                         </button>
                       </Link>

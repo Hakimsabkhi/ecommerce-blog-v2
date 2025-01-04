@@ -169,11 +169,7 @@ const ReviewBlock: React.FC<ReviewBlockProps> = ({ productId, product,refresh })
                     </div>
                     
               </div> }
-              <p className="text-[#525566] max-md:text-xs"> {new Date(review.updatedAt).toLocaleDateString("en-US", {
-                            day: "2-digit",
-                            month: "long",
-                            year: "numeric",
-                          })}</p>
+              
             </div>
           ))
         )}

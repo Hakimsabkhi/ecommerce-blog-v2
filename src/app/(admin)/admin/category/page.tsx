@@ -31,7 +31,7 @@ const AddedCategories: React.FC = () => {
     null
   );
   
-  const [colSpan, setColSpan] = useState(2);
+  const [colSpan, setColSpan] = useState(5);
 
   const is2xl = useIs2xl();
   const categoriesPerPage =is2xl ? 8 : 5;
@@ -202,7 +202,7 @@ const AddedCategories: React.FC = () => {
 
         <Link href="category/addcategory">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
-            Add a new category
+            Add category
           </button>
         </Link>
       </div>
@@ -213,15 +213,17 @@ const AddedCategories: React.FC = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="p-2 border border-gray-300 rounded-lg max-w-max"
       />
-      <div className="max-2xl:h-80 h-[50vh]">
+      <div className="max-md:hidden max-2xl:h-80 h-[50vh]">
       <table className="w-full rounded overflow-hidden table-fixed">
         <thead>
           <tr className="bg-gray-800">
-            <th className="py-3 px-4  border-r-white w-11 max-sm:hidden">Icon</th>
-            <th className="py-3 px-4 text-left border-r-white w-[120px] max-md:hidden">ImageURL</th>
-            <th className="py-3 px-4 text-left border-r-white w-[80px]">Name</th>
-            <th className="py-3 px-4 text-left border-r-white w-[80px] max-lg:hidden">Created By</th>
-            <th className="py-3 px-4 text-center border-r-white w-[200px]">Action</th>
+            
+
+            <th className="px-4 border-r-white py-3 max-sm:w-1/5 w-[5%] max-sm:hidden">Icon</th>
+            <th className="px-4 text-left border-r-white py-3 max-sm:w-1/4 w-[20%] max-md:hidden">ImageURL</th>
+            <th className="px-4 text-left border-r-white py-3 max-md:w-1/4 w-[12%]">Name</th>
+            <th className="px-4 text-left border-r-white py-3 w-[13%] max-lg:hidden">Created By</th>
+            <th className="px-4 text-center border-r-white py-3   md:w-[30%]">Action</th>
           </tr>
         </thead>
 
@@ -317,6 +319,83 @@ const AddedCategories: React.FC = () => {
           ))}
         </tbody> )}
       </table> </div>
+      <div className="md:hidden flex flex-col gap-4">
+        {currentCategories.map((category) => (
+          <div
+            key={category._id}
+            className="border rounded-lg shadow p-4 bg-white"
+          >
+            <div className="flex items-center justify-center gap-4">
+              <Image
+                src={category.logoUrl}
+                width={50}
+                height={50}
+                alt="category logo"
+                className="rounded-full"
+              />
+              <div>
+                <p className="font-bold text-lg">{category.name}</p>
+                <p className="text-sm text-gray-600">
+                  Created by: {category?.user?.username}
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 flex items-center">
+            <div className="flex flex-col gap-2 w-4/5 mx-auto">
+                  <select
+                    className={` text-black rounded-md p-2 ${
+                      category.vadmin === "not-approve"
+                        ? "bg-gray-400 text-white"
+                        : "bg-green-500 text-white"
+                    }`}
+                    value={category.vadmin}
+                    onChange={(e) =>
+                      updateCategoryvadmin(category._id, e.target.value)
+                    }
+                  >
+                    <option value="approve" className="text-white uppercase">
+                      approve
+                    </option>
+                    <option
+                      value="not-approve"
+                      className="text-white uppercase"
+                    >
+                      Not approve
+                    </option>
+                  </select>
+                  
+                  <div className="flex gap-2 justify-center">
+                  <Link href={`/admin/category/${category._id}`}>
+                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                    <FaRegEdit />
+                    </button>
+                  </Link>
+                  <button
+                    onClick={() => handleDeleteClick(category)}
+                    className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
+                    disabled={selectedCategory?._id === category._id}
+                  >
+                    {selectedCategory?._id === category._id
+                      ? "Processing..."
+                      : <FaTrashAlt />}
+                  </button>
+
+                  <Link
+                    href={`/${category.vadmin === "approve" ? "" : "admin/"}${
+                      category.slug
+                    }`}
+                  >
+                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                      <FaRegEye />
+                    </button>
+                  </Link>
+                  </div>
+                </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}

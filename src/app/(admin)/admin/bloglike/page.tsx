@@ -70,6 +70,33 @@ const BlogLikes = () => {
     return Math.ceil(filteredBlogs.length / blogsPerPage);
   }, [filteredBlogs.length, blogsPerPage]);
 
+  const [colSpan, setColSpan] = useState(5);
+  
+    useEffect(() => {
+      const updateColSpan = () => {
+        const isSmallScreen = window.innerWidth <= 640; // max-md
+        const isMediumScreen = window.innerWidth <= 768; // max-lg
+      
+  
+        if (isSmallScreen) {
+          setColSpan(3); // max-md: colSpan = 4
+        } else if (isMediumScreen) {
+          setColSpan(4); // max-lg: colSpan = 5
+        } else {
+          setColSpan(5); // Default: colSpan = 6
+        }
+      };
+  
+      // Initial check
+      updateColSpan();
+  
+      // Add event listener
+      window.addEventListener("resize", updateColSpan);
+  
+      // Cleanup event listener
+      return () => window.removeEventListener("resize", updateColSpan);
+    }, []);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -103,25 +130,26 @@ const BlogLikes = () => {
         placeholder="Search blogs"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mt-4 p-2 border border-gray-300 rounded"
+        className="p-2 border border-gray-300 rounded-lg max-w-max"
       />
       <div className="max-2xl:h-80 h-[50vh]">
       <table className="w-full rounded overflow-hidden table-fixed">
         <thead>
           <tr className="bg-gray-800">
-            <th className="px-4 py-3">Title</th>
-            <th className="px-4 py-3">Category</th>
-            <th className="px-4 py-3">ImageURL</th>
+            
 
-            <th className="px-4 py-3">Author</th>
-           
-            <th className="px-4 py-3 text-center">Action</th>
+              <th className="px-4 py-3 border-r-white max-sm:w-1/4 w-[15%]">Title</th>
+              <th className="px-4 py-3 border-r-white max-sm:w-1/4 w-[20%] ">Category</th>
+              <th className="px-4 py-3 border-r-white w-[20%] max-sm:hidden">ImageURL</th>
+              <th className="px-4 py-3 border-r-white w-[15%] max-md:hidden">Author</th>
+              
+              <th className="px-4 py-3 border-r-white text-center">Action</th>
           </tr>
         </thead>
         {loading ? (
           <tbody>
             <tr>
-              <td colSpan={5}>
+              <td colSpan={colSpan}>
                 <div className="flex justify-center items-center h-full w-full py-6">
                   <FaSpinner className="animate-spin text-[30px]" />
                 </div>
@@ -131,7 +159,7 @@ const BlogLikes = () => {
         ) : filteredBlogs.length === 0 ? (
           <tbody>
             <tr>
-              <td colSpan={5}>
+              <td colSpan={colSpan}>
                 <div className="text-center py-6 text-gray-600 w-full">
                   <p>Aucun blog trouvé.</p>
                 </div>
