@@ -168,7 +168,7 @@ const AddedBrands: React.FC = () => {
         className="p-2 border border-gray-300 rounded-lg max-w-max"
       />
 
-      <div className='max-2xl:h-80 h-[50vh]'>
+      <div className='max-2xl:h-80 h-[50vh] max-md:hidden'>
       <table className="w-full  rounded overflow-hidden table-fixed ">
         <thead>
           <tr className='bg-gray-800'>
@@ -240,6 +240,35 @@ const AddedBrands: React.FC = () => {
           ))}
         </tbody>)}
       </table> </div>
+      
+      <div className="md:hidden flex flex-col gap-4">
+          {currentBrands.map((item) => (
+            <div key={item._id} className="p-4 border rounded-lg shadow-md bg-white">
+              <div className="flex gap-4">
+                <Image src={item.logoUrl} width={50} height={50} alt="icon" />
+                <div>
+                  <p className="font-bold">{item.name}</p>
+                  <p className="text-sm text-gray-600">{item.place}</p>
+                  <p className="text-sm text-gray-600">Created by: {item?.user?.username}</p>
+                </div>
+              </div>
+              <div className="flex gap-4 mt-4">
+              <Link href={`/admin/brand/${item._id}`}>
+                  <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                    <FaRegEdit />
+                  </button>
+                </Link>
+                <button
+                  onClick={() => handleDeleteClick(item)}
+                  className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                >
+                  {loadingBrandId === item._id ? "Processing..." : <FaTrashAlt />}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      
 
       <div className=''>
         <Pagination

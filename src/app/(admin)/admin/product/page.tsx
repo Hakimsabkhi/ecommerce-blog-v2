@@ -50,6 +50,7 @@ const AddedProducts: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState({ id: "", name: "" });
   const [loadingProductId, setLoadingProductId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+   const [colSpan, setColSpan] = useState(6);
   const handleDeleteClick = (product: Product) => {
     setLoadingProductId(product._id);
     setSelectedProduct({ id: product._id, name: product.name });
@@ -193,6 +194,35 @@ const AddedProducts: React.FC = () => {
   };
 
   useEffect(() => {
+    const updateColSpan = () => {
+      const isSmallestScreen = window.innerWidth <= 640; // max-sm
+      const isSmallScreen = window.innerWidth <= 768; // max-md
+      const isMediumScreen = window.innerWidth <= 1024; // max-lg
+      const isXlLScreen = window.innerWidth <= 1280; // max-lg
+
+      if (isSmallestScreen) {
+        setColSpan(1); // max-sm: colSpan = 3
+      } else if (isSmallScreen) {
+        setColSpan(2); // max-md: colSpan = 4
+      } else if (isMediumScreen) {
+        setColSpan(3); // max-lg: colSpan = 5
+      } else if (isXlLScreen) {
+        setColSpan(4); // max-lg: colSpan = 5
+      } else {
+        setColSpan(6); // Default: colSpan = 6
+      }
+    };
+
+    // Initial check
+    updateColSpan();
+
+    // Add event listener
+    window.addEventListener("resize", updateColSpan);
+
+    // Cleanup event listener
+    return () => window.removeEventListener("resize", updateColSpan);
+  }, []);
+  useEffect(() => {
     const getProducts = async () => {
       try {
         const response = await fetch("/api/products/admin/getAllProduct", {
@@ -287,22 +317,22 @@ const AddedProducts: React.FC = () => {
           </select>
         </div>
       
-      <div className="max-2xl:h-80 h-[50vh] max-xl:hidden">
+      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
-              <th className="px-4 py-3 w-[15px]">REF</th>
-              <th className="px-4 py-3 w-[50px]">Name</th>
-              <th className="px-4 py-3 w-[25px]">Quantity</th>
-              <th className="px-4 py-3 w-[25px]">Image</th>
-              <th className="px-4 py-3 w-[50px]">Created By</th>
-              <th className="px-4 text-center py-3 w-[250px]">Action</th>
+              <th className="px-4 py-3 xl:w-1/12 lg:w-1/6 md:w-1/5">REF</th>
+              <th className="px-4 py-3 xl:w-2/12 lg:w-1/6 md:w-1/5">Name</th>
+              <th className="px-4 py-3 xl:w-1/12 max-xl:hidden">Quantity</th>
+              <th className="px-4 py-3 xl:w-1/12 lg:w-1/6 max-lg:hidden">Image</th>
+              <th className="px-4 py-3 xl:w-2/12 max-xl:hidden">Created By</th>
+              <th className="px-4 py-3 xl:w-5/12 lg:w-2/3 md:w-3/5 text-center">Action</th>
             </tr>
           </thead>
           {loading ? (
             <tbody>
               <tr>
-                <td colSpan={6}>
+                <td colSpan={colSpan}>
                   <div className="flex justify-center items-center h-full w-full py-6">
                     <FaSpinner className="animate-spin text-[30px]" />
                   </div>
@@ -312,7 +342,7 @@ const AddedProducts: React.FC = () => {
           ) : filteredProducts.length === 0 ? (
             <tbody>
               <tr>
-                <td colSpan={6}>
+                <td colSpan={colSpan}>
                   <div className="text-center py-6 text-gray-600 w-full">
                     <p>Aucune Products trouvée.</p>
                   </div>
@@ -327,8 +357,8 @@ const AddedProducts: React.FC = () => {
                   <td className="border px-4 py-2 truncate">
                     {item.name}
                   </td>
-                  <td className="border px-4 py-2 text-center">{item.stock}</td>
-                  <td className="border px-4 py-2 ">
+                  <td className="border px-4 py-2 text-center  max-xl:hidden">{item.stock}</td>
+                  <td className="border px-4 py-2 max-lg:hidden">
                     <div className="items-center justify-center flex">
                       <Image
                         alt={item.name}
@@ -338,11 +368,11 @@ const AddedProducts: React.FC = () => {
                       />
                     </div>
                   </td>
-                  <td className="border px-4 py-2">{item?.user?.username}</td>
+                  <td className="border px-4 py-2  max-xl:hidden">{item?.user?.username}</td>
                   <td className="border px-4 py-2">
                     <div className="flex items-center justify-center gap-2">
                       <select
-                        className={`w-50 text-black rounded-md p-2 ${
+                        className={`w-50 text-black rounded-md truncate p-2 ${
                           item.vadmin === "not-approve"
                             ? "bg-gray-400 text-white"
                             : "bg-green-500 text-white"
@@ -367,7 +397,7 @@ const AddedProducts: React.FC = () => {
                       </select>
                       {item.stock > 0 ? (
                         <select
-                          className={`w-50 text-black rounded-md p-2 ${
+                          className={`w-50 text-black truncate rounded-md p-2 ${
                             item.status === "in-stock"
                               ? "bg-gray-800 text-white"
                               : item.status === "out-of-stock"
@@ -392,7 +422,7 @@ const AddedProducts: React.FC = () => {
                         </div>
                       )}
                       <select
-                        className={`w-50 text-black rounded-md p-2 ${
+                        className={` text-black rounded-md p-2 truncate ${
                           item.statuspage === "none"
                             ? "bg-gray-800 text-white"
                             : "bg-emerald-950 text-white"
@@ -451,7 +481,7 @@ const AddedProducts: React.FC = () => {
           )}
         </table>
       </div>
-      <div className="space-y-4 xl:hidden">
+      <div className="space-y-4 md:hidden">
   {loading ? (
     <div className="flex justify-center items-center h-full w-full py-6">
       <FaSpinner className="animate-spin text-[30px]" />
@@ -466,79 +496,84 @@ const AddedProducts: React.FC = () => {
         key={item._id}
         className="bg-white shadow-md rounded-lg p-4 space-y-4"
       >
-        <div className="flex justify-between">
         <div>
-            <p className="text-gray-600 font-medium">Image:</p>
-            <div className="items-center justify-center flex">
-              <Image
-                alt={item.name}
-                src={item.imageUrl}
-                width={50}
-                height={50}
-                className="rounded-md"
-              />
-            </div>
-          </div>
-          <div>
-            <p className="text-gray-600 font-medium">REF:</p>
-            <p>{item.ref}</p>
-          </div>
-          <div>
-            <p className="text-gray-600 font-medium">Name:</p>
-            <p className="truncate">{item.name}</p>
-          </div>
-        
-          <div>
-            <p className="text-gray-600 font-medium">Quantity:</p>
-            <p>{item.stock}</p>
-          </div>
-          
+            <div className=" ">
+                
+                <div className="flex  gap-1 ">
+                  <p className="text-gray-600 font-medium w-1/5">REF:</p>
+                  <p>{item.ref}</p>
+                </div>
+                
+                <div className="flex  gap-1 ">
+                  <p className="text-gray-600 font-medium w-1/5">Name:</p>
+                  <p className="truncate">{item.name}</p>
+                  </div>
+                  <div className="flex gap-1 ">
+                  <p className="text-gray-600 font-medium w-1/5">Quantity:</p>
+                  <p>{item.stock}</p>
+                  </div>
+                <div className=" w-2/5">
+                  <p className="text-gray-600 font-medium pb-2">Image:</p>
+                  <div className="w-full">
+                    <Image
+                      alt={item.name}
+                      src={item.imageUrl}
+                      width={100}
+                      height={100}
+                      className="rounded-md"
+                    />
+                  </div>
+                </div>
+              </div>
         </div>
         <div>
-          <p className="text-gray-600 font-medium">Actions:</p>
-          <div className="flex flex-wrap gap-2">
-            <select
-              className={`w-50 text-black rounded-md p-2 ${
-                item.vadmin === "not-approve"
-                  ? "bg-gray-400 text-white"
-                  : "bg-green-500 text-white"
-              }`}
-              value={item.vadmin}
-              onChange={(e) => updateProductvadmin(item._id, e.target.value)}
-            >
-              <option value="approve" className="text-white uppercase">
-                Approve
-              </option>
-              <option value="not-approve" className="text-white uppercase">
-                Not Approve
-              </option>
-            </select>
-            {item.stock > 0 ? (
+          <p className="text-gray-600 font-medium pb-2">Actions:</p>
+          <div className="flex flex-col gap-2">
+            <div className="justify-center flex gap-4">
               <select
                 className={`w-50 text-black rounded-md p-2 ${
-                  item.status === "in-stock"
-                    ? "bg-gray-800 text-white"
-                    : "bg-red-700 text-white"
+                  item.vadmin === "not-approve"
+                    ? "bg-gray-400 text-white"
+                    : "bg-green-500 text-white"
                 }`}
-                value={item.status}
-                onChange={(e) =>
-                  updateProductStatusstock(item._id, e.target.value)
-                }
+                value={item.vadmin}
+                onChange={(e) => updateProductvadmin(item._id, e.target.value)}
               >
-                <option value="in-stock" className="text-white">
-                  In Stock
+                <option value="approve" className="text-white uppercase">
+                  Approve
                 </option>
-                <option value="out-of-stock" className="text-white">
-                  Out of Stock
+                <option value="not-approve" className="text-white uppercase">
+                  Not Approve
                 </option>
               </select>
-            ) : (
-              <div className="w-32 bg-gray-500 text-white rounded-md p-2">
-                <p>Out of Stock</p>
-              </div>
-            )}
+              {item.stock > 0 ? (
+                <select
+                  className={`w-50 text-black rounded-md p-2 ${
+                    item.status === "in-stock"
+                      ? "bg-gray-800 text-white"
+                      : "bg-red-700 text-white"
+                  }`}
+                  value={item.status}
+                  onChange={(e) =>
+                    updateProductStatusstock(item._id, e.target.value)
+                  }
+                >
+                  <option value="in-stock" className="text-white">
+                    In Stock
+                  </option>
+                  <option value="out-of-stock" className="text-white">
+                    Out of Stock
+                  </option>
+                </select>
+              ) : (
+                <div className="w-32 bg-gray-500 text-white rounded-md p-2">
+                  <p>Out of Stock</p>
+                </div>
+              )}
+            </div>
+            <div className="flex justify-center">
             <select
-              className={`w-50 text-black rounded-md p-2 ${
+              className={`w-72 text-black rounded-md p-2 ${
                 item.statuspage === "none"
                   ? "bg-gray-800 text-white"
                   : "bg-emerald-950 text-white"
@@ -554,27 +589,30 @@ const AddedProducts: React.FC = () => {
               <option value="best-collection">Best Collection</option>
               <option value="promotion">Promotion</option>
             </select>
-            <Link href={`/admin/product/${item._id}`}>
-              <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                <FaRegEdit />
+            </div>
+            <div className="flex justify-center gap-5  ">
+              <Link href={`/admin/product/${item._id}`}>
+                <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                  <FaRegEdit />
+                </button>
+              </Link>
+              <button
+                onClick={() => handleDeleteClick(item)}
+                className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                disabled={loadingProductId === item._id}
+              >
+                {loadingProductId === item._id ? "Processing..." : <FaTrashAlt />}
               </button>
-            </Link>
-            <button
-              onClick={() => handleDeleteClick(item)}
-              className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-              disabled={loadingProductId === item._id}
-            >
-              {loadingProductId === item._id ? "Processing..." : <FaTrashAlt />}
-            </button>
-            <Link
-              href={`/${item.vadmin === "approve" ? "" : "admin/"}${
-                item.category?.slug
-              }/${item.slug}`}
-            >
-              <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                <FaRegEye />
-              </button>
-            </Link>
+              <Link
+                href={`/${item.vadmin === "approve" ? "" : "admin/"}${
+                  item.category?.slug
+                }/${item.slug}`}
+              >
+                <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                  <FaRegEye />
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

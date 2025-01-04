@@ -175,7 +175,7 @@ const AdminDashboard = () => {
           ))}
         </select>
       </div>
-      <div className="max-2xl:h-80 h-[50vh]">
+      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
         <table className="w-full rounded overflow-hidden table-fixed">
           <thead>
             <tr className="bg-gray-800">
@@ -248,6 +248,41 @@ const AdminDashboard = () => {
           )}
         </table>
       </div>
+
+      <div className=" md:hidden">
+        {filteredUsers.map((user) => (
+          <div
+            key={user._id}
+            className="p-4 mb-4 bg-gray-100 rounded shadow-md"
+          >
+            <p>Email: {user.email}</p>
+            <p>Role: {user.role}</p>
+            <div className="flex justify-between mt-2">
+              <select
+              className="p-2"
+                value={user.role}
+                onChange={(e) => handleChangeRole(user._id, e.target.value)}
+              >
+                {roles.map((role) => (
+                  <option key={role._id} value={role.name}>
+                    {role.name}
+                  </option>
+                ))}
+              </select>
+              <button onClick={() => handleDeleteClick(user)}>
+                <FaTrashAlt />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+
+      
+
+
+
+
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}
