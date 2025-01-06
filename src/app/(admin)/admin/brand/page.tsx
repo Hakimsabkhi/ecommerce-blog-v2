@@ -172,12 +172,12 @@ const AddedBrands: React.FC = () => {
       <table className="w-full  rounded overflow-hidden table-fixed ">
         <thead>
           <tr className='bg-gray-800'>
-            <th className="px-4 border-r-white py-3 max-sm:w-1/5 w-[10%]">Icon</th>
-            <th className="px-4 text-left border-r-white py-3 max-sm:w-1/4 w-[20%]">ImageURL</th>
-            <th className="px-4 text-left border-r-white py-3 max-sm:w-1/4 w-[15%]">Name</th>
-            <th className="px-4 text-left border-r-white py-3 w-[20%] max-md:hidden">Place</th>
+            <th className="px-4 border-r-white py-3 w-[10%] md:max-lg:w-[10%]">Icon</th>
+            <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[30%]">ImageURL</th>
+            <th className="px-4 text-left border-r-white py-3 w-[15%] md:max-lg:w-[20%]">Name</th>
+            <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[20%]">Place</th>
             <th className="px-4 text-left border-r-white py-3 w-[20%] max-lg:hidden">Created By</th>
-            <th className="px-4 text-center border-r-white py-3 w-[20%]">Action</th>
+            <th className="px-4 text-center border-r-white py-3 w-[20%] md:max-lg:w-[20%]">Action</th>
           </tr>
         </thead>
         {loading ? (
@@ -243,7 +243,8 @@ const AddedBrands: React.FC = () => {
       
       <div className="md:hidden flex flex-col gap-4">
           {currentBrands.map((item) => (
-            <div key={item._id} className="p-4 border rounded-lg shadow-md bg-white">
+            <div key={item._id} 
+            className="p-4 mb-4 bg-gray-100 rounded shadow-md">
               <div className="flex gap-4">
                 <Image src={item.logoUrl} width={50} height={50} alt="icon" />
                 <div>
@@ -264,6 +265,14 @@ const AddedBrands: React.FC = () => {
                 >
                   {loadingBrandId === item._id ? "Processing..." : <FaTrashAlt />}
                 </button>
+                {isPopupOpen && (
+                  <DeletePopup
+                    handleClosePopup={handleClosePopup}
+                    Delete={deleteBrand}
+                    id={selectedBrand.id}
+                    name={selectedBrand.name}
+                  />
+                )}
               </div>
             </div>
           ))}

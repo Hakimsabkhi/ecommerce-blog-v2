@@ -323,7 +323,7 @@ const AddedCategories: React.FC = () => {
         {currentCategories.map((category) => (
           <div
             key={category._id}
-            className="border rounded-lg shadow p-4 bg-white"
+            className="p-4 mb-4 bg-gray-100 rounded shadow-md"
           >
             <div className="flex items-center justify-center gap-4">
               <Image
