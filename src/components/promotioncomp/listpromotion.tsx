@@ -47,7 +47,7 @@ const ListPromotion: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-   const [colSpan, setColSpan] = useState(4);
+   const [colSpan, setColSpan] = useState(5);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -182,15 +182,15 @@ const ListPromotion: React.FC = () => {
         </select>
       </div>
 
-      <div className="max-2xl:h-80 h-[50vh]">
+      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
               <th className="px-4 py-3 w-1/5">REF</th>
-              <th className="px-4 py-3 w-1/5">Name</th>
-              <th className="px-4 py-3 w-1/5 max-sm:hidden">ImageURL</th>
+              <th className="px-4 py-3 w-1/5 md:max-lg:w-[25%]">Name</th>
+              <th className="px-4 py-3 w-1/5">ImageURL</th>
               <th className="px-4 py-3 w-1/5 max-lg:hidden">Created By</th>
-              <th className="px-4 text-center py-3 w-1/5">Action</th>
+              <th className="px-4 text-center py-3 w-1/5 md:max-lg:w-[35%]">Action</th>
             </tr>
           </thead>
           {loading ? (
@@ -216,7 +216,7 @@ const ListPromotion: React.FC = () => {
           ) : (
             <tbody>
               {currentProducts.map((item) => (
-                <tr key={item._id} className="bg-white text-black">
+                <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-2 truncate">{item.ref}</td>
                   <td className="border px-4 py-2 truncate">{item.name}</td>
                   <td className="border px-4 py-2 max-sm:hidden">
@@ -249,6 +249,33 @@ const ListPromotion: React.FC = () => {
           )}
         </table>
       </div>
+      <div className="flex flex-col gap-4 md:hidden">
+          {currentProducts.map((product) => (
+            <div
+              key={product._id}
+              className="p-4 mb-4 bg-gray-100 rounded shadow-md"
+            >
+              <div className="flex justify-between">
+                <p className="font-bold">{product.name}</p>
+                <p>{product.ref}</p>
+              </div>
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                width={100}
+                height={100}
+                className="rounded-lg"
+              />
+              <div className="text-right">
+                <Link href={`/${product.slug}`}>
+                  <button className="bg-gray-800 text-white px-4 py-2 rounded-md">
+                    See Product
+                  </button>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}

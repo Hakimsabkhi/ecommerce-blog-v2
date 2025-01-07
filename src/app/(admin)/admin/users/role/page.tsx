@@ -149,34 +149,37 @@ const Page = () => {
 
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex items-center ">
+      
+      <div className="flex items-center">
         <h1 className="text-3xl font-bold">Roles</h1>
       </div>
 
-      <div className="gap-y-8">
-        <div className="flex  gap-8 items-center mt-4 pb-9">
+      
+        <div className="flex items-center gap-8 mt-1">
           <p className="text-xl font-bold">new Role :</p>
+          
           <input
-            className="bg-gray-50 border border-gray-300 w-1/6 p-2 rounded"
+           className="p-2 border border-gray-300 rounded-lg max-sm:w-[50%]"
+           placeholder="Ajouter un role"
             value={newRole}
-            onChange={(e) => setNewRole(e.target.value)}
-          />
+            onChange={(e) => setNewRole(e.target.value)}/>
+          
           <button
             onClick={handleAddRole}
             type="submit"
             className="bg-gray-800 font-bold hover:bg-gray-600
-          text-white rounded w-[200px] h-10"
-          >
+             text-white rounded-lg w-[200px] h-10" >
             Ajouter un Role
           </button>
         </div>
-        <div className="max-2xl:h-80 h-[50vh]">
-          <table className="rounded overflow-hidden table-fixed w-[100%] ">
+
+        <div className="max-2xl:h-80 h-[50vh] overflow-x-auto">
+          <table className=" rounded overflow-hidden  table-fixed mx-auto">
             <thead>
               <tr className="bg-gray-800">
                 <th className="border border-gray-300 p-3">Role Name</th>
                 {pages.map((page) => (
-                  <th key={page} className="border border-gray-300 px-3">
+                  <th key={page} className="border border-gray-300 px-4 py-3">
                     {page}
                   </th>
                 ))}
@@ -186,7 +189,7 @@ const Page = () => {
 
             <tbody>
               {roles.map((role, index) => (
-                <tr key={index}>
+                <tr key={index} className="even:bg-gray-100 odd:bg-white">
                   <td className="border border-gray-300 px-4 py-2">
                     {role.name}
                   </td>
@@ -241,7 +244,7 @@ const Page = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}

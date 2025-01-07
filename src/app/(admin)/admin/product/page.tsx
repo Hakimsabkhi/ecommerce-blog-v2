@@ -283,11 +283,12 @@ const AddedProducts: React.FC = () => {
 
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
+      
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL Products</p>
         <Link href="/admin/product/addproduct">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-[200px] h-10">
-            <p>Add the new Product</p>
+            <p>Add Product</p>
           </button>
         </Link>
       </div>
@@ -321,12 +322,12 @@ const AddedProducts: React.FC = () => {
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
-              <th className="px-4 py-3 xl:w-1/12 lg:w-1/6 md:w-1/5">REF</th>
-              <th className="px-4 py-3 xl:w-2/12 lg:w-1/6 md:w-1/5">Name</th>
+              <th className="px-4 py-3 xl:w-1/12 lg:w-1/6 md:w-1/6">REF</th>
+              <th className="px-4 py-3 xl:w-2/12 lg:w-1/6 md:w-1/6">Name</th>
               <th className="px-4 py-3 xl:w-1/12 max-xl:hidden">Quantity</th>
               <th className="px-4 py-3 xl:w-1/12 lg:w-1/6 max-lg:hidden">Image</th>
               <th className="px-4 py-3 xl:w-2/12 max-xl:hidden">Created By</th>
-              <th className="px-4 py-3 xl:w-5/12 lg:w-2/3 md:w-3/5 text-center">Action</th>
+              <th className="px-4 py-3 xl:w-5/12 lg:w-2/3 md:w-4/6 text-center">Action</th>
             </tr>
           </thead>
           {loading ? (
@@ -352,8 +353,8 @@ const AddedProducts: React.FC = () => {
           ) : (
             <tbody>
               {currentProducts.map((item) => (
-                <tr key={item._id} className="bg-white text-black">
-                  <td className="border px-4 py-2">{item.ref}</td>
+                <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
+                  <td className="border px-4 py-2 truncate">{item.ref}</td>
                   <td className="border px-4 py-2 truncate">
                     {item.name}
                   </td>
@@ -494,26 +495,26 @@ const AddedProducts: React.FC = () => {
     currentProducts.map((item) => (
       <div
         key={item._id}
-        className="bg-white shadow-md rounded-lg p-4 space-y-4"
+        className="p-4 mb-4 bg-gray-100 rounded shadow-md"
       >
         <div>
             <div className=" ">
                 
                 <div className="flex  gap-1 ">
-                  <p className="text-gray-600 font-medium w-1/5">REF:</p>
+                  <p className="text-gray-600 font-medium w-1/5 mr-4">REF:</p>
                   <p>{item.ref}</p>
                 </div>
                 
                 <div className="flex  gap-1 ">
-                  <p className="text-gray-600 font-medium w-1/5">Name:</p>
+                  <p className="text-gray-600 font-medium w-1/5 mr-4">Name:</p>
                   <p className="truncate">{item.name}</p>
                   </div>
                   <div className="flex gap-1 ">
-                  <p className="text-gray-600 font-medium w-1/5">Quantity:</p>
+                  <p className="text-gray-600 font-medium w-1/5 mr-4">Quantity:</p>
                   <p>{item.stock}</p>
                   </div>
-                <div className=" w-2/5">
-                  <p className="text-gray-600 font-medium pb-2">Image:</p>
+                <div className="flex gap-5 ">
+                  <p className="text-gray-600 font-medium w-1/5 mr-4 pb-2">Image:</p>
                   <div className="w-full">
                     <Image
                       alt={item.name}

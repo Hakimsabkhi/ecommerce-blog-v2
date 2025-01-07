@@ -4,7 +4,7 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import DeletePopup from "../Popup/DeletePopup";
 import ConfirmPopup  from "../Popup/ConfirmPopup";
-import { FaSpinner, FaTrashAlt, FaRegEye } from "react-icons/fa";
+import { FaSpinner, FaTrashAlt, FaRegEye, FaRegEdit } from "react-icons/fa";
 import Pagination from "../Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 type User = {
@@ -450,16 +450,15 @@ const ListOrders: React.FC = () => {
           />
         </div>
       </div>
-      <div className="max-2xl:h-80 h-[50vh]">
+      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
-              <th className="px-4 py-3 w-2/12">REF</th>
-              <th className="px-4 py-3 w-3/12 max-lg:hidden">Customer Name</th>
-              <th className="px-4 py-3 w-3/12 md:table-cell hidden">Total</th>
-
-              <th className="px-4 py-3 w-3/12">Date</th>
-              <th className="px-4 text-center py-3 w-4/12">Action</th>
+              <th className="px-4 py-3 w-[12%] lg:max-xl:w-[13%] md:w-[15%]">REF</th>
+              <th className="px-4 py-3 w-[15%] max-xl:hidden">Customer Name</th>
+              <th className="px-4 py-3 w-[12%] lg:max-xl:w-[15%] lg:table-cell hidden">Total</th>
+              <th className="px-4 py-3 w-[16%] lg:max-xl:w-[19%] md:w-[17%]">Date</th>
+              <th className="px-4 text-center py-3 w-[45%] lg:max-xl:w-[53%] md:max-lg:w-[68%]">Action</th>
             </tr>
           </thead>
           {loading ? (
@@ -492,13 +491,13 @@ const ListOrders: React.FC = () => {
                   <td className="border px-4 py-2 uppercase truncate">
                     {item.ref}
                   </td>
-                  <td className="border px-4 py-2 uppercase max-lg:hidden truncate">
+                  <td className="border px-4 py-2 uppercase max-xl:hidden truncate">
                     {item?.user?.username}
                   </td>
-                  <td className="border px-4 py-2 text-start md:table-cell hidden">
+                  <td className="border px-4 py-2 text-start lg:table-cell hidden">
                     {item.total.toFixed(2)} TND
                   </td>
-                  <td className="border px-4 py-2 ">
+                  <td className="border px-4 py-2 truncate">
                     {new Date(item.createdAt).toLocaleDateString("en-GB")} -{" "}
                     {new Date(item.createdAt).toLocaleTimeString("en-GB", {
                       hour: "2-digit",
@@ -508,7 +507,7 @@ const ListOrders: React.FC = () => {
                   <td className="border px-4 py-2">
                     <div className="flex items-center justify-center gap-2">
                       <select
-                        className={`w-50 text-black rounded-md p-2 ${
+                        className={`w-50 text-black rounded-md p-2 truncate ${
                           item.orderStatus === "Processing"
                             ? "bg-gray-800 text-white"
                             : "bg-red-700 text-white"
@@ -530,12 +529,12 @@ const ListOrders: React.FC = () => {
                         </button>
                       </Link>
                       <Link href={`/admin/order/editorder/${item.ref}`}>
-                        <button className="bg-gray-800 text-white px-4 h-10 hover:bg-gray-600 rounded-md uppercase">
-                          Edit
+                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                          <FaRegEdit />
                         </button>
                       </Link>
                       <select
-                        className={`w-50 text-black rounded-md p-2 ${
+                        className={`w-50 text-black rounded-md p-2 truncate ${
                           item.statusinvoice === false
                             ? "bg-gray-400 text-white"
                             : "bg-green-500 text-white"
@@ -594,6 +593,137 @@ const ListOrders: React.FC = () => {
           )}
         </table>
       </div>
+      <div className="space-y-4 md:hidden">
+{loading ? (
+            
+                
+                  <div className="flex justify-center items-center h-full w-full py-6">
+                    <FaSpinner className="animate-spin text-[30px]" />
+                  </div>
+               
+              
+          ) : filteredOrders.length === 0 ? (
+            
+                
+                  <div className="text-center py-6 text-gray-600 w-full">
+                    <p>Aucune commande trouvée.</p>
+                  </div>
+               
+          ) : (
+            
+              currentOrders.map((item) => (
+                <div
+                  key={item._id}
+                  className="p-4 mb-4 bg-gray-100 rounded shadow-md"
+                >
+                  <p className="border px-4 py-2 uppercase truncate">
+                    {item.ref}
+                  </p>
+                  <p className="border px-4 py-2 uppercase max-xl:hidden truncate">
+                    {item?.user?.username}
+                  </p>
+                  <p className="border px-4 py-2 text-start lg:table-cell truncate hidden">
+                    {item.total.toFixed(2)} TND
+                  </p>
+                  <div className="border px-4 py-2 truncate">
+                    {new Date(item.createdAt).toLocaleDateString("en-GB")} -{" "}
+                    {new Date(item.createdAt).toLocaleTimeString("en-GB", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </div>
+                  <div className="border px-4 py-2">
+                    <div className="flex flex-col items-center  gap-2">
+                      <div className="flex gap-2">
+                      <select
+                        className={`w-50 text-black rounded-md p-2 truncate ${
+                          item.orderStatus === "Processing"
+                            ? "bg-gray-800 text-white"
+                            : "bg-red-700 text-white"
+                        }`}
+                        value={item.orderStatus}
+                        onChange={(e) =>
+                          updateOrderStatus(item._id, e.target.value)
+                        }
+                      >
+                        <option value="Processing">En cours</option>
+                        <option value="Pack">Expédiée</option>
+                        <option value="Deliver">Livrée</option>
+                        <option value="Cancelled">Annulée</option>
+                        <option value="Refunded">Remboursée</option>
+                      </select>
+                      
+                      <select
+                        className={`w-50 text-black rounded-md p-2 truncate ${
+                          item.statusinvoice === false
+                            ? "bg-gray-400 text-white"
+                            : "bg-green-500 text-white"
+                        }`}
+                        value={item.statusinvoice.toString()}
+                        onChange={(e) =>
+                          updatestatusinvoice(item._id, e.target.value)
+                        }
+                      >
+                        <option value="true" className="text-white uppercase">
+                          approve
+                        </option>
+                        <option value="false" className="text-white uppercase">
+                          Not approve
+                        </option>
+                      </select>
+                      </div>
+                      <div className="flex gap-2">
+                      {item.statusinvoice === false ? (
+                        <Link href={`/admin/order/bondelivraison/${item.ref}`}>
+                          <button className="bg-gray-800 text-white px-4 h-10 hover:bg-gray-600 rounded-md uppercase">
+                            INVOICE
+                          </button>
+                        </Link>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleinvoice(item._id)}
+                          className="bg-gray-800 text-white px-4 h-10 hover:bg-gray-600 rounded-md uppercase"
+                        >
+                          Invoice
+                        </button>
+                      )}
+                      <Link href={`/admin/order/${item.ref}`}>
+                        <button className="bg-gray-800 text-white p-3 hover:bg-gray-600 rounded-md uppercase">
+                          <FaRegEye />
+                        </button>
+                      </Link>
+                      <Link href={`/admin/order/editorder/${item.ref}`}>
+                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                          <FaRegEdit />
+                        </button>
+                      </Link>
+                      <button
+                        onClick={() => handleDeleteClick(item)}
+                        className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                        disabled={loadingOrderId === item._id}
+                      >
+                        {loadingOrderId === item._id ? (
+                          "Processing..."
+                        ) : (
+                          <FaTrashAlt />
+                        )}
+                      </button>
+                      </div>
+                      {isPopupOpen && (
+                        <DeletePopup
+                          handleClosePopup={handleClosePopup}
+                          Delete={DeleteOrder}
+                          id={selectedOrder.id} // Pass selected user's id
+                          name={selectedOrder.name}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))
+            
+          )}</div>
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}

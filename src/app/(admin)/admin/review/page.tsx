@@ -124,15 +124,15 @@ const Page = () => {
           className="p-2 border border-gray-300 rounded-lg max-w-max"
         />
       </div>
-      <div className='max-2xl:h-80 h-[50vh] pt-1'>
+      <div className='max-2xl:h-80 h-[50vh] pt-1 max-md:hidden'>
       <table className="w-full rounded overflow-hidden table-fixed">
         <thead>
           <tr className="bg-gray-800 ">
-            <th className="px-4 py-3">REF</th>
-            <th className="px-4 py-3">Name</th>
-            <th className="px-4 py-3 max-lg:hidden">Number Review</th>
-            <th className="px-4 py-3 max-sm:hidden">ImageURL</th>
-            <th className="px-4 py-3">
+            <th className="px-4 py-3 w-1/5 md:max-lg:w-1/4 ">REF</th>
+            <th className="px-4 py-3 w-1/5 md:max-lg:w-1/4 ">Name</th>
+            <th className="px-4 py-3 w-1/5  max-lg:hidden">Number Review</th>
+            <th className="px-4 py-3 w-1/5 md:max-lg:w-1/4 ">ImageURL</th>
+            <th className="px-4 py-3 w-1/5 md:max-lg:w-1/4 ">
               Action
             </th>
           </tr>
@@ -183,7 +183,51 @@ const Page = () => {
             </tr>
           ))}
         </tbody> )}
-      </table></div>
+      </table>
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:hidden">
+          {loading ? (
+            <div className="flex justify-center items-center h-full w-full py-6">
+              <FaSpinner className="animate-spin text-[30px]" />
+            </div>
+          ) : filteredProducts.length === 0 ? (
+            <div className="text-center py-6 text-gray-600 w-full">
+              <p>No reviews found.</p>
+            </div>
+          ) : (
+            currentProducts.map((item) => (
+              <div
+                key={item._id}
+            className="p-4 mb-4 bg-gray-100 rounded shadow-md flex flex-col gap-2"
+              >
+                <p>
+                  <strong>REF:</strong> {item.ref}
+                </p>
+                <p>
+                  <strong>Name:</strong> {item.name}
+                </p>
+                <p>
+                  <strong>Reviews:</strong> {item.nbreview}
+                </p>
+                <div className='flex justify-between '>
+                <div className="">
+                  <Image
+                    alt={item.name}
+                    src={item.imageUrl}
+                    height={100}
+                    width={100}
+                    className="rounded"
+                  />
+                </div>
+                <Link href={`/admin/review/${item._id}`}>
+                  <button className="bg-gray-800 text-white px-4 py-2 hover:bg-gray-600 rounded-md mt-16">
+                    Reviews
+                  </button>
+                </Link></div>
+              </div>
+            ))
+          )}
+        </div>
       <div className="flex justify-center mt-4">
        
       <Pagination

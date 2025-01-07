@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import useIs2xl from "@/hooks/useIs2x";
-import { FaTrashAlt,FaSpinner } from "react-icons/fa";
+import { FaTrashAlt,FaSpinner, FaRegEdit } from "react-icons/fa";
 import Pagination from "@/components/Pagination";
 import DeletePopup from "@/components/Popup/DeletePopup";
 
@@ -275,13 +275,13 @@ const Listinvoice: React.FC = () => {
       <table className="w-full rounded overflow-hidden table-fixed ">
         <thead>
           <tr className="bg-gray-800">
-            <th className="px-4 py-3 w-[15%]">REF</th>
-            <th className="px-4 py-3 w-[15%] max-lg:hidden">Customer Name</th>
-            <th className="px-4 py-3 w-[10%] md:table-cell hidden">Total</th>
+            <th className="px-4 py-3 w-[15%] md:max-lg:w-[25%] lg:max-xl:w-[15%]">REF</th>
+            <th className="px-4 py-3 w-[15%] lg:max-xl:w-[18%] max-lg:hidden">Customer Name</th>
+            <th className="px-4 py-3 w-[10%] lg:max-xl:w-[15%] lg:table-cell hidden">Total</th>
 
-            <th className="px-4 py-3 w-[15%] max-xl:hidden ">Payment Method</th>
-            <th className="px-4 py-3 w-[15%]">Date</th>
-            <th className="px-4 text-center py-3 w-[30%]">Action</th>
+            <th className="px-4 py-3 w-[20%] max-xl:hidden ">Payment Method</th>
+            <th className="px-4 py-3 w-[15%] md:max-lg:w-[25%] lg:max-xl:w-[20%]">Date</th>
+            <th className="px-4 text-center py-3 w-[25%] md:max-lg:w-[50%] lg:max-xl:w-[32%]">Action</th>
           </tr>
         </thead>
         {loading ? (
@@ -311,18 +311,18 @@ const Listinvoice: React.FC = () => {
                 key={item._id}
                 className="bg-white text-black whitespace-nowrap"
               >
-                <td className="border px-4 py-2">{item.ref}</td>
-                <td className="border px-4 py-2 uppercase max-lg:hidden">
+                <td className="border px-4 py-2 truncate">{item.ref}</td>
+                <td className="border px-4 py-2 uppercase max-lg:hidden truncate">
                   {item?.user?.username}
                 </td>
-                <td className="border px-4 py-2 text-start md:table-cell hidden">
-                  {item.total.toFixed(3)} TND
+                <td className="border px-4 py-2 text-start lg:table-cell hidden truncate">
+                  {item.total.toFixed(2)} TND
                 </td>
 
-                <td className="border px-4 py-2 uppercase  max-xl:hidden">
+                <td className="border px-4 py-2 uppercase truncate max-xl:hidden">
                   {item.paymentMethod}
                 </td>
-                <td className="border px-4 py-2 ">
+                <td className="border px-4 py-2 truncate">
                   {new Date(item.createdAt).toLocaleDateString("en-GB")} -{" "}
                   {new Date(item.createdAt).toLocaleTimeString("en-GB", {
                     hour: "2-digit",
@@ -332,13 +332,11 @@ const Listinvoice: React.FC = () => {
                 <td className="border px-4 py-2">
                   <div className="flex items-center justify-center gap-2">
                     <Link href={`/admin/invoice/editinvoice/${item._id}`}>
-                      <button
-                        type="button"
-                        className="bg-gray-800 text-white w-32 h-10 hover:bg-gray-600 rounded-md uppercase"
-                      >
-                        Edit
+                      <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                        <FaRegEdit />
                       </button>
                     </Link>
+                    
                     <Link href={`/admin/invoice/${item._id}`}>
                       <button
                         type="button"

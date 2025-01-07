@@ -75,7 +75,7 @@ const BlogLikes = () => {
     useEffect(() => {
       const updateColSpan = () => {
         const isSmallScreen = window.innerWidth <= 640; // max-md
-        const isMediumScreen = window.innerWidth <= 768; // max-lg
+        const isMediumScreen = window.innerWidth <= 1024; // max-lg
       
   
         if (isSmallScreen) {
@@ -132,18 +132,18 @@ const BlogLikes = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="p-2 border border-gray-300 rounded-lg max-w-max"
       />
-      <div className="max-2xl:h-80 h-[50vh]">
+      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
       <table className="w-full rounded overflow-hidden table-fixed">
         <thead>
           <tr className="bg-gray-800">
             
 
-              <th className="px-4 py-3 border-r-white max-sm:w-1/4 w-[15%]">Title</th>
-              <th className="px-4 py-3 border-r-white max-sm:w-1/4 w-[20%] ">Category</th>
-              <th className="px-4 py-3 border-r-white w-[20%] max-sm:hidden">ImageURL</th>
-              <th className="px-4 py-3 border-r-white w-[15%] max-md:hidden">Author</th>
+              <th className="px-4 py-3 w-1/5">Title</th>
+              <th className="px-4 py-3 w-1/5 md:max-lg:w-[25%]">Category</th>
+              <th className="px-4 py-3 w-1/5">ImageURL</th>
+              <th className="px-4 py-3 w-1/5 max-lg:hidden">Author</th>
               
-              <th className="px-4 py-3 border-r-white text-center">Action</th>
+              <th className="px-4 text-center py-3 w-1/5 md:max-lg:w-[35%]">Action</th>
           </tr>
         </thead>
         {loading ? (
@@ -169,10 +169,10 @@ const BlogLikes = () => {
         ) : (
         <tbody>
           {currentBlogs.map((blog) => (
-            <tr key={blog._id} className="bg-white text-black">
-              <td className="border px-4 py-2">{blog.title.slice(0, 19)}</td>
-              <td className="border px-4 py-2">{blog.blogCategory?.name}</td>
-              <td className="border px-4 py-2">
+            <tr key={blog._id} className="even:bg-gray-100 odd:bg-white">
+              <td className="border px-4 py-2 truncate">{blog.title}</td>
+              <td className="border px-4 py-2 truncate">{blog.blogCategory?.name}</td>
+              <td className="border px-4 py-2 max-sm:hidden">
                 <div className="bg-gray-200 border-2 border-dashed rounded-xl w-full h-[40px] relative">
                   {" "}
                   {/* Set a desired height for the div */}
@@ -189,9 +189,9 @@ const BlogLikes = () => {
                 </div>
               </td>
 
-              <td className="border px-4 py-2">{blog?.user?.username}</td>
+              <td className="border px-4 py-2 max-lg:hidden">{blog?.user?.username}</td>
 
-              <td className="border px-4 py-2 flex justify-center">
+              <td className="border px-4 py-2">
                 <div>
                     <Link href={`/admin/bloglike/${blog._id}`}>
                            <button className="bg-gray-800 text-white w-32 h-10  hover:bg-gray-600 rounded-md uppercase">
@@ -204,6 +204,33 @@ const BlogLikes = () => {
           ))}
         </tbody>)}
       </table></div>
+      <div className="flex flex-col gap-4 md:hidden">
+          {currentBlogs.map((blog) => (
+            <div
+              key={blog._id}
+              className="p-4 mb-4 bg-gray-100 rounded shadow-md"
+            >
+              <div className="flex justify-between">
+                <p className="font-bold">{blog.title}</p>
+                <p>{blog.blogCategory?.name}</p>
+              </div>
+              <Image
+                src={blog.imageUrl}
+                alt={blog.title}
+                width={100}
+                height={100}
+                className="rounded-lg"
+              />
+              <div className="text-right">
+                <Link href={`/admin/bloglike/${blog._id}`}>
+                  <button className="bg-gray-800 text-white w-32 h-10  hover:bg-gray-600 rounded-md uppercase">
+                         {blog.numbercomment} Comments
+                      </button>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}
