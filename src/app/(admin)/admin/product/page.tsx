@@ -283,11 +283,12 @@ const AddedProducts: React.FC = () => {
 
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
+      
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL Products</p>
         <Link href="/admin/product/addproduct">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-[200px] h-10">
-            <p>Add the new Product</p>
+            <p>Add Product</p>
           </button>
         </Link>
       </div>
@@ -352,7 +353,7 @@ const AddedProducts: React.FC = () => {
           ) : (
             <tbody>
               {currentProducts.map((item) => (
-                <tr key={item._id} className="bg-white text-black">
+                <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-2 truncate">{item.ref}</td>
                   <td className="border px-4 py-2 truncate">
                     {item.name}

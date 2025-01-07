@@ -47,7 +47,7 @@ const ListPromotion: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-   const [colSpan, setColSpan] = useState(4);
+   const [colSpan, setColSpan] = useState(5);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -216,7 +216,7 @@ const ListPromotion: React.FC = () => {
           ) : (
             <tbody>
               {currentProducts.map((item) => (
-                <tr key={item._id} className="bg-white text-black">
+                <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-2 truncate">{item.ref}</td>
                   <td className="border px-4 py-2 truncate">{item.name}</td>
                   <td className="border px-4 py-2 max-sm:hidden">

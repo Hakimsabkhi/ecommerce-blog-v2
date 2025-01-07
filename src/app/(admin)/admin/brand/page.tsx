@@ -203,7 +203,7 @@ const AddedBrands: React.FC = () => {
           ) : (
         <tbody>
           {currentBrands.map((item, index) => (
-            <tr key={index} className='bg-white text-black'>
+            <tr key={index} className="even:bg-gray-100 odd:bg-white">
               <td className="border px-4 py-3">
                 <Image src={item.logoUrl} width={30} height={30} alt="icon" />
               </td>
