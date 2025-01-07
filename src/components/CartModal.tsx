@@ -72,9 +72,6 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose }) => {
     }
   }, [currentPage, totalPages]);
 
-  if (items.length === 0) {
-    return null;
-  }
 
   return (
     <div

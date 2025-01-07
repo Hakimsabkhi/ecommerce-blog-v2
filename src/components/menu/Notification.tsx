@@ -2,7 +2,6 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { AiOutlineBell } from "react-icons/ai";
-import { FaSpinner } from "react-icons/fa"; // <-- import spinner icon
 import ListNotification from "./listNotification";
 import useClickOutside from "@/hooks/useClickOutside";
 import { usePathname, useRouter } from "next/navigation";
@@ -30,12 +29,9 @@ export interface Notification {
 }
 
 const Notification: React.FC = () => {
-  const [notif, setNotif] = useState<number>(0);           // unread count
-  const [notifs, setNotifs] = useState<Notification[]>([]); // detailed notifications
+  const [notif, setNotif] = useState<number>(0);           
+  const [notifs, setNotifs] = useState<Notification[]>([]); 
   const [notificationState, setNotificationState] = useState({ isOpen: false });
-
-  // NEW: loading state for fetching the detailed list
-  const [loadingNotifList, setLoadingNotifList] = useState<boolean>(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -62,7 +58,6 @@ const Notification: React.FC = () => {
    */
   const fetchNotifications = async () => {
     try {
-      setLoadingNotifList(true); // show spinner while fetching
       const response = await fetch("/api/notification/getnotification", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -80,8 +75,6 @@ const Notification: React.FC = () => {
       setNotif(unreadNotifications);
     } catch (err) {
       console.error("Error fetching notifications:", err);
-    } finally {
-      setLoadingNotifList(false); // hide spinner when done
     }
   };
 
@@ -92,7 +85,7 @@ const Notification: React.FC = () => {
     setNotificationState((prevState) => {
       const isOpening = !prevState.isOpen;
       if (isOpening) {
-        // Only fetch the full notifications when opening
+        // Fetch notifications only when the dropdown is opening
         fetchNotifications();
       }
       return { isOpen: isOpening };
@@ -108,12 +101,16 @@ const Notification: React.FC = () => {
 
   /**
    * 5) Mark notification as read & navigate
+   *
+   *    (Note: We'll keep this minimal here; the item-level loading will be handled
+   *    in the ListNotification component.)
    */
   const handleViewOrder = async (item: Notification) => {
     try {
-      const response = await fetch(`/api/notification/updatenotification/${item._id}`, {
-        method: "PUT",
-      });
+      const response = await fetch(
+        `/api/notification/updatenotification/${item._id}`,
+        { method: "PUT" }
+      );
       if (response.ok) {
         // Navigate to the order page
         router.push(`/admin/order/${item.order.ref}`);
@@ -175,18 +172,11 @@ const Notification: React.FC = () => {
 
           {notificationState.isOpen && (
             <div
-              className="absolute shadow-xl z-30 flex gap-2 flex-col top-12 left-1/2 -translate-x-1/3 bg-white p-2 w-[14rem]"
+              className="absolute shadow-xl z-30 flex gap-2 flex-col top-12 left-1/2 -translate-x-1/2 bg-white p-2 w-[300px] border-4 rounded-lg border-[#15335D]"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* If we are loading notifications, show a spinner */}
-              {loadingNotifList ? (
-                <div className="flex justify-center items-center py-6">
-                  <FaSpinner className="animate-spin text-[30px] text-gray-800" />
-                </div>
-              ) : (
-                // Otherwise render the list
-                <ListNotification data={notifs} handleViewOrder={handleViewOrder} />
-              )}
+              {/* Render the list of notifications */}
+              <ListNotification data={notifs} handleViewOrder={handleViewOrder} />
             </div>
           )}
         </div>
