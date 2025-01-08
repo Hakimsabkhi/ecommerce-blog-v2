@@ -9,7 +9,7 @@ import { FaTrashAlt } from "react-icons/fa";
 
 
 
-type Category = {
+type Post = {
   _id: string;
   name: string;
   user:user;
@@ -18,14 +18,15 @@ type Category = {
   createdAt: Date;
   updatedAt: Date;
 };
+
 interface user{
 _id:string;
 username:string;
 }
 
 const AddedCategories: React.FC = () => {
-  const [addedCategory, setAddedCategory] = useState<Category[]>([]);
-  const [filteredCategory, setFilteredCategory] = useState<Category[]>([]);
+  const [addedCategory, setAddedCategory] = useState<Post[]>([]);
+  const [filteredCategory, setFilteredCategory] = useState<Post[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -34,7 +35,7 @@ const AddedCategories: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCatgory, setSelectedCatgory] = useState({ id: "", name: "" });
   const [loadingCategoryId, setLoadingCategoryId] = useState<string | null>(null);
-  const handleDeleteClick = (Category: Category) => {
+  const handleDeleteClick = (Category: Post) => {
     setLoadingCategoryId(Category._id); 
     setSelectedCatgory({ id: Category._id, name: Category.name });
     setIsPopupOpen(true);
@@ -58,8 +59,6 @@ const AddedCategories: React.FC = () => {
         throw new Error("Failed to delete category");
       }
 
-      // Refresh categories after deletion
-    
       handleClosePopup();
       getCategory();
       toast.success("Category delete successfully!");
@@ -160,7 +159,7 @@ const AddedCategories: React.FC = () => {
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center justify-between">
-        <p className="text-3xl font-bold">ALL categories</p>
+        <p className="text-3xl font-bold">ALL Post Categories</p>
         <div className="flex gap-2">
         <Link href="/admin/blog" >
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg  pl-10 pr-10  h-10">

@@ -38,7 +38,6 @@ export default async function Blogright ()  {
            
         </div>))}
     </div>}
-    
         <PostCategory/>
     </div>
   )

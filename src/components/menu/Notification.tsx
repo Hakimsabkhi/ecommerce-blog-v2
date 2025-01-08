@@ -29,8 +29,7 @@ export interface Notification {
 }
 
 const Notification: React.FC = () => {
-  const [notif, setNotif] = useState<number>(0);           
-  const [notifs, setNotifs] = useState<Notification[]>([]); 
+  const [notif, setNotif] = useState<number>(0); // tracks the unread count
   const [notificationState, setNotificationState] = useState({ isOpen: false });
 
   const pathname = usePathname();
@@ -54,56 +53,25 @@ const Notification: React.FC = () => {
   };
 
   /**
-   * 2) Fetch the full list of notifications
-   */
-  const fetchNotifications = async () => {
-    try {
-      const response = await fetch("/api/notification/getnotification", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!response.ok) {
-        throw new Error("Failed to fetch notifications");
-      }
-      const { notifications } = await response.json();
-      setNotifs(notifications);
-
-      // Optional: update unread count based on what's returned
-      const unreadNotifications = notifications.filter(
-        (n: Notification) => !n.look
-      ).length;
-      setNotif(unreadNotifications);
-    } catch (err) {
-      console.error("Error fetching notifications:", err);
-    }
-  };
-
-  /**
-   * 3) Toggle the dropdown list of notifications
+   * 2) Toggle the dropdown list of notifications
+   *    (We no longer fetch notifications here; it happens inside `ListNotification`)
    */
   const toggleListNotifications = () => {
     setNotificationState((prevState) => {
       const isOpening = !prevState.isOpen;
-      if (isOpening) {
-        // Fetch notifications only when the dropdown is opening
-        fetchNotifications();
-      }
       return { isOpen: isOpening };
     });
   };
 
   /**
-   * 4) Close the dropdown
+   * 3) Close the dropdown
    */
   const closeListNotifications = () => {
     setNotificationState({ isOpen: false });
   };
 
   /**
-   * 5) Mark notification as read & navigate
-   *
-   *    (Note: We'll keep this minimal here; the item-level loading will be handled
-   *    in the ListNotification component.)
+   * 4) Mark notification as read & navigate
    */
   const handleViewOrder = async (item: Notification) => {
     try {
@@ -114,8 +82,8 @@ const Notification: React.FC = () => {
       if (response.ok) {
         // Navigate to the order page
         router.push(`/admin/order/${item.order.ref}`);
-        // Refresh the lists
-        fetchNotifications();
+
+        // Refresh the unread count (since we’ve marked one more as read)
         fetchUnreadCount();
       } else {
         console.error("Error updating notification to 'read'");
@@ -126,23 +94,24 @@ const Notification: React.FC = () => {
   };
 
   /**
-   * 6) Use a custom hook to close dropdown if user clicks outside
+   * 5) Use a custom hook to close dropdown if user clicks outside
    */
   useClickOutside(ListNotificationsWrapperRef, closeListNotifications);
 
   /**
-   * 7) Close dropdown if route changes
+   * 6) Close dropdown if route changes
    */
   useEffect(() => {
     closeListNotifications();
   }, [pathname]);
 
   /**
-   * 8) Poll for unread count every 30 seconds + on initial mount
+   * 7) Poll for unread count every 30 seconds + on initial mount
    */
   useEffect(() => {
     // Initial fetch
     fetchUnreadCount();
+
     // Poll
     const intervalId = setInterval(() => {
       fetchUnreadCount();
@@ -154,7 +123,7 @@ const Notification: React.FC = () => {
   }, []);
 
   /**
-   * 9) Render
+   * 8) Render
    */
   return (
     <div className="flex items-center justify-center w-fit text-primary cursor-pointer select-none">
@@ -164,6 +133,7 @@ const Notification: React.FC = () => {
       >
         <div className="relative my-auto mx-2" ref={ListNotificationsWrapperRef}>
           <AiOutlineBell size={40} aria-label="Notification bell" />
+
           {notif > 0 && (
             <span className="w-5 h-5 flex justify-center items-center text-xs rounded-full absolute -top-1 -right-1 text-white bg-secondary">
               {notif}
@@ -175,8 +145,8 @@ const Notification: React.FC = () => {
               className="absolute shadow-xl z-30 flex gap-2 flex-col top-12 left-1/2 -translate-x-1/2 bg-white p-2 w-[300px] border-4 rounded-lg border-[#15335D]"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Render the list of notifications */}
-              <ListNotification data={notifs} handleViewOrder={handleViewOrder} />
+              {/* Render the list of notifications, now fetched inside child */}
+              <ListNotification handleViewOrder={handleViewOrder} />
             </div>
           )}
         </div>

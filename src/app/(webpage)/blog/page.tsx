@@ -1,4 +1,4 @@
-import Blog from '@/components/fPost/Post';
+import Blog from '@/components/PostComponents/Post';
 import Blogbanner from '@/components/blogbanner';
 
 async function getBlogs() {
@@ -17,8 +17,7 @@ async function getBlogs() {
   return response.json();
 }
 
-export const revalidate = 3600; // Page revalidates every 1 hour
-
+export const revalidate = 3600; 
 export default async function Page() {
   const blogs = await getBlogs();
 

@@ -50,18 +50,15 @@ interface  User{
   interface blogprops{
     blog:blog
   }
+  
 const BlogPost: React.FC<blogprops> = ({ blog }) => {
     return (
         /* whole page */
         <div className="desktop flex py-8 max-lg:py-20 gap-10 ">
-            {/* First Half */}
             <div className='w-[900px] max-lg:w-full flex flex-col gap-16'>
-                {/* 1 */}
-                <Blogcomp blog={blog}/>
-                {/* 2 */}
-               <Blogcomment blog={blog}/>
+              <Blogcomp blog={blog}/>
+              <Blogcomment blog={blog}/>
             </div>
-            {/* Second Half */}
             <Blogright/>
         </div>
     );
