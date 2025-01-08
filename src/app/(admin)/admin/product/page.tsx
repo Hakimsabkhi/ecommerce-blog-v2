@@ -44,13 +44,13 @@ const AddedProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const is2xl = useIs2xl();
-  const productsPerPage=is2xl ? 8 : 5; 
+  const productsPerPage = is2xl ? 8 : 5;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState({ id: "", name: "" });
   const [loadingProductId, setLoadingProductId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-   const [colSpan, setColSpan] = useState(6);
+  const [colSpan, setColSpan] = useState(6);
   const handleDeleteClick = (product: Product) => {
     setLoadingProductId(product._id);
     setSelectedProduct({ id: product._id, name: product.name });
@@ -64,9 +64,12 @@ const AddedProducts: React.FC = () => {
 
   const deleteProduct = async (productId: string) => {
     try {
-      const response = await fetch(`/api/products/admin/deleteProduct/${productId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `/api/products/admin/deleteProduct/${productId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete the product");
@@ -88,12 +91,15 @@ const AddedProducts: React.FC = () => {
         console.error("Unknown error:", error);
         setError("An unexpected error occurred. Please try again.");
       }
-    }  finally {
+    } finally {
       setLoadingProductId(null);
     }
   };
 
-  const updateProductStatusstock = async (productId: string, newStatus: string) => {
+  const updateProductStatusstock = async (
+    productId: string,
+    newStatus: string
+  ) => {
     setLoadingProductId(productId);
     try {
       const updateFormData = new FormData();
@@ -283,7 +289,6 @@ const AddedProducts: React.FC = () => {
 
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL Products</p>
         <Link href="/admin/product/addproduct">
@@ -293,31 +298,30 @@ const AddedProducts: React.FC = () => {
         </Link>
       </div>
 
-     
-        <div className="flex justify-between items-center">
-          <input
-            type="text"
-            placeholder="Search products"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="p-2 border border-gray-300 rounded-lg max-sm:w-[50%] "
-          />
-          <select
-            name="category"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block p-2.5 min-w-32"
-            required
-          >
-            {/* <option value="">Select Category</option>
+      <div className="flex justify-between items-center">
+        <input
+          type="text"
+          placeholder="Search products"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="p-2 border border-gray-300 rounded-lg max-sm:w-[50%] "
+        />
+        <select
+          name="category"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block p-2.5 min-w-32"
+          required
+        >
+          {/* <option value="">Select Category</option>
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.name}
               </option>
             ))} */}
-          </select>
-        </div>
-      
+        </select>
+      </div>
+
       <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
@@ -325,9 +329,13 @@ const AddedProducts: React.FC = () => {
               <th className="px-4 py-3 xl:w-1/12 lg:w-1/6 md:w-1/6">REF</th>
               <th className="px-4 py-3 xl:w-2/12 lg:w-1/6 md:w-1/6">Name</th>
               <th className="px-4 py-3 xl:w-1/12 max-xl:hidden">Quantity</th>
-              <th className="px-4 py-3 xl:w-1/12 lg:w-1/6 max-lg:hidden">Image</th>
+              <th className="px-4 py-3 xl:w-1/12 lg:w-1/6 max-lg:hidden">
+                Image
+              </th>
               <th className="px-4 py-3 xl:w-2/12 max-xl:hidden">Created By</th>
-              <th className="px-4 py-3 xl:w-5/12 lg:w-2/3 md:w-4/6 text-center">Action</th>
+              <th className="px-4 py-3 xl:w-5/12 lg:w-2/3 md:w-4/6 text-center">
+                Action
+              </th>
             </tr>
           </thead>
           {loading ? (
@@ -355,10 +363,10 @@ const AddedProducts: React.FC = () => {
               {currentProducts.map((item) => (
                 <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-2 truncate">{item.ref}</td>
-                  <td className="border px-4 py-2 truncate">
-                    {item.name}
+                  <td className="border px-4 py-2 truncate">{item.name}</td>
+                  <td className="border px-4 py-2 text-center  max-xl:hidden">
+                    {item.stock}
                   </td>
-                  <td className="border px-4 py-2 text-center  max-xl:hidden">{item.stock}</td>
                   <td className="border px-4 py-2 max-lg:hidden">
                     <div className="items-center justify-center flex">
                       <Image
@@ -369,7 +377,9 @@ const AddedProducts: React.FC = () => {
                       />
                     </div>
                   </td>
-                  <td className="border px-4 py-2  max-xl:hidden">{item?.user?.username}</td>
+                  <td className="border px-4 py-2  max-xl:hidden">
+                    {item?.user?.username}
+                  </td>
                   <td className="border px-4 py-2">
                     <div className="flex items-center justify-center gap-2">
                       <select
@@ -483,143 +493,145 @@ const AddedProducts: React.FC = () => {
         </table>
       </div>
       <div className="space-y-4 md:hidden">
-  {loading ? (
-    <div className="flex justify-center items-center h-full w-full py-6">
-      <FaSpinner className="animate-spin text-[30px]" />
-    </div>
-  ) : filteredProducts.length === 0 ? (
-    <div className="text-center py-6 text-gray-600 w-full">
-      <p>No products found.</p>
-    </div>
-  ) : (
-    currentProducts.map((item) => (
-      <div
-        key={item._id}
-        className="p-4 mb-4 bg-gray-100 rounded shadow-md"
-      >
-        <div>
-            <div className=" ">
-                
-                <div className="flex  gap-1 ">
-                  <p className="text-gray-600 font-medium w-1/5 mr-4">REF:</p>
+        {loading ? (
+          <div className="flex justify-center items-center h-full w-full py-6">
+            <FaSpinner className="animate-spin text-[30px]" />
+          </div>
+        ) : filteredProducts.length === 0 ? (
+          <div className="text-center py-6 text-gray-600 w-full">
+            <p>No products found.</p>
+          </div>
+        ) : (
+          currentProducts.map((item) => (
+            <div
+              key={item._id}
+              className="p-4 mb-4 flex flex-col gap-4 bg-gray-100 rounded shadow-md"
+            >
+              <div>
+                <div className="flex gap-1 text-3xl font-semibold uppercase text-center justify-center ">
+                  <p className="text-gray-600  w-1/5">REF:</p>
                   <p>{item.ref}</p>
                 </div>
-                
-                <div className="flex  gap-1 ">
-                  <p className="text-gray-600 font-medium w-1/5 mr-4">Name:</p>
+                <hr className="border-white border-2 w-full my-2" />
+                <div className="flex  gap-1 font-semibold pl-[15%]">
+                  <p className="text-gray-600 w-1/5 mr-4">Name:</p>
                   <p className="truncate">{item.name}</p>
-                  </div>
-                  <div className="flex gap-1 ">
-                  <p className="text-gray-600 font-medium w-1/5 mr-4">Quantity:</p>
+                </div>
+                <div className="flex gap-1 font-semibold pl-[15%]">
+                  <p className="text-gray-600  w-1/5 mr-4">Quantity:</p>
                   <p>{item.stock}</p>
-                  </div>
-                <div className="flex gap-5 ">
-                  <p className="text-gray-600 font-medium w-1/5 mr-4 pb-2">Image:</p>
-                  <div className="w-full">
-                    <Image
-                      alt={item.name}
-                      src={item.imageUrl}
-                      width={100}
-                      height={100}
-                      className="rounded-md"
-                    />
-                  </div>
+                </div>
+
+                <div className="w-full flex justify-center py-2">
+                  <Image
+                    alt={item.name}
+                    src={item.imageUrl}
+                    width={300}
+                    height={500}
+                    className="rounded-md"
+                  />
                 </div>
               </div>
-        </div>
-        <div>
-          <p className="text-gray-600 font-medium pb-2">Actions:</p>
-          <div className="flex flex-col gap-2">
-            <div className="justify-center flex gap-4">
-              <select
-                className={`w-50 text-black rounded-md p-2 ${
-                  item.vadmin === "not-approve"
-                    ? "bg-gray-400 text-white"
-                    : "bg-green-500 text-white"
-                }`}
-                value={item.vadmin}
-                onChange={(e) => updateProductvadmin(item._id, e.target.value)}
-              >
-                <option value="approve" className="text-white uppercase">
-                  Approve
-                </option>
-                <option value="not-approve" className="text-white uppercase">
-                  Not Approve
-                </option>
-              </select>
-              {item.stock > 0 ? (
-                <select
-                  className={`w-50 text-black rounded-md p-2 ${
-                    item.status === "in-stock"
-                      ? "bg-gray-800 text-white"
-                      : "bg-red-700 text-white"
-                  }`}
-                  value={item.status}
-                  onChange={(e) =>
-                    updateProductStatusstock(item._id, e.target.value)
-                  }
-                >
-                  <option value="in-stock" className="text-white">
-                    In Stock
-                  </option>
-                  <option value="out-of-stock" className="text-white">
-                    Out of Stock
-                  </option>
-                </select>
-              ) : (
-                <div className="w-32 bg-gray-500 text-white rounded-md p-2">
-                  <p>Out of Stock</p>
+
+              <div className="flex flex-col gap-2">
+                <div className="justify-center flex gap-4">
+                  <select
+                    className={`w-50 text-black rounded-md p-2 ${
+                      item.vadmin === "not-approve"
+                        ? "bg-gray-400 text-white"
+                        : "bg-green-500 text-white"
+                    }`}
+                    value={item.vadmin}
+                    onChange={(e) =>
+                      updateProductvadmin(item._id, e.target.value)
+                    }
+                  >
+                    <option value="approve" className="text-white uppercase">
+                      Approve
+                    </option>
+                    <option
+                      value="not-approve"
+                      className="text-white uppercase"
+                    >
+                      Not Approve
+                    </option>
+                  </select>
+                  {item.stock > 0 ? (
+                    <select
+                      className={`w-50 text-black rounded-md p-2 ${
+                        item.status === "in-stock"
+                          ? "bg-gray-800 text-white"
+                          : "bg-red-700 text-white"
+                      }`}
+                      value={item.status}
+                      onChange={(e) =>
+                        updateProductStatusstock(item._id, e.target.value)
+                      }
+                    >
+                      <option value="in-stock" className="text-white">
+                        In Stock
+                      </option>
+                      <option value="out-of-stock" className="text-white">
+                        Out of Stock
+                      </option>
+                    </select>
+                  ) : (
+                    <div className="w-32 bg-gray-500 text-white rounded-md p-2">
+                      <p>Out of Stock</p>
+                    </div>
+                  )}
                 </div>
-              )}
+                <div className="flex justify-center">
+                  <select
+                    className={`w-72 text-black rounded-md p-2 ${
+                      item.statuspage === "none"
+                        ? "bg-gray-800 text-white"
+                        : "bg-emerald-950 text-white"
+                    }`}
+                    value={item.statuspage || ""}
+                    onChange={(e) =>
+                      updateProductStatusPlace(item._id, e.target.value)
+                    }
+                    disabled={loadingProductId === item._id}
+                  >
+                    <option value="">Select a Place</option>
+                    <option value="home-page">Weekly Best Sellers</option>
+                    <option value="best-collection">Best Collection</option>
+                    <option value="promotion">Promotion</option>
+                  </select>
+                </div>
+                <div className="flex justify-center gap-5  ">
+                  <Link href={`/admin/product/${item._id}`}>
+                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                      <FaRegEdit />
+                    </button>
+                  </Link>
+                  <button
+                    onClick={() => handleDeleteClick(item)}
+                    className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                    disabled={loadingProductId === item._id}
+                  >
+                    {loadingProductId === item._id ? (
+                      "Processing..."
+                    ) : (
+                      <FaTrashAlt />
+                    )}
+                  </button>
+                  <Link
+                    href={`/${item.vadmin === "approve" ? "" : "admin/"}${
+                      item.category?.slug
+                    }/${item.slug}`}
+                  >
+                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                      <FaRegEye />
+                    </button>
+                  </Link>
+                </div>
+              </div>
             </div>
-            <div className="flex justify-center">
-            <select
-              className={`w-72 text-black rounded-md p-2 ${
-                item.statuspage === "none"
-                  ? "bg-gray-800 text-white"
-                  : "bg-emerald-950 text-white"
-              }`}
-              value={item.statuspage || ""}
-              onChange={(e) =>
-                updateProductStatusPlace(item._id, e.target.value)
-              }
-              disabled={loadingProductId === item._id}
-            >
-              <option value="">Select a Place</option>
-              <option value="home-page">Weekly Best Sellers</option>
-              <option value="best-collection">Best Collection</option>
-              <option value="promotion">Promotion</option>
-            </select>
-            </div>
-            <div className="flex justify-center gap-5  ">
-              <Link href={`/admin/product/${item._id}`}>
-                <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                  <FaRegEdit />
-                </button>
-              </Link>
-              <button
-                onClick={() => handleDeleteClick(item)}
-                className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                disabled={loadingProductId === item._id}
-              >
-                {loadingProductId === item._id ? "Processing..." : <FaTrashAlt />}
-              </button>
-              <Link
-                href={`/${item.vadmin === "approve" ? "" : "admin/"}${
-                  item.category?.slug
-                }/${item.slug}`}
-              >
-                <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                  <FaRegEye />
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
+          ))
+        )}
       </div>
-    ))
-  )}
-</div>
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}
@@ -627,8 +639,6 @@ const AddedProducts: React.FC = () => {
           onPageChange={setCurrentPage}
         />
       </div>
-      
-
     </div>
   );
 };
