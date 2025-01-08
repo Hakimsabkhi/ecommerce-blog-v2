@@ -1,3 +1,6 @@
+
+// app/api/blog/PostCategory/route.ts
+
 import {NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import Category from '@/models/PostSections/BlogCategory';

@@ -8,11 +8,8 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   await dbConnect();
-
   try {
-   
     const {id:blogcategory} = await params;
-
     if (!blogcategory || typeof blogcategory !== 'string') {
       return NextResponse.json(
         { message: 'blogcategory is required and should be a string' },
@@ -21,9 +18,8 @@ export async function GET(
     }
 
     // Find the category by name const blog = await BlogMainSection.findOne({ slug: slugblog, vadmin: "not-approve" })
-
     const foundCategory = await BlogCategory.findOne({ slug: blogcategory,vadmin: "approve" });
-  
+
     if (!foundCategory) {
       return NextResponse.json( { status: 402 });
     }

@@ -7,13 +7,7 @@ import Link from "next/link";
 const AddCategory = () => {
   const router = useRouter();
   const [name, setName] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-
-    
-
-  
-  
+  const [error, setError] = useState<string | null>(null);  
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
@@ -71,10 +65,7 @@ const AddCategory = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[80%] block p-2.5"
             required
           />
-        </div>
-       
-     
-     
+        </div>   
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
           <button
             type="submit"
@@ -91,7 +82,6 @@ const AddCategory = () => {
           </Link>
         </div>
       </form>
-
       {error && <p className="text-red-500">{error}</p>}
     </div>
   );

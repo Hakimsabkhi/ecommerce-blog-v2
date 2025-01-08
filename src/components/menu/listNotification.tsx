@@ -4,94 +4,126 @@ import Pagination from "@/components/Pagination";
 import { FaSpinner } from "react-icons/fa";
 
 interface ListNotificationProps {
-  data: Notification[];
   handleViewOrder: (item: Notification) => void;
 }
 
 const ListNotification: React.FC<ListNotificationProps> = ({
-  data,
   handleViewOrder,
 }) => {
+  // 1) Local state for notifications data
+  const [data, setData] = useState<Notification[]>([]);
+
+  // 2) Global loading spinner for the entire list
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 3) Item-level loading indicator (per-notification)
+  const [loadingItemId, setLoadingItemId] = useState<string | null>(null);
+
+  // 4) Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const dataPerPage = 4;
+  const dataPerPage = 5;
+
+  // Derived total pages
   const totalPages = useMemo(
     () => Math.ceil(data.length / dataPerPage),
     [data.length]
   );
 
-  const [loadingItemId, setLoadingItemId] = useState<string | null>(null);
+  /**
+   * Fetch notifications from the API (moved from parent)
+   */
+  const fetchNotifications = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/notification/getnotification", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch notifications");
+      }
+      const { notifications } = await response.json();
+      setData(notifications);
+    } catch (err) {
+      console.error("Error fetching notifications:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   /**
-   * 1) Derived data for the current page
+   * On mount (when the dropdown is opened in the parent), fetch the data
+   */
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  /**
+   * Derived data for the current page
    */
   const paginatedData = useMemo(() => {
-    return data.slice(
-      (currentPage - 1) * dataPerPage,
-      currentPage * dataPerPage
-    );
+    const startIndex = (currentPage - 1) * dataPerPage;
+    const endIndex = currentPage * dataPerPage;
+    return data.slice(startIndex, endIndex);
   }, [data, currentPage, dataPerPage]);
 
   /**
-   * 2) Ensure that the current page is within bounds when data changes
+   * Ensure the current page is within bounds when data changes
    */
   useEffect(() => {
-    if (currentPage > totalPages) {
+    if (currentPage > totalPages && totalPages > 0) {
       setCurrentPage(totalPages);
     }
   }, [currentPage, totalPages]);
 
   /**
-   * 3) Local click handler to show item-level loading
+   * Local click handler to show item-level loading, then call parent’s `handleViewOrder`
    */
   const handleItemClick = async (item: Notification) => {
-    // Show spinner only for this specific item
     setLoadingItemId(item._id);
-
-    // Call the parent-provided handler, e.g. marking as read + redirect
     await handleViewOrder(item);
-
-    // Hide spinner
     setLoadingItemId(null);
   };
 
   /**
-   * 4) Render
+   * Render
    */
   return (
     <div>
-      <div>
-        <h1 className="text-lg font-bold text-black text-center py-2 max-md:text-sm">
-          Order Notification
-        </h1>
-        {data.length > 0 ? (
-          paginatedData.map((item) => (
-            <div
-              key={item._id}
-              onClick={() => handleItemClick(item)}
-              className="h-fit"
-            >
-              {/* Conditionally render a spinner for this specific item */}
-              {loadingItemId === item._id ? (
-                <div className="flex justify-center items-center py-6">
-                                  <FaSpinner className="animate-spin text-[30px] text-gray-800" />
-                                </div>
-              ) : (
-                <div
-                key={item._id}
-                onClick={() => handleItemClick(item)}
-                className="border-b last:border-b-0 p-2 cursor-pointer hover:bg-primary hover:text-white"
-              >
-                <p>Order Ref: {item.order.ref}</p></div>
-              )}
-            </div>
-          ))
-        
-        ) : (
-          <p className="text-center text-black">No notifications.</p>
-        )}
-      </div>
+      <h1 className="text-lg font-bold text-black text-center py-2 max-md:text-sm">
+        Order Notification
+      </h1>
 
-      {/* Pagination */}
+      {isLoading ? (
+        // Show global loading spinner
+        <div className="flex justify-center items-center h-full w-full py-6">
+          <FaSpinner className="animate-spin text-[30px] items-center" />
+        </div>
+      ) : data.length === 0 ? (
+        // If no notifications
+        <p className="text-center text-black">No notifications.</p>
+      ) : (
+        // Otherwise, map paginated data
+        paginatedData.map((item) => (
+          <div
+            key={item._id}
+            className="border-b last:border-b-0 cursor-pointer"
+            onClick={() => handleItemClick(item)}
+          >
+            {loadingItemId === item._id ? (
+              <div className="flex justify-center items-center py-6">
+                <FaSpinner className="animate-spin text-[30px] text-gray-800" />
+              </div>
+            ) : (
+              <div className="p-2 hover:bg-primary hover:text-white">
+                <p>Order Ref: {item.order.ref}</p>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+
+      {/* Pagination controls */}
       <div className="py-2 text-gray-500">
         <Pagination
           currentPage={currentPage}

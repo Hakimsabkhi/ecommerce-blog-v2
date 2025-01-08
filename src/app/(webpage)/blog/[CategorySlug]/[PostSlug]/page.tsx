@@ -1,4 +1,4 @@
-import BlogPost from '@/components/fPost/BlogPost';
+import BlogPost from '@/components/PostComponents/BlogPost';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
@@ -6,7 +6,7 @@ interface Postsecondsubsection {
   secondtitle: string;
   description: string;
   imageUrl?: string;
-  imageFile?: File; // Temporary property to store the selected file before upload
+  imageFile?: File; 
 }
 
 interface Postfirstsubsection {
@@ -14,7 +14,7 @@ interface Postfirstsubsection {
   description: string;
   Postsecondsubsections: Postsecondsubsection[];
   imageUrl?: string;
-  imageFile?: File; // Temporary property to store the selected file before upload
+  imageFile?: File; 
 }
 
 interface blog {

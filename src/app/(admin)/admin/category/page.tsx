@@ -198,7 +198,7 @@ const AddedCategories: React.FC = () => {
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center justify-between">
-        <p className="text-3xl font-bold">ALL categories</p>
+        <p className="text-3xl font-bold">ALL Post Categories</p>
 
         <Link href="category/addcategory">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-[200px] h-10">

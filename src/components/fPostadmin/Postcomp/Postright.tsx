@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import React from 'react'
 import PostCategory from './PostCategory';
+
 interface blogCategory{
     _id:string;
     name:string;
     slug:string;
 }
+
 const fetchBlogCategories = async (): Promise<blogCategory[]> => {
     const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blog/PostCategory/admin/getAllCategory`, {
         method: 'GET',
@@ -31,11 +33,10 @@ export default async function Blogright ()  {
     </div>
     {blogCategorys &&    <div className='flex flex-col gap-4'>
         <p className='text-4xl font-bold'>Categories</p>
-        {blogCategorys.map((blogCategory, index) =>(    <div key={index} className='flex flex-col gap-2'>
+        {blogCategorys.map((blogCategory, index) =>(<div key={index} className='flex flex-col gap-2'>
        <Link href={`/admin/blog/${blogCategory.slug}`}>
         <p className='text-blue-600 underline cursor-pointer'>{blogCategory.name}</p>
-        </Link>
-           
+        </Link>         
         </div>))}
     </div>}
     

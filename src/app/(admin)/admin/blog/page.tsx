@@ -10,7 +10,7 @@ import useIs2xl from "@/hooks/useIs2x";
 import { FaSpinner } from "react-icons/fa6";
 import { FaTrashAlt } from "react-icons/fa";
 
-type Postmain = {
+type Post = {
   _id: string;
   title: string;
   description: string;
@@ -18,29 +18,29 @@ type Postmain = {
   user: { _id: string; username: string; role: string };
   slug: string;
   vadmin: string;
-  blogCategory: blogCategory;
+  PostCategory: PostCategory;
   createdAt: Date;
   updatedAt: Date;
 };
-interface blogCategory {
+interface PostCategory {
   _id: string;
   name: string;
   slug: string;
 }
 
 const BlogTable: React.FC = () => {
-  const [postlist, setpostlist] = useState<Postmain[]>([]);
+  const [postlist, setpostlist] = useState<Post[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState(true);
-  const [selectedPost, setselectedPost] = useState<Postmain | null>(null);
+  const [selectedPost, setselectedPost] = useState<Post | null>(null);
 
   const is2xl = useIs2xl();
   const blogsPerPage = is2xl ? 8 : 5;
 
-  const handleDeleteClick = (blog: Postmain) => {
+  const handleDeleteClick = (blog: Post) => {
     setselectedPost(blog);
     setIsPopupOpen(true);
   };
@@ -183,16 +183,16 @@ const BlogTable: React.FC = () => {
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center justify-between">
-        <p className="text-3xl font-bold">ALL Blogs</p>
+        <p className="text-3xl font-bold">ALL POSTS</p>
         <div className="grid grid-cols-2 gap-2 items-center justify-center">
           <Link href="blog/postcategory" className="w-full">
-            <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
-              CATEGORY BLOG
+            <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-[5px] p-2">
+            Post Category
             </button>
           </Link>
           <Link href="blog/addpost" className="w-full">
-            <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
-              Add a new blog
+            <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-[5px] p-2">
+              Add New Post
             </button>
           </Link>
         </div>
@@ -244,7 +244,7 @@ const BlogTable: React.FC = () => {
                     {blog.title}
                   </td>
                   <td className="border px-4 py-2">
-                    {blog.blogCategory?.name}
+                    {blog.PostCategory?.name}
                   </td>
                   <td className="border px-4 py-2 flex  justify-center">
                     <Link href={blog.imageUrl}>
@@ -304,11 +304,11 @@ const BlogTable: React.FC = () => {
                         )}
                       </button>
 
-                      {blog.blogCategory && (
+                      {blog.PostCategory && (
                         <Link
                           href={`/${
                             blog.vadmin === "approve" ? "" : "admin/"
-                          }blog/${blog.blogCategory.slug}/${blog.slug}`}
+                          }blog/${blog.PostCategory.slug}/${blog.slug}`}
                         >
                           <button className="bg-gray-800 text-white w-36 h-10 hover:bg-gray-600 rounded-md uppercase">
                             See Blog
