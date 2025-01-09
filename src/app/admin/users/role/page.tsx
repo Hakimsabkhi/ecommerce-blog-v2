@@ -174,7 +174,7 @@ const Page = () => {
         </div>
 
         <div className="max-2xl:h-80 h-[50vh] overflow-x-auto">
-          <table className=" rounded overflow-hidden  table-fixed mx-auto">
+          <table className="w-full rounded overflow-hidden table-fixed">
             <thead>
               <tr className="bg-gray-800">
                 <th className="border border-gray-300 p-3">Role Name</th>
