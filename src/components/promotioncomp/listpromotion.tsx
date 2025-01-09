@@ -47,17 +47,20 @@ const ListPromotion: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-   const [colSpan, setColSpan] = useState(5);
+  const [colSpan, setColSpan] = useState(5);
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await fetch("/api/promotion/admin/getproductpromotionB", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "/api/promotion/admin/getproductpromotionB",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }
@@ -81,10 +84,13 @@ const ListPromotion: React.FC = () => {
     };
     const fetchCategories = async () => {
       try {
-        const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
-          method: "GET",
-          next: { revalidate: 0 }, // Disable caching to always fetch the latest data
-        });
+        const response = await fetch(
+          "/api/category/admin/getAllCategoryAdmin",
+          {
+            method: "GET",
+            next: { revalidate: 0 }, // Disable caching to always fetch the latest data
+          }
+        );
         if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
         setCategories(data);
@@ -96,30 +102,29 @@ const ListPromotion: React.FC = () => {
     getProducts();
   }, []);
   useEffect(() => {
-      const updateColSpan = () => {
-        const isSmallestScreen = window.innerWidth <= 640; // max-sm
-        
-        const isMediumScreen = window.innerWidth <= 1024; // max-lg
-  
-        if (isSmallestScreen) {
-          setColSpan(3); // max-sm: colSpan = 3
-        
-        } else if (isMediumScreen) {
-          setColSpan(4); // max-lg: colSpan = 5
-        } else {
-          setColSpan(5); // Default: colSpan = 6
-        }
-      };
-  
-      // Initial check
-      updateColSpan();
-  
-      // Add event listener
-      window.addEventListener("resize", updateColSpan);
-  
-      // Cleanup event listener
-      return () => window.removeEventListener("resize", updateColSpan);
-    }, []);
+    const updateColSpan = () => {
+      const isSmallestScreen = window.innerWidth <= 640; // max-sm
+
+      const isMediumScreen = window.innerWidth <= 1024; // max-lg
+
+      if (isSmallestScreen) {
+        setColSpan(3); // max-sm: colSpan = 3
+      } else if (isMediumScreen) {
+        setColSpan(4); // max-lg: colSpan = 5
+      } else {
+        setColSpan(5); // Default: colSpan = 6
+      }
+    };
+
+    // Initial check
+    updateColSpan();
+
+    // Add event listener
+    window.addEventListener("resize", updateColSpan);
+
+    // Cleanup event listener
+    return () => window.removeEventListener("resize", updateColSpan);
+  }, []);
 
   useEffect(() => {
     const filtered = products.filter((product) => {
@@ -150,7 +155,7 @@ const ListPromotion: React.FC = () => {
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex justify-between">
-        <p className="text-3xl font-bold">ALL Products Promotion</p> 
+        <p className="text-3xl font-bold">ALL Products Promotion</p>
         <Link href="/admin/promotion/banner">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
             <p>Banner promotion</p>
@@ -190,7 +195,9 @@ const ListPromotion: React.FC = () => {
               <th className="px-4 py-3 w-1/5 md:max-lg:w-[25%]">Name</th>
               <th className="px-4 py-3 w-1/5">ImageURL</th>
               <th className="px-4 py-3 w-1/5 max-lg:hidden">Created By</th>
-              <th className="px-4 text-center py-3 w-1/5 md:max-lg:w-[35%]">Action</th>
+              <th className="px-4 text-center py-3 w-1/5 md:max-lg:w-[35%]">
+                Action
+              </th>
             </tr>
           </thead>
           {loading ? (
@@ -229,7 +236,9 @@ const ListPromotion: React.FC = () => {
                       />
                     </div>
                   </td>
-                  <td className="border px-4 py-2 max-lg:hidden">{item?.user?.username}</td>
+                  <td className="border px-4 py-2 max-lg:hidden">
+                    {item?.user?.username}
+                  </td>
                   <td className="border px-4 py-2">
                     <div className="flex items-center justify-center gap-2">
                       <Link
@@ -250,23 +259,31 @@ const ListPromotion: React.FC = () => {
         </table>
       </div>
       <div className="flex flex-col gap-4 md:hidden">
-          {currentProducts.map((product) => (
-            <div
-              key={product._id}
-              className="p-4 mb-4 bg-gray-100 rounded shadow-md"
-            >
-              <div className="flex justify-between">
-                <p className="font-bold">{product.name}</p>
-                <p>{product.ref}</p>
+        {currentProducts.map((product) => (
+          <div
+            key={product._id}
+            className="p-4 mb-4 flex flex-col gap-4 bg-gray-100 rounded shadow-md"
+          >
+            <div className="flex flex-col gap-2">
+              <div className="flex  text-3xl font-semibold uppercase text-center justify-center ">
+                <p className="">{product.name}</p>
               </div>
-              <Image
-                src={product.imageUrl}
-                alt={product.name}
-                width={100}
-                height={100}
-                className="rounded-lg"
-              />
-              <div className="text-right">
+              <hr className="border-white border-2 w-full my-2" />
+              <div className="w-full flex justify-center py-2">
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  width={300}
+                  height={100}
+                  className="rounded-lg"
+                />
+              </div>
+
+              <div className="flex justify-between items-center">
+                <div className="flex gap-2 font-semibold ">
+                  <p className="text-gray-600 ">REF:</p>
+                  <p >{product.ref}</p>
+                </div>
                 <Link href={`/${product.slug}`}>
                   <button className="bg-gray-800 text-white px-4 py-2 rounded-md">
                     See Product
@@ -274,8 +291,9 @@ const ListPromotion: React.FC = () => {
                 </Link>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}

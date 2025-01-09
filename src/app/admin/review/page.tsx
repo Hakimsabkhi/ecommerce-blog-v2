@@ -160,7 +160,7 @@ const Page = () => {
           ) : (
         <tbody>
           {currentProducts.map((item) => (
-            <tr key={item._id} className="bg-white text-balck">
+            <tr key={item._id}  className="even:bg-gray-100 odd:bg-white">
               <td className="border px-4 py-2 text-center">{item.ref}</td>
               <td className="border px-4 py-2 text-center truncate">{item.name}</td>
               <td className="border px-4 py-2 text-center max-lg:hidden">{item.nbreview}</td>
@@ -198,29 +198,38 @@ const Page = () => {
             currentProducts.map((item) => (
               <div
                 key={item._id}
-            className="p-4 mb-4 bg-gray-100 rounded shadow-md flex flex-col gap-2"
+            className="p-4 mb-4 flex flex-col gap-4 bg-gray-100 rounded shadow-md"
               >
-                <p>
-                  <strong>REF:</strong> {item.ref}
-                </p>
-                <p>
-                  <strong>Name:</strong> {item.name}
-                </p>
-                <p>
-                  <strong>Reviews:</strong> {item.nbreview}
-                </p>
-                <div className='flex justify-between '>
-                <div className="">
-                  <Image
-                    alt={item.name}
-                    src={item.imageUrl}
-                    height={100}
-                    width={100}
-                    className="rounded"
-                  />
+                <div>
+                  <div className="flex gap-1 text-3xl font-semibold uppercase text-center justify-center ">
+                    <p className="text-gray-600  w-1/5">REF:</p>
+                    <p>{item.ref}</p>
+                  </div>
+                  <hr className="border-white border-2 w-full my-2" />
+                  <div className="flex  gap-1 font-semibold pl-[15%]">
+                    <p className="text-gray-600 w-1/5 mr-4">Name:</p>
+                    <p className="truncate">{item.name}</p>
+                  </div>
+                  <div className="flex gap-1 font-semibold pl-[15%]">
+                    <p className="text-gray-600  w-1/5 mr-4">Reviews:</p>
+                    <p>{item.nbreview}</p>
+                  </div>
+  
+                  <div className="w-full flex justify-center py-2">
+                    <Image
+                      alt={item.name}
+                      src={item.imageUrl}
+                      width={300}
+                      height={500}
+                      className="rounded-md"
+                    />
+                  </div>
                 </div>
+                
+                <div className='flex justify-center'>
+                
                 <Link href={`/admin/review/${item._id}`}>
-                  <button className="bg-gray-800 text-white px-4 py-2 hover:bg-gray-600 rounded-md mt-16">
+                  <button className="bg-gray-800 text-white px-4 py-2 hover:bg-gray-600 rounded-md">
                     Reviews
                   </button>
                 </Link></div>

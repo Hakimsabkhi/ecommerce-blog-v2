@@ -207,7 +207,7 @@ const AdminDashboard = () => {
           ) : (
             <tbody>
               {filteredUsers.map((user) => (
-                <tr key={user._id}>
+                <tr key={user._id} className="even:bg-gray-100 odd:bg-white">
                   <td className="sm:px-6 py-1 font-medium text-gray-900 dark:text-white truncate">
                     {user.email}
                   </td>

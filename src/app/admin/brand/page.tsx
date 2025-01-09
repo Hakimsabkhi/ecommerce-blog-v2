@@ -244,16 +244,28 @@ const AddedBrands: React.FC = () => {
       <div className="md:hidden flex flex-col gap-4">
           {currentBrands.map((item) => (
             <div key={item._id} 
-            className="p-4 mb-4 bg-gray-100 rounded shadow-md">
-              <div className="flex gap-4">
-                <Image src={item.logoUrl} width={50} height={50} alt="icon" />
+            className="p-4 mb-4 flex flex-col gap-4 bg-gray-100 rounded shadow-md">
+              <div className="">
+                
                 <div>
-                  <p className="font-bold">{item.name}</p>
-                  <p className="text-sm text-gray-600">{item.place}</p>
-                  <p className="text-sm text-gray-600">Created by: {item?.user?.username}</p>
+                <div className="flex gap-1 text-3xl font-semibold uppercase text-center justify-center ">
+                  <p className="text-gray-600 ">name:</p>
+                  <p>{item.name}</p>
                 </div>
+                <hr className="border-white border-2 w-full my-2" />
+                <div className="flex  gap-1 font-semibold pl-[15%]">
+                  <p className="text-gray-600 w-1/4 mr-4">Place:</p>
+                  <p className="truncate">{item.place}</p>
+                </div>
+                <div className="flex gap-1 font-semibold pl-[15%]">
+                  <p className="text-gray-600  w-1/4 mr-4">Created by:</p>
+                  <p>{item?.user?.username}</p>
+                </div>
+                </div>
+                <div className="w-full flex justify-center py-2">
+                <Image src={item.logoUrl} width={300} height={50} alt="icon" /></div>
               </div>
-              <div className="flex gap-4 mt-4">
+              <div className="flex justify-center gap-4 mt-4">
               <Link href={`/admin/brand/${item._id}`}>
                   <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                     <FaRegEdit />
