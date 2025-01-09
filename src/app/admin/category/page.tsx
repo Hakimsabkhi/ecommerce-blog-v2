@@ -250,7 +250,7 @@ const AddedCategories: React.FC = () => {
           ) : (
         <tbody>
           {currentCategories.map((category) => (
-            <tr key={category._id}>
+            <tr key={category._id} className="even:bg-gray-100 odd:bg-white">
               <td className="border px-4 py-2 max-sm:hidden">
                 <Image
                   src={category.logoUrl}

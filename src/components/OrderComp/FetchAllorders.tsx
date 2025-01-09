@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import DeletePopup from "../Popup/DeletePopup";
-import ConfirmPopup  from "../Popup/ConfirmPopup";
+import ConfirmPopup from "../Popup/ConfirmPopup";
 import { FaSpinner, FaTrashAlt, FaRegEye, FaRegEdit } from "react-icons/fa";
 import Pagination from "../Pagination";
 import useIs2xl from "@/hooks/useIs2x";
@@ -42,7 +42,7 @@ const ListOrders: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const is2xl = useIs2xl();
-  const ordersPerPage =is2xl ? 8 : 5;
+  const ordersPerPage = is2xl ? 8 : 5;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState({ id: "", name: "" });
@@ -54,7 +54,6 @@ const ListOrders: React.FC = () => {
   const [selectedorderid, setSelectedorderid] = useState<string>("");
   const [selectedval, setSelectedval] = useState<string>("");
   const [colSpan, setColSpan] = useState(5);
-
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStatus(e.target.value);
@@ -73,7 +72,6 @@ const ListOrders: React.FC = () => {
   };
   const handleClosePopupinvoice = () => {
     setIsPopupOpeninvoice(false);
-    
   };
   const handleinvoice = async (order: string) => {
     try {
@@ -88,9 +86,8 @@ const ListOrders: React.FC = () => {
       }
 
       const data = await response.json();
-      window.open(`/admin/invoice/${data.ref._id}`, '_blank');
+      window.open(`/admin/invoice/${data.ref._id}`, "_blank");
       setIsPopupOpeninvoice(false);
-     
     } catch (error: unknown) {
       // Handle different error types effectively
       if (error instanceof Error) {
@@ -163,42 +160,7 @@ const ListOrders: React.FC = () => {
       setLoading(false);
     }
   }, []);
-  const handleinvoiceconfirm=async(orderId: string, newStatus: string)=>{
-    
-    
-    try{
-    const updateFormData = new FormData();
-    updateFormData.append("vadmin", newStatus);
-    const response = await fetch(
-      `/api/order/admin/updatestatusinvoice/${orderId}`,
-      {
-        method: "PUT",
-        body: updateFormData,
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
-    }
-    setOrders((prevData) =>
-      prevData.map((item) =>
-        item._id === orderId
-          ? { ...item, statusinvoice: JSON.parse(newStatus) }
-          : item
-      )
-    );
-    handleinvoice(orderId);
-    const data = await response.json();
-    console.log("Order status updated successfully:", data);
-  } catch (error) {
-    console.error("Failed to update Order status:", error);
-    toast.error("Failed to update Order status");
-  }
-  }
-  const updatestatusinvoice = async (orderId: string, newStatus: string) => {
-   
-    if(newStatus=="false"){
-    
+  const handleinvoiceconfirm = async (orderId: string, newStatus: string) => {
     try {
       const updateFormData = new FormData();
       updateFormData.append("vadmin", newStatus);
@@ -220,17 +182,48 @@ const ListOrders: React.FC = () => {
             : item
         )
       );
+      handleinvoice(orderId);
       const data = await response.json();
       console.log("Order status updated successfully:", data);
     } catch (error) {
       console.error("Failed to update Order status:", error);
       toast.error("Failed to update Order status");
     }
-  }else{
-    setIsPopupOpeninvoice(true)
-    setSelectedorderid(orderId)
-    setSelectedval(newStatus)
-  }
+  };
+  const updatestatusinvoice = async (orderId: string, newStatus: string) => {
+    if (newStatus == "false") {
+      try {
+        const updateFormData = new FormData();
+        updateFormData.append("vadmin", newStatus);
+        const response = await fetch(
+          `/api/order/admin/updatestatusinvoice/${orderId}`,
+          {
+            method: "PUT",
+            body: updateFormData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+        setOrders((prevData) =>
+          prevData.map((item) =>
+            item._id === orderId
+              ? { ...item, statusinvoice: JSON.parse(newStatus) }
+              : item
+          )
+        );
+        const data = await response.json();
+        console.log("Order status updated successfully:", data);
+      } catch (error) {
+        console.error("Failed to update Order status:", error);
+        toast.error("Failed to update Order status");
+      }
+    } else {
+      setIsPopupOpeninvoice(true);
+      setSelectedorderid(orderId);
+      setSelectedval(newStatus);
+    }
   };
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     setLoadingOrderId(orderId);
@@ -238,10 +231,13 @@ const ListOrders: React.FC = () => {
       const updateFormData = new FormData();
       updateFormData.append("status", newStatus);
 
-      const response = await fetch(`/api/order/admin/updateStatusorder/${orderId}`, {
-        method: "PUT",
-        body: updateFormData,
-      });
+      const response = await fetch(
+        `/api/order/admin/updateStatusorder/${orderId}`,
+        {
+          method: "PUT",
+          body: updateFormData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
@@ -260,29 +256,28 @@ const ListOrders: React.FC = () => {
   };
 
   useEffect(() => {
-      const updateColSpan = () => {
-        
-        const isSmallScreen = window.innerWidth <= 768; // max-md
-        const isMediumScreen = window.innerWidth <= 1024; // max-lg
-  
-         if (isSmallScreen) {
-          setColSpan(3); // max-md: colSpan = 4
-        } else if (isMediumScreen) {
-          setColSpan(4); // max-lg: colSpan = 5
-        } else {
-          setColSpan(5); // Default: colSpan = 6
-        }
-      };
-  
-      // Initial check
-      updateColSpan();
-  
-      // Add event listener
-      window.addEventListener("resize", updateColSpan);
-  
-      // Cleanup event listener
-      return () => window.removeEventListener("resize", updateColSpan);
-    }, []);
+    const updateColSpan = () => {
+      const isSmallScreen = window.innerWidth <= 768; // max-md
+      const isMediumScreen = window.innerWidth <= 1024; // max-lg
+
+      if (isSmallScreen) {
+        setColSpan(3); // max-md: colSpan = 4
+      } else if (isMediumScreen) {
+        setColSpan(4); // max-lg: colSpan = 5
+      } else {
+        setColSpan(5); // Default: colSpan = 6
+      }
+    };
+
+    // Initial check
+    updateColSpan();
+
+    // Add event listener
+    window.addEventListener("resize", updateColSpan);
+
+    // Cleanup event listener
+    return () => window.removeEventListener("resize", updateColSpan);
+  }, []);
   useEffect(() => {
     getOrders();
   }, [getOrders]);
@@ -360,13 +355,10 @@ const ListOrders: React.FC = () => {
           href={"order/addorder"}
           className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2"
         >
-          <button type="button">
-            create order
-          </button>
+          <button type="button">create order</button>
         </Link>
       </div>
-      
-      
+
       <div className="flex max-lg:flex-col max-lg:gap-4 justify-between">
         <input
           type="text"
@@ -375,22 +367,22 @@ const ListOrders: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="p-2 border border-gray-300 rounded-lg md:max-xl:w-[30%] lg:w-1/5"
         />
-        
-          <select
-            name="category"
-            value={status}
-            onChange={handleChange}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg md:max-xl:w-[30%] lg:w-1/5 h-10 block"
-            required
-          >
-            <option value="">All</option>
-            <option value="Processing">En cours de traitement</option>
-            <option value="Pack">Expédiée</option>
-            <option value="Deliver">Livrée</option>
-            <option value="Cancelled">Annulée</option>
-            <option value="Refunded">Remboursée</option>
-          </select>
-        
+
+        <select
+          name="category"
+          value={status}
+          onChange={handleChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg md:max-xl:w-[30%] lg:w-1/5 h-10 block"
+          required
+        >
+          <option value="">All</option>
+          <option value="Processing">En cours de traitement</option>
+          <option value="Pack">Expédiée</option>
+          <option value="Deliver">Livrée</option>
+          <option value="Cancelled">Annulée</option>
+          <option value="Refunded">Remboursée</option>
+        </select>
+
         <div className="flex justify-between md:w-[70%] lg:w-[50%] xl:w-[40%]  ">
           <button
             onClick={() => setTimeframe("year")}
@@ -454,11 +446,19 @@ const ListOrders: React.FC = () => {
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
-              <th className="px-4 py-3 w-[12%] lg:max-xl:w-[13%] md:w-[15%]">REF</th>
+              <th className="px-4 py-3 w-[12%] lg:max-xl:w-[13%] md:w-[15%]">
+                REF
+              </th>
               <th className="px-4 py-3 w-[15%] max-xl:hidden">Customer Name</th>
-              <th className="px-4 py-3 w-[12%] lg:max-xl:w-[15%] lg:table-cell hidden">Total</th>
-              <th className="px-4 py-3 w-[16%] lg:max-xl:w-[19%] md:w-[17%]">Date</th>
-              <th className="px-4 text-center py-3 w-[45%] lg:max-xl:w-[53%] md:max-lg:w-[68%]">Action</th>
+              <th className="px-4 py-3 w-[12%] lg:max-xl:w-[15%] lg:table-cell hidden">
+                Total
+              </th>
+              <th className="px-4 py-3 w-[16%] lg:max-xl:w-[19%] md:w-[17%]">
+                Date
+              </th>
+              <th className="px-4 text-center py-3 w-[45%] lg:max-xl:w-[53%] md:max-lg:w-[68%]">
+                Action
+              </th>
             </tr>
           </thead>
           {loading ? (
@@ -484,10 +484,7 @@ const ListOrders: React.FC = () => {
           ) : (
             <tbody>
               {currentOrders.map((item) => (
-                <tr
-                  key={item._id}
-                  className="bg-white text-black "
-                >
+                <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-2 uppercase truncate">
                     {item.ref}
                   </td>
@@ -594,136 +591,134 @@ const ListOrders: React.FC = () => {
         </table>
       </div>
       <div className="space-y-4 md:hidden">
-{loading ? (
-            
-                
-                  <div className="flex justify-center items-center h-full w-full py-6">
-                    <FaSpinner className="animate-spin text-[30px]" />
-                  </div>
-               
-              
-          ) : filteredOrders.length === 0 ? (
-            
-                
-                  <div className="text-center py-6 text-gray-600 w-full">
-                    <p>Aucune commande trouvée.</p>
-                  </div>
-               
-          ) : (
-            
-              currentOrders.map((item) => (
-                <div
-                  key={item._id}
-                  className="p-4 mb-4 bg-gray-100 rounded shadow-md"
-                >
-                  <p className="border px-4 py-2 uppercase truncate">
-                    {item.ref}
-                  </p>
-                  <p className="border px-4 py-2 uppercase max-xl:hidden truncate">
-                    {item?.user?.username}
-                  </p>
-                  <p className="border px-4 py-2 text-start lg:table-cell truncate hidden">
+        {loading ? (
+          <div className="flex justify-center items-center h-full w-full py-6">
+            <FaSpinner className="animate-spin text-[30px]" />
+          </div>
+        ) : filteredOrders.length === 0 ? (
+          <div className="text-center py-6 text-gray-600 w-full">
+            <p>Aucune commande trouvée.</p>
+          </div>
+        ) : (
+          currentOrders.map((item) => (
+            <div
+              key={item._id}
+              className="p-4 mb-4 flex flex-col gap-4 bg-gray-100 rounded shadow-md"
+            >
+              <div>
+                <div className="flex justify-between">
+                  <p className=" px-4 py-2 uppercase truncate">{item.ref}</p>
+                  <p className=" px-4 py-2 text-start  truncate ">
                     {item.total.toFixed(2)} TND
                   </p>
-                  <div className="border px-4 py-2 truncate">
+                </div>
+
+                <div className="flex justify-between">
+                  <p className=" px-4 py-2 uppercase  truncate">
+                    {item?.user?.username}
+                  </p>
+                  <div className=" px-4 py-2 truncate">
                     {new Date(item.createdAt).toLocaleDateString("en-GB")} -{" "}
                     {new Date(item.createdAt).toLocaleTimeString("en-GB", {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
                   </div>
-                  <div className="border px-4 py-2">
-                    <div className="flex flex-col items-center  gap-2">
-                      <div className="flex gap-2">
-                      <select
-                        className={`w-50 text-black rounded-md p-2 truncate ${
-                          item.orderStatus === "Processing"
-                            ? "bg-gray-800 text-white"
-                            : "bg-red-700 text-white"
-                        }`}
-                        value={item.orderStatus}
-                        onChange={(e) =>
-                          updateOrderStatus(item._id, e.target.value)
-                        }
-                      >
-                        <option value="Processing">En cours</option>
-                        <option value="Pack">Expédiée</option>
-                        <option value="Deliver">Livrée</option>
-                        <option value="Cancelled">Annulée</option>
-                        <option value="Refunded">Remboursée</option>
-                      </select>
-                      
-                      <select
-                        className={`w-50 text-black rounded-md p-2 truncate ${
-                          item.statusinvoice === false
-                            ? "bg-gray-400 text-white"
-                            : "bg-green-500 text-white"
-                        }`}
-                        value={item.statusinvoice.toString()}
-                        onChange={(e) =>
-                          updatestatusinvoice(item._id, e.target.value)
-                        }
-                      >
-                        <option value="true" className="text-white uppercase">
-                          approve
-                        </option>
-                        <option value="false" className="text-white uppercase">
-                          Not approve
-                        </option>
-                      </select>
-                      </div>
-                      <div className="flex gap-2">
-                      {item.statusinvoice === false ? (
-                        <Link href={`/admin/order/bondelivraison/${item.ref}`}>
-                          <button className="bg-gray-800 text-white px-4 h-10 hover:bg-gray-600 rounded-md uppercase">
-                            INVOICE
-                          </button>
-                        </Link>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => handleinvoice(item._id)}
-                          className="bg-gray-800 text-white px-4 h-10 hover:bg-gray-600 rounded-md uppercase"
-                        >
-                          Invoice
-                        </button>
-                      )}
-                      <Link href={`/admin/order/${item.ref}`}>
-                        <button className="bg-gray-800 text-white p-3 hover:bg-gray-600 rounded-md uppercase">
-                          <FaRegEye />
-                        </button>
-                      </Link>
-                      <Link href={`/admin/order/editorder/${item.ref}`}>
-                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                          <FaRegEdit />
-                        </button>
-                      </Link>
-                      <button
-                        onClick={() => handleDeleteClick(item)}
-                        className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                        disabled={loadingOrderId === item._id}
-                      >
-                        {loadingOrderId === item._id ? (
-                          "Processing..."
-                        ) : (
-                          <FaTrashAlt />
-                        )}
-                      </button>
-                      </div>
-                      {isPopupOpen && (
-                        <DeletePopup
-                          handleClosePopup={handleClosePopup}
-                          Delete={DeleteOrder}
-                          id={selectedOrder.id} // Pass selected user's id
-                          name={selectedOrder.name}
-                        />
-                      )}
-                    </div>
-                  </div>
                 </div>
-              ))
-            
-          )}</div>
+              </div>
+
+              <div className=" px-4 py-2">
+                <div className="flex flex-col items-center  gap-2">
+                  <div className="flex gap-2">
+                    <select
+                      className={`w-50 text-black rounded-md p-2 truncate ${
+                        item.orderStatus === "Processing"
+                          ? "bg-gray-800 text-white"
+                          : "bg-red-700 text-white"
+                      }`}
+                      value={item.orderStatus}
+                      onChange={(e) =>
+                        updateOrderStatus(item._id, e.target.value)
+                      }
+                    >
+                      <option value="Processing">En cours</option>
+                      <option value="Pack">Expédiée</option>
+                      <option value="Deliver">Livrée</option>
+                      <option value="Cancelled">Annulée</option>
+                      <option value="Refunded">Remboursée</option>
+                    </select>
+
+                    <select
+                      className={`w-50 text-black rounded-md p-2 truncate ${
+                        item.statusinvoice === false
+                          ? "bg-gray-400 text-white"
+                          : "bg-green-500 text-white"
+                      }`}
+                      value={item.statusinvoice.toString()}
+                      onChange={(e) =>
+                        updatestatusinvoice(item._id, e.target.value)
+                      }
+                    >
+                      <option value="true" className="text-white uppercase">
+                        approve
+                      </option>
+                      <option value="false" className="text-white uppercase">
+                        Not approve
+                      </option>
+                    </select>
+                  </div>
+                  <div className="flex gap-2">
+                    {item.statusinvoice === false ? (
+                      <Link href={`/admin/order/bondelivraison/${item.ref}`}>
+                        <button className="bg-gray-800 text-white px-4 h-10 hover:bg-gray-600 rounded-md uppercase">
+                          INVOICE
+                        </button>
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => handleinvoice(item._id)}
+                        className="bg-gray-800 text-white px-4 h-10 hover:bg-gray-600 rounded-md uppercase"
+                      >
+                        Invoice
+                      </button>
+                    )}
+                    <Link href={`/admin/order/${item.ref}`}>
+                      <button className="bg-gray-800 text-white p-3 hover:bg-gray-600 rounded-md uppercase">
+                        <FaRegEye />
+                      </button>
+                    </Link>
+                    <Link href={`/admin/order/editorder/${item.ref}`}>
+                      <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                        <FaRegEdit />
+                      </button>
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteClick(item)}
+                      className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                      disabled={loadingOrderId === item._id}
+                    >
+                      {loadingOrderId === item._id ? (
+                        "Processing..."
+                      ) : (
+                        <FaTrashAlt />
+                      )}
+                    </button>
+                  </div>
+                  {isPopupOpen && (
+                    <DeletePopup
+                      handleClosePopup={handleClosePopup}
+                      Delete={DeleteOrder}
+                      id={selectedOrder.id} // Pass selected user's id
+                      name={selectedOrder.name}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}
@@ -731,8 +726,14 @@ const ListOrders: React.FC = () => {
           onPageChange={setCurrentPage}
         />
       </div>
-      {isPopupOpeninvoice && (   <ConfirmPopup handleClosePopupinvoice={handleClosePopupinvoice} 
-      handleinvoiceconfirm={handleinvoiceconfirm} selectedorderid={selectedorderid} selectedval={selectedval}/>)}
+      {isPopupOpeninvoice && (
+        <ConfirmPopup
+          handleClosePopupinvoice={handleClosePopupinvoice}
+          handleinvoiceconfirm={handleinvoiceconfirm}
+          selectedorderid={selectedorderid}
+          selectedval={selectedval}
+        />
+      )}
     </div>
   );
 };

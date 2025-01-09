@@ -204,16 +204,16 @@ const BlogTable: React.FC = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="p-2 border border-gray-300 rounded-lg max-w-max"
       />
-      <div className="max-2xl:h-80 h-[50vh]">
+      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
         <table className="w-full rounded overflow-hidden table-fixed">
           <thead>
             <tr className="bg-gray-800">
-              <th className="px-4 py-3 border-r-white w-[15%]">Title</th>
-              <th className="px-4 py-3 border-r-white w-[20%] ">Category</th>
-              <th className="px-4 py-3 border-r-white w-[20%] ">ImageURL</th>
-              <th className="px-4 py-3 border-r-white w-[15%] max-md:hidden">Author</th>
-              <th className="px-4 py-3 border-r-white w-[10%] max-lg:hidden">Role</th>
-              <th className="px-4 py-3 border-r-white text-center">Action</th>
+              <th className="px-4 py-3 xl:w-2/12 lg:w-[15%] md:w-1/6">Title</th>
+              <th className="px-4 py-3 xl:w-[13%] lg:w-[15%] md:w-1/6">Category</th>
+              <th className="px-4 py-3 xl:w-[12%] lg:w-[15%] md:w-1/6">ImageURL</th>
+              <th className="px-4 py-3 xl:w-[13%] lg:w-[15%] max-lg:hidden">Author</th>
+              <th className="px-4 py-3 xl:w-[12%] max-xl:hidden">Role</th>
+              <th className="px-4 py-3 xl:w-4/12 lg:w-[40%] md:w-1/2 text-center">Action</th>
             </tr>
           </thead>
           {loading ? (
@@ -239,7 +239,7 @@ const BlogTable: React.FC = () => {
           ) : (
             <tbody>
               {currentBlogs.map((blog) => (
-                <tr key={blog._id} className="bg-white text-black">
+                <tr key={blog._id}  className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-2 truncate">
                     {blog.title}
                   </td>
@@ -259,8 +259,8 @@ const BlogTable: React.FC = () => {
                     </Link>
                   </td>
 
-                  <td className="border px-4 py-2 max-md:hidden truncate">{blog?.user?.username}</td>
-                  <td className="border px-4 py-2 max-lg:hidden">{blog?.user?.role}</td>
+                  <td className="border px-4 py-2 max-lg:hidden truncate">{blog?.user?.username}</td>
+                  <td className="border px-4 py-2 max-xl:hidden">{blog?.user?.role}</td>
                   <td className="border px-4 py-2">
                     <div className="flex items-center justify-center gap-2">
                       <select
@@ -321,8 +321,39 @@ const BlogTable: React.FC = () => {
               ))}
             </tbody>
           )}
-        </table>{" "}
+        </table>
       </div>
+      <div className="grid grid-cols-1 gap-4 md:hidden">
+          {currentBlogs.map((blog) => (
+            <div
+              key={blog._id}
+              className="p-4 border rounded-lg shadow-md flex flex-col gap-4 bg-white"
+            >
+              <div className="flex justify-between">
+                <h3 className="text-lg font-semibold">{blog.title}</h3>
+                <button
+                        onClick={() => handleDeleteClick(blog)}
+                        className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                        disabled={selectedPost?._id === blog._id}
+                      >
+                        {selectedPost?._id === blog._id ? (
+                          "Processing..."
+                        ) : (
+                          <FaTrashAlt />
+                        )}
+                      </button>
+              </div>
+              <Image
+                src={blog.imageUrl}
+                alt={blog.title}
+                width={300}
+                height={200}
+                className="rounded-lg mx-auto"
+              />
+              <p className="text-gray-700">{blog.description}</p>
+            </div>
+          ))}
+        </div>
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}
