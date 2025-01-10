@@ -45,18 +45,18 @@ const NavAdmin = () => {
 
   return (
     <nav className="bg-gray-800 w-[100%]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-[90%] mx-auto sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <p className="text-white font-bold text-xl cursor-pointer">Dashboard</p>
           </div>
           <div className="hidden md:flex md:items-center">
-            <div className="ml-4 flex items-center">
+            <div className="flex gap-2 items-center">
               {filteredNavigationItems.map((item) => (
                 <Link key={item.name} href={item.path}>
                   <p
                     onClick={() => handleClick(item.name)}
-                    className={`text-gray-300 hover:bg-gray-700 hover:text-white p-3 rounded-md text-sm font-medium cursor-pointer ${
+                    className={`w-fit align-center text-gray-300 hover:bg-gray-700 hover:text-white p-3 rounded-md text-sm font-medium cursor-pointer ${
                       activeLink === item.name ? "bg-gray-700" : ""
                     }`}
                   >

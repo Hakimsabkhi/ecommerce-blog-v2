@@ -28,6 +28,6 @@ export  const pageUrls = [
     { name: 'Revenue', path: '/admin/revenue' },
     { name: 'Role', path: '/admin/users/role' },
     { name: 'Blog', path: '/admin/blog' },
-    { name: 'Blog Comment', path: '/admin/bloglike' }
+    { name: 'B.Comments', path: '/admin/bloglike' }
   ];
   
