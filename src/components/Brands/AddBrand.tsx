@@ -66,7 +66,7 @@ const AddBrand = () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("image", image);
-    formData.append("logo", icon); // Correctly naming the field
+    formData.append("logo", icon); 
     formData.append("place", place);
 
     try {
@@ -102,7 +102,7 @@ const AddBrand = () => {
       <p className="text-3xl font-bold">Add Brand</p>
       <form
         onSubmit={handleSubmit}
-        className="flex max-lg:flex-col max-lg:gap-4 lg:items-center gap-4"
+        className="flex flex-col max-lg:gap-4 lg:items-center gap-4"
       >
         <div className="flex items-center w-[40%] max-lg:w-full gap-6 justify-between">
           <p className="text-xl max-lg:text-base font-bold">Name*</p>

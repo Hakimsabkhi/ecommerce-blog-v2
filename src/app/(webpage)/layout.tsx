@@ -10,7 +10,7 @@ const SubLayout = ({ children }: { children: React.ReactNode }) => {
     <div >
       <StoreProviders>
         <Header />
-        <main>{children}</main>
+        {children}
         <Footer />
       </StoreProviders>
     </div>

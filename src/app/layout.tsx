@@ -18,8 +18,8 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerSession(authOptions);
   
   return (
-    <html lang="en" className={`${poppins.className} w-full`}>
-      <body className={poppins.className}>
+    <html lang="en" className={`${poppins.className} w-full h-full`}>
+      <body className="w-full h-full">
         <SessionProviderWrapper session={session}>    
             {children}
         </SessionProviderWrapper>
