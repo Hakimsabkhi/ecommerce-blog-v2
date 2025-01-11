@@ -100,7 +100,7 @@ const BlogLikes = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("/api/comments/admin/getbolgcomments", {
+        const response = await fetch("/api/comments/admin/getpostcomments", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

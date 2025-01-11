@@ -12,7 +12,7 @@ export async function GET(
     const {id:postcategory} = await params;
     if (!postcategory || typeof postcategory !== 'string') {
       return NextResponse.json(
-        { message: 'blogcategory is required and should be a string' },
+        { message: 'PostCategory is required and should be a string' },
         { status: 400 }
       );
     }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"; // Use the new Next.js 13 API route types
 import dbConnect from "@/lib/db";
-import BlogCategory from "@/models/PostSections/PostCategory";
+import PostCategory from "@/models/PostSections/PostCategory";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
 
@@ -38,8 +38,8 @@ export async function PUT(
         );
       }
   
-      const existingblogCategory= await BlogCategory.findById(id);
-      if (!existingblogCategory) {
+      const existingpostCategory= await PostCategory.findById(id);
+      if (!existingpostCategory) {
         return NextResponse.json(
           { message: "Category not found" },
           { status: 404 }
@@ -51,14 +51,14 @@ export async function PUT(
       // Update category with new values
       // Ensure proper type conversions and default values
       if (vadmin !== undefined && vadmin !== null) {
-        existingblogCategory.vadmin = vadmin;
+        existingpostCategory.vadmin = vadmin;
       }
   console.log(vadmin)
   
       
-      await existingblogCategory.save();
+      await existingpostCategory.save();
   
-      return NextResponse.json(existingblogCategory, { status: 200 }); 
+      return NextResponse.json(existingpostCategory, { status: 200 }); 
     } catch (error) {
       console.error(error); // Log error for debugging
       return NextResponse.json(
