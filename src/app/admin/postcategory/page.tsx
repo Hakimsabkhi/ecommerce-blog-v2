@@ -104,12 +104,12 @@ const AddedCategories: React.FC = () => {
   };
   
   
-  const updateBlogCategoryStatus = async (blogId: string, newStatus: string) => {
+  const updatePostCategoryStatus = async (blogId: string, newStatus: string) => {
     try {
       const updateFormData = new FormData();
       updateFormData.append("vadmin", newStatus);
 
-      const response = await fetch(`/api/blog/PostCategory/admin/updateBlogCategoryStatus/${blogId}`, {
+      const response = await fetch(`/api/blog/PostCategory/admin/updatePostCategoryStatus/${blogId}`, {
         method: "PUT",
         body: updateFormData,
       });
@@ -228,7 +228,7 @@ const AddedCategories: React.FC = () => {
                     }`}
                     value={item.vadmin}
                     onChange={(e) =>
-                      updateBlogCategoryStatus(item._id, e.target.value)
+                      updatePostCategoryStatus(item._id, e.target.value)
                     }
                   >
                     <option value="approve" className="text-white uppercase">

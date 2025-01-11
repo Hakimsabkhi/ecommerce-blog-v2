@@ -15,7 +15,7 @@ export async function GET(
 
     if (!postcategory || typeof postcategory !== 'string') {
       return NextResponse.json(
-        { message: 'blogcategory is required and should be a string' },
+        { message: 'postcategory is required and should be a string' },
         { status: 400 }
       );
     }

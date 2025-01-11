@@ -12,7 +12,7 @@ interface Blog {
   description: string;
   imageUrl: string;
   slug: string;
-  blogCategory: { slug: string };
+  postCategory: { slug: string };
   vadmin: string;
   createdAt: string;
 }
@@ -25,7 +25,8 @@ function PostCategory() {
   const [loading, setLoading] = useState(true); // Loading state
  const[err,setErr]=useState(false);
   // Get the id from the URL params
-  const id = params.slug;
+  const id = params.CategorySlug;
+
   const fetchBlogData = async (id: string): Promise<Blog[]> => {
     const res = await fetch(`/api/blog/PostBySlugCategoryCustomer/${id}`, {
       method: 'GET',
@@ -117,7 +118,7 @@ function PostCategory() {
               
             </div>
             <Link
-                  href={`/blog/${item.blogCategory?.slug}/${item.slug}`}
+                  href={`/blog/${item.postCategory?.slug}/${item.slug}`}
                   aria-label="read more about blog"
                   className="bg-primary hover:bg-[#15335D] rounded-lg w-[90%] h-14 items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white"
                 >

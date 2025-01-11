@@ -39,7 +39,7 @@ const ListReview: React.FC = () => {
 
     try {
       const response = await fetch(
-        `/api/comments/admin/getAllcommentByblog?id=${blogId}`,
+        `/api/comments/admin/getAllcommentBypost?id=${blogId}`,
         {
           method: "GET",
           headers: {

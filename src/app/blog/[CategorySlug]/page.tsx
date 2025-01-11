@@ -7,7 +7,7 @@ interface blog {
     description: string;
     imageUrl: string;
     slug: string;
-    blogCategory:{slug:string};
+    postcategory:{slug:string};
     vadmin:string;
     createdAt:string;
   }
