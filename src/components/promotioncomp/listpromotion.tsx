@@ -264,11 +264,17 @@ const ListPromotion: React.FC = () => {
             key={product._id}
             className="p-4 mb-4 flex flex-col gap-4 bg-gray-100 rounded shadow-md"
           >
-            <div className="flex flex-col gap-2">
-              <div className="flex  text-3xl font-semibold uppercase text-center justify-center ">
-                <p className="">{product.name}</p>
-              </div>
+            <div>
+                <div className="flex gap-1 text-3xl font-semibold uppercase text-center justify-center ">
+                  <p className="text-gray-600 ">REF:</p>
+                  <p >{product.ref}</p>
+                </div>
+              
               <hr className="border-white border-2 w-full my-2" />
+              <div className="flex  gap-1 font-semibold pl-[15%]">
+                  <p className="text-gray-600 w-1/5 mr-4">Name:</p>
+                <p className=""> {product.name}</p>
+              </div>
               <div className="w-full flex justify-center py-2">
                 <Image
                   src={product.imageUrl}
@@ -280,10 +286,7 @@ const ListPromotion: React.FC = () => {
               </div>
 
               <div className="flex justify-between items-center">
-                <div className="flex gap-2 font-semibold ">
-                  <p className="text-gray-600 ">REF:</p>
-                  <p >{product.ref}</p>
-                </div>
+                
                 <Link href={`/${product.slug}`}>
                   <button className="bg-gray-800 text-white px-4 py-2 rounded-md">
                     See Product
