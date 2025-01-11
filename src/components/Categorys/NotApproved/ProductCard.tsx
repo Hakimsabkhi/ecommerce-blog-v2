@@ -1,14 +1,12 @@
 // components/ProductCard.tsx
 "use client";
-import React, { useState } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { FaEye, FaRegHeart } from "react-icons/fa";
 import { FaCartShopping, FaHeart } from "react-icons/fa6";
 import { star } from "@/assets/image";
 
-import { addItem } from "@/store/cartSlice";
-import { toast } from "react-toastify";
 
 interface Brand {
   _id: string;
@@ -47,11 +45,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
 
   const noimage =
     "https://res.cloudinary.com/dx499gc6x/image/upload/v1723623372/na_mma1mw.webp";
- 
 
   return (
     <div className="bg-white rounded-lg duration-500 lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[481px] max-md:h-[320px] relative m-4">
-      <Link href={`/${item.category.slug}/${item.slug}`}>
+      <Link href={`/admin/${item.category.slug}/${item.slug}`}>
         <Image
           className="absolute inset-0 mx-auto top-5"
           src={item.imageUrl || noimage}
@@ -61,7 +58,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
         />
       </Link>
       <div className="flex-col flex bottom-0 gap-2 absolute w-full px-2">
-        <Link href={`/${item.category.slug}/${item.slug}`}>
+        <Link href={`/admin/${item.category.slug}/${item.slug}`}>
           <div className="h-24 max-md:h-20">
             <p className="text-gray-700 cursor-pointer text-3xl max-md:text-xl font-bold">
               {item.name}
