@@ -8,7 +8,7 @@ interface postcategory{
     slug:string;
 }
 
-const fetchBlogCategories = async (): Promise<postcategory[]> => {
+const fetchPostCategories = async (): Promise<postcategory[]> => {
     const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blog/PostCategory/admin/getAllCategory`, {
         method: 'GET',
         headers: {
@@ -24,7 +24,7 @@ const fetchBlogCategories = async (): Promise<postcategory[]> => {
     return data;
 };
 export default async function Blogright ()  {
-    const postCategory= await fetchBlogCategories()
+    const postCategory= await fetchPostCategories()
   return (
     <div className='w-[300px] flex flex-col gap-10 max-lg:hidden'>
     <div className='flex flex-col gap-4'>
