@@ -21,17 +21,19 @@ const Page = () => {
   const is2xl = useIs2xl();
   const usersPerPage = is2xl ? 8 : 5;
 
-
   const totalPages = useMemo(() => {
     return Math.ceil(roles.length / usersPerPage);
   }, [roles.length, usersPerPage]);
 
-  const handleDeleteClick = (role: { _id: string; name: string; access: Record<string, boolean> }) => {
+  const handleDeleteClick = (role: {
+    _id: string;
+    name: string;
+    access: Record<string, boolean>;
+  }) => {
     setUpdatingRole(role._id);
     setSelectedRole({ id: role._id, name: role.name });
     setIsPopupOpen(true);
   };
-  
 
   const Deleterole = async (id: string) => {
     try {
@@ -53,7 +55,7 @@ const Page = () => {
       } else {
         console.error("Unknown error:", error);
       }
-    }  finally {
+    } finally {
       setUpdatingRole(null);
     }
   };
@@ -149,152 +151,157 @@ const Page = () => {
 
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      
       <div className="flex items-center">
         <h1 className="text-3xl font-bold">Roles</h1>
       </div>
 
-      
-        <div className="flex items-center gap-8 mt-1">
+      <div className="flex max-sm:flex-col md:items-center max-sm:items-end max-sm:gap-4 gap-8 mt-1">
+        <div className="flex gap-4 items-center justify-end ">
           <p className="text-xl font-bold">new Role :</p>
-          
           <input
-           className="p-2 border border-gray-300 rounded-lg max-sm:w-[50%]"
-           placeholder="Ajouter un role"
+            className="p-2 border border-gray-300 rounded-lg max-sm:w-[50%]"
+            placeholder="Ajouter un role"
             value={newRole}
-            onChange={(e) => setNewRole(e.target.value)}/>
-          
-          <button
-            onClick={handleAddRole}
-            type="submit"
-            className="bg-gray-800 font-bold hover:bg-gray-600
-             text-white rounded-lg w-[200px] h-10" >
-            Ajouter un Role
-          </button>
+            onChange={(e) => setNewRole(e.target.value)}
+          />
         </div>
 
-        <div className="max-2xl:h-80 h-[50vh] overflow-x-auto max-xl:hidden">
-          <table className=" rounded overflow-hidden w-full table-fixed mx-auto">
-            <thead>
-              <tr className="bg-gray-800">
-                <th className="border border-gray-300 p-3">Role Name</th>
-                {pages.map((page) => (
-                  <th key={page} className="border border-gray-300 px-4 py-3">
-                    {page}
-                  </th>
-                ))}
-                <th className="border border-gray-300 p-3">Action</th>
-              </tr>
-            </thead>
+        <button
+          onClick={handleAddRole}
+          type="submit"
+          className="bg-gray-800 font-bold hover:bg-gray-600
+             text-white rounded-lg w-[200px] h-10"
+        >
+          Ajouter un Role
+        </button>
+      </div>
 
-            <tbody>
-              {roles.map((role, index) => (
-                <tr key={index} className="even:bg-gray-100 odd:bg-white">
-                  <td className="border border-gray-300 px-4 py-2">
-                    {role.name}
-                  </td>
-                  {pages.map((page) => (
-                    <td
-                      key={page}
-                      className="border border-gray-300 px-4 py-2 text-center"
-                    >
-                      <div className="flex items-center justify-center">
-                        {updatingRole === `${role.name}-${page}` ? (
-                          <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
-                        ) : (
-                          <input
-                            type="checkbox"
-                            checked={role.access[page] || false}
-                            onChange={(e) =>
-                              handleAccessUpdate(
-                                role.name,
-                                page,
-                                e.target.checked
-                              )
-                            }
-                            className="w-6 h-6"
-                          />
-                        )}
-                      </div>
-                    </td>
-                  ))}
-                  <td className="border flex justify-center border-gray-300 px-4 py-2">
-                    <button
-                      onClick={() => handleDeleteClick(role)}
-                      className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                      disabled={updatingRole === role._id}
-                    >
-                      {updatingRole === role._id ? (
+      <div className="max-2xl:h-80 h-[50vh] overflow-x-auto max-xl:hidden">
+        <table className=" rounded overflow-hidden w-full table-fixed mx-auto">
+          <thead>
+            <tr className="bg-gray-800">
+              <th className="border border-gray-300 p-3">Role Name</th>
+              {pages.map((page) => (
+                <th key={page} className="border border-gray-300 px-4 py-3">
+                  {page}
+                </th>
+              ))}
+              <th className="border border-gray-300 p-3">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {roles.map((role, index) => (
+              <tr key={index} className="even:bg-gray-100 odd:bg-white">
+                <td className="border border-gray-300 px-4 py-2">
+                  {role.name}
+                </td>
+                {pages.map((page) => (
+                  <td
+                    key={page}
+                    className="border border-gray-300 px-4 py-2 text-center"
+                  >
+                    <div className="flex items-center justify-center">
+                      {updatingRole === `${role.name}-${page}` ? (
                         <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
                       ) : (
-                        <FaTrashAlt className="" />
+                        <input
+                          type="checkbox"
+                          checked={role.access[page] || false}
+                          onChange={(e) =>
+                            handleAccessUpdate(
+                              role.name,
+                              page,
+                              e.target.checked
+                            )
+                          }
+                          className="w-6 h-6"
+                        />
                       )}
-                    </button>
-                    {isPopupOpen && (
-                      <DeletePopup
-                        handleClosePopup={handleClosePopup}
-                        Delete={Deleterole}
-                        id={selectedRole.id} // Pass selected user's id
-                        name={selectedRole.name}
-                      />
-                    )}
+                    </div>
                   </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="grid xl:hidden grid-cols-1 gap-4">
+                ))}
+                <td className="border flex justify-center border-gray-300 px-4 py-2">
+                  <button
+                    onClick={() => handleDeleteClick(role)}
+                    className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                    disabled={updatingRole === role._id}
+                  >
+                    {updatingRole === role._id ? (
+                      <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
+                    ) : (
+                      <FaTrashAlt className="" />
+                    )}
+                  </button>
+                  {isPopupOpen && (
+                    <DeletePopup
+                      handleClosePopup={handleClosePopup}
+                      Delete={Deleterole}
+                      id={selectedRole.id} // Pass selected user's id
+                      name={selectedRole.name}
+                    />
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="grid xl:hidden grid-cols-1 gap-4">
         {roles.map((role) => (
           <div
             key={role._id}
-            className="border p-4 rounded-lg shadow-md bg-white"
+            className="border-2 border-black p-4 rounded-lg flex flex-col gap-4"
           >
-            
-            <div className="flex justify-between">
-              <h3 className="text-lg font-bold">{role.name}</h3>
-            <button
-                      onClick={() => handleDeleteClick(role)}
-                      className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                      disabled={updatingRole === role._id}
-                    >
-                      {updatingRole === role._id ? (
-                        <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
-                      ) : (
-                        <FaTrashAlt />
-                      )}
-                    </button></div>
-                    {isPopupOpen && (
-                      <DeletePopup
-                        handleClosePopup={handleClosePopup}
-                        Delete={Deleterole}
-                        id={selectedRole.id} // Pass selected user's id
-                        name={selectedRole.name}
-                      />
-                    )}
-            <div className="grid grid-cols-2 gap-2 mt-2 text-xl ">
+            <div className="flex justify-center items-center gap-2">
+              <p className="text-xl font-bold"> Role Name : </p>
+              <h3 className="  text-xl">{role.name}</h3>
+            </div>
+            <div className="grid max-sm:grid-cols-2 sm:grid-cols-2 border-t-2 pt-4 border-b-2 pb-4 md:grid-cols-3 lg:grid-cols-4 gap-10 text-xl ">
               {pages.map((page) => (
-                <div key={page} className="flex justify-between items-center gap-2 bg-slate-300 p-1 rounded-xl">
-                  <span>{page}</span>
+                <div
+                  key={page}
+                  className="flex justify-start text-lg items-center gap-8 p-1 rounded-xl"
+                >
                   <input
                     type="checkbox"
-                    //style={{ width: "20px", height: "20px" }}
-
-                    className="w-8 h-8 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    style={{ accentColor: "black" }}
+                    className="w-8 h-8 text-black focus:ring-black border-gray-300 rounded-xl "
                     checked={role.access[page] || false}
                     onChange={(e) =>
                       handleAccessUpdate(role.name, page, e.target.checked)
                     }
                   />
+                  <span>{page}</span>
                 </div>
               ))}
             </div>
-            
+            <div className="flex justify-center items-center gap-2">
+              <p className="text-lg font-bold">Action : </p>
+              <button
+                onClick={() => handleDeleteClick(role)}
+                className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                disabled={updatingRole === role._id}
+              >
+                {updatingRole === role._id ? (
+                  <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
+                ) : (
+                  <FaTrashAlt />
+                )}
+              </button>
+            </div>
+            {isPopupOpen && (
+              <DeletePopup
+                handleClosePopup={handleClosePopup}
+                Delete={Deleterole}
+                id={selectedRole.id} // Pass selected user's id
+                name={selectedRole.name}
+              />
+            )}
           </div>
         ))}
       </div>
 
-      
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}
