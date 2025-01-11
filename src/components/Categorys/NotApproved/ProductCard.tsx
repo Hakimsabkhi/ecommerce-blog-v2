@@ -7,7 +7,6 @@ import { FaEye, FaRegHeart } from "react-icons/fa";
 import { FaCartShopping, FaHeart } from "react-icons/fa6";
 import { star } from "@/assets/image";
 
-import { useDispatch } from "react-redux";
 import { addItem } from "@/store/cartSlice";
 import { toast } from "react-toastify";
 
@@ -45,26 +44,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
  /*  const params = useParams() as { product?: string };
   const product = params.product;
  */
-  const [clicked, setClicked] = useState(false);
-
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
 
   const noimage =
     "https://res.cloudinary.com/dx499gc6x/image/upload/v1723623372/na_mma1mw.webp";
  
 
-  const dispatch = useDispatch();
-  const addToCartHandler = (product: ProductData, quantity: number) => {
-    // Ensure dispatch is available
- 
-   // Dispatch the action with item and quantity
-   dispatch(addItem({ item: product, quantity }));
- 
-   // Show success notification
-   toast.success(`${product.name} added to cart !`);
- };
   return (
     <div className="bg-white rounded-lg duration-500 lg:group-hover:scale-[0.85] lg:hover:!scale-100 h-[481px] max-md:h-[320px] relative m-4">
       <Link href={`/${item.category.slug}/${item.slug}`}>
@@ -113,9 +97,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
         <div className="flex mb-1 text-lg max-md:text-sm justify-between">
 
         {item.status != 'out-of-stock' ? (item.stock > 0 ? ( <button
-            onClick={() => {
-              addToCartHandler(item,1);
-            }}
+           
             className="AddtoCart bg-primary hover:bg-[#15335D] text-white w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box"
           >
             <p className="absolute  flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease">
@@ -143,7 +125,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
        
       </button>)}
 
-          <a href={`/${item.category.slug}/${item.slug}`} className="w-[30%]">
+          <a href={`/admin/${item.category.slug}/${item.slug}`} className="w-[30%]">
             <button className="AddtoCart bg-white max-md:rounded-[3px] w-full group/box text-primary border border-primary">
               <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease">
                 View
@@ -158,7 +140,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
             </button>
           </a>
           <button
-            onClick={handleClick}
+            
             className="relative bg-white hover:bg-primary max-md:rounded-[3px] AddtoCart w-[13%] group/box text-primary hover:text-white border border-[#8D4407]"
             aria-label="wishlist"
           >
