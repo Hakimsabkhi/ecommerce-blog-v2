@@ -168,6 +168,8 @@ const AdminDashboard = () => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg sm:w-[20%] block p-2.5"
         >
           <option value="">All</option>
+          <option value="Admin">Admin</option>
+          <option value="Visiteur">Visiteur</option>
           {roles.map((role, index) => (
             <option key={index} value={role.name}>
               {role.name}
@@ -218,6 +220,8 @@ const AdminDashboard = () => {
                       onChange={(e) => handleChangeRole(user._id, e.target.value)}
                       disabled={loadingUserId === user._id}
                     >
+                       <option value="Admin">Admin</option>
+                       <option value="Visiteur">Visiteur</option>
                       {roles.map((role, index) => (
                         <option key={index} value={role.name}>
                           {role.name}

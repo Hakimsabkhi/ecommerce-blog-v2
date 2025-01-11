@@ -4,7 +4,7 @@ import Brand from '@/models/Brand';
 import User from '@/models/User';
 import { getToken } from 'next-auth/jwt';
 
-export const dynamic = 'force-dynamic';
+
 
 async function getUserFromToken(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
