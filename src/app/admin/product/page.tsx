@@ -607,11 +607,7 @@ const AddedProducts: React.FC = () => {
                     className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
                     disabled={loadingProductId === item._id}
                   >
-                    {loadingProductId === item._id ? (
-                      "Processing..."
-                    ) : (
-                      <FaTrashAlt />
-                    )}
+                    {loadingProductId === item._id ? ( "Processing...") : ( <FaTrashAlt />  )}
                   </button>
                   <Link
                     href={`/${item.vadmin === "approve" ? "" : "admin/"}${

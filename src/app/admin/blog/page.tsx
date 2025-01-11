@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 import DeletePopup from "@/components/Popup/DeletePopup";
 import Pagination from "@/components/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
-import { FaSpinner } from "react-icons/fa6";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaRegEye, FaSpinner } from "react-icons/fa6";
+import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 
 type Post = {
   _id: string;
@@ -184,7 +184,7 @@ const BlogTable: React.FC = () => {
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL POSTS</p>
-        <div className="grid grid-cols-2 gap-2 items-center justify-center">
+        <div>
          
           <Link href="blog/addpost" className="w-full">
             <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-[5px] p-2">
@@ -258,9 +258,9 @@ const BlogTable: React.FC = () => {
                   <td className="border px-4 py-2 max-lg:hidden truncate">{blog?.user?.username}</td>
                   <td className="border px-4 py-2 max-xl:hidden">{blog?.user?.role}</td>
                   <td className="border px-4 py-2">
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex justify-center gap-2">
                       <select
-                        className={`w-50 text-black rounded-md p-2 ${
+                        className={`w-50 h-10 text-black rounded-md p-2 truncate ${
                           blog.vadmin === "not-approve"
                             ? "bg-gray-400 text-white"
                             : "bg-green-500 text-white"
@@ -284,13 +284,13 @@ const BlogTable: React.FC = () => {
                         </option>
                       </select>
                       <Link href={`/admin/blog/edit/${blog._id}`}>
-                        <button className="bg-gray-800 text-white w-28 h-10 hover:bg-gray-600 rounded-md uppercase">
-                          Modify
-                        </button>
+                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                                                  <FaRegEdit/>
+                                                </button>
                       </Link>
                       <button
                         onClick={() => handleDeleteClick(blog)}
-                        className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                        className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
                         disabled={selectedPost?._id === blog._id}
                       >
                         {selectedPost?._id === blog._id ? (
@@ -306,8 +306,8 @@ const BlogTable: React.FC = () => {
                             blog.vadmin === "approve" ? "" : "admin/"
                           }blog/${blog.postcategory.slug}/${blog.slug}`}
                         >
-                          <button className="bg-gray-800 text-white w-36 h-10 hover:bg-gray-600 rounded-md uppercase">
-                            See Blog
+                          <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                            <FaRegEye />
                           </button>
                         </Link>
                       )}
@@ -323,21 +323,11 @@ const BlogTable: React.FC = () => {
           {currentBlogs.map((blog) => (
             <div
               key={blog._id}
-              className="p-4 border rounded-lg shadow-md flex flex-col gap-4 bg-white"
+              className="p-4 border rounded-lg shadow-md bg-gray-100  flex flex-col gap-4"
             >
-              <div className="flex justify-between">
-                <h3 className="text-lg font-semibold">{blog.title}</h3>
-                <button
-                        onClick={() => handleDeleteClick(blog)}
-                        className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                        disabled={selectedPost?._id === blog._id}
-                      >
-                        {selectedPost?._id === blog._id ? (
-                          "Processing..."
-                        ) : (
-                          <FaTrashAlt />
-                        )}
-                      </button>
+              <div className="text-center ">
+               <h3 className="text-2xl  font-semibold">Title : <span className=" font-normal">{blog.title}</span> </h3>
+               
               </div>
               <Image
                 src={blog.imageUrl}
@@ -346,7 +336,60 @@ const BlogTable: React.FC = () => {
                 height={200}
                 className="rounded-lg mx-auto"
               />
-              <p className="text-gray-700">{blog.description}</p>
+               <div className="flex justify-center gap-2">
+                      <select
+                        className={`w-50 h-10 text-black rounded-md p-2 truncate ${
+                          blog.vadmin === "not-approve"
+                            ? "bg-gray-400 text-white"
+                            : "bg-green-500 text-white"
+                        }`}
+                        value={blog.vadmin}
+                        onChange={(e) =>
+                          updateBlogStatus(blog._id, e.target.value)
+                        }
+                      >
+                        <option
+                          value="approve"
+                          className="text-white uppercase"
+                        >
+                          Approve
+                        </option>
+                        <option
+                          value="not-approve"
+                          className="text-white uppercase"
+                        >
+                          Not approve
+                        </option>
+                      </select>
+                      <Link href={`/admin/blog/edit/${blog._id}`}>
+                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                                                  <FaRegEdit/>
+                                                </button>
+                      </Link>
+                      <button
+                        onClick={() => handleDeleteClick(blog)}
+                        className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
+                        disabled={selectedPost?._id === blog._id}
+                      >
+                        {selectedPost?._id === blog._id ? (
+                          "Processing..."
+                        ) : (
+                          <FaTrashAlt />
+                        )}
+                      </button>
+
+                      {blog.postcategory && (
+                        <Link
+                          href={`/${
+                            blog.vadmin === "approve" ? "" : "admin/"
+                          }blog/${blog.postcategory.slug}/${blog.slug}`}
+                        >
+                          <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                            <FaRegEye />
+                          </button>
+                        </Link>
+                      )}
+                    </div>
             </div>
           ))}
         </div>
