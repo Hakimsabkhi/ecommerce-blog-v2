@@ -215,7 +215,7 @@ const AddedBrands: React.FC = () => {
               <td className="border px-4 py-3">{item.name}</td>
               <td className="border px-4 py-3 max-md:hidden">{item.place}</td>
               <td className="border px-4 py-3 max-lg:hidden">{item?.user?.username}</td>
-              <td className="flex items-center justify-center gap-2">
+              <td className="flex gap-2 justify-center">
                 <Link href={`/admin/brand/${item._id}`}>
                   <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                     <FaRegEdit />

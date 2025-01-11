@@ -207,7 +207,7 @@ const AdminDashboard = () => {
           ) : (
             <tbody>
               {filteredUsers.map((user) => (
-                <tr key={user._id} className="even:bg-gray-100 odd:bg-white">
+                <tr key={user._id}>
                   <td className="sm:px-6 py-1 font-medium text-gray-900 dark:text-white truncate">
                     {user.email}
                   </td>
@@ -289,13 +289,7 @@ const AdminDashboard = () => {
           </div>
         ))}
       </div>
-
-
       
-
-
-
-
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}

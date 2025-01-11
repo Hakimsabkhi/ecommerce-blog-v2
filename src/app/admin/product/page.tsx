@@ -323,19 +323,15 @@ const AddedProducts: React.FC = () => {
       </div>
 
       <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
-        <table className="w-full rounded overflow-hidden table-fixed ">
+        <table className="w-full  table-fixed ">
           <thead>
             <tr className="bg-gray-800">
-              <th className="px-4 py-3 xl:w-1/12 lg:w-1/6 md:w-1/6">REF</th>
-              <th className="px-4 py-3 xl:w-2/12 lg:w-1/6 md:w-1/6">Name</th>
-              <th className="px-4 py-3 xl:w-1/12 max-xl:hidden">Quantity</th>
-              <th className="px-4 py-3 xl:w-1/12 lg:w-1/6 max-lg:hidden">
-                Image
-              </th>
-              <th className="px-4 py-3 xl:w-2/12 max-xl:hidden">Created By</th>
-              <th className="px-4 py-3 xl:w-5/12 lg:w-2/3 md:w-4/6 text-center">
-                Action
-              </th>
+              <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">REF</th>
+              <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">Name</th>
+              <th className="px-4 py-3 xl:w-[8%] max-xl:hidden">Quantity</th>
+              <th className="px-4 py-3 xl:w-[8%] lg:w-1/6 max-lg:hidden"> Image </th>
+              <th className="px-4 py-3 xl:w-[11%] max-xl:hidden">Created By</th>
+              <th className="px-4 py-3 xl:w-[55%] lg:w-2/3 md:w-4/6 text-center">Action </th>
             </tr>
           </thead>
           {loading ? (
@@ -368,7 +364,7 @@ const AddedProducts: React.FC = () => {
                     {item.stock}
                   </td>
                   <td className="border px-4 py-2 max-lg:hidden">
-                    <div className="items-center justify-center flex">
+                    <div className="flex justify-center ">
                       <Image
                         alt={item.name}
                         src={item.imageUrl}
@@ -377,13 +373,13 @@ const AddedProducts: React.FC = () => {
                       />
                     </div>
                   </td>
-                  <td className="border px-4 py-2  max-xl:hidden">
+                  <td className="border px-4 py-2 truncate max-xl:hidden">
                     {item?.user?.username}
                   </td>
                   <td className="border px-4 py-2">
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex justify-center gap-2">
                       <select
-                        className={`w-50 text-black rounded-md truncate p-2 ${
+                        className={` h-10 text-black rounded-md  p-2 ${
                           item.vadmin === "not-approve"
                             ? "bg-gray-400 text-white"
                             : "bg-green-500 text-white"
@@ -408,7 +404,7 @@ const AddedProducts: React.FC = () => {
                       </select>
                       {item.stock > 0 ? (
                         <select
-                          className={`w-50 text-black truncate rounded-md p-2 ${
+                          className={`w-32 h-10 text-black truncate rounded-md p-2 ${
                             item.status === "in-stock"
                               ? "bg-gray-800 text-white"
                               : item.status === "out-of-stock"
@@ -433,7 +429,7 @@ const AddedProducts: React.FC = () => {
                         </div>
                       )}
                       <select
-                        className={` text-black rounded-md p-2 truncate ${
+                        className={`h-10 text-black rounded-md p-2 truncate ${
                           item.statuspage === "none"
                             ? "bg-gray-800 text-white"
                             : "bg-emerald-950 text-white"
@@ -452,7 +448,7 @@ const AddedProducts: React.FC = () => {
 
                       <Link href={`/admin/product/${item._id}`}>
                         <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                          <FaRegEdit />
+                          <FaRegEdit/>
                         </button>
                       </Link>
                       <button
