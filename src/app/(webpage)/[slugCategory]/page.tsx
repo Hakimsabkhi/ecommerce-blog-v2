@@ -4,11 +4,7 @@ import Chairsbanner from '@/components/Chairsbanner';
 import { ICategory } from '@/models/Category';
 import { notFound } from 'next/navigation';
 
-interface CategoryPageProps {
-  params: {
-    slugCategory?: string;
-  };
-}
+
 
 // Fetch category data by ID
 const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
@@ -36,7 +32,7 @@ const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
 };
 
 // CategoryPage component
-async function CategoryPage({ params }: CategoryPageProps) {
+async function CategoryPage({ params }:{ params:Promise< { slugCategory: string }>}) {
   // Await the params object if it is a Promise
   const resolvedParams = await params;
 

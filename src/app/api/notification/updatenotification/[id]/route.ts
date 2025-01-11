@@ -5,7 +5,7 @@ import { getToken } from 'next-auth/jwt';
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectToDatabase();
@@ -13,7 +13,7 @@ export async function PUT(
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const { id } = params;
+    const { id } = await params;
     const notification = await Notification.findById(id);
 
     if (!notification) return NextResponse.json({ error: 'Notification not found' }, { status: 404 });

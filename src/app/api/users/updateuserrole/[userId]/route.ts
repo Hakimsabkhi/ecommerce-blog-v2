@@ -3,10 +3,10 @@ import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PUT(req: NextRequest, { params }: { params: { userId: string ,adminId:string} })  {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ userId: string ,adminId:string}> })  {
 
     await connectToDatabase();
-    const userId=params.userId;
+    const {userId}=await params;
   
     
     const { role } = await req.json();

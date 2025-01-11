@@ -33,7 +33,7 @@ const CategorySchema: Schema = new Schema({
 
 
 // Pre-save hook to generate the slug before saving the category
-CategorySchema.pre('save', function (next) {
+CategorySchema.pre<ICategory>('save', function (next) {
   if (this.isModified('name')) {
     this.slug = slugifyCategoryName(this.name);
   }

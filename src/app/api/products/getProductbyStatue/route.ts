@@ -7,8 +7,12 @@ export async function GET(){
       
       await connectToDatabase();
       await Category.find()
-      const products = await  Products.find({vadmin:"approve"}).populate("category _id name slug");
-    
+      const product = await  Products.find({vadmin:"approve"}) .populate({
+        path: 'category', // The field you're populating
+        match: { 
+          vadmin: "approve" }, // Only populate categories where status is "approved"
+      });
+      const products = product.filter(product => product.category);
       return NextResponse.json(products, { status: 200 });
     } catch (error) {
       console.error(error);

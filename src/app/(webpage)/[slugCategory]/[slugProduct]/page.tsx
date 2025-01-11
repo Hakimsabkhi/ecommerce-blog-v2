@@ -40,12 +40,7 @@ interface Brand {
   imageUrl: string;
 }
 
-interface PageProps {
-  params: {
-    slugCategory: string;
-    slugProduct: string;
-  };
-}
+
 
 async function getProduct(id: string): Promise<Product> {
   const res = await fetch(
@@ -64,10 +59,10 @@ async function getProduct(id: string): Promise<Product> {
   const data: Product = await res.json();
   return data;
 }
+export default async function Page({ params }: { params:Promise< { slugCategory: string; slugProduct: string }>}) {
 
-export default async function Page({ params }: PageProps) {
-  const { slugCategory } = await params;
-  const { slugProduct } = await params;
+  const { slugCategory } =  await params;
+  const { slugProduct } =  await params;
 
   const product = await getProduct(slugProduct);
 
