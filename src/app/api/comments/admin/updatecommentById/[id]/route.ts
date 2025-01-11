@@ -41,7 +41,7 @@ export async function PUT(
   
       const existingComments = await comments.findById(id);
       if (!existingComments) {
-        return NextResponse.json({ message: "Brand not found" }, { status: 404 });
+        return NextResponse.json({ message: "Brand not found" }, { status: 408 });
       }
   
     

@@ -4,6 +4,7 @@ import { useEffect, useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { FaRegCircleXmark } from "react-icons/fa6";
+import React from "react";
 
 interface Postsecondsubsection {
   secondtitle: string;
@@ -24,10 +25,10 @@ interface PostMainSection {
   title: string;
   description: string;
   Postfirstsubsections: Postfirstsubsection[];
-  blogCategory: blogCategory;
+  postcategory: postcategory;
   imageUrl?: string;
 }
-interface blogCategory {
+interface postcategory {
   _id: string;
   name: string;
 }
@@ -67,8 +68,8 @@ const toRoman = (num: number): string => {
   return roman;
 };
 const removedImageUrls: string[] = [];
-type Params = Promise<{ id: string }>;
-export default function UpdatePost({ params }: { params: { id: string } }) {
+///type Params = Promise<{ id: string }>;
+export default function UpdatePost({ params }: { params:Promise< { id: string }> }) {
   const router = useRouter();
 
   const [postData, setpostData] = useState<PostMainSection | null>(null);
@@ -79,7 +80,7 @@ export default function UpdatePost({ params }: { params: { id: string } }) {
   >([]);
   
 
-  const { id } = params;
+  const { id } = React.use(params);
  // Handle image removal for subtitle images
  const handleImageRemoval = (subtitleIndex: number, subsubtitleIndex?: number) => {
   if (postData) {
@@ -455,9 +456,9 @@ const handleback=()=>{
           Post Category{" "}
         </label>
         <select
-          name="blogCategory"
+          name="postcategory"
           onChange={handleInputChangecategory}
-          value={postData.blogCategory?._id}
+          value={postData.postcategory?._id}
           className={`mt-1 block py-2.5 pl-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 `}
           required
         >

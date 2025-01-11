@@ -24,7 +24,7 @@ interface blog {
   title: string;
   description: string;
   Postfirstsubsections: Postfirstsubsection[];
-  blogCategory: blogCategory;
+  postcategory: postcategory;
   imageUrl?: string;
   user:User;
   createdAt:string;
@@ -33,15 +33,12 @@ interface User{
  _id:string;
  username:string
 }
-interface blogCategory {
+interface postcategory {
   _id: string;
   name: string;
 }
 
-interface blogCategory{
-  _id:string
-  name:string
-}
+
 
   interface blogprops{
     blog:blog

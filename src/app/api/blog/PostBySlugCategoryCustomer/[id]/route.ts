@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
-import BlogCategory from '@/models/PostSections/PostCategory';
+import PostCategory from '@/models/PostSections/PostCategory';
 import BlogMainSection from '@/models/PostSections/PostMainSectionModel';
 
 export async function GET(
@@ -9,8 +9,8 @@ export async function GET(
 ) {
   await dbConnect();
   try {
-    const {id:blogcategory} = await params;
-    if (!blogcategory || typeof blogcategory !== 'string') {
+    const {id:postcategory} = await params;
+    if (!postcategory || typeof postcategory !== 'string') {
       return NextResponse.json(
         { message: 'blogcategory is required and should be a string' },
         { status: 400 }
@@ -18,14 +18,14 @@ export async function GET(
     }
 
     // Find the category by name const blog = await BlogMainSection.findOne({ slug: slugblog, vadmin: "not-approve" })
-    const foundCategory = await BlogCategory.findOne({ slug: blogcategory,vadmin: "approve" });
+    const foundCategory = await PostCategory.findOne({ slug: postcategory,vadmin: "approve" });
 
     if (!foundCategory) {
       return NextResponse.json( { status: 402 });
     }
    
     // Find products by the category ID
-    const blog = await BlogMainSection.find({ blogCategory: foundCategory._id ,vadmin: "approve"}).populate('blogCategory' , 'slug').exec();
+    const blog = await BlogMainSection.find({ postcategory: foundCategory._id ,vadmin: "approve"}).populate('postcategory' , 'slug').exec();
 
     return NextResponse.json(blog, { status: 200 });
   } catch (error) {
