@@ -502,9 +502,9 @@ const ListOrders: React.FC = () => {
                     })}
                   </td>
                   <td className="border px-4 py-2">
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex justify-center gap-2">
                       <select
-                        className={`w-50 text-black rounded-md p-2 truncate ${
+                        className={`w-full h-10 text-black rounded-md p-2 truncate ${
                           item.orderStatus === "Processing"
                             ? "bg-gray-800 text-white"
                             : "bg-red-700 text-white"
@@ -531,7 +531,7 @@ const ListOrders: React.FC = () => {
                         </button>
                       </Link>
                       <select
-                        className={`w-50 text-black rounded-md p-2 truncate ${
+                        className={`w-full h-10 text-black rounded-md p-2 truncate ${
                           item.statusinvoice === false
                             ? "bg-gray-400 text-white"
                             : "bg-green-500 text-white"
@@ -565,7 +565,7 @@ const ListOrders: React.FC = () => {
                       )}
                       <button
                         onClick={() => handleDeleteClick(item)}
-                        className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                        className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
                         disabled={loadingOrderId === item._id}
                       >
                         {loadingOrderId === item._id ? (
@@ -628,10 +628,10 @@ const ListOrders: React.FC = () => {
               </div>
 
               <div className=" px-4 py-2">
-                <div className="flex flex-col items-center  gap-2">
+                <div className="flex flex-col gap-2">
                   <div className="flex gap-2">
                     <select
-                      className={`w-50 text-black rounded-md p-2 truncate ${
+                      className={`w-50 h-10 text-black rounded-md p-2 truncate ${
                         item.orderStatus === "Processing"
                           ? "bg-gray-800 text-white"
                           : "bg-red-700 text-white"
@@ -649,7 +649,7 @@ const ListOrders: React.FC = () => {
                     </select>
 
                     <select
-                      className={`w-50 text-black rounded-md p-2 truncate ${
+                      className={`w-50 h-10 text-black rounded-md p-2 truncate ${
                         item.statusinvoice === false
                           ? "bg-gray-400 text-white"
                           : "bg-green-500 text-white"
