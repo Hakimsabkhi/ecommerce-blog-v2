@@ -25,7 +25,8 @@ function PostCategory() {
   const [loading, setLoading] = useState(true); // Loading state
  const[err,setErr]=useState(false);
   // Get the id from the URL params
-  const id = params.slug;
+  const id = params.CategorySlug;
+
   const fetchBlogData = async (id: string): Promise<Blog[]> => {
     const res = await fetch(`/api/blog/PostBySlugCategoryCustomer/${id}`, {
       method: 'GET',

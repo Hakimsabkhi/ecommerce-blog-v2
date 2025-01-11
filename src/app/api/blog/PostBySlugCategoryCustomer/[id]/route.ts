@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db';
 import PostCategory from '@/models/PostSections/PostCategory';
 import BlogMainSection from '@/models/PostSections/PostMainSectionModel';
 
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -10,6 +11,7 @@ export async function GET(
   await dbConnect();
   try {
     const {id:postcategory} = await params;
+
     if (!postcategory || typeof postcategory !== 'string') {
       return NextResponse.json(
         { message: 'PostCategory is required and should be a string' },
