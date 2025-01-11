@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import FirstBlock from '@/components/Products/SingleProduct/FirstBlock';
+import FirstBlock from '@/components/Products/Admin/NotApproved/SingleProduct/FirstBlock';
 import SecondBlock from '@/components/Products/SingleProduct/SecondBlock';
 
 interface ProductData {

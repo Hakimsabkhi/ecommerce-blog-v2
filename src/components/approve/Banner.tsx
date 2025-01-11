@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 interface BannerProps {
-  category: categoryData[];
+  category?: categoryData;
 }
 
 interface categoryData {
@@ -13,23 +13,24 @@ interface categoryData {
 }
 
 const Banner: React.FC<BannerProps> = ({ category }) => {
+ 
   return (
     <div className="max-lg:pt-16">
       <div className="relative w-full">
-        {category && category.length > 0 ? (
-          category.map((cat) => (
-            <div key={cat.slug} className="relative w-full h-[400px] mb-4">
+        {category ?(
+    
+            <div key={category.slug} className="relative w-full h-[400px] mb-4">
               <Link
-                href={`/${cat.slug}`}
+                href={`/${category.slug}`}
                 className="text-8xl max-md:text-3xl text-white transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/4 absolute font-bold"
               >
-                {cat.name}
+                {category.name}
               </Link>
               <div className="w-full h-full flex items-center justify-center">
                 <Image
                   className="object-cover w-full h-[400px]"
-                  src={cat.bannerUrl} // Fallback to default image if bannerUrl is undefined
-                  alt={`${cat.name} logo`}
+                  src={category.bannerUrl} // Fallback to default image if bannerUrl is undefined
+                  alt={`${category.name} logo`}
                   height={400}
                   width={1920}
                   priority // This will preload the image
@@ -40,7 +41,7 @@ const Banner: React.FC<BannerProps> = ({ category }) => {
                 />
               </div>
             </div>
-          ))
+        
         ) : (
           <p className="text-center text-white text-2xl">Loading...</p>
         )}

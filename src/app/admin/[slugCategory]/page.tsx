@@ -35,11 +35,11 @@ interface Brand {
 
 export default function CategoryPage() {
   const { slugCategory } = useParams();
-  console.log (slugCategory);
-  const [category, setCategory] = useState<Category []>([]);
+
+  const [category, setCategory] = useState<Category >();
   const [products, setProducts] = useState<ProductData[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
-  console.log (category);
+  
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
@@ -114,8 +114,9 @@ export default function CategoryPage() {
 
   return (
     <div>
+      <h1>Category Admin</h1>
       <Banner category={category} />
-      <Products products={products} brands={brands} />
+       <Products products={products} brands={brands} />
     </div>
   );
 }
