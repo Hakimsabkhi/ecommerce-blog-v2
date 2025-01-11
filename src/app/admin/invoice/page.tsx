@@ -354,7 +354,7 @@ const Listinvoice: React.FC = () => {
                     })}
                   </td>
                   <td className="border px-4 py-2">
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex justify-center gap-2">
                       <Link href={`/admin/invoice/editinvoice/${item._id}`}>
                         <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                           <FaRegEdit />
@@ -424,7 +424,7 @@ const Listinvoice: React.FC = () => {
             </p>
             </div>
             </div>
-            <div className="flex items-center justify-center gap-2 mt-4">
+            <div className="flex  justify-center gap-2 mt-4">
                       <Link href={`/admin/invoice/editinvoice/${invoice._id}`}>
                         <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                           <FaRegEdit />

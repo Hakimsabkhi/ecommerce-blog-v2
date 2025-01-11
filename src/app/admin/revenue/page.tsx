@@ -122,7 +122,7 @@ const RevenueDashboard: React.FC = () => {
       )}
 
       {/* Revenue Section */}
-      <div className="flex xl:flex-col-2  xl:items-center max-xl:flex-col gap-[5%] ">
+      <div className="flex xl:flex-col-2  xl:items-center max-xl:flex-col gap-4">
         <div className="bg-white rounded-lg xl:w-[50%] h-full border-2 p-6">
           
             <h2 className="text-xl font-semibold">Revenue:</h2>
