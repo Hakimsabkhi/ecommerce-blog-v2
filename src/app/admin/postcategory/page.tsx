@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Pagination from "@/components/Pagination";
 import DeletePopup from "@/components/Popup/DeletePopup";
 import { FaSpinner } from "react-icons/fa6";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 
 
 
@@ -161,11 +161,7 @@ const AddedCategories: React.FC = () => {
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL Post Categories</p>
         <div className="flex gap-2">
-        <Link href="/admin/blog" >
-          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg  pl-10 pr-10  h-10">
-            Back
-          </button>
-          </Link>
+        
         <Link href="/admin/blog/postcategory/addpostcategory" >
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg  h-10  pl-10 pr-10">
             Add a new category
@@ -219,9 +215,9 @@ const AddedCategories: React.FC = () => {
               <td className="border px-4 py-2">{item?.user?.username}</td>
               <td>
                
-                <div className="flex items-center justify-center gap-2">
+                <div className="flex  justify-center gap-2">
                 <select
-                    className={`w-50 text-black rounded-md p-2 ${
+                    className={`w-50 h-10 text-black rounded-md p-2 ${
                       item.vadmin === "not-approve"
                         ? "bg-gray-400 text-white"
                         : "bg-green-500 text-white"
@@ -242,9 +238,9 @@ const AddedCategories: React.FC = () => {
                     </option>
                   </select>
                   <Link href={`/admin/blog/postcategory/${item._id}`}>
-                    <button className="bg-gray-800 text-white w-28 h-10  hover:bg-gray-600 rounded-md">
-                      Modify
-                    </button>
+                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                                          <FaRegEdit />
+                                        </button>
                   </Link>
                   <button
                     onClick={() => handleDeleteClick(item)}

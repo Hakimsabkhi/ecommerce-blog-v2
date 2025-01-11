@@ -154,8 +154,8 @@ const ListPromotion: React.FC = () => {
 
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex justify-between">
-        <p className="text-3xl font-bold">ALL Products Promotion</p>
+      <div className="flex justify-between items-center">
+        <p className="text-3xl max-sm:text-xl  font-bold">ALL Products Promotion</p>
         <Link href="/admin/promotion/banner">
           <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
             <p>Banner promotion</p>
@@ -262,11 +262,11 @@ const ListPromotion: React.FC = () => {
         {currentProducts.map((product) => (
           <div
             key={product._id}
-            className="p-4 mb-4 flex flex-col gap-4 bg-gray-100 rounded shadow-md"
+            className="p-4 mb-4 flex flex-col gap-2 bg-gray-100 rounded shadow-md"
           >
-            <div>
+            
                 <div className="flex gap-1 text-3xl font-semibold uppercase text-center justify-center ">
-                  <p className="text-gray-600 ">REF:</p>
+                  <p className="text-gray-600 pr-2">REF: </p>
                   <p >{product.ref}</p>
                 </div>
               
@@ -285,7 +285,7 @@ const ListPromotion: React.FC = () => {
                 />
               </div>
 
-              <div className="flex justify-between items-center">
+              <div className="flex justify-center">
                 
                 <Link href={`/${product.slug}`}>
                   <button className="bg-gray-800 text-white px-4 py-2 rounded-md">
@@ -293,7 +293,7 @@ const ListPromotion: React.FC = () => {
                   </button>
                 </Link>
               </div>
-            </div>
+            
           </div>
         ))}
       </div>
