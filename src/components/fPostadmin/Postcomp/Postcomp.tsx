@@ -21,7 +21,7 @@ interface blog {
   description: string;
 
   Postfirstsubsections: Postfirstsubsection[];
-  blogCategory: blogCategory;
+  postcategory: postcategory;
   imageUrl?: string;
   user: User;
   createdAt: string;
@@ -30,15 +30,11 @@ interface User {
   _id: string;
   username: string;
 }
-interface blogCategory {
+interface postcategory {
   _id: string;
   name: string;
 }
 
-interface blogCategory {
-  _id: string;
-  name: string;
-}
 
 interface Blogcompprops {
   blog: blog;
@@ -62,7 +58,7 @@ const Blogcomp: React.FC<Blogcompprops> = ({ blog }) => {
           </p>
           <div className="flex items-center gap-2">
             <p className="text-xs px-4 py-2 rounded-md bg-gray-600 text-white">
-              {blog.blogCategory?.name}
+              {blog.postcategory?.name}
             </p>
           </div>
         </div>

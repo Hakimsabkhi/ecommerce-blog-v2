@@ -26,7 +26,7 @@ interface blog {
   title: string;
   description: string;
   Postfirstsubsections: Postfirstsubsection[];
-  blogCategory: blogCategory;
+  postcategory: postcategory;
   imageUrl: string;
   user: User;
   numbercomment: number;
@@ -36,7 +36,7 @@ interface User {
   _id: string;
   username: string;
 }
-interface blogCategory {
+interface postcategory {
   _id: string;
   name: string;
 }
@@ -171,7 +171,7 @@ const BlogLikes = () => {
           {currentBlogs.map((blog) => (
             <tr key={blog._id} className="even:bg-gray-100 odd:bg-white">
               <td className="border px-4 py-2 truncate">{blog.title}</td>
-              <td className="border px-4 py-2 truncate">{blog.blogCategory?.name}</td>
+              <td className="border px-4 py-2 truncate">{blog.postcategory?.name}</td>
               <td className="border px-4 py-2 max-sm:hidden">
                 <div className="bg-gray-200 border-2 border-dashed rounded-xl w-full h-[40px] relative">
                   {" "}
@@ -212,7 +212,7 @@ const BlogLikes = () => {
             >
               <div className="flex justify-between">
                 <p className="font-bold">{blog.title}</p>
-                <p>{blog.blogCategory?.name}</p>
+                <p>{blog.postcategory?.name}</p>
               </div>
               <Image
                 src={blog.imageUrl}

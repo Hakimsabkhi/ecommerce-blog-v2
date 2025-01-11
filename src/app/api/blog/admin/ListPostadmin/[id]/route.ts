@@ -3,7 +3,7 @@ import connectToDatabase from '@/lib/db';
 import PostMainSectionModel from '@/models/PostSections/PostMainSectionModel';
 import { getToken } from 'next-auth/jwt';
 import User from '@/models/User';
-import BlogCategory from '@/models/PostSections/PostCategory';
+import PostCategory from '@/models/PostSections/PostCategory';
 
 
 async function getUserFromToken(req: NextRequest) {
@@ -30,8 +30,8 @@ export async function GET(request: NextRequest, { params }: { params:Promise< { 
         return NextResponse.json({ error: result.error }, { status: result.status });
       }
       await User.find({})
-      await BlogCategory.find({})
-    const post = await PostMainSectionModel.findById(id).populate('blogCategory').lean();
+      await PostCategory.find({})
+    const post = await PostMainSectionModel.findById(id).populate('postcategory').lean();
     if (!post) return NextResponse.json({ message: 'post not found' }, { status: 404 });
     return NextResponse.json(post);
   } catch (error) {
@@ -40,11 +40,11 @@ export async function GET(request: NextRequest, { params }: { params:Promise< { 
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await connectToDatabase();
-  const { id } = params;
+  const { id } = await params;
   const updatedData = await request.json();
-  console.log(updatedData)
+
 
   try {
     const user = await getUserFromToken(request);

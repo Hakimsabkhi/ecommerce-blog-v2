@@ -2,16 +2,16 @@ import { NextResponse} from 'next/server';
 import connectToDatabase from '@/lib/db';
 import PostMainSection from '@/models/PostSections/PostMainSectionModel';
 import User from '@/models/User';
-import BlogCategory from '@/models/PostSections/PostCategory';
+import PostCategory from '@/models/PostSections/PostCategory';
 
 export async function GET() {
   try {
     await connectToDatabase();
 
     await User.find({});
-    await BlogCategory.find({});
+    await PostCategory.find({});
     const Posts = await PostMainSection.find({ vadmin: 'approve' })
-      .populate('blogCategory')
+      .populate('postcategory')
       .populate('user', '_id username')
       .exec();
 

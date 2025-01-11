@@ -21,7 +21,7 @@ interface Blog {
   title: string;
   description: string;
   Postfirstsubsections: Postfirstsubsection[];
-  blogCategory: BlogCategory;
+  postcategory: postcategory;
   imageUrl?: string;
   user: User;
   createdAt: string;
@@ -32,7 +32,7 @@ interface User {
   username: string;
 }
 
-interface BlogCategory {
+interface postcategory {
   _id: string;
   name: string;
 }

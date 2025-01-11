@@ -3,7 +3,7 @@ import connectToDatabase from "@/lib/db";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
 import PostMainSection from "@/models/PostSections/PostMainSectionModel";
-import BlogCategory from "@/models/PostSections/PostCategory";
+import PostCategory from "@/models/PostSections/PostCategory";
 
 export const dynamic = 'force-dynamic';
 
@@ -32,10 +32,10 @@ export async function GET(req: NextRequest) {
       );
     } // Ensure the database connection is established
     await User.find();
-    await BlogCategory.find();
+    await PostCategory.find();
 
     const post = await PostMainSection.find({ numbercomment: { $gt: 0 } })
-      .populate("blogCategory")
+      .populate("postcategory")
       .populate("user")
       .exec();
 

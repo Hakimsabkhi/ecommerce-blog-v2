@@ -15,7 +15,7 @@ const FormReply: React.FC<FormReplyProps> = ({ id, close, getComments }) => {
 
     if (reply) {
       try {
-        const response = await fetch(`/api/comments/updatecommentById//${id}`, {
+        const response = await fetch(`/api/comments/admin/updatecommentById/${id}`, {
           method: "PUT",
           body: formData,
         });

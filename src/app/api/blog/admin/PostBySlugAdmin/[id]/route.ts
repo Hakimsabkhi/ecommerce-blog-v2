@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import BlogMainSection from '@/models/PostSections/PostMainSectionModel';
 import User from '@/models/User';
-import BlogCategory from '@/models/PostSections/PostCategory';
+import PostCategory from '@/models/PostSections/PostCategory';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -20,13 +20,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
     // Fetch all necessary data
     await User.find();
-    await BlogCategory.find();
+    await PostCategory.find();
     
 
     // Fetch the blog with the given slug
    
      const blog = await BlogMainSection.findOne({ slug: slugblog, vadmin: "not-approve" })
-    .populate('blogCategory')
+    .populate('postcategory')
     .populate('user','_id username')
     .exec();
    
