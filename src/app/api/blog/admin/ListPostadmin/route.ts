@@ -3,7 +3,7 @@ import connectToDatabase from '@/lib/db';
 import PostMainSection from '@/models/PostSections/PostMainSectionModel';
 import { getToken } from 'next-auth/jwt';
 import User from '@/models/User';
-import BlogCategory from '@/models/PostSections/BlogCategory';
+import PostCategory from '@/models/PostSections/PostCategory';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,8 +28,8 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: result.error }, { status: result.status });
       }
       await User.find({})
-      await BlogCategory.find({})
-      const Posts = await PostMainSection.find({}).populate('blogCategory').populate('user','_id username email role').exec();
+      await PostCategory.find({})
+      const Posts = await PostMainSection.find({}).populate('postcategory').populate('user','_id username email role').exec();
       return NextResponse.json(Posts);
     } catch (error: unknown) {
       // Explicitly assert `error` as an `Error` type

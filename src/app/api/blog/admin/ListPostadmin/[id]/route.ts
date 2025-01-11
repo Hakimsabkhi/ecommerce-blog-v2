@@ -3,7 +3,7 @@ import connectToDatabase from '@/lib/db';
 import PostMainSectionModel from '@/models/PostSections/PostMainSectionModel';
 import { getToken } from 'next-auth/jwt';
 import User from '@/models/User';
-import BlogCategory from '@/models/PostSections/BlogCategory';
+import BlogCategory from '@/models/PostSections/PostCategory';
 
 
 async function getUserFromToken(req: NextRequest) {

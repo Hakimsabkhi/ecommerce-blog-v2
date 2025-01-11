@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"; // Use the new Next.js 13 API route types
 import dbConnect from "@/lib/db";
-import BlogCategory from "@/models/PostSections/BlogCategory";
+import BlogCategory from "@/models/PostSections/PostCategory";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
 
