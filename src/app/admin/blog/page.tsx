@@ -185,11 +185,7 @@ const BlogTable: React.FC = () => {
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL POSTS</p>
         <div className="grid grid-cols-2 gap-2 items-center justify-center">
-          <Link href="blog/postcategory" className="w-full">
-            <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-[5px] p-2">
-            Post Category
-            </button>
-          </Link>
+         
           <Link href="blog/addpost" className="w-full">
             <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-[5px] p-2">
               Add New Post
