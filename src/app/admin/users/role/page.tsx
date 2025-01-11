@@ -250,21 +250,9 @@ const Page = () => {
             key={role._id}
             className="border p-4 rounded-lg shadow-md bg-white"
           >
-            <h3 className="text-lg font-bold">{role.name}</h3>
-            <div className="grid grid-cols-3 gap-2 mt-2">
-              {pages.map((page) => (
-                <div key={page} className="flex flex-col items-center gap-2">
-                  <span>{page}</span>
-                  <input
-                    type="checkbox"
-                    checked={role.access[page] || false}
-                    onChange={(e) =>
-                      handleAccessUpdate(role.name, page, e.target.checked)
-                    }
-                  />
-                </div>
-              ))}
-            </div>
+            
+            <div className="flex justify-between">
+              <h3 className="text-lg font-bold">{role.name}</h3>
             <button
                       onClick={() => handleDeleteClick(role)}
                       className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
@@ -273,9 +261,9 @@ const Page = () => {
                       {updatingRole === role._id ? (
                         <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
                       ) : (
-                        <FaTrashAlt className="" />
+                        <FaTrashAlt />
                       )}
-                    </button>
+                    </button></div>
                     {isPopupOpen && (
                       <DeletePopup
                         handleClosePopup={handleClosePopup}
@@ -284,6 +272,24 @@ const Page = () => {
                         name={selectedRole.name}
                       />
                     )}
+            <div className="grid grid-cols-2 gap-2 mt-2 text-xl ">
+              {pages.map((page) => (
+                <div key={page} className="flex justify-between items-center gap-2 bg-slate-300 p-1 rounded-xl">
+                  <span>{page}</span>
+                  <input
+                    type="checkbox"
+                    //style={{ width: "20px", height: "20px" }}
+
+                    className="w-8 h-8 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    checked={role.access[page] || false}
+                    onChange={(e) =>
+                      handleAccessUpdate(role.name, page, e.target.checked)
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+            
           </div>
         ))}
       </div>
