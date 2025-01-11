@@ -3,7 +3,7 @@
 
 import {NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
-import Category from '@/models/PostSections/BlogCategory';
+import Category from '@/models/PostSections/PostCategory';
 
 export async function GET() {
   try {

@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     console.log(postCategory)
     const newTitle = new PostMainSection({
       title,
-      blogCategory:postCategory,
+      postcategory:postCategory,
       description,
       imageUrl,
       user,

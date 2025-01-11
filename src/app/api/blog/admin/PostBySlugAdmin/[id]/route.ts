@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import BlogMainSection from '@/models/PostSections/PostMainSectionModel';
 import User from '@/models/User';
-import BlogCategory from '@/models/PostSections/BlogCategory';
+import BlogCategory from '@/models/PostSections/PostCategory';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {

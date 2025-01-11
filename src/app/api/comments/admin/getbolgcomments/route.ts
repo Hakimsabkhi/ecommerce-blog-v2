@@ -3,7 +3,7 @@ import connectToDatabase from "@/lib/db";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
 import PostMainSection from "@/models/PostSections/PostMainSectionModel";
-import BlogCategory from "@/models/PostSections/BlogCategory";
+import BlogCategory from "@/models/PostSections/PostCategory";
 
 export const dynamic = 'force-dynamic';
 

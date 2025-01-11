@@ -18,7 +18,7 @@ type Post = {
   user: { _id: string; username: string; role: string };
   slug: string;
   vadmin: string;
-  PostCategory: PostCategory;
+  postcategory: PostCategory;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -244,7 +244,7 @@ const BlogTable: React.FC = () => {
                     {blog.title}
                   </td>
                   <td className="border px-4 py-2">
-                    {blog.PostCategory?.name}
+                    {blog.postcategory?.name}
                   </td>
                   <td className="border px-4 py-2 flex  justify-center">
                     <Link href={blog.imageUrl}>
@@ -304,11 +304,11 @@ const BlogTable: React.FC = () => {
                         )}
                       </button>
 
-                      {blog.PostCategory && (
+                      {blog.postcategory && (
                         <Link
                           href={`/${
                             blog.vadmin === "approve" ? "" : "admin/"
-                          }blog/${blog.PostCategory.slug}/${blog.slug}`}
+                          }blog/${blog.postcategory.slug}/${blog.slug}`}
                         >
                           <button className="bg-gray-800 text-white w-36 h-10 hover:bg-gray-600 rounded-md uppercase">
                             See Blog

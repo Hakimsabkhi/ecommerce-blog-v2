@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import { IUser } from '../User';
-import {IBlogCategory} from './BlogCategory'
+import {IPostCategory} from './PostCategory'
 export interface Postsecondsubsection {
     secondtitle: string;
     description:string;
@@ -17,7 +17,7 @@ export interface IPostMainSection extends Document {
     description: string;
     imageUrl: string;
     vadmin:string;
-    blogCategory: IBlogCategory | string; 
+    postcategory: IPostCategory | string; 
     user: IUser | string; 
     numbercomment:number;
     Postfirstsubsections: Postfirstsubsection[]; // Reference to bloggers
@@ -60,7 +60,7 @@ const PostMainSectionSchema = new mongoose.Schema({
     slug: { type: String, unique: true },
     Postfirstsubsections: {type: [PostfirstsubsectionSchema], required: false, default: [] }, // Change this to an array
     vadmin:{ type: String,default:'not-approve'},
-    blogCategory:{ type: mongoose.Schema.Types.ObjectId, ref: 'BlogCategory' },
+    postcategory:{ type: mongoose.Schema.Types.ObjectId, ref: 'PostCategory' },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     numbercomment:{type:Number, default: 0 },
     createdAt: {
