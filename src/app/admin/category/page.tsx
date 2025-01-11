@@ -267,9 +267,9 @@ const AddedCategories: React.FC = () => {
               <td className="border px-4 py-2 truncate">{category.name}</td>
               <td className="border px-4 py-2 max-lg:hidden">{category?.user?.username}</td>
               <td className="border px-4 py-2">
-                <div className="flex items-center justify-center gap-2 ">
+                <div className="flex justify-center gap-2 ">
                   <select
-                    className={` text-black rounded-md p-2 ${
+                    className={` text-black rounded-md h-10 ${
                       category.vadmin === "not-approve"
                         ? "bg-gray-400 text-white"
                         : "bg-green-500 text-white"

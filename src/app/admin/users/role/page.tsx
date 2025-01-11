@@ -173,7 +173,7 @@ const Page = () => {
           </button>
         </div>
 
-        <div className="max-2xl:h-80 h-[50vh] overflow-x-auto">
+        <div className="max-2xl:h-80 h-[50vh] overflow-x-auto max-xl:hidden">
           <table className=" rounded overflow-hidden w-full table-fixed mx-auto">
             <thead>
               <tr className="bg-gray-800">
@@ -244,6 +244,50 @@ const Page = () => {
             </tbody>
           </table>
         </div>
+        <div className="grid xl:hidden grid-cols-1 gap-4">
+        {roles.map((role) => (
+          <div
+            key={role._id}
+            className="border p-4 rounded-lg shadow-md bg-white"
+          >
+            <h3 className="text-lg font-bold">{role.name}</h3>
+            <div className="grid grid-cols-3 gap-2 mt-2">
+              {pages.map((page) => (
+                <div key={page} className="flex flex-col items-center gap-2">
+                  <span>{page}</span>
+                  <input
+                    type="checkbox"
+                    checked={role.access[page] || false}
+                    onChange={(e) =>
+                      handleAccessUpdate(role.name, page, e.target.checked)
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+            <button
+                      onClick={() => handleDeleteClick(role)}
+                      className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                      disabled={updatingRole === role._id}
+                    >
+                      {updatingRole === role._id ? (
+                        <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
+                      ) : (
+                        <FaTrashAlt className="" />
+                      )}
+                    </button>
+                    {isPopupOpen && (
+                      <DeletePopup
+                        handleClosePopup={handleClosePopup}
+                        Delete={Deleterole}
+                        id={selectedRole.id} // Pass selected user's id
+                        name={selectedRole.name}
+                      />
+                    )}
+          </div>
+        ))}
+      </div>
+
       
       <div className="flex justify-center mt-4">
         <Pagination
