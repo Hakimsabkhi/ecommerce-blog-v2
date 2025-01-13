@@ -2,6 +2,7 @@ import {  NextResponse } from 'next/server';
 import connectToDatabase from "@/lib/db";
 import Products from "@/models/Product";
 import Category from '@/models/Category';
+
 export async function GET(){
     try{
       
