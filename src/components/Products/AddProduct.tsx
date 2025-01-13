@@ -184,8 +184,8 @@ const AddProduct = () => {
     >
       <p className="text-3xl font-bold">ADD New Product</p>
       {error && <p className="text-red-500">{error}</p>}
-      <div className="flex max-lg:flex-col items-center gap-2 max-lg:gap-8">
-        <div className="flex items-center w-[40%] max-lg:w-full max-lg:justify-between gap-2">
+      <div className="grid grid-cols-2 gap-8 lg:gap-x-20">
+        <div className="flex items-center w-full justify-between gap-2">
           <p className="text-xl font-bold">Name *</p>
           <input
             type="text"
@@ -196,7 +196,7 @@ const AddProduct = () => {
             required
           />
         </div>
-        <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-2">
+        <div className="flex items-center w-full justify-between gap-2">
           <p className="text-xl font-bold">Upload Image *</p>
           <input
             type="file"
@@ -212,7 +212,7 @@ const AddProduct = () => {
           </label>
         </div>
         {imagePreview && (
-          <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-2">
+          <div className="flex items-center w-full justify-between gap-2">
             <p className="text-xl font-bold">Image Preview</p>
             <Image
               src={imagePreview}
@@ -223,7 +223,7 @@ const AddProduct = () => {
             />
           </div>
         )}
-        <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
+        <div className="flex items-center w-full justify-between gap-4">
           <p className="text-xl font-bold">Category *</p>
           <select
             name="category"
@@ -240,7 +240,7 @@ const AddProduct = () => {
             ))}
           </select>
         </div>
-        <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
+        <div className="flex items-center w-full justify-between gap-4">
           <p className="text-xl font-bold">Brand </p>
           <select
             name="brand"
@@ -258,8 +258,8 @@ const AddProduct = () => {
           </select>
         </div>
       </div>
-      <div className="flex max-lg:flex-col items-center max-lg:gap-8 justify-between">
-        <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
+      <div className="grid grid-cols-3 gap-8 lg:gap-x-20">
+        <div className="flex items-center w-full justify-between gap-4">
           <p className="text-xl font-bold">Quantity *</p>
           <input
             type="number"
@@ -270,7 +270,7 @@ const AddProduct = () => {
             required
           />
         </div>
-        <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
+        <div className="flex items-center w-full justify-between gap-4">
           <p className="text-xl font-bold">Ref *</p>
           <input
             type="text"
@@ -281,7 +281,7 @@ const AddProduct = () => {
             required
           />
         </div>
-        <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
+        <div className="flex items-center w-full  justify-between gap-4">
           <p className="text-xl font-bold">Tva *</p>
           <input
             type="number"
@@ -295,7 +295,7 @@ const AddProduct = () => {
             required
           />
         </div>
-        <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
+        <div className="flex items-center w-full  justify-between gap-4">
           <p className="text-xl font-bold">Price *</p>
           <input
             type="number"
@@ -306,7 +306,7 @@ const AddProduct = () => {
             required
           />
         </div>
-        <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
+        <div className="flex items-center w-full  justify-between gap-4">
           <p className="text-xl font-bold">Discount</p>
           <input
             type="number"
@@ -319,7 +319,7 @@ const AddProduct = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5"
           />
         </div>
-            <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
+            <div className="flex items-center w-full  justify-between gap-4">
           <p className="text-xl font-bold">Place</p>
           <select
             name="statuspage"
@@ -361,8 +361,8 @@ const AddProduct = () => {
           
         />
       </div>
-      <div className="flex w-full gap-0">
-        <div className="flex items-center w-full gap-4">
+      <div className="grid grid-cols-2 gap-x-32 gap-8">
+        <div className="flex items-center justify-between w-full gap-4">
           <label className="text-xl font-bold">Color</label>
           <input
             type="text"
@@ -372,7 +372,7 @@ const AddProduct = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
           />
         </div>
-        <div className="flex items-center w-full gap-4">
+        <div className="flex items-center justify-between w-full gap-4">
           <label className="text-xl font-bold">Material</label>
           <input
             type="text"
@@ -382,7 +382,7 @@ const AddProduct = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
           />
         </div>
-        <div className="flex items-center w-full gap-4">
+        <div className="flex items-center justify-between w-full gap-4">
           <label className="text-xl font-bold">Weight</label>
           <input
             type="text"
@@ -392,7 +392,7 @@ const AddProduct = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
           />
         </div>
-        <div className="flex items-center w-full gap-4">
+        <div className="flex items-center justify-between w-full gap-4">
           <label className="text-xl font-bold">Warranty</label>
           <input
             type="text"
@@ -402,7 +402,7 @@ const AddProduct = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
           />
         </div>
-        <div className="flex items-center w-full gap-4">
+        <div className="flex items-center justify-between w-full gap-4">
           <label className="text-xl font-bold">Dimensions</label>
           <input
             type="text"
@@ -415,7 +415,7 @@ const AddProduct = () => {
       </div>
     
       <div className="flex max-lg:flex-col items-center max-lg:gap-8 justify-between">
-        <div className="flex items-center w-[30%] max-lg:w-full max-lg:justify-between gap-4">
+        <div className="flex items-center justify-between w-1/2 gap-4">
           <p className="text-xl font-bold">Add Images </p>
           <input
             type="file"
@@ -470,6 +470,7 @@ const AddProduct = () => {
         </Link>
       </div>
     </form>
+    
   );
 };
 

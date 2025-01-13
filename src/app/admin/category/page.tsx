@@ -201,8 +201,8 @@ const AddedCategories: React.FC = () => {
         <p className="text-3xl max-sm:text-xl font-bold">ALL Post Categories</p>
 
         <Link href="category/addcategory">
-          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-[200px] h-10">
-            Add category
+        <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2'>
+        Add category
           </button>
         </Link>
       </div>

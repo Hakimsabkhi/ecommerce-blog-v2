@@ -124,7 +124,7 @@ const BlogLikes = () => {
 
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-        <h1 className="text-4xl font-bold pt-4 ">List blog comment</h1>
+        <h1 className="text-3xl max-sm:text-xl font-bold">List blog comment</h1>
         <input
         type="text"
         placeholder="Search blogs"

@@ -169,9 +169,9 @@ const Page = () => {
         <button
           onClick={handleAddRole}
           type="submit"
-          className="bg-gray-800 font-bold hover:bg-gray-600
-             text-white rounded-lg w-[200px] h-10"
-        >
+          className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2'>
+            
+       
           Ajouter un Role
         </button>
       </div>
