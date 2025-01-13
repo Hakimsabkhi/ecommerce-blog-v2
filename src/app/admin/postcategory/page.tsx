@@ -163,8 +163,8 @@ const AddedCategories: React.FC = () => {
         <div className="flex gap-2">
         
         <Link href="/admin/blog/postcategory/addpostcategory" >
-          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg  h-10  pl-10 pr-10">
-            Add a new category
+          <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2'>
+          Add a new category
           </button>
         </Link>
         </div>
@@ -174,9 +174,9 @@ const AddedCategories: React.FC = () => {
         placeholder="Search categories"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mt-4 p-2 border border-gray-300 rounded"
+        className="p-2 border border-gray-300 rounded-lg max-w-max"
       />
-      <div className="max-2xl:h-80 h-[50vh]">
+      <div className="max-2xl:h-80 h-[50vh]  max-md:hidden">
       <table className="w-full rounded overflow-hidden table-fixed">
         <thead>
           <tr className="bg-gray-800 ">
@@ -228,7 +228,7 @@ const AddedCategories: React.FC = () => {
                     }
                   >
                     <option value="approve" className="text-white uppercase">
-                      Approvea
+                      Approve
                     </option>
                     <option
                       value="not-approve"
@@ -263,6 +263,61 @@ const AddedCategories: React.FC = () => {
           ))}
         </tbody>)}
       </table></div>
+      <div className=" md:hidden">
+        {currentCategories.map((item, index) => (
+          <div
+            key={index}
+            className="p-4 mb-4 bg-gray-100 rounded shadow-md text-lg"
+          >
+            <p>Name :&nbsp;{item.name}</p>
+            <p>Created By :&nbsp; {item?.user?.username}</p>
+            <div className="flex flex-col items-center mt-2 gap-2">
+            <select
+                    className={`w-full max-w-44 h-10 text-black rounded-md p-2 truncate ${
+                      item.vadmin === "not-approve"
+                        ? "bg-gray-400 text-white"
+                        : "bg-green-500 text-white"
+                    }`}
+                    value={item.vadmin}
+                    onChange={(e) =>
+                      updatePostCategoryStatus(item._id, e.target.value)
+                    }
+                  >
+                    <option value="approve" className="text-white uppercase">
+                      Approve
+                    </option>
+                    <option
+                      value="not-approve"
+                      className="text-white uppercase"
+                    >
+                      Not approve
+                    </option>
+                  </select>
+              
+                  <div className="flex gap-4"> <Link href={`/admin/blog/postcategory/${item._id}`}>
+                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                                          <FaRegEdit />
+                                        </button>
+                  </Link>
+                  <button
+                    onClick={() => handleDeleteClick(item)}
+                    className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
+                        disabled={loadingCategoryId === item._id}
+                  >
+                    {loadingCategoryId ===item._id ? "Processing..." :<FaTrashAlt />}
+                  </button>
+                  {isPopupOpen && (
+                    <DeletePopup
+                      handleClosePopup={handleClosePopup}
+                      Delete={DeleteCategory}
+                      id={selectedCatgory.id}
+                      name={selectedCatgory.name}
+                    />
+                  )}</div>
+            </div>
+          </div>
+        ))}
+      </div>
       <div className="flex justify-center mt-4">
         
       <Pagination

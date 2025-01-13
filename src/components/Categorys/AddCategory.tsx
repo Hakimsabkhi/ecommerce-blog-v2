@@ -92,7 +92,7 @@ const AddCategory = () => {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error posting category");
       }
-      
+
       toast.success(`Category ${name} Add successfully!`);
       router.push("/admin/category");
     } catch (error: unknown) {
@@ -107,27 +107,28 @@ const AddCategory = () => {
         console.error("Unknown error:", error);
         setError("An unexpected error occurred. Please try again.");
       }
-    } 
+    }
   };
 
   return (
-    <div className="mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 flex flex-col gap-8">
+    <div className="flex flex-col gap-8  mx-auto w-[90%] py-8 ">
       <p className="text-3xl font-bold">ADD categories</p>
+
       <form
         onSubmit={handleSubmit}
-        className="flex max-lg:flex-col max-lg:gap-4 lg:items-center gap-4"
+        className="flex flex-col items-center mx-auto gap-4 w-full lg:w-3/5"
       >
-        <div className="flex items-center w-[40%] max-lg:w-full gap-6 justify-between">
+        <div className="flex items-center gap-6 w-full justify-between">
           <p className="text-xl max-lg:text-base font-bold">Name*</p>
           <input
             type="text"
             value={name}
             onChange={handleNameChange}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[80%] block p-2.5"
+            className="bg-gray-50 border w-1/2 border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
             required
           />
         </div>
-        <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+        <div className="flex  w-full items-center justify-between">
           <p className="max-lg:text-base font-bold">Upload Image*</p>
           <input
             type="file"
@@ -154,7 +155,7 @@ const AddCategory = () => {
             </div>
           )}
         </div>
-        <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+        <div className="flex  w-full  items-center  justify-between">
           <p className="max-lg:text-base font-bold">Upload Icon*</p>
           <input
             type="file"
@@ -165,7 +166,7 @@ const AddCategory = () => {
           />
           <label
             htmlFor="upload-icon"
-            className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[60%] h-10 border-2 flex items-center justify-center cursor-pointer"
+            className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[50%] h-10 border-2 flex items-center justify-center cursor-pointer"
           >
             Select an Icon Type SVG
           </label>
@@ -181,7 +182,7 @@ const AddCategory = () => {
             </div>
           )}
         </div>
-        <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+        <div className="flex items-center  w-full   justify-between">
           <p className="max-lg:text-base font-bold">Upload Banner*</p>
           <input
             type="file"
@@ -192,7 +193,7 @@ const AddCategory = () => {
           />
           <label
             htmlFor="upload-banner"
-            className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[50%] h-10 border-2 flex items-center justify-center cursor-pointer"
+            className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-1/2 h-10 border-2 flex items-center justify-center cursor-pointer"
           >
             Select a Banner
           </label>
@@ -208,20 +209,22 @@ const AddCategory = () => {
             </div>
           )}
         </div>
-        <div className="w-[30%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <button
-            type="submit"
-            className="bg-gray-800 text-white rounded-md w-full hover:bg-gray-600 h-10"
-          >
-            <p className="text-white">Add the new category</p>
-          </button>
-        </div>
-        <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <Link href="/admin/category">
-            <button className="bg-white border-2 border-gray-400 text-black hover:bg-slate-600 hover:border-0 hover:text-white rounded-md w-full h-10 flex items-center justify-center">
+        <div className="flex w-full justify-center gap-4 px-20">
+          <Link
+          className="w-1/2" href="/admin/category">
+            <button className="w-full  rounded-md border-2 font-light  h-10
+             ">
               <p className="font-bold">Cancel</p>
             </button>
           </Link>
+          <button
+            type="submit"
+            className="w-1/2 bg-gray-800 text-white rounded-md  hover:bg-gray-600 h-10"
+          >
+            <p className="text-white">Add the new category</p>
+          </button>
+        
+          
         </div>
       </form>
 

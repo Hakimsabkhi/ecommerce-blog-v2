@@ -292,8 +292,8 @@ const AddedProducts: React.FC = () => {
       <div className="flex items-center justify-between">
         <p className="text-3xl font-bold">ALL Products</p>
         <Link href="/admin/product/addproduct">
-          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg w-[200px] h-10">
-            <p>Add Product</p>
+        <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2'>
+        <p>Add Product</p>
           </button>
         </Link>
       </div>
