@@ -5,6 +5,7 @@ import DeletePopup from "@/components/Popup/DeletePopup";
 import { toast } from "react-toastify";
 import Pagination from "@/components/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
+import { useSession } from "next-auth/react";
 
 interface User {
   _id: string;
@@ -27,7 +28,7 @@ const AdminDashboard = () => {
   const [selectedUser, setSelectedUser] = useState({ id: "", email: "" });
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
+  const {data:session}=useSession();
   const is2xl = useIs2xl();
   const usersPerPage = is2xl ? 8 : 5;
 
@@ -168,6 +169,9 @@ const AdminDashboard = () => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg sm:w-[20%] block p-2.5"
         >
           <option value="">All</option>
+          {session?.user.role === "SuperAdmin" ? <option value="Admin">Admin</option> : null}
+
+          <option value="Visiteur">Visiteur</option>
           {roles.map((role, index) => (
             <option key={index} value={role.name}>
               {role.name}
@@ -218,6 +222,8 @@ const AdminDashboard = () => {
                       onChange={(e) => handleChangeRole(user._id, e.target.value)}
                       disabled={loadingUserId === user._id}
                     >
+                        {session?.user.role === "SuperAdmin" ? <option value="Admin">Admin</option> : null}
+                       <option value="Visiteur">Visiteur</option>
                       {roles.map((role, index) => (
                         <option key={index} value={role.name}>
                           {role.name}

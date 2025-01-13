@@ -7,7 +7,7 @@ import { getToken } from "next-auth/jwt";
 import User from "@/models/User";
 
 
-export const dynamic = 'force-dynamic';
+
 
 // Handler for GET requests
 export async function GET(
