@@ -629,7 +629,7 @@ const ListOrders: React.FC = () => {
 
               <div className=" px-4 py-2">
                 <div className="flex flex-col gap-2">
-                  <div className="flex gap-2">
+                  <div className="flex justify-center gap-2">
                     <select
                       className={`w-50 h-10 text-black rounded-md p-2 truncate ${
                         item.orderStatus === "Processing"
@@ -667,7 +667,7 @@ const ListOrders: React.FC = () => {
                       </option>
                     </select>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex justify-center gap-2">
                     {item.statusinvoice === false ? (
                       <Link href={`/admin/order/bondelivraison/${item.ref}`}>
                         <button className="bg-gray-800 text-white px-4 h-10 hover:bg-gray-600 rounded-md uppercase">
