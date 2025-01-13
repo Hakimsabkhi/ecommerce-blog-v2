@@ -210,14 +210,14 @@ const AddedCategories: React.FC = () => {
         <tbody>
           {currentCategories.map((item, index) => (
             <tr key={index} className="bg-white text-balck">
-             <td className="border px-4 py-2">{item.name}</td>
+             <td className="border px-4 py-2 truncate">{item.name}</td>
 
-              <td className="border px-4 py-2">{item?.user?.username}</td>
+              <td className="border px-4 py-2 truncate">{item?.user?.username}</td>
               <td>
                
                 <div className="flex  justify-center gap-2">
                 <select
-                    className={`w-50 h-10 text-black rounded-md p-2 ${
+                    className={`w-full max-w-44 h-10 text-black rounded-md p-2 truncate ${
                       item.vadmin === "not-approve"
                         ? "bg-gray-400 text-white"
                         : "bg-green-500 text-white"
@@ -228,7 +228,7 @@ const AddedCategories: React.FC = () => {
                     }
                   >
                     <option value="approve" className="text-white uppercase">
-                      Approve
+                      Approvea
                     </option>
                     <option
                       value="not-approve"
@@ -244,8 +244,8 @@ const AddedCategories: React.FC = () => {
                   </Link>
                   <button
                     onClick={() => handleDeleteClick(item)}
-                    className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                    disabled={loadingCategoryId === item._id}
+                    className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
+                        disabled={loadingCategoryId === item._id}
                   >
                     {loadingCategoryId ===item._id ? "Processing..." :<FaTrashAlt />}
                   </button>
