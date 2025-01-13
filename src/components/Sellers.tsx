@@ -1,72 +1,89 @@
 import React from "react";
-import ProductCard from "./Products/ProductPage/ProductCard";
+import Image from "next/image";
+import Link from "next/link";
 
-interface Brand {
-  _id: string;
-  name: string;
+import connectToDatabase from "@/lib/db";
+import Products from "@/models/Product";
+
+// 1) Incremental Static Regeneration at the page level
+export const revalidate = 60;
+
+// 2) Fetch sellers (best-selling products) directly from the DB
+async function getBestsellersData() {
+  await connectToDatabase();
+  // You can adjust the filters as needed (e.g., `statuspage: "home-page"` or any other filters)
+  const bestsellers = await Products.find({
+    vadmin: "approve",
+    statuspage: "home-page",
+  }).lean();
+
+  // Convert `_id` to string so Next.js won’t complain
+  return bestsellers.map((item) => ({
+    ...item,
+    _id: item._id.toString(),
+    imageUrl: item.imageUrl ?? "/fallback.jpg", // optional fallback
+  }));
 }
 
-interface Products {
-  _id: string;
-  name: string;
-  description: string;
-  ref: string;
-  tva:number;
-  price: number;
-  imageUrl?: string;
-  brand?: Brand; // Make brand optional
-  stock: number;
-  discount?: number;
-  color?: string;
-  material?: string;
-  status?: string;
-  statuspage:string;
-  category: Category;
-  slug:string;
-}
-interface Category {
-  name: string;
-  slug:string;
-}
+export default async function Sellers() {
+  // 3) Fetch your data
+  const bestsellers = await getBestsellersData();
 
-// Function to fetch categories data
-const fetchProduct = async (): Promise<Products[]> => {
-  try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/products/getProductbyStatue`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    
-    if (!res.ok) {
-      throw new Error("Failed to fetch categories");
-    }
-    const data: Products[] = await res.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
-
-const Sellers: React.FC = async () => {
-  const products = await fetchProduct();
-  const filteredProducts = products.filter(item => item.statuspage === "home-page").length;
+  // 4) Return a grid similar to Categories
   return (
-    <div className=" max-lg:w-[95%] desktop mx-auto flex flex-col gap-10 py-8">
-      {filteredProducts>0&& <div className="flex w-full flex-col">
-       <h3 className="font-bold text-4xl text-center text-HomePageTitles ">
-          Weekly bestsellers
-        </h3>
-      </div>}
-      <div className="grid grid-cols-4 w-full max-sm:grid-cols-1 max-xl:grid-cols-2 group max-2xl:grid-cols-3 gap-8 max-md:gap-3">
-        {products.map((item) => (
-          item.statuspage==="home-page" &&<ProductCard key={item._id} item={item} />
-        ))}
-      </div>
+    <div className="desktop max-md:w-[95%] flex flex-col gap-10 py-8 mx-auto">
+      {bestsellers.length > 0 && (
+        <div>
+          {/* Title + Subtitle */}
+          <div className="flex-col flex gap-2 items-center w-full max-lg:text-center">
+            <h3 className="font-bold text-4xl text-HomePageTitles">
+              Weekly bestsellers
+            </h3>
+            <p className="text-base text-[#525566]">
+              Don&apos;t miss out on these top-selling items
+            </p>
+          </div>
+
+          {/* Grid */}
+          <div className="gap-4 w-full grid grid-cols-5 max-xl:grid-cols-3 max-lg:grid-cols-3 max-md:grid-cols-2 mt-6">
+            {bestsellers.map((item, index) => (
+              <Link
+                className="cursor-pointer"
+                key={item._id}
+                href={`/${item.slug}`} // or wherever your product page lives
+              >
+                <div className="relative rounded-full w-full group overflow-hidden">
+                  {/* Hover overlay */}
+                  <div className="w-full h-full bg-black/60 absolute rounded-full opacity-0 group-hover:opacity-80 duration-500" />
+                  
+                  {/* Product Name */}
+                  <p
+                    className="cursor-pointer absolute top-1/2 left-1/2 
+                               transform -translate-x-1/2 -translate-y-1/2 
+                               bg-white text-black text-lg text-center px-3 py-1 
+                               rounded-3xl opacity-90 duration-500"
+                  >
+                    {item.name}
+                  </p>
+
+                  {/* You can display price, discount, etc. similarly */}
+
+                  {/* Product Image */}
+                  <Image
+                    className="w-full rounded-full"
+                    src={item.imageUrl}
+                    alt={item.name}
+                    width={500}
+                    height={500}
+                    style={{ objectFit: "contain" }}
+                    priority={index === 0} // give priority to first image
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
-};
-
-export default Sellers;
+}

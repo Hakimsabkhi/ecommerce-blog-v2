@@ -2,8 +2,8 @@ import Banner from "@/components/Banner";
 
 import Sellers from "@/components/Sellers";
 import Brands from "@/components/Brands";
-import Collection from "@/components/Collection";
-import Furniture from "@/components/Furniture";
+import Collection from "@/components/Collection";    {/*  not fixed */}
+import Furniture from "@/components/Furniture";       {/*  not fixed */}
 import Categories from "@/components/Categorys/Categories";
 
 export default function HomePage() {
@@ -13,8 +13,8 @@ export default function HomePage() {
       <Categories />
       <Sellers />
       <Brands />
-      <Collection />
-      <Furniture />
+      <Collection />  {/*  not fixed */}
+      <Furniture />   {/*  not fixed */}
     </>
   );
 }

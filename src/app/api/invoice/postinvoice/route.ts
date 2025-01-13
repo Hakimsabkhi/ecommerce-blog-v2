@@ -124,6 +124,5 @@ const year = today.getFullYear();
     return ref;
   } catch (error) {
     console.error('Error generating invoice reference:', error);
-    throw error;
   }
 };
