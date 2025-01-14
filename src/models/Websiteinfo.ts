@@ -2,7 +2,7 @@ import mongoose, { Schema, Document,Model} from 'mongoose';
 import { IUser } from './User';
 
 
-export interface ICompany extends Document {
+export interface IWebsiteinfo extends Document {
   name: string;
   address:string;
   city:string;
@@ -21,7 +21,7 @@ export interface ICompany extends Document {
   updatedAt?: Date;
 }
 
-const CompanySchema: Schema = new Schema({
+const WebsiteinfoSchema: Schema = new Schema({
   name: { type: String, required: true },
   address:{ type: String, required: true },
   city:{ type: String, required: true },
@@ -40,6 +40,6 @@ const CompanySchema: Schema = new Schema({
 
 
 
-const Company: Model<ICompany> = mongoose.models.Company || mongoose.model<ICompany>('Company', CompanySchema);
+const Websiteinfo: Model<IWebsiteinfo> = mongoose.models.Websiteinfo || mongoose.model<IWebsiteinfo>('Websiteinfo', WebsiteinfoSchema);
 
-export default Company;
+export default Websiteinfo;

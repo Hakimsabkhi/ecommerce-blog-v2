@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
-import Company from '@/models/Company';
+import Websiteinfo from '@/models/Websiteinfo';
 import cloudinary from '@/lib/cloudinary';
 import stream from 'stream';
 import { getToken } from 'next-auth/jwt';
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Name, Address, City, Governorate, Zipcode, Phone, and Email are required' }, { status: 400 });
     }
 
-    const existingCompany = await Company.find({});
+    const existingCompany = await Websiteinfo.find({});
 
     if (existingCompany.length > 0) {
       return NextResponse.json({ message: 'A company already exists' }, { status: 400 });
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
       bannerContactsUrl = await uploadToCloudinary(bannerFileContacts, 'company', 'webp');
     }
 
-    const newCompany = new Company({
+    const newCompany = new Websiteinfo({
       name,
       governorate,
       city,

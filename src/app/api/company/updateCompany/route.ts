@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/lib/db";
-import Company from "@/models/Company";
+import Websiteinfo from "@/models/Websiteinfo";
 import cloudinary from "@/lib/cloudinary";
 import stream from "stream";
 import { getToken } from "next-auth/jwt";
@@ -53,7 +53,7 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ message: "ID is required" }, { status: 400 });
     }
 
-    const existingCompany = await Company.findById(id);
+    const existingCompany = await Websiteinfo.findById(id);
     if (!existingCompany) {
       return NextResponse.json(
         { message: "Company not found" },

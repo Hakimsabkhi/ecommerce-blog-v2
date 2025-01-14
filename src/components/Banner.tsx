@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import connectToDatabase from '@/lib/db';
-import Company from '@/models/Company';
+import Company from '@/models/Websiteinfo';
 
 export const revalidate = 60; 
 
