@@ -184,7 +184,7 @@ const AddProduct = () => {
     >
       <p className="text-3xl font-bold">ADD New Product</p>
       {error && <p className="text-red-500">{error}</p>}
-      <div className="grid grid-cols-2 gap-8 lg:gap-x-20">
+      <div className="grid grid-cols-2 max-md:grid-cols-1 gap-8 lg:gap-x-20">
         <div className="flex items-center w-full justify-between gap-2">
           <p className="text-xl font-bold">Name *</p>
           <input
@@ -258,7 +258,7 @@ const AddProduct = () => {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-8 lg:gap-x-20">
+      <div className="grid grid-cols-3 max-sm:grid-cols-1 max-md:grid-cols-2 gap-8 lg:gap-x-20">
         <div className="flex items-center w-full justify-between gap-4">
           <p className="text-xl font-bold">Quantity *</p>
           <input
@@ -361,7 +361,7 @@ const AddProduct = () => {
           
         />
       </div>
-      <div className="grid grid-cols-2 gap-x-32 gap-8">
+      <div className="grid grid-cols-2 max-md:grid-cols-1 md:gap-x-32 gap-8">
         <div className="flex items-center justify-between w-full gap-4">
           <label className="text-xl font-bold">Color</label>
           <input
@@ -415,7 +415,7 @@ const AddProduct = () => {
       </div>
     
       <div className="flex max-lg:flex-col items-center max-lg:gap-8 justify-between">
-        <div className="flex items-center justify-between w-1/2 gap-4">
+        <div className="flex items-center justify-between max-lg:w-full w-1/2 gap-4">
           <p className="text-xl font-bold">Add Images </p>
           <input
             type="file"
@@ -456,18 +456,19 @@ const AddProduct = () => {
       </div>
 
       <div className="w-full flex justify-end gap-4">
-        <button
-          type="submit"
-          className="bg-gray-800 text-white rounded-md w-[20%] max-lg:w-[50%] h-10 hover:bg-gray-600"
-        >
-          <p className="text-white">Add the New Product</p>
-        </button>
+       
         <Link
           href="/admin/product"
           className="border border-gray-400 rounded-md w-[20%] text-center justify-center p-2 max-lg:w-[50%] h-10 text-black hover:text-white hover:bg-gray-600"
         >
           Cancel
         </Link>
+         <button
+          type="submit"
+          className="bg-gray-800 text-white rounded-md w-[20%] max-lg:w-[50%] h-10 hover:bg-gray-600"
+        >
+          <p className="text-white">Add the New Product</p>
+        </button>
       </div>
     </form>
     

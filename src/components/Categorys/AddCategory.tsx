@@ -221,7 +221,7 @@ const AddCategory = () => {
             type="submit"
             className="w-1/2 bg-gray-800 text-white rounded-md  hover:bg-gray-600 h-10"
           >
-            <p className="text-white">Add the new category</p>
+            <p className="text-white">Add category</p>
           </button>
         
           

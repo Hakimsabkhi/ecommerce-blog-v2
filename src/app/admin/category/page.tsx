@@ -341,7 +341,7 @@ const AddedCategories: React.FC = () => {
               </div>
             </div>
             <div className="mt-4 flex items-center">
-            <div className="flex flex-col gap-2 w-4/5 mx-auto">
+            <div className="flex flex-col gap-2 w-3/5 mx-auto">
                   <select
                     className={` text-black rounded-md p-2 ${
                       category.vadmin === "not-approve"
