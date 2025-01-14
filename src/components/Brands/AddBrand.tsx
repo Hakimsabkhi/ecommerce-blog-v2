@@ -66,7 +66,7 @@ const AddBrand = () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("image", image);
-    formData.append("logo", icon); 
+    formData.append("logo", icon);
     formData.append("place", place);
 
     try {
@@ -94,7 +94,7 @@ const AddBrand = () => {
         console.error("Unknown error:", error);
         setError("An unexpected error occurred. Please try again.");
       }
-    } 
+    }
   };
 
   return (
@@ -178,20 +178,23 @@ const AddBrand = () => {
             </div>
           )}
         </div>
-        <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <button
-            type="submit"
-            className="bg-gray-800 text-white hover:bg-gray-600 rounded-md w-full  h-10"
-          >
-            <p className="text-white">Add Brand</p>
-          </button>
-        </div>
-        <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <Link href="/admin/brand">
-            <button className="bg-white border-2 border-gray-400 hover:bg-gray-600 hover:border-0 hover:text-white rounded-md w-full h-10 flex items-center justify-center">
-              <p className=" font-bold">Cancel</p>
+        <div className="flex justify-center gap-4 pt-4 w-full lg:w-4/5">
+          
+          <div className="w-[30%] items-start">
+            <Link href="/admin/brand">
+              <button className="bg-white border-2 border-gray-400 hover:bg-gray-600 hover:border-0 hover:text-white rounded-md w-full h-10 flex items-center justify-center">
+                <p className=" font-bold">Cancel</p>
+              </button>
+            </Link>
+          </div>
+          <div className="w-[30%] items-start">
+            <button
+              type="submit"
+              className="bg-gray-800 text-white hover:bg-gray-600 rounded-md w-full  h-10"
+            >
+              <p className="text-white">Add Brand</p>
             </button>
-          </Link>
+          </div>
         </div>
       </form>
       {error && <p className="text-red-500">{error}</p>}
