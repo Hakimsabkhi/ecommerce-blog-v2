@@ -1,41 +1,18 @@
 import React from 'react';
-import { IPromotion } from '@/models/Promotion';
 import { notFound } from 'next/navigation';
 import ChairsPromation from '@/components/promotioncomp/promotionf/ChairsPromotion';
 import ProductPromotion from '@/components/promotioncomp/promotionf/ProductPromotion';
+import { promotionData } from '@/lib/pagefunction';
 
 
-// Fetch category data by ID
-const fetchpromotionData = async () => {
-  try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/promotion/getpromotion/`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      next: { revalidate: 0 },
-    });
 
-    
-    if (!res.ok) {
-      console.log('Promotion not found');
-      return notFound();
-    }
-
-    const data: IPromotion = await res.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching promotion data:', error);
-    return notFound();
-  }
-};
 
 
 
 // HomePage component
 async function promotionPage() {
 
-  const promotion = await fetchpromotionData();
+  const promotion = await promotionData();
   
   if (!promotion ) {
     return notFound();

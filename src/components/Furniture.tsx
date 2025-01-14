@@ -6,6 +6,7 @@ export const revalidate = 60;
 
 import React from 'react';
 import ProductCard from './Products/ProductPage/ProductCard';
+import { getproductstatusData } from '@/lib/pagefunction';
 
 interface Brand {
   _id: string;
@@ -37,31 +38,15 @@ interface Products {
   slug: string;
 }
 
-// 2) Fetch data with optional `revalidate` in the fetch for fine-grained control
-const fetchProduct = async (): Promise<Products[]> => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/products/getProductbyStatue`,
-      {
-        method: 'GET',
-        // This ensures that even if the page revalidates, 
-        // the fetch itself also respects a 60 second revalidate window.
-        next: { revalidate: 60 },
-      }
-    );
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch products');
-    }
-    return res.json();
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
 
 const Furniture = async () => {
-  const products = await fetchProduct();
+   const rawProducts = await getproductstatusData();
+  
+    // Cast `rawProducts` to match the `Products[]` type
+    const products: Products[] = rawProducts.map((product: Products) => ({
+      ...product,
+      _id: product._id.toString(), // Ensure `_id` is treated as a string
+    }));
   const filteredProductsCount = products.filter(
     (item) => item.statuspage === 'promotion'
   ).length;

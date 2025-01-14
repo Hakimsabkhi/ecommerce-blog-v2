@@ -13,8 +13,8 @@ export default function HomePage() {
       <Categories />
       <Sellers />
       <Brands />
-      <Collection />  {/*  not fixed */}
-      <Furniture />   {/*  not fixed */}
+      <Collection />  {/*   fixed */}
+      <Furniture />   {/*   fixed */}
     </>
   );
 }
