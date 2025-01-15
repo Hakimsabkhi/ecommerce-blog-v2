@@ -1,12 +1,13 @@
-import BlogPost from '@/components/fPostadmin/BlogPost';
+import BlogPost from '@/components/PostComponents/BlogPost';
 import { notFound } from 'next/navigation';
 import React from 'react';
+
 
 interface Postsecondsubsection {
   secondtitle: string;
   description: string;
   imageUrl?: string;
-  imageFile?: File;
+  imageFile?: File; // Temporary property to store the selected file before upload
 }
 
 interface Postfirstsubsection {
@@ -14,29 +15,36 @@ interface Postfirstsubsection {
   description: string;
   Postsecondsubsections: Postsecondsubsection[];
   imageUrl?: string;
-  imageFile?: File;
+  imageFile?: File; // Temporary property to store the selected file before upload
 }
 
 interface Blog {
+  _id:string;
   title: string;
   description: string;
   Postfirstsubsections: Postfirstsubsection[];
   postcategory: postcategory;
   imageUrl?: string;
-  user: User;
-  createdAt: string;
+  user:User;
+  numbercomment:number;
+  createdAt:string;
 }
-
-interface User {
-  _id: string;
-  username: string;
+interface User{
+ _id:string;
+ username:string
 }
-
 interface postcategory {
   _id: string;
   name: string;
 }
 
+interface  User{
+  _id:string;
+  username:string;
+  email:string;
+}
+
+ 
 const fetchBlogData = async (id: string): Promise<Blog> => {
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blog/admin/PostBySlugAdmin/${id}`, {
     method: 'GET',

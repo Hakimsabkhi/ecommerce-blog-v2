@@ -66,7 +66,7 @@ const Blog: React.FC<blogprops> = ({ blogs }) => {
                   </div>
 
                   <Link
-                    href={`/admin/blog/${item.postcategory?.slug}/${item.slug}`}
+                    href={`/blog/${item.postcategory?.slug}/${item.slug}`}
                     aria-label="read more about blog"
                     className="bg-primary hover:bg-[#15335D] rounded-lg w-full h-14 items-center flex relative justify-center overflow-hidden transition duration-300 ease-out group/box text-white  "
                   >

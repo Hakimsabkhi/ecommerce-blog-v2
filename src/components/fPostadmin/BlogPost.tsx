@@ -3,7 +3,8 @@ import React from 'react';
 
 
 import Blogcomp from './Postcomp/Postcomp';
-
+import Blogcomment from './Postcomp/Postcomment';
+import Blogright from './Postcomp/Postright';
 
 interface Postsecondsubsection {
   secondtitle: string;
@@ -21,12 +22,14 @@ interface Postfirstsubsection {
 }
 
 interface blog {
+  _id:string;
   title: string;
   description: string;
   Postfirstsubsections: Postfirstsubsection[];
   postcategory: postcategory;
   imageUrl?: string;
   user:User;
+  numbercomment:number;
   createdAt:string;
 }
 interface User{
@@ -38,21 +41,25 @@ interface postcategory {
   name: string;
 }
 
-
+interface  User{
+  _id:string;
+  username:string;
+  email:string;
+}
 
   interface blogprops{
     blog:blog
   }
+  
 const BlogPost: React.FC<blogprops> = ({ blog }) => {
     return (
         /* whole page */
         <div className="desktop flex py-8 max-lg:py-20 gap-10 ">
-            {/* First Half */}
             <div className='w-[900px] max-lg:w-full flex flex-col gap-16'>
-                {/* 1 */}
-                <Blogcomp blog={blog}/>
+              <Blogcomp blog={blog}/>
+              <Blogcomment blog={blog}/>
             </div>
-       
+            <Blogright/>
         </div>
     );
 };
