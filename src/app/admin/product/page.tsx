@@ -40,6 +40,7 @@ interface Category {
 const AddedProducts: React.FC = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const[categories,setCategories]=useState<Category[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -245,7 +246,7 @@ const AddedProducts: React.FC = () => {
       } catch (error: unknown) {
         // Handle different error types effectively
         if (error instanceof Error) {
-          console.error("Error deleting category:", error.message);
+          console.error("Error  products:", error.message);
           setError(error.message);
         } else if (typeof error === "string") {
           console.error("String error:", error);
@@ -258,6 +259,36 @@ const AddedProducts: React.FC = () => {
         setLoading(false);
       }
     };
+    const getCategory = async () => {
+      try {
+        const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data: Product[] = await response.json();
+        setCategories(data);
+      } catch (error: unknown) {
+        // Handle different error types effectively
+        if (error instanceof Error) {
+          console.error("Error  Category:", error.message);
+          setError(error.message);
+        } else if (typeof error === "string") {
+          console.error("String error:", error);
+          setError(error);
+        } else {
+          console.error("Unknown error:", error);
+          setError("An unexpected error occurred. Please try again.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    getCategory();
     getProducts();
   }, []);
 
@@ -313,12 +344,12 @@ const AddedProducts: React.FC = () => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block p-2.5 min-w-32"
           required
         >
-          {/* <option value="">Select Category</option>
+           <option value="">Select Category</option>
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.name}
               </option>
-            ))} */}
+            ))} 
         </select>
       </div>
 
