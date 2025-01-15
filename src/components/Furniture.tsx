@@ -1,12 +1,8 @@
-// app/furniture/page.tsx (for example)
-
-// 1) Export a constant to enable ISR. 
-//    This means the page will be re-generated in the background every 60 seconds.
 export const revalidate = 60;
 
 import React from 'react';
 import ProductCard from './Products/ProductPage/ProductCard';
-import { getproductstatusData } from '@/lib/pagefunction';
+import { getproductstatusData } from '@/lib/StaticDataHomePage';
 
 interface Brand {
   _id: string;
@@ -43,10 +39,12 @@ const Furniture = async () => {
    const rawProducts = await getproductstatusData();
   
     // Cast `rawProducts` to match the `Products[]` type
-    const products: Products[] = rawProducts.map((product: Products) => ({
-      ...product,
-      _id: product._id.toString(), // Ensure `_id` is treated as a string
-    }));
+    const products: Products[] = Array.isArray(rawProducts) 
+    ? rawProducts.map((product: Products) => ({
+        ...product,
+        _id: product._id?.toString() ?? '', // Ensure _id is treated as a string or fallback to empty string
+      }))
+    : [];  
   const filteredProductsCount = products.filter(
     (item) => item.statuspage === 'promotion'
   ).length;

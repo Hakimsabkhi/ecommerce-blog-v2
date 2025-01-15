@@ -6,7 +6,7 @@ import Link from "next/link";
 
 
 async function fetchCompanyData() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/company/getCompany`, {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/websiteinfo/getwebsiteinfo`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

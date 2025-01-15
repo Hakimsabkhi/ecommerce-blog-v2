@@ -40,12 +40,12 @@ const Display: React.FC = () => {
 
   const fetchCompanyData = async () => {
     try {
-      const response = await fetch(`/api/company/getCompany`, {
+      const response = await fetch(`/api/websiteinfo/getwebsiteinfo`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
       if (!response.ok) {
-        throw new Error("Error fetching company data");
+        throw new Error("Error fetching websiteinfo data");
       }
       const data = await response.json();
       setCompanyData(data);

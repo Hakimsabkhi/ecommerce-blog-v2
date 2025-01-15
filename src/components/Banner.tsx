@@ -1,19 +1,14 @@
 // app/banner/page.tsx
 import React from 'react';
 import Image from 'next/image';
-import connectToDatabase from '@/lib/db';
-import Company from '@/models/Websiteinfo';
+import { getWebsiteinfoData } from '@/lib/StaticDataHomePage';
+
 
 export const revalidate = 60; 
 
-async function getCompanyData() {
-  await connectToDatabase();
-  const company = await Company.findOne({}).exec();
-  return company;
-}
 
 export default async function Banner() {
-  const companyData = await getCompanyData();
+  const companyData = await getWebsiteinfoData();
 
   return (
     <div className="relative md:h-[600px] shadow-lg">

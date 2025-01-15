@@ -5,7 +5,7 @@ import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa"; // Import
 
 async function fetchCompanyData() {
   const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/company/getCompany`,
+    `${process.env.NEXTAUTH_URL}/api/websiteinfo/getwebsiteinfo`,
     {
       method: "GET",
       headers: {

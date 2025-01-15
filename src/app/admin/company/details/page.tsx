@@ -50,14 +50,14 @@ function CreateCompany() {
   };
   const fetchCompanyData =  async () => {
     try {
-      const response = await fetch(`/api/company/getCompany`, {
+      const response = await fetch(`/api/websiteinfo/getwebsiteinfo`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
       if (!response.ok) {
-        throw new Error('Error fetching company data');
+        throw new Error('Error fetching websiteinfo data');
       }
       
       const data = await response.json();
@@ -120,13 +120,13 @@ function CreateCompany() {
       formData.append('bannercontacts', bannerFileContacts);
     }
     try {
-      const response = await fetch('/api/company/postCompany', {
+      const response = await fetch('/api/websiteinfo/postwebsiteinfo', {
         method: 'POST',
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add company');
+        throw new Error('Failed to add websiteinfo');
       }
 
       const data = await response.json();
@@ -165,7 +165,7 @@ function CreateCompany() {
       formData.append('bannercontacts', bannerFileContacts);
     }
     try {
-      const response = await fetch('/api/company/updateCompany', {
+      const response = await fetch('/api/websiteinfo/updatewebsiteinfo', {
         method: 'put',
         body: formData,
       });

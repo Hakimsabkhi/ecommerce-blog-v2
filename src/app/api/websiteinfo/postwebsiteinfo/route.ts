@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
       email,
       logoUrl,
       imageUrl,
-      bannerContactsUrl,
+      bannercontacts: bannerContactsUrl,
       phone,
       facebook,
       linkedin,
