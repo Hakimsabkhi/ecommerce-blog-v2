@@ -1,25 +1,12 @@
-import Blog from '@/components/PostComponents/Post';
+import Blog from '@/components/fPostadmin/Post';
 import Blogbanner from '@/components/blogbanner';
+import { getBlogs } from '@/lib/StaticDataBlog';
 
-async function getBlogs() {
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/blog/listpostcustomer`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    next: { revalidate: 3600 }, // Revalidate every 1 hour
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch blogs: ${response.status} ${response.statusText}`);
-  }
-
-  return response.json();
-}
 
 export const revalidate = 3600; 
 export default async function Page() {
-  const blogs = await getBlogs();
+  const rawblogs = await getBlogs();
+  const blogs=JSON.parse(rawblogs)
 
   return (
     <div>
