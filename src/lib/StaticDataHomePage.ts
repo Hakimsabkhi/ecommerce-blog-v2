@@ -3,35 +3,8 @@ import Category from "@/models/Category";
 import Product from "@/models/Product";
 import Promotion from '@/models/Promotion';
 import Websiteinfo from '@/models/Websiteinfo';
-interface Brand {
-    _id: string;
-    name: string;
-  }
-  
-  interface Category {
-    _id: string;
-    name: string;
-    slug: string;
-  }
-  
-  interface Products {
-    _id: string;
-    name: string;
-    description: string;
-    ref: string;
-    tva: number;
-    price: number;
-    imageUrl?: string;
-    brand?: Brand;
-    stock: number;
-    discount?: number;
-    color?: string;
-    material?: string;
-    status?: string;
-    statuspage: string;
-    category: Category;
-    slug: string;
-  }
+
+
   
 interface CategoryType {
   _id: string;
@@ -52,8 +25,9 @@ export async function getproductstatusData() {
       match: { 
         vadmin: "approve" }, // Only populate categories where status is "approved"
     }).lean();
-    const products = product.filter(product => product.category);
-    return JSON.stringify(products as unknown as Products[]);
+     
+    //const products = product.map((product) => product.category);
+    return JSON.stringify(product );
 }
 
 

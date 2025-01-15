@@ -37,10 +37,10 @@ interface Products {
 
 const Furniture = async () => {
    const rawProducts = await getproductstatusData();
-  
+   const rawProduct=JSON.parse(rawProducts)
     // Cast `rawProducts` to match the `Products[]` type
-    const products: Products[] = Array.isArray(rawProducts) 
-    ? rawProducts.map((product: Products) => ({
+    const products: Products[] = Array.isArray(rawProduct) 
+    ? rawProduct.map((product: Products) => ({
         ...product,
         _id: product._id?.toString() ?? '', // Ensure _id is treated as a string or fallback to empty string
       }))
