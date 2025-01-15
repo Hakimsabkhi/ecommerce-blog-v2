@@ -2,7 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import ChairsPromation from '@/components/promotioncomp/promotionf/ChairsPromotion';
 import ProductPromotion from '@/components/promotioncomp/promotionf/ProductPromotion';
-import { promotionData } from '@/lib/pagefunction';
+import { promotionData } from '@/lib/StaticDataHomePage';
 
 
 

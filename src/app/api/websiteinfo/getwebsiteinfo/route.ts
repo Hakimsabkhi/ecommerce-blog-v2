@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
-import Company from '@/models/Company';
+import Websiteinfo from '@/models/Websiteinfo';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,7 +10,7 @@ export async function GET() {
     await connectToDatabase();
 
     // Fetch the company data
-    const company = await Company.findOne({}).exec();
+    const company = await Websiteinfo.findOne({}).exec();
 
     if (!company) {
       // Handle case where no company data is found

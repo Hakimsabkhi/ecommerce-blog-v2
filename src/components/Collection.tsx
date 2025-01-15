@@ -3,7 +3,7 @@ export const revalidate = 60;
 
 import React from "react";
 import ProductCard from "@/components/Products/ProductPage/ProductCard";
-import { getproductstatusData } from "@/lib/pagefunction";
+import { getproductstatusData } from "@/lib/StaticDataHomePage";
 
 interface Brand {
   _id: string;
@@ -41,10 +41,12 @@ const Collection: React.FC = async () => {
   const rawProducts = await getproductstatusData();
 
   // Cast `rawProducts` to match the `Products[]` type
-  const products: Products[] = rawProducts.map((product: Products) => ({
-    ...product,
-    _id: product._id.toString(), // Ensure `_id` is treated as a string
-  }));
+  const products: Products[] = Array.isArray(rawProducts) 
+  ? rawProducts.map((product: Products) => ({
+      ...product,
+      _id: product._id?.toString() ?? '', // Ensure _id is treated as a string or fallback to empty string
+    }))
+  : [];  
   const filteredProductsCount = products.filter(
     (item) => item.statuspage === "best-collection"
   ).length;

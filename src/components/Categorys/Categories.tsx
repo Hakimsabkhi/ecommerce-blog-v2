@@ -2,35 +2,15 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import connectToDatabase from "@/lib/db";
-import Category from "@/models/Category";
+import { getCategoriesData } from "@/lib/StaticDataHomePage";
 
 export const revalidate = 60;
 // This enables ISR (Incremental Static Regeneration)
 // Next.js will re-generate this page in the background every 60s.
 
-interface CategoryType {
-  _id: string;
-  name: string;
-  imageUrl?: string;
-  slug: string;
-  numberproduct?: number;
-}
 
 // 1) Fetch directly from the database using .lean()
-async function getCategoriesData(): Promise<CategoryType[]> {
-  await connectToDatabase();
 
-  // Use .lean() to get plain JS objects instead of Mongoose documents
-  const categories = await Category.find({ vadmin: "approve" }).lean();
-
-  // Convert ObjectId _id to string
-  return categories.map((cat) => ({
-    ...cat,
-    _id: cat._id.toString(),
-    imageUrl: cat.imageUrl ?? "/fallback.jpg",
-  }));
-}
 
 export default async function Categories() {
   // 2) Get your category data

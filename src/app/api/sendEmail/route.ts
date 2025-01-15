@@ -4,7 +4,7 @@ import User from '@/models/User';
 import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 import Order from '@/models/order';
-import Company from '@/models/Company';
+import Company from '@/models/Websiteinfo';
 import Address from '@/models/Address';
 
 import nodemailer from 'nodemailer';

@@ -7,7 +7,7 @@ import React from 'react';
 // Fetch company data from the API
 async function fetchCompanyData() {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/company/getCompany`, {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/websiteinfo/getwebsiteinfo`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

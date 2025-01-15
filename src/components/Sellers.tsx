@@ -1,29 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-import connectToDatabase from "@/lib/db";
-import Products from "@/models/Product";
+import { getBestsellersData } from "@/lib/StaticDataHomePage";
 
 // 1) Incremental Static Regeneration at the page level
 export const revalidate = 60;
 
 // 2) Fetch sellers (best-selling products) directly from the DB
-async function getBestsellersData() {
-  await connectToDatabase();
-  // You can adjust the filters as needed (e.g., `statuspage: "home-page"` or any other filters)
-  const bestsellers = await Products.find({
-    vadmin: "approve",
-    statuspage: "home-page",
-  }).lean();
 
-  // Convert `_id` to string so Next.js won’t complain
-  return bestsellers.map((item) => ({
-    ...item,
-    _id: item._id.toString(),
-    imageUrl: item.imageUrl ?? "/fallback.jpg", // optional fallback
-  }));
-}
 
 export default async function Sellers() {
   // 3) Fetch your data
