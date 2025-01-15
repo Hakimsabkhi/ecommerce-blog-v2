@@ -18,10 +18,10 @@ export default async function Categories() {
 
   // 3) Render the same UI you had before
   return (
-    <div className="desktop max-md:w-[95%] flex flex-col gap-10 py-8">
+    <div className="desktop max-md:w-[95%] flex flex-col gap-10 py-8 mt-4">
       {categories.length > 0 && (
         <div>
-          <div className="flex-col flex gap-2 items-center w-full max-lg:text-center">
+          <div className="flex-col flex gap-2 items-center w-full max-lg:text-center mb-6">
             <h3 className="font-bold text-4xl text-HomePageTitles">
               Our categories
             </h3>

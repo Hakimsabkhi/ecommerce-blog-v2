@@ -44,7 +44,7 @@ const AddedProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const is2xl = useIs2xl();
-  const productsPerPage = is2xl ? 8 : 5;
+  const productsPerPage = is2xl ? 7 : 5;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState({ id: "", name: "" });
@@ -624,7 +624,7 @@ const AddedProducts: React.FC = () => {
           ))
         )}
       </div>
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-10">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

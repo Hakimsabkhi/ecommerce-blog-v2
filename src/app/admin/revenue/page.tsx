@@ -108,10 +108,10 @@ const RevenueDashboard: React.FC = () => {
   const totalRevenue = revenueData.reduce((sum, entry) => sum + entry.total, 0).toFixed(2);
 
   return (
-    <div className="p-6">
+    <div className="p-6 mx-auto w-[90%]">
       {/* Dashboard Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold">Revenue</h1>
+        <h1 className="text-3xl max-sm:text-xl font-bold">Revenue</h1>
       </div>
 
       {/* Error Handling */}
@@ -122,7 +122,7 @@ const RevenueDashboard: React.FC = () => {
       )}
 
       {/* Revenue Section */}
-      <div className="flex xl:flex-col-2  xl:items-center max-xl:flex-col gap-4">
+      <div className="flex xl:flex-col-2 justify-center xl:items-center max-xl:flex-col gap-4">
         <div className="bg-white rounded-lg xl:w-[50%] h-full border-2 p-6">
           
             <h2 className="text-xl font-semibold">Revenue:</h2>
