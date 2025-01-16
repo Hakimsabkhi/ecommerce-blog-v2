@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
-import Category from '@/models/Category';
+import Companies from '@/models/Companies';
 import cloudinary from '@/lib/cloudinary';
 import stream from 'stream';
 import User from '@/models/User';
@@ -31,24 +31,27 @@ export async function POST(req: NextRequest) {
     // Handle form data
     const formData = await req.formData();
     const name = formData.get('name') as string;
-    const imageFile = formData.get('image') as File | null;
-    const logoFile = formData.get('logo') as File | null;
-    const bannerFile = formData.get('banner') as File | null;
-    if (!name) {
-      return NextResponse.json({ message: 'Name is required' }, { status: 400 });
-    }
+    const matriculefiscal = formData.get('matriculefiscal') as string;
+    const address = formData.get('address') as string;
+    const numtele = formData.get('numtele') as string;
+    const gerantsoc = formData.get('gerantsoc') as string;
+    const imgPattente = formData.get('imgPattente') as File | null;
 
-    const existingCategory = await Category.findOne({ name });
-    if (existingCategory) {
-      return NextResponse.json({ message: 'Category with this name already exists' }, { status: 400 });
+  if (!name||!matriculefiscal||!address||!numtele||!gerantsoc||!imgPattente){
+    return NextResponse.json({ message: 'Companies  empty data' }, { status: 402 });
+  }
+
+    const existingCompanies = await Companies.findOne({ matriculefiscal:matriculefiscal });
+    if (existingCompanies) {
+      return NextResponse.json({ message: 'Companies with this name already exists' }, { status: 400 });
     }
 
     let imageUrl = '';
-    let logoUrl = '';
-    let bannerUrl = '';
+
 
     // Helper function for Cloudinary upload
     const uploadToCloudinary = async (file: File, folder: string, format: string): Promise<UploadResult> => {
+
       const fileBuffer = await file.arrayBuffer();
       const bufferStream = new stream.PassThrough();
       bufferStream.end(Buffer.from(fileBuffer));
@@ -67,25 +70,17 @@ export async function POST(req: NextRequest) {
       });
     };
 
-    if (imageFile) {
-      const result = await uploadToCloudinary(imageFile, 'categories', 'webp');
+    if (imgPattente) {
+      const result = await uploadToCloudinary(imgPattente, 'companies', 'webp');
       imageUrl = result.secure_url;
     }
 
-    if (logoFile) {
-      const result = await uploadToCloudinary(logoFile, 'categories/logos', 'svg');
-      logoUrl = result.secure_url;
-    }
+  
 
-    if (bannerFile) {
-      const result = await uploadToCloudinary(bannerFile, 'categories/banner', 'webp');
-      bannerUrl = result.secure_url;
-    }
-
-    const newCategory = new Category({ name, logoUrl, imageUrl, bannerUrl, user });
+    const newCategory = new Companies({ name,matriculefiscal,address,numtele,gerantsoc,imgPattente:imageUrl,user:user});
     await newCategory.save();
 
-    return NextResponse.json(newCategory, { status: 201 });
+    return NextResponse.json(/* newCategory */ { status: 201 });
   } catch (error) {
     console.error('Error:', error);
     return NextResponse.json({ error: 'Internal Server Error', message: error instanceof Error ? error.message : error }, { status: 500 });

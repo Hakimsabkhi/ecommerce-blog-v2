@@ -6,7 +6,6 @@ import { IUser } from './User';
 export interface ICompanies extends Document {
   name: string;
   matriculefiscal:string;
-  city:string;
   address:string;
   numtele:string
   gerantsoc:string;
@@ -19,7 +18,6 @@ export interface ICompanies extends Document {
 const CompaniesSchema: Schema = new Schema({
   name: {type:String,required:true},
   matriculefiscal:{type:String,required:true},
-  city:{type:String,required:true},
   address:{type:String,required:true},
   numtele:{type:String,required:true},
   gerantsoc:{type:String,required:true},

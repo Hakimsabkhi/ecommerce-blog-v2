@@ -165,6 +165,7 @@ const Orderitemslistproduct:React.FC<orderitemslistproductProps> = ({
             type="number"
             placeholder="Quantity"
             value={price - (price * (itemDiscount / 100 || 0))}
+            readOnly
             className="py-2 px-4 bg-gray-100"
           />
         </div>
