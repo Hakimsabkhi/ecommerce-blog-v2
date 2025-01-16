@@ -38,8 +38,8 @@ export const pages = {
   ],
   Blog: [
     { name: Page.Blog, path: "/admin/blog" },
-    { name: Page.BlogComments, path: "/admin/bloglike" },
-    { name: Page.PostCategory, path: "/admin/postcategory" },
+    { name: Page.BlogComments, path: "/admin/blog/comments" },
+    { name: Page.PostCategory, path: "/admin/post-category" },
   ],
   "Entreprise": [
     { name: Page.Entreprise, path: '/admin/companies' }
