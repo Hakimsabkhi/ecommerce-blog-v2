@@ -63,8 +63,8 @@ export default async function Bb() {
                     </div>
                     <div className=" flex w-1/3 max-md:w-full justify-between max-md:justify-center items-center max-md:gap-20 md:max-lg:hidden ">
                         <div className='flex-col flex gap-4'>
-                            <p className="text-white  text-xl max-md:text-2xl  ">Quick links</p>
-                            <div className='flex-col gap-2 text-xs max-md:text-base flex'>
+                            
+                            <div className='flex justify-start flex-col gap-4'>
                                 <Link href="/">
                                     <p className="   hover:text-white cursor-pointer">
                                         Home
@@ -91,7 +91,7 @@ export default async function Bb() {
                                                            
                             </div>
                         </div>
-                        <div className='flex flex-col mb-6 max-md:mb-9 gap-4 '>
+                        <div className='flex justify-start flex-col gap-4 '>
                             <p className="text-white  text-xl max-md:text-2xl ">Découverte</p>                            
                             <ul className='flex flex-col text-xs max-md:text-base gap-2'>
                                 <li className="   hover:text-white cursor-pointer">
@@ -138,9 +138,9 @@ export default async function Bb() {
                 </div>
             </div>
         
-                <div className="w-[85%] items-center justify-between text-[#525566] font-bold max-lg:w-[95%] max-md:text-[10px] flex max-md:flex-col gap-2">
+                <div className="w-[85%] text-[20px] items-center justify-between text-[#525566] font-bold max-lg:w-[95%] max-md:text-[16px] py-2 flex max-md:flex-col gap-2">
                     <p>© {companyData.name} - All rights reserved</p>
-                    <div className=" flex items-center gap-4">
+                    <div className=" flex items-center gap-8 mx-4 text-[16px]">
                         <p>Terms and conditions</p>
                         <p>Privacy Policy</p>
                         <p>Disclaimer</p>
