@@ -124,7 +124,7 @@ const NavAdmin = () => {
                         className="flex items-center justify-between text-gray-300 font-medium cursor-pointer"
                         onClick={() => toggleDropdown(item.group)}
                       >
-                        <p>{item.group}</p>
+                        <p className="text-sm p-2">{item.group}</p>
                         {openDropdown === item.group ? <FaChevronUp /> : <FaChevronDown />}
                       </div>
                       {openDropdown === item.group &&
