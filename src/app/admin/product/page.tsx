@@ -410,7 +410,7 @@ const AddedProducts: React.FC = () => {
                   <td className="border px-4 py-2">
                     <div className="flex justify-center gap-2">
                       <select
-                        className={` w-full h-10 text-black rounded-md truncate p-2 ${
+                        className={` w-full max-w-32 h-10 text-black rounded-md truncate p-2 ${
                           item.vadmin === "not-approve"
                             ? "bg-gray-400 text-white"
                             : "bg-green-500 text-white"
@@ -435,7 +435,7 @@ const AddedProducts: React.FC = () => {
                       </select>
                       {item.stock > 0 ? (
                         <select
-                          className={` w-full h-10 text-black truncate rounded-md p-2 ${
+                          className={` w-full max-w-44 h-10 text-black truncate rounded-md p-2 ${
                             item.status === "in-stock"
                               ? "bg-gray-800 text-white"
                               : item.status === "out-of-stock"
@@ -455,12 +455,12 @@ const AddedProducts: React.FC = () => {
                           </option>
                         </select>
                       ) : (
-                        <div className="w-32 bg-gray-500 text-white rounded-md p-2 ">
+                        <div className="w-full max-w-44 bg-gray-500 text-white rounded-md p-2 ">
                           <p>Out of stock</p>
                         </div>
                       )}
                       <select
-                        className={` w-full h-10 text-black rounded-md p-2 truncate  ${
+                        className={` w-full max-w-44 h-10 text-black rounded-md p-2 truncate  ${
                           item.statuspage === "none"
                             ? "bg-gray-800 text-white"
                             : "bg-emerald-950 text-white"

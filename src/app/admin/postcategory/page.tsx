@@ -217,7 +217,7 @@ const AddedCategories: React.FC = () => {
                
                 <div className="flex  justify-center gap-2">
                 <select
-                    className={`w-full max-w-44 h-10 text-black rounded-md p-2 truncate ${
+                    className={`w-full max-w-32 h-10 text-black rounded-md p-2 truncate ${
                       item.vadmin === "not-approve"
                         ? "bg-gray-400 text-white"
                         : "bg-green-500 text-white"
