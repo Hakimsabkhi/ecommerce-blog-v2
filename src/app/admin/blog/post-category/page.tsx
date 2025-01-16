@@ -162,7 +162,7 @@ const AddedCategories: React.FC = () => {
         <p className="text-3xl font-bold">ALL Post Categories</p>
         <div className="flex gap-2">
         
-        <Link href="/admin/post-category/addpostcategory" >
+        <Link href="/admin/blog/post-category/addpostcategory" >
           <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2'>
           Add a new category
           </button>
@@ -237,7 +237,7 @@ const AddedCategories: React.FC = () => {
                       Not approve
                     </option>
                   </select>
-                  <Link href={`/admin/post-category/${item._id}`}>
+                  <Link href={`/admin/blog/post-category/${item._id}`}>
                     <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                                           <FaRegEdit />
                                         </button>

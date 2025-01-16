@@ -37,7 +37,7 @@ const AddCategory = () => {
       }
       
       toast.success(`Category ${name} Add successfully!`);
-      router.push("/admin/post-category");
+      router.push("/admin/blog/post-category");
     } catch (error: unknown) {
       if (error instanceof Error) {
         // Safe to access error.message
@@ -75,7 +75,7 @@ const AddCategory = () => {
           </button>
         </div>
         <div className="w-[20%] max-xl:w-[30%] max-md:w-[50%] items-start">
-          <Link href="/admin/post-category">
+          <Link href="/admin/blog/post-category">
             <button className="bg-white border-2 border-gray-400 text-black hover:bg-slate-600 hover:border-0 hover:text-white rounded-md w-full h-10 flex items-center justify-center">
               <p className="font-bold uppercase">Cancel</p>
             </button>

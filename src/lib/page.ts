@@ -18,7 +18,6 @@ export const DashboardAdmin = [
       { name: "Role", path: "/admin/users/role" },
     ],
   },
-
   {
     group: "Commandes et Revenue",
     items: [
