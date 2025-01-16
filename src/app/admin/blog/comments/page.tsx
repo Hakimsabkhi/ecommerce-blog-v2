@@ -193,7 +193,7 @@ const BlogLikes = () => {
 
               <td className="border px-4 py-2">
                 <div>
-                    <Link href={`/admin/bloglike/${blog._id}`}>
+                    <Link href={`/admin/blog/comments/${blog._id}`}>
                            <button className="bg-gray-800 text-white w-32 h-10  hover:bg-gray-600 rounded-md uppercase">
                          {blog.numbercomment} Comments
                       </button>
@@ -222,7 +222,7 @@ const BlogLikes = () => {
                 className="rounded-lg"
               />
               <div className="text-right">
-                <Link href={`/admin/bloglike/${blog._id}`}>
+                <Link href={`/admin/blog/comments/${blog._id}`}>
                   <button className="bg-gray-800 text-white w-32 h-10  hover:bg-gray-600 rounded-md uppercase">
                          {blog.numbercomment} Comments
                       </button>
