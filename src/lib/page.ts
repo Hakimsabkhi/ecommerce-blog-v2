@@ -1,4 +1,4 @@
-export type Page = 'Brands' | 'Categories' | 'Products' | 'Promation' | 'Reviews' | 'Orders' | 'Invoice' | 'Revenue' | 'Blog' | 'B.Comments'| 'Post Category';
+export type Page = 'Brands' | 'Categories' | 'Products' | 'Promation' | 'Reviews' | 'Orders' | 'Invoice' | 'Revenue' | 'Blog' | 'B.Comments'| 'Post Category' |'Entreprise';
 
 export const pages: Page[] = [
   'Brands', 
@@ -12,6 +12,7 @@ export const pages: Page[] = [
   'Blog', 
   'B.Comments', 
   'Post Category',
+  'Entreprise'
 ];
 
 // Map pages to URLs for the admin panel
@@ -29,7 +30,8 @@ export  const pageUrls = [
     { name: 'Role', path: '/admin/users/role' },
     { name: 'Blog', path: '/admin/blog' },
     { name: 'B.Comments', path: '/admin/bloglike' },
-    { name: 'Post Category', path: '/admin/postcategory' }
+    { name: 'Post Category', path: '/admin/postcategory' },
+    { name: 'Entreprise', path: '/admin/companies' }
     
   ];
   
