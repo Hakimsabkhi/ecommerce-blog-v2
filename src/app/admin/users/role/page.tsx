@@ -3,12 +3,11 @@
 import DeletePopup from "@/components/Popup/DeletePopup";
 import React, { useEffect, useMemo, useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
-import { pages } from "@/lib/page";
+import { DashboardAdmin } from "@/lib/page";
 import Pagination from "@/components/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 
 const Page = () => {
-  // Renamed from "page" to "Page"
   const [roles, setRoles] = useState<
     { _id: string; name: string; access: Record<string, boolean> }[]
   >([]);
@@ -35,7 +34,7 @@ const Page = () => {
     setIsPopupOpen(true);
   };
 
-  const Deleterole = async (id: string) => {
+  const deleteRole = async (id: string) => {
     try {
       const response = await fetch(`/api/role/deleterolebyid/${id}`, {
         method: "DELETE",
@@ -46,15 +45,8 @@ const Page = () => {
       }
       handleClosePopup();
       await fetchRoles();
-    } catch (error: unknown) {
-      // Handle different error types effectively
-      if (error instanceof Error) {
-        console.error("Error deleting category:", error.message);
-      } else if (typeof error === "string") {
-        console.error("String error:", error);
-      } else {
-        console.error("Unknown error:", error);
-      }
+    } catch (error) {
+      console.error("Error deleting role:", error);
     } finally {
       setUpdatingRole(null);
     }
@@ -65,36 +57,32 @@ const Page = () => {
     setUpdatingRole(null);
   };
 
-  async function fetchRoles() {
+  const fetchRoles = async () => {
     try {
       const res = await fetch("/api/role/getrole");
       if (!res.ok) throw new Error("Failed to fetch roles");
       const data = await res.json();
-      setRoles(data.roles); // Set roles with access
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        console.error(err.message);
-      } else {
-        console.error("An unknown error occurred");
-      }
+      setRoles(data.roles);
+    } catch (err) {
+      console.error("Error fetching roles:", err);
     }
-  }
+  };
 
   useEffect(() => {
     fetchRoles();
   }, []);
 
-  async function handleAccessUpdate(
+  const handleAccessUpdate = async (
     role: string,
-    page: string,
+    dashboardSection: string,
     hasAccess: boolean
-  ) {
-    setUpdatingRole(`${role}-${page}`); // Set loading state for the specific role and page
+  ) => {
+    setUpdatingRole(`${role}-${dashboardSection}`);
     try {
       const res = await fetch("/api/role/access", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role, page, hasAccess }),
+        body: JSON.stringify({ role, dashboardSection, hasAccess }),
       });
 
       if (!res.ok) throw new Error("Failed to update access");
@@ -102,52 +90,41 @@ const Page = () => {
       setRoles((prevRoles) =>
         prevRoles.map((r) =>
           r.name === role
-            ? { ...r, access: { ...r.access, [page]: hasAccess } }
+            ? { ...r, access: { ...r.access, [dashboardSection]: hasAccess } }
             : r
         )
       );
+    } catch (err) {
+      console.error("Error updating access:", err);
+    } finally {
       setUpdatingRole(null);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        console.error(err.message);
-      } else {
-        console.error("An unknown error occurred");
-      }
     }
-  }
+  };
 
-  async function handleAddRole() {
+  const handleAddRole = async () => {
     if (!newRole.trim()) {
       alert("Role name cannot be empty.");
       return;
     }
 
     try {
-      const formData = new FormData();
-      formData.append("newRole", newRole); // Append the newRole data to FormData
-
       const res = await fetch("/api/role/postrole", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newRole }), // Use FormData as the body of the request
+        body: JSON.stringify({ newRole }),
       });
 
       if (!res.ok) throw new Error("Failed to add role");
       const data = await res.json();
-      console.log(data);
       setRoles((prevRoles) => [
         ...prevRoles,
         { name: data.name, access: {}, _id: data._id },
       ]);
       setNewRole("");
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        console.error(err.message);
-      } else {
-        console.error("An unknown error occurred");
-      }
+    } catch (err) {
+      console.error("Error adding role:", err);
     }
-  }
+  };
 
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
@@ -156,11 +133,11 @@ const Page = () => {
       </div>
 
       <div className="flex max-sm:flex-col md:items-center max-sm:items-end max-sm:gap-4 gap-8 mt-1">
-        <div className="flex gap-4 items-center justify-end ">
-          <p className="text-xl font-bold">new Role :</p>
+        <div className="flex gap-4 items-center justify-end">
+          <p className="text-xl font-bold">New Role:</p>
           <input
             className="p-2 border border-gray-300 rounded-lg max-sm:w-[50%]"
-            placeholder="Ajouter un role"
+            placeholder="Add a role"
             value={newRole}
             onChange={(e) => setNewRole(e.target.value)}
           />
@@ -169,59 +146,59 @@ const Page = () => {
         <button
           onClick={handleAddRole}
           type="submit"
-          className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2'>
-            
-       
-          Ajouter un Role
+          className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2"
+        >
+          Add Role
         </button>
       </div>
 
       <div className="max-2xl:h-80 h-[50vh] overflow-x-auto max-xl:hidden">
-        <table className=" rounded overflow-hidden w-full table-fixed mx-auto">
+        <table className="rounded overflow-hidden w-full table-fixed mx-auto">
           <thead>
-            <tr className="bg-gray-800">
-              <th className="border border-gray-300 p-3">Role Name</th>
-              {pages.map((page) => (
-                <th key={page} className="border border-gray-300 px-4 py-3">
-                  {page}
+            <tr className="bg-gray-800 text-sm">
+              <th className="border border-gray-300 p-2">Role Name</th>
+              {DashboardAdmin.flatMap((section) =>
+                section.items ? section.items.map((item) => item.name) : []
+              ).map((name, index) => (
+                <th
+                  key={index}
+                  className="border border-gray-300 px-2 py-2"
+                >
+                  {name}
                 </th>
               ))}
-              <th className="border border-gray-300 p-3">Action</th>
+              <th className="border border-gray-300 p-2">Action</th>
             </tr>
           </thead>
 
           <tbody>
-            {roles.map((role, index) => (
-              <tr key={index} className="even:bg-gray-100 odd:bg-white">
-                <td className="border border-gray-300 px-4 py-2">
+            {roles.map((role) => (
+              <tr key={role._id} className="even:bg-gray-100 odd:bg-white">
+                <td className="border border-gray-300 px-2 py-2">
                   {role.name}
                 </td>
-                {pages.map((page) => (
+                {DashboardAdmin.flatMap((section) =>
+                  section.items ? section.items.map((item) => item.name) : []
+                ).map((dashboardSection) => (
                   <td
-                    key={page}
-                    className="border border-gray-300 px-4 py-2 text-center"
+                    key={dashboardSection}
+                    className="border border-gray-300 px-2 py-2 text-center"
                   >
-                    <div className="flex items-center justify-center">
-                      {updatingRole === `${role.name}-${page}` ? (
-                        <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
-                      ) : (
-                        <input
-                          type="checkbox"
-                          checked={role.access[page] || false}
-                          onChange={(e) =>
-                            handleAccessUpdate(
-                              role.name,
-                              page,
-                              e.target.checked
-                            )
-                          }
-                          className="w-6 h-6"
-                        />
-                      )}
-                    </div>
+                    <input
+                      type="checkbox"
+                      checked={role.access[dashboardSection] || false}
+                      onChange={(e) =>
+                        handleAccessUpdate(
+                          role.name,
+                          dashboardSection,
+                          e.target.checked
+                        )
+                      }
+                      className="w-6 h-6"
+                    />
                   </td>
                 ))}
-                <td className="border flex justify-center border-gray-300 px-4 py-2">
+                <td className="border flex justify-center border-gray-300 px-2 py-2">
                   <button
                     onClick={() => handleDeleteClick(role)}
                     className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
@@ -230,76 +207,14 @@ const Page = () => {
                     {updatingRole === role._id ? (
                       <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
                     ) : (
-                      <FaTrashAlt className="" />
+                      <FaTrashAlt />
                     )}
                   </button>
-                  {isPopupOpen && (
-                    <DeletePopup
-                      handleClosePopup={handleClosePopup}
-                      Delete={Deleterole}
-                      id={selectedRole.id} // Pass selected user's id
-                      name={selectedRole.name}
-                    />
-                  )}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
-      <div className="grid xl:hidden grid-cols-1 gap-4">
-        {roles.map((role) => (
-          <div
-            key={role._id}
-            className="border-2 border-black p-4 rounded-lg flex flex-col gap-4"
-          >
-            <div className="flex justify-center items-center gap-2">
-              <p className="text-xl font-bold"> Role Name : </p>
-              <h3 className="  text-xl">{role.name}</h3>
-            </div>
-            <div className="grid max-sm:grid-cols-2 sm:grid-cols-2 border-t-2 pt-4 border-b-2 pb-4 md:grid-cols-3 lg:grid-cols-4 gap-10 text-xl ">
-              {pages.map((page) => (
-                <div
-                  key={page}
-                  className="flex justify-start text-lg items-center gap-8 p-1 rounded-xl"
-                >
-                  <input
-                    type="checkbox"
-                    style={{ accentColor: "black" }}
-                    className="w-8 h-8 text-black focus:ring-black border-gray-300 rounded-xl "
-                    checked={role.access[page] || false}
-                    onChange={(e) =>
-                      handleAccessUpdate(role.name, page, e.target.checked)
-                    }
-                  />
-                  <span>{page}</span>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-center items-center gap-2">
-              <p className="text-lg font-bold">Action : </p>
-              <button
-                onClick={() => handleDeleteClick(role)}
-                className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                disabled={updatingRole === role._id}
-              >
-                {updatingRole === role._id ? (
-                  <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
-                ) : (
-                  <FaTrashAlt />
-                )}
-              </button>
-            </div>
-            {isPopupOpen && (
-              <DeletePopup
-                handleClosePopup={handleClosePopup}
-                Delete={Deleterole}
-                id={selectedRole.id} // Pass selected user's id
-                name={selectedRole.name}
-              />
-            )}
-          </div>
-        ))}
       </div>
 
       <div className="flex justify-center mt-4">
@@ -309,8 +224,17 @@ const Page = () => {
           onPageChange={setCurrentPage}
         />
       </div>
+
+      {isPopupOpen && (
+        <DeletePopup
+          handleClosePopup={handleClosePopup}
+          Delete={deleteRole}
+          id={selectedRole.id}
+          name={selectedRole.name}
+        />
+      )}
     </div>
   );
 };
 
-export default Page; // Ensure you're exporting the component correctly
+export default Page;
