@@ -39,7 +39,7 @@ export const pages = {
   Blog: [
     { name: Page.Blog, path: "/admin/blog" },
     { name: Page.BlogComments, path: "/admin/blog/comments" },
-    { name: Page.PostCategory, path: "/admin/post-category" },
+    { name: Page.PostCategory, path: "/admin/blog/post-category" },
   ],
   "Entreprise": [
     { name: Page.Entreprise, path: '/admin/companies' }
