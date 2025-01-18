@@ -33,8 +33,12 @@ const Display: React.FC = () => {
   const [instagram, setInstagram] = useState("");
   const [companyData, setCompanyData] = useState<Company | null>(null);
   const [iconPreview, setIconPreview] = useState<string | null>(null);
-  const [iconPreviewBanner, setIconPreviewBanner] = useState<string | null>(null);
-  const [iconPreviewContacts, setIconPreviewBannerContacts] = useState<string | null>(null);
+  const [iconPreviewBanner, setIconPreviewBanner] = useState<string | null>(
+    null
+  );
+  const [iconPreviewContacts, setIconPreviewBannerContacts] = useState<
+    string | null
+  >(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -74,22 +78,20 @@ const Display: React.FC = () => {
   }, []);
 
   return (
-    <div className="mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 gap-8">
+    <div className=" w-[90%] mx-auto pt-8">
       {loading ? (
         <p className="text-xl font-bold text-center">Loading...</p>
       ) : (
-        <>
+        <div className="flex flex-col pl-8">
           <p className="text-3xl font-bold">Company Details</p>
           <button
             type="button"
             className="bg-gray-800 text-white hover:bg-gray-600 rounded-md w-[20%] h-10 ml-[70%] mb-6 max-lg:w-[30%]"
             onClick={() => router.push("company/details")}
           >
-            <p className="text-white">
-              {companyData ? "Update Company" : "Create Company"}
-            </p>
+            <p className="text-white">{companyData ? "Update" : "Create"}</p>
           </button>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 items-center justify-center ml-[20%] max-sm:ml-1">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="mb-4">
               <p className="block text-lg font-bold">Name Company</p>
               <p>{name}</p>
@@ -118,6 +120,9 @@ const Display: React.FC = () => {
               <p className="block text-lg font-bold">Governorate</p>
               <p>{governorate}</p>
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="mb-4">
               <p className="block text-lg font-bold">Upload Icon</p>
               {iconPreview && (
@@ -173,7 +178,7 @@ const Display: React.FC = () => {
               </div>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
