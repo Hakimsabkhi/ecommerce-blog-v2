@@ -4,6 +4,7 @@ import Invoice from "@/models/Invoice";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
 import Counterinvoice from "@/models/Counterinvoice";
+import Product from "@/models/Product";
 
 export async function POST(
   req: NextRequest,
@@ -43,7 +44,20 @@ export async function POST(
       deliveryMethod,
       deliveryCost,
     } = body;
+    if (itemList) {
+      for (let i = 0; i < itemList.length; i++) {
+        // Your loop body here
+        console.log(itemList[i].product); // Example: access each item in orderItems
+        const oldproduct = await Product.findOne({ _id: itemList[i].product });
+        if (oldproduct) {
+          if (oldproduct.stock >= itemList[i].quantity) {
+            oldproduct.stock -= itemList[i].quantity;
 
+            oldproduct.save();
+          }
+        }
+      }
+    }
     const invoiceRef = await generateInvoiceRef();
     const newinvoice = new Invoice({
       companies: company,

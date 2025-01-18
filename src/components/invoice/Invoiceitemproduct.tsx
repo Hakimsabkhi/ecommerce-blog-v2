@@ -165,6 +165,7 @@ const Invoiceitemproduct :React.FC<InvoiceitemproductProps> = ({
             placeholder="Quantity"
             value={price - (price * (itemDiscount / 100 || 0))}
             className="py-2 px-4 bg-gray-100"
+            readOnly
           />
         </div>
         <div>

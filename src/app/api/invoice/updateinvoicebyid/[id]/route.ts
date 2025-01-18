@@ -51,7 +51,7 @@ export async function PUT(
 
     for (let i = 0; i < invoiceItems.length; i++) {
       // Your loop body here
-      console.log(invoiceItems[i].product); // Example: access each item in orderItems
+    
       const oldproduct = await Product.findOne({
         _id: invoiceItems[i].product,
       });
@@ -65,6 +65,7 @@ export async function PUT(
     }
     const {
       customer,
+      companies,
       itemList,
       totalCost,
       paymentMethod,
@@ -87,9 +88,16 @@ export async function PUT(
         }
       }
     }
-
+  if(companies){
+    existinginvoice.companies=companies;
+  }
+    if(customer){
     existinginvoice.user = customer;
+  }
+  if(address){
     existinginvoice.address = address;
+  }
+  
     existinginvoice.Items = itemList;
     existinginvoice.paymentMethod = paymentMethod;
     existinginvoice.deliveryMethod = deliveryMethod;
