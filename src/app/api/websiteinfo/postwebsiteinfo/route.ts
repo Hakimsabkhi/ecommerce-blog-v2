@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
 
     let logoUrl = '';
     if (imageFile) {
-      logoUrl = await uploadToCloudinary(imageFile, 'company', 'svg');
+      logoUrl = await uploadToCloudinary(imageFile, 'company', 'webp');
     }
 
     let imageUrl = '';

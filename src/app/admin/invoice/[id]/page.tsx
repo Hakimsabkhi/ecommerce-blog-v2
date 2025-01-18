@@ -34,6 +34,7 @@ interface invoice {
   _id: string;
   user: User;
   ref: string;
+  companies:Companies
   address: Address;
   Items: Items[];
   paymentMethod: string;
@@ -45,13 +46,49 @@ interface User {
   username: string;
   phone: number;
 }
-
-const BondeLivraison = () => {
+interface Companies{
+  name: string;
+  matriculefiscal:string;
+  address:string;
+  numtele:string
+  gerantsoc:string;
+}
+interface websiteinfo {
+  name: string;
+  address:string;
+  city:string;
+  zipcode:string;
+  governorate:string
+  logoUrl:string;
+  email:string;
+  phone:number;
+}
+const InvoiceEdit = () => {
   const router=useRouter();
   const params = useParams() as { id: string }; // Explicitly type the params object
   const [invoice, setInvoice] = useState<invoice | null>(null);
   const [loading, setLoading] = useState(true);
-
+ const [webinfo,setwebinfo]=useState<websiteinfo>();
+  const fetchCompanyinfo =  async () => {
+    try {
+      const response = await fetch(`/api/websiteinfo/getwebsiteinfo`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Error fetching websiteinfo data');
+      }
+      
+      const data = await response.json();
+      setwebinfo(data);
+    } catch (error) {
+      console.error('Error fetching company data:', error);
+    }finally{
+      setLoading(false);
+    }
+  }
   useEffect(() => {
     // Fetch category data by ID
     const fetchOrderData = async () => {
@@ -78,7 +115,7 @@ const BondeLivraison = () => {
         console.error("Error fetching order data:", error);
       }
     };
-
+    fetchCompanyinfo();
     fetchOrderData();
   }, [params.id]);
 
@@ -200,34 +237,31 @@ const BondeLivraison = () => {
           <div className="flex justify-between ">
             <div>
               <Image
-                src={`https://res.cloudinary.com/dx499gc6x/image/upload/v1726668655/luxehome_o59kp7.webp`}
+              src={webinfo?.logoUrl?? '/default-image.jpg'}
                 alt="logo"
                 width={200}
                 height={200}
                 className="bg-primary"
               />
               <h1 className="mt-2 text-lg md:text-xl font-semibold text-primary dark:text-white">
-                LuxeHome Inc.
+               {webinfo?.name} Inc.
               </h1>
             </div>
 
             <div className="text-end">
               <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200 uppercase">
-                Invoice #
+                Facture #
               </h2>
               <span className="mt-1 block text-gray-500 dark:text-neutral-500">
                 {invoice?.ref}
               </span>
 
-              <p className="mt-4 not-italic text-gray-800 dark:text-neutral-200">
-                45 Roker Terrace
-                <br />
-                Latheronwheel
-                <br />
-                KW5 8NW, London
-                <br />
-                United Kingdom
-                <br />
+              
+              <p className="mt-4 not-italic text-gray-800 dark:text-neutral-200 border p-2 rounded-md">
+            {webinfo?.address} {webinfo?.city}<br/>
+            {webinfo?.governorate} {webinfo?.zipcode}<br/>
+            {webinfo?.phone}<br/>
+    
               </p>
             </div>
           </div>
@@ -237,16 +271,38 @@ const BondeLivraison = () => {
               <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">
               Facturer à :
               </h3>
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200 uppercase">
-                {invoice?.user.username}
-              </h3>
-              <p className="mt-2 not-italic text-gray-500 dark:text-neutral-500">
-                {invoice?.address.address}
-                <br />
-                {invoice?.address.city}, OR {invoice?.address.zipcode},<br />
-                {invoice?.address.governorate}
-                <br />
-              </p>
+              {invoice?.user && invoice?.address && (
+  <>
+    <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200 uppercase">
+      {invoice.user.username}
+    </h3>
+    <p className="mt-2 not-italic text-gray-500 dark:text-neutral-500">
+      {invoice.address.address}
+      <br />
+      {invoice.address.city}, OR {invoice.address.zipcode},
+      <br />
+      {invoice.address.governorate}
+      <br />
+    </p>
+  </>
+)}
+             {invoice?.companies && (
+  <>
+    <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200 uppercase">
+    Nom entreprise :{invoice.companies.name}
+    </h3>
+    <p className="mt-2 not-italic text-gray-500 dark:text-neutral-500">
+    Matricule Fiscal : {invoice.companies.name}
+      <br />
+      Address:    {invoice.companies.address}
+      <br />
+      Nom du gérant de l&apos;entreprise : {invoice.companies.gerantsoc}
+      <br />
+      Telephone : {invoice.companies.numtele}
+      <br />
+    </p>
+  </>
+)}
             </div>
 
             <div className="sm:text-end space-y-2">
@@ -594,4 +650,4 @@ const BondeLivraison = () => {
   );
 };
 
-export default BondeLivraison;
+export default InvoiceEdit;

@@ -47,14 +47,44 @@ interface User{
   username:string
   phone:number
 }
+interface websiteinfo {
+  name: string;
+  address:string;
+  city:string;
+  zipcode:string;
+  governorate:string
+  logoUrl:string;
+  email:string;
+  phone:number;
+}
 
 
 const BondeLivraison=()=>{
   const params = useParams() as { id: string }; // Explicitly type the params object
   const [order, setOrder] = useState<Order | null>(null); 
+  const [webinfo,setwebinfo]=useState<websiteinfo>();
     const [loading, setLoading] = useState(true);
     const router=useRouter();
-
+    const fetchCompanyinfo =  async () => {
+      try {
+        const response = await fetch(`/api/websiteinfo/getwebsiteinfo`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Error fetching websiteinfo data');
+        }
+        
+        const data = await response.json();
+        setwebinfo(data);
+      } catch (error) {
+        console.error('Error fetching company data:', error);
+      }finally{
+        setLoading(false);
+      }
+    }
     useEffect(() => {
       // Fetch category data by ID
       const fetchOrderData = async () => {
@@ -78,7 +108,7 @@ const BondeLivraison=()=>{
           console.error("Error fetching order data:", error);
         }
       };
-      
+      fetchCompanyinfo();
       fetchOrderData();
      
     }, [params.id]);
@@ -153,10 +183,10 @@ const BondeLivraison=()=>{
       }
 
       // Save the PDF
-      pdf.save(`INVOICE-${order?.ref.replace('ORDER-', '')}.pdf`);
+      pdf.save(`Bonde Livraison-${order?.ref.replace('ORDER-', '')}.pdf`);
     });
   } else {
-    console.error('Invoice content is not found');
+    console.error('BondeLivraison content is not found');
   }
   };
   let ItemsPrice = 0;
@@ -193,20 +223,19 @@ if (loading) {
 
       <div className="flex justify-between">
         <div>
-        <Image src={`https://res.cloudinary.com/dx499gc6x/image/upload/v1726668655/luxehome_o59kp7.webp`} alt='logo' width={200} height={200} className='bg-primary'/>
-          <h1 className="mt-2 text-lg md:text-xl font-semibold text-primary dark:text-white">LuxeHome Inc.</h1>
+        <Image src={webinfo?.logoUrl?? '/default-image.jpg'} alt='logo' width={200} height={200} className='bg-primary'/>
+          <h1 className="mt-2 text-lg md:text-xl font-semibold text-primary dark:text-white">{webinfo?.name}.inc</h1>
         </div>
   
 
         <div className="text-end">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200">Invoice  #</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200">Bonde Livraison  #</h2>
           <span className="mt-1 block text-gray-500 dark:text-neutral-500">{order?.ref.replace('ORDER-', '')}</span>
 
-          <p className="mt-4 not-italic text-gray-800 dark:text-neutral-200">
-            45 Roker Terrace<br/>
-            Latheronwheel<br/>
-            KW5 8NW, London<br/>
-            United Kingdom<br/>
+          <p className="mt-4 not-italic text-gray-800 dark:text-neutral-200 border p-2 rounded-md">
+            {webinfo?.address} {webinfo?.city}<br/>
+            {webinfo?.governorate} {webinfo?.zipcode}<br/>
+            {webinfo?.phone}<br/>
           </p>
         </div>
   
