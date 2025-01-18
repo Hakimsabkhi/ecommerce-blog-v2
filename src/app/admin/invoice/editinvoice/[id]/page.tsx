@@ -6,7 +6,7 @@ import InvoiceTable from "@/components/invoice/InvoiceTable";
 import InvoiceAddress from "@/components/invoice/InvoiceAddress";
 import Invoiceitemproduct from "@/components/invoice/Invoiceitemproduct";
 import InvoiceCustomerinfo from "@/components/invoice/InvoiceCustomerinfo";
-
+import InvoiceCompanyinfo from "@/components/invoice/postinvoice/InvoiceCompanyinfo";
 
 // Item interface
 interface Items {
@@ -52,7 +52,14 @@ interface Address {
   address: string;
 }
 
-export default function Dashboard() {
+interface Companies {
+  _id: string;
+    name: string;
+    matriculefiscal:string;
+    gerantsoc:string;
+}
+
+export default function EditInvoice() {
     const params = useParams() as { id: string };
   const [itemList, setItemList] = useState<Items[]>([]);
   const [customer, setCustomer] = useState<string>("");
@@ -84,8 +91,10 @@ export default function Dashboard() {
   const [filteredCustomers, setFilteredCustomers] = useState<User[]>([]);
   const [OpenCustomer,setOpenCustomer]=useState<boolean>(false);
   const [isOn, setIsOn] = useState(false);
-
-
+  const [filteredCompany, setFilteredCompany] = useState<Companies[]>([]);
+  const [OpenCompany,setOpenCompany]=useState<boolean>(false);
+  const [companies, setCompanies] = useState<Companies[]>([]);
+    const [company, setCompany] = useState<string>("");
   const handleSearchCustomers = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
     setSearchTerm(query);
@@ -100,6 +109,7 @@ export default function Dashboard() {
   const handleCustomerSelect = (customerId: string, username: string) => {
     setOpenCustomer(false);
     setCustomer(customerId); // Set the selected customer ID
+    fetchAddress(customerId);
     setSearchTerm(username);  // Set the search term to the selected username
   };
   const [paymentMethod, setPaymentMethod] = useState<string>("");
@@ -248,6 +258,7 @@ const invoiceData = {
     totalCost: calculateTotal(itemList, costs),
     deliveryMethod: Deliverymethod,
     customer: customer,
+    company: company,
     address: address,
     deliveryCost:costs,
     statustimbre:isOn,
@@ -329,43 +340,78 @@ const invoiceData = {
   ];
 
   // Fetch address when customer changes
-  useEffect(() => {
 
-    const fetchAddress = async () => {
+
+    const fetchAddress = async (customer:string) => {
       const res = await fetch(`/api/address/admin/getaddressbyid/${customer}`);
       const data = await res.json();
       setAddresses(data);
     };
-    fetchAddress();
-  }, [customer]);
 
+                
+  const handleCompanySelect = (companiesId: string, name: string) => {
+    setOpenCompany(false);
+    setCompany(companiesId); // Set the selected customer ID
+    setSearchTerm(name);  // Set the search term to the selected username
+  };
   // Fetch customers and products on component mount
   useEffect(() => {
     const fetchData = async () => {
-      const [usersResponse, productsResponse,invoicesResponse] = await Promise.all([
-        fetch("/api/users/userdashboard"),
-        fetch("/api/products/admin/getAllProduct"),
-        fetch(`/api/invoice/getinvoicebyid/${params.id}`),
-      ]);
-
-      const usersData = await usersResponse.json();
-      const productsData = await productsResponse.json();
-      const invoicesdata = await invoicesResponse.json();
-
-      setItemList(invoicesdata.Items);
-      handleCustomerSelect(invoicesdata.user._id,invoicesdata.user.username);
-      setAddress(invoicesdata.address._id);
-      setPaymentMethod(invoicesdata.paymentMethod);
-      setDeliverymethod(invoicesdata.deliveryMethod); // Example: Default delivery method
-      setCost(invoicesdata.deliveryCost);
-      setIsOn(invoicesdata.statustimbre);
-      setCustomers(usersData);
+      try {
+        const [usersResponse, productsResponse, invoicesResponse, companiesResponse] = await Promise.all([
+          fetch("/api/users/userdashboard"),
+          fetch("/api/products/admin/getAllProduct"),
+          fetch(`/api/invoice/getinvoicebyid/${params.id}`),
+          fetch("/api/companies/admin/getcompanies"),
+        ]);
+    
+        if (!usersResponse.ok || !productsResponse.ok || !invoicesResponse.ok || !companiesResponse.ok) {
+          throw new Error("Error fetching data from one or more sources");
+        }
+        const [usersData, productsData, invoicesData, companiesData] = await Promise.all([
+          usersResponse.json(),
+          productsResponse.json(),
+          invoicesResponse.json(),
+          companiesResponse.json(),
+        ]);
+        if (invoicesData && invoicesData._id) {
+          // Now it's safe to access _id
+          console.log('Invoice ID:', invoicesData._id);
+        } else {
+          console.error('Invoice data is missing or invalid.');
+        }
+      
+    
+      setItemList(invoicesData.Items);
+      if(invoicesData.companies){  setCompanies(companiesData);}
+      if(invoicesData.companies){  handleCompanySelect(invoicesData?.companies?._id,invoicesData?.companies?.name);}
+      if(invoicesData.user){  handleCustomerSelect(invoicesData.user?._id,invoicesData.user?.username);}
+     if(invoicesData.address){setAddress(invoicesData.address._id);}
+      setPaymentMethod(invoicesData.paymentMethod);
+      setDeliverymethod(invoicesData.deliveryMethod); // Example: Default delivery method
+      setCost(invoicesData.deliveryCost);
+      setIsOn(invoicesData.statustimbre);
+      if(invoicesData.user){  setCustomers(usersData);}
       setProducts(productsData);
       setFilteredProducts(productsData); // Initialize filtered products
-    };
+    } catch (error) {
+      console.error("Error in fetchData:", error);
+    }
+  };
+    
     fetchData();
   }, [params.id]);
-
+ const handleSearchCompany = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value.toLowerCase();
+    setSearchTerm(query);
+  
+    // Filter the customers based on the query (search by username or other customer properties)
+    const filteredCustomers = companies.filter((cust) =>
+      cust.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setOpenCompany(true);
+    setFilteredCompany(filteredCustomers); // Update the filtered customer list
+  };
   return (
     <div className="w-full">
       <main className="min-h-[90vh] flex items-start">
@@ -373,7 +419,7 @@ const invoiceData = {
           <h2 className="font-bold text-2xl mb-3">Add new invoice</h2>
 
           <form className="w-full flex flex-col" onSubmit={handleFormSubmit}>
-          <InvoiceCustomerinfo
+          {customer&&<InvoiceCustomerinfo
           searchTerm={searchTerm} 
           handleSearchCustomers={handleSearchCustomers } 
           OpenCustomer={OpenCustomer} 
@@ -388,8 +434,19 @@ const invoiceData = {
           deliveryMethods={deliveryMethods} 
           paymentMethod={paymentMethod} 
           setPaymentMethod={setPaymentMethod} 
-          />
-          
+          />}
+           {companies&& <InvoiceCompanyinfo
+          searchTerm={searchTerm} 
+          handleSearchCompany={handleSearchCompany } 
+          OpenCompany={OpenCompany} 
+          filteredCompany={filteredCompany} 
+          handleCompanySelect={handleCompanySelect} 
+          Deliverymethod={Deliverymethod} 
+          handleDeliveryChange={handleDeliveryChange} 
+          deliveryMethods={deliveryMethods} 
+          paymentMethod={paymentMethod} 
+          setPaymentMethod={setPaymentMethod} 
+          />}
             {/* Items */}
             <Invoiceitemproduct searchQuery={searchQuery} handleSearchChange={handleSearchChange } 
            handleProductSelect={handleProductSelect} 
