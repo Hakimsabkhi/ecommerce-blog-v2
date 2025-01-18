@@ -34,7 +34,7 @@ const AddedCategories: React.FC = () => {
   const [colSpan, setColSpan] = useState(5);
 
   const is2xl = useIs2xl();
-  const categoriesPerPage =is2xl ? 8 : 5;
+  const categoriesPerPage =is2xl ? 7 : 5;
 
   const handleDeleteClick = (category: Category) => {
     setSelectedCategory(category);
@@ -196,23 +196,24 @@ const AddedCategories: React.FC = () => {
     
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <p className="text-3xl max-sm:text-xl font-bold">ALL Post Categories</p>
+    <div className="mx-auto w-[90%]  flex flex-col gap-4">
+      <div className="flex items-center justify-between h-[80px] ">
+        <p className="text-3xl max-sm:text-sm font-bold">ALL Post Categories</p>
 
         <Link href="category/addcategory">
-        <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2'>
+        <button className='bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4'>
         Add category
           </button>
         </Link>
       </div>
+      <div className="h-[50px] flex items-center ">
       <input
         type="text"
         placeholder="Search categories"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="p-2 border border-gray-300 rounded-lg max-w-max"
-      />
+      /></div>
       <div className="max-md:hidden max-2xl:h-80 h-[50vh]">
       <table className="w-full rounded overflow-hidden table-fixed">
         <thead>
@@ -396,7 +397,7 @@ const AddedCategories: React.FC = () => {
         ))}
       </div>
 
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

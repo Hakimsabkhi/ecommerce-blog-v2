@@ -45,7 +45,7 @@ const AddedProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const is2xl = useIs2xl();
-  const productsPerPage = is2xl ? 7 : 5;
+  const productsPerPage = is2xl ? 7 : 4;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState({ id: "", name: "" });
@@ -353,7 +353,7 @@ const AddedProducts: React.FC = () => {
         </select>
       </div>
 
-      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
+      <div className="h-[55vh] max-2xl:h-[43vh]  max-md:hidden">
         <table className="w-full  table-fixed ">
           <thead>
             <tr className="bg-gray-800">
@@ -655,7 +655,7 @@ const AddedProducts: React.FC = () => {
           ))
         )}
       </div>
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
