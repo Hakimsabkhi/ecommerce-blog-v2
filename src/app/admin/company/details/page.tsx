@@ -1,32 +1,37 @@
-"use client"
-import LoadingSpinner from '@/components/LoadingSpinner';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-
+"use client";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 function CreateCompany() {
   const [loading, setLoading] = useState(true);
-  const [idCompany,setIdCompany]=useState('');
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [zipcode, setZipcode] = useState('');
-  const [governorate, setGovernorate] = useState('');
-  const [facebook, setFacebook] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-  const [instagram, setInstagram] = useState('');
+  const [idCompany, setIdCompany] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const [governorate, setGovernorate] = useState("");
+  const [facebook, setFacebook] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [instagram, setInstagram] = useState("");
   const [companyData, setCompanyData] = useState(null);
   const [iconPreview, setIconPreview] = useState<string | null>(null);
   const [iconFile, setIconFile] = useState<File | null>(null);
-  const [iconPreviewBanner, setIconPreviewBanner] = useState<string | null>(null);
-   const [iconPreviewcontacts, setIconPreviewBannerContacts] = useState<string | null>(null);
-   const [bannerFileContacts, setBannerFileContacts] = useState<File | null>(null);
+  const [iconPreviewBanner, setIconPreviewBanner] = useState<string | null>(
+    null
+  );
+  const [iconPreviewcontacts, setIconPreviewBannerContacts] = useState<
+    string | null
+  >(null);
+  const [bannerFileContacts, setBannerFileContacts] = useState<File | null>(
+    null
+  );
   const [bannerFile, setBannerFile] = useState<File | null>(null);
-  const router=useRouter(); 
+  const router = useRouter();
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -41,14 +46,16 @@ function CreateCompany() {
       setIconPreviewBanner(URL.createObjectURL(file));
     }
   };
-  const handleBannerContactsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBannerContactsChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
       setBannerFileContacts(file);
       setIconPreviewBannerContacts(URL.createObjectURL(file));
     }
   };
-  const fetchCompanyData =  async () => {
+  const fetchCompanyData = async () => {
     try {
       const response = await fetch(`/api/websiteinfo/getwebsiteinfo`, {
         method: "GET",
@@ -57,22 +64,22 @@ function CreateCompany() {
         },
       });
       if (!response.ok) {
-        throw new Error('Error fetching websiteinfo data');
+        throw new Error("Error fetching websiteinfo data");
       }
-      
+
       const data = await response.json();
       setCompanyData(data);
-      setIdCompany(data._id || '');
-      setName(data.name || '');
-      setPhone(data.phone || '');
-      setEmail(data.email || '');
-      setAddress(data.address || '');
-      setCity(data.city || '');
-      setZipcode(data.zipcode || '');
-      setGovernorate(data.governorate || '');
-      setFacebook(data.facebook || '');
-      setLinkedin(data.linkedin || '');
-      setInstagram(data.instagram || '');
+      setIdCompany(data._id || "");
+      setName(data.name || "");
+      setPhone(data.phone || "");
+      setEmail(data.email || "");
+      setAddress(data.address || "");
+      setCity(data.city || "");
+      setZipcode(data.zipcode || "");
+      setGovernorate(data.governorate || "");
+      setFacebook(data.facebook || "");
+      setLinkedin(data.linkedin || "");
+      setInstagram(data.instagram || "");
       if (data.logoUrl) {
         setIconPreview(data.logoUrl);
       }
@@ -83,103 +90,102 @@ function CreateCompany() {
         setIconPreviewBannerContacts(data.bannercontacts);
       }
     } catch (error) {
-      console.error('Error fetching company data:', error);
-    }finally{
+      console.error("Error fetching company data:", error);
+    } finally {
       setLoading(false);
     }
-  }
+  };
   useEffect(() => {
     // Fetch company data
-   
 
     fetchCompanyData();
   }, []);
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('name', name);
-    formData.append('phone', phone);
-    formData.append('email', email);
-    formData.append('address', address);
-    formData.append('city', city);
-    formData.append('zipcode', zipcode);
-    formData.append('governorate', governorate);
-    formData.append('facebook', facebook || '');
-    formData.append('linkedin', linkedin || '');
-    formData.append('instagram', instagram || '');
+    formData.append("name", name);
+    formData.append("phone", phone);
+    formData.append("email", email);
+    formData.append("address", address);
+    formData.append("city", city);
+    formData.append("zipcode", zipcode);
+    formData.append("governorate", governorate);
+    formData.append("facebook", facebook || "");
+    formData.append("linkedin", linkedin || "");
+    formData.append("instagram", instagram || "");
 
     if (iconFile) {
-      formData.append('image', iconFile);
+      formData.append("image", iconFile);
     }
     if (bannerFile) {
-      formData.append('banner', bannerFile);
+      formData.append("banner", bannerFile);
     }
     if (bannerFileContacts) {
-      formData.append('bannercontacts', bannerFileContacts);
+      formData.append("bannercontacts", bannerFileContacts);
     }
     try {
-      const response = await fetch('/api/websiteinfo/postwebsiteinfo', {
-        method: 'POST',
+      const response = await fetch("/api/websiteinfo/postwebsiteinfo", {
+        method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add websiteinfo');
+        throw new Error("Failed to add websiteinfo");
       }
 
       const data = await response.json();
       fetchCompanyData();
       router.push("/admin/company");
-      console.log('Company added successfully:', data);
+      console.log("Company added successfully:", data);
     } catch (error) {
-      console.error('Error submitting the form:', error);
+      console.error("Error submitting the form:", error);
     }
   };
 
   const handleUpadte = async (e: React.FormEvent) => {
     e.preventDefault();
- 
-    const formData = new FormData();
-    formData.append('id', idCompany);
 
-    formData.append('name', name);
-    formData.append('phone', phone);
-    formData.append('email', email);
-    formData.append('address', address);
-    formData.append('city', city);
-    formData.append('zipcode', zipcode);
-    formData.append('governorate', governorate);
-    formData.append('facebook', facebook || '');
-    formData.append('linkedin', linkedin || '');
-    formData.append('instagram', instagram || '');
+    const formData = new FormData();
+    formData.append("id", idCompany);
+
+    formData.append("name", name);
+    formData.append("phone", phone);
+    formData.append("email", email);
+    formData.append("address", address);
+    formData.append("city", city);
+    formData.append("zipcode", zipcode);
+    formData.append("governorate", governorate);
+    formData.append("facebook", facebook || "");
+    formData.append("linkedin", linkedin || "");
+    formData.append("instagram", instagram || "");
 
     if (iconFile) {
-      formData.append('image', iconFile);
+      formData.append("image", iconFile);
     }
     if (bannerFile) {
-      formData.append('banner', bannerFile);
+      formData.append("banner", bannerFile);
     }
     if (bannerFileContacts) {
-      formData.append('bannercontacts', bannerFileContacts);
+      formData.append("bannercontacts", bannerFileContacts);
     }
     try {
-      const response = await fetch('/api/websiteinfo/updatewebsiteinfo', {
-        method: 'put',
+      const response = await fetch("/api/websiteinfo/updatewebsiteinfo", {
+        method: "put",
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add company');
+        throw new Error("Failed to add company");
       }
 
       const data = await response.json();
       fetchCompanyData();
       router.push("/admin/company");
-      console.log('Company added successfully:', data);
+      console.log("Company added successfully:", data);
     } catch (error) {
-      console.error('Error submitting the form:', error);
+      console.error("Error submitting the form:", error);
     }
   };
   if (loading) {
@@ -187,11 +193,14 @@ function CreateCompany() {
   }
   return (
     <div className="mx-auto w-[90%] max-xl:w-[90%] py-8 max-lg:pt-20 gap-8">
-      <p className="text-3xl font-bold">Company Details</p>
-      <form  onSubmit={companyData ? handleUpadte : handleSubmit}  className="mb-4 mt-4">
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 '>
+      <p className="pb-2 text-3xl font-bold">Company Details</p>
+      <form
+        onSubmit={companyData ? handleUpadte : handleSubmit}
+        className="mb-4 mt-4 flex flex-col gap-4"
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="mb-4">
-            <p className="block text-sm font-medium">Name Company*</p>
+            <p className="pb-2 block text-sm font-medium">Name Company*</p>
             <input
               type="text"
               value={name}
@@ -201,7 +210,7 @@ function CreateCompany() {
             />
           </div>
           <div className="mb-4">
-            <p className="block text-sm font-medium">Phone*</p>
+            <p className="pb-2 block text-sm font-medium">Phone*</p>
             <input
               type="number"
               value={phone}
@@ -212,13 +221,13 @@ function CreateCompany() {
                   setPhone(value);
                 }
               }}
-              maxLength={8} 
+              maxLength={8}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
               required
             />
           </div>
           <div className="mb-4">
-            <p className="block text-sm font-medium">Email*</p>
+            <p className="pb-2 block text-sm font-medium">Email*</p>
             <input
               type="email"
               value={email}
@@ -228,7 +237,7 @@ function CreateCompany() {
             />
           </div>
           <div className="mb-4">
-            <p className="block text-sm font-medium">Address*</p>
+            <p className="pb-2 block text-sm font-medium">Address*</p>
             <input
               type="text"
               value={address}
@@ -238,7 +247,7 @@ function CreateCompany() {
             />
           </div>
           <div className="mb-4">
-            <p className="block text-sm font-medium">City*</p>
+            <p className="pb-2 block text-sm font-medium">City*</p>
             <input
               type="text"
               value={city}
@@ -248,7 +257,7 @@ function CreateCompany() {
             />
           </div>
           <div className="mb-4">
-            <p className="block text-sm font-medium">ZipCode*</p>
+            <p className="pb-2 block text-sm font-medium">ZipCode*</p>
             <input
               type="text"
               value={zipcode}
@@ -258,7 +267,7 @@ function CreateCompany() {
             />
           </div>
           <div className="mb-4">
-            <p className="block text-sm font-medium">Governorate*</p>
+            <p className="pb-2 block text-sm font-medium">Governorate*</p>
             <input
               type="text"
               value={governorate}
@@ -267,8 +276,10 @@ function CreateCompany() {
               required
             />
           </div>
-          <div className="mb-4">
-            <p className="block text-sm font-medium">Upload Icon SVG*</p>
+        </div>
+        <div className=" md:flex gap-4">
+          <div className="mb-4 md:w-1/3">
+            <p className="pb-2 block text-sm font-medium">Upload Icon SVG*</p>
             <input
               type="file"
               accept="image/svg"
@@ -283,7 +294,7 @@ function CreateCompany() {
               Select an Icon
             </label>
             {iconPreview && (
-              <div className="w-[15%] max-lg:w-full">
+              <div className="w-full">
                 <Image
                   src={iconPreview}
                   alt="Icon preview"
@@ -294,8 +305,8 @@ function CreateCompany() {
               </div>
             )}
           </div>
-          <div className="mb-4">
-            <p className="block text-sm font-medium">Upload Banner*</p>
+          <div className="mb-4 md:w-1/3">
+            <p className="pb-2 block text-sm font-medium">Upload Banner*</p>
             <input
               type="file"
               accept="image/*"
@@ -310,92 +321,93 @@ function CreateCompany() {
               Select a Banner
             </label>
             {iconPreviewBanner && (
-              <div className="w-[15%] max-lg:w-full">
+              <div className="w-full">
                 <Image
                   src={iconPreviewBanner}
                   alt="Banner preview"
                   className="w-full h-auto mt-4"
+                  width={1000}
+                  height={100}
+                />
+              </div>
+            )}
+          </div>
+          <div className="mb-4 md:w-1/3">
+            <p className="pb-2 block text-sm font-medium">Upload Banner Contacts*</p>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleBannerContactsChange}
+              className="hidden"
+              id="upload-contacts" // Correct ID for the banner input
+            />
+            <label
+              htmlFor="upload-contacts" // Correctly references the banner input
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+            >
+              Select a Banner Contacts
+            </label>
+            {iconPreviewcontacts && (
+              <div className="w-full mt-4">
+                <Image
+                  src={iconPreviewcontacts}
+                  alt="Banner Contacts preview"
+                  className="w-full h-auto"
                   width={100}
                   height={100}
                 />
               </div>
             )}
           </div>
-          <div className="mb-4">
-  <p className="block text-sm font-medium">Upload Banner Contacts*</p>
-  <input
-    type="file"
-    accept="image/*"
-    onChange={handleBannerContactsChange}
-    className="hidden"
-    id="upload-contacts" // Correct ID for the banner input
-  />
-  <label
-    htmlFor="upload-contacts" // Correctly references the banner input
-    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-  >
-    Select a Banner Contacts
-  </label>
-  {iconPreviewcontacts && (
-    <div className="w-[15%] max-lg:w-full mt-4">
-      <Image
-        src={iconPreviewcontacts}
-        alt="Banner Contacts preview"
-        className="w-full h-auto"
-        width={100}
-        height={100}
-      />
-    </div>
-  )}
-</div>
-
-          <div className="mb-4">
-            <p className="block text-sm font-medium">Facebook</p>
-            <input
-              type="text"
-              value={facebook}
-              onChange={(e) => setFacebook(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-            />
-          </div>
-          <div className="mb-4">
-            <p className="block text-sm font-medium">LinkedIn</p>
-            <input
-              type="text"
-              value={linkedin}
-              onChange={(e) => setLinkedin(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-            />
-          </div>
-          <div className="mb-4">
-        <p className="block text-sm font-medium">Instagram</p>
-        <input
-              type="text"
-              value={instagram}
-              onChange={(e) => setInstagram(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-            />
-          </div>
         </div>
-       
+
+
+            <div className="grid md:grid-cols-3 gap-4 ">
+        <div className="mb-4">
+          <p className="pb-2 block text-sm font-medium">Facebook</p>
+          <input
+            type="text"
+            value={facebook}
+            onChange={(e) => setFacebook(e.target.value)}
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+          />
+        </div>
+        <div className="mb-4">
+          <p className="pb-2 block text-sm font-medium">LinkedIn</p>
+          <input
+            type="text"
+            value={linkedin}
+            onChange={(e) => setLinkedin(e.target.value)}
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+          />
+        </div>
+        <div className="mb-4">
+          <p className="pb-2 block text-sm font-medium">Instagram</p>
+          <input
+            type="text"
+            value={instagram}
+            onChange={(e) => setInstagram(e.target.value)}
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+          />
+        </div>
+        </div>
+
         <div className="flex justify-center items-center gap-4">
-     
-      <button
+          <button
             type="button"
             className="bg-gray-400 text-white hover:bg-gray-600 rounded-md w-[30%] h-10"
           >
-             <Link href={"/admin/company"}>
-            <p className="text-white"> Cancel</p>
+            <Link href={"/admin/company"}>
+              <p className=" text-white"> Cancel</p>
             </Link>
           </button>
-          
+
           <button
             type="submit"
             className="bg-gray-800 text-white hover:bg-gray-600 rounded-md w-[30%] h-10"
           >
-            <p className="text-white">  {companyData ? 'Update Company' : 'Create Company'}</p>
+            <p className=" text-white"> {companyData ? "Update" : "Create"}</p>
           </button>
-         
         </div>
       </form>
     </div>
