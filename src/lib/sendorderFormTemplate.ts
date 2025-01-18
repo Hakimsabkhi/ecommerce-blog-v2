@@ -37,8 +37,8 @@ export function orderFormTemplate(
         <tr>
           <td class="td-line-item" style="color: #555; padding: 10px 0; font-family: helvetica; border-bottom: 1px solid #ddd">${item.name}</td>
           <td class="td-line-item nowrap" align="left" style="color: #555; padding: 10px 0; font-family: helvetica; border-bottom: 1px solid #ddd; white-space: nowrap">${item.quantity}</td>
-          <td class="td-line-item nowrap" align="right" style="color: #555; padding: 10px 0; font-family: helvetica; border-bottom: 1px solid #ddd; white-space: nowrap">$${finalPrice.toFixed(2)}</td>
-          <td class="td-line-item nowrap" align="right" style="color: #555; padding: 10px 0; font-family: helvetica; border-bottom: 1px solid #ddd; white-space: nowrap">$${totalPrice.toFixed(2)}</td>
+          <td class="td-line-item nowrap" align="right" style="color: #555; padding: 10px 0; font-family: helvetica; border-bottom: 1px solid #ddd; white-space: nowrap">${finalPrice.toFixed(2)} DT </td>
+          <td class="td-line-item nowrap" align="right" style="color: #555; padding: 10px 0; font-family: helvetica; border-bottom: 1px solid #ddd; white-space: nowrap">${totalPrice.toFixed(2)} DT </td>
         </tr>
       `;
     })
