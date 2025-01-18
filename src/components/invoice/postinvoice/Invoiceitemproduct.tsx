@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 interface Product {
     _id: string;
     name: string;
@@ -62,7 +62,7 @@ const Invoiceitemproduct :React.FC<InvoiceitemproductProps> = ({
   handleAddItem,
   
   })=> {
-    const [putva, setPutva] = useState(0); 
+
   return (
     <div className="w-full flex flex-col mt-4 mb-3">
     <h3 className="font-bold mb-2">Items List</h3>

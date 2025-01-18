@@ -296,7 +296,7 @@ const InvoiceEdit = () => {
       <br />
       Address:    {invoice.companies.address}
       <br />
-      Nom du gérant de l'entreprise : {invoice.companies.gerantsoc}
+      Nom du gérant de l&apos;entreprise : {invoice.companies.gerantsoc}
       <br />
       Telephone : {invoice.companies.numtele}
       <br />

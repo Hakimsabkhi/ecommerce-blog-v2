@@ -3,8 +3,6 @@ import dbConnect from "@/lib/db";
 import Invoice from "@/models/Invoice";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
-import Product from "@/models/Product";
-import { create } from "domain";
 import Counterinvoice from "@/models/Counterinvoice";
 
 export async function POST(
