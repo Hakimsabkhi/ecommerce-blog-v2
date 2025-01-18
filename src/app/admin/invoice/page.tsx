@@ -20,11 +20,18 @@ interface Address {
   zipcode: string;
   address: string;
 }
-
+interface Companies{
+  name: string;
+  matriculefiscal:string;
+  address:string;
+  numtele:string
+  gerantsoc:string;
+}
 interface invoice {
   _id: string;
   user: User;
   ref: string;
+  companies:Companies;
   address: Address;
   paymentMethod: string;
   deliveryMethod: string;
@@ -172,7 +179,7 @@ const Listinvoice: React.FC = () => {
       const matchesSearch =
         invoice.ref?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         invoice.user?.username.toLowerCase().includes(searchTerm.toLowerCase());
-
+        invoice.companies?.name?.toLowerCase().includes(searchTerm.toLowerCase());
       // Apply date filtering based on the selected timeframe
       const matchesDateFilter = (date: string) => {
         const invoiceDate = new Date(invoice.createdAt);
@@ -218,6 +225,7 @@ const Listinvoice: React.FC = () => {
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex justify-between">
         <p className="text-3xl font-bold">ALL invoice</p>
+        <Link href={"/admin/invoice/addinvoice"} className="bg-gray-800 text-white rounded-md flex justify-center items-center p-2">Create Invoice</Link>
       </div>
       <div className="flex max-lg:flex-col max-lg:gap-4 justify-between">
         <input
@@ -337,7 +345,7 @@ const Listinvoice: React.FC = () => {
                 <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-2 truncate">{item.ref}</td>
                   <td className="border px-4 py-2 uppercase max-lg:hidden truncate">
-                    {item?.user?.username}
+                  {item?.user?.username || item.companies.name}
                   </td>
                   <td className="border px-4 py-2 text-start lg:table-cell hidden truncate">
                     {item.total.toFixed(2)} TND
@@ -408,7 +416,7 @@ const Listinvoice: React.FC = () => {
                {invoice.ref}
             </p>
             <p>
-               {invoice.user.username}
+            {invoice?.user?.username || invoice.companies.name}
             </p>
             <p>
               {invoice.paymentMethod}

@@ -1,6 +1,7 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 import { IUser } from './User';
 import { IAddress } from './Address';
+import { ICompanies } from './Companies';
 
 export interface IInvoice extends Document {
   _id: string;
@@ -8,6 +9,7 @@ export interface IInvoice extends Document {
   nborder:string;
   user: IUser | string;
   address: IAddress| string;
+  companies:ICompanies | string;
   Items: Array<{
     product: Schema.Types.ObjectId;
     refproduct:string;
@@ -34,6 +36,7 @@ const InvoiceSchema : Schema = new Schema({
     ref:{type: String},
     nborder:{type: String},
     address: { type: mongoose.Schema.Types.ObjectId, ref: 'Address' },
+    companies: { type: mongoose.Schema.Types.ObjectId, ref: 'Companies' },
     Items: [
         {
           

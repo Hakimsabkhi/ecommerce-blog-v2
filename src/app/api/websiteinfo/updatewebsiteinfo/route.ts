@@ -108,7 +108,7 @@ export async function PUT(req: NextRequest) {
         }
       }
 
-      const result = await uploadToCloudinary(imageFile, "company", "svg");
+      const result = await uploadToCloudinary(imageFile, "company", "webp");
       existingCompany.logoUrl = result.secure_url;
     }
 

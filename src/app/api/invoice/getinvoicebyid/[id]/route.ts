@@ -4,6 +4,7 @@ import Invoice from '@/models/Invoice';
 import User from '@/models/User';
 import Address from '@/models/Address';
 import { getToken } from 'next-auth/jwt';
+import Companies from '@/models/Companies';
 
 
 
@@ -30,11 +31,13 @@ export async function GET(req: NextRequest,{ params }: { params: Promise<{ id: s
     if (!user){
         return NextResponse.json({ success: false, message: "Missing required connect" }, { status: 505 });
     }
-  
+
      await User.find();
     await Address.find({});
+    await Companies.find();
+
     // Fetch all categories but only return the name and imageUrl fields
-    const invoice = await Invoice.findOne({_id:id}).populate('address').populate('user','username phone').exec(); // Only select the 'name' and 'imageUrl' fields
+    const invoice = await Invoice.findOne({_id:id}).populate('companies').populate('address').populate('user','username phone').exec(); // Only select the 'name' and 'imageUrl' fields
     
     // Return the fetched category names and image URLs
     return new NextResponse(JSON.stringify(invoice), { status: 200 });
