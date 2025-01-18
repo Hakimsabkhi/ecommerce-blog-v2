@@ -7,6 +7,15 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      // Existing breakpoints (you can keep or modify them as needed)
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      // Custom 2xl breakpoint
+      '2xl': '1600px', // Changed from the default 1536px
+    },
     extend: {
       colors: {
         primary: 'var(--color-primary)',
