@@ -127,7 +127,7 @@ const Page = () => {
       console.error("Error adding role:", err);
     }
   };
-
+console.log(session?.user.role)
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex items-center">
@@ -175,7 +175,7 @@ const Page = () => {
 
           <tbody>
             {roles.map((role) => (
-      (session?.user?.role !== "SuperAdmin" && role.name !== "Admin") || session?.user?.role === "SuperAdmin" ? (     <tr key={role._id} className="even:bg-gray-100 odd:bg-white">
+      (session?.user?.role != "SuperAdmin" && role.name != "Admin") || session?.user?.role === "SuperAdmin" ? (    <tr key={role._id} className="even:bg-gray-100 odd:bg-white">
                 <td className="border border-gray-300 px-2 py-2">
                   {role.name}
                 </td>
@@ -201,20 +201,26 @@ const Page = () => {
                   </td>
                 ))}
                 <td className="border flex justify-center border-gray-300 px-2 py-2">
-                  <button
-                    onClick={() => handleDeleteClick(role)}
-                    className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                    disabled={updatingRole === role._id}
-                  >
-                    {updatingRole === role._id ? (
-                      <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
-                    ) : (
-                      <FaTrashAlt />
-                    )}
-                  </button>
+                {( role.name != "Admin" && role.name != "Visiteur") ? (
+  <button
+    onClick={() => handleDeleteClick(role)}
+    className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+    disabled={updatingRole === role._id}
+  >
+    {updatingRole === role._id ? (
+      <div className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
+    ) : (
+      <FaTrashAlt />
+    )}
+  </button>
+):(<button
+ 
+  className=" text-white pl-3 w-10 h-10  rounded-md"
+ 
+></button>)}
                 </td>
               </tr>
-            ) : null  ))}
+            ) : null   ))}
           </tbody>
         </table>
       </div>

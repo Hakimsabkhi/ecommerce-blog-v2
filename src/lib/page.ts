@@ -32,8 +32,8 @@ export const DashboardAdmin = [
     group: "Blog",
     items: [
       { name: "All Post", path: "/admin/blog" },
-      { name: "P.Category", path: "/admin/blog/post-category" },
-      { name: "P.Comments", path: "/admin/blog/comments" },
+      { name: "P Category", path: "/admin/blog/post-category" },
+      { name: "P Comments", path: "/admin/blog/comments" },
     ],
   },
 ];

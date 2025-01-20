@@ -11,7 +11,7 @@ export async function GET(req: Request) {
     const role = url.searchParams.get("role");
 
     if (!role) {
-      return NextResponse.json({ error: "Role parameter is required" }, { status: 400 });
+      return NextResponse.json({ error: "Role parameter is required" }, { status: 402});
     }
 
     // Fetch the role from the database
@@ -38,21 +38,21 @@ export async function POST(req: Request) {
 
   try {
     // Parse request body
-    const { role, page, hasAccess } = await req.json();
+    const { role, dashboardSection, hasAccess } = await req.json();
 
     // Validate inputs
-    if (!role || !page || typeof hasAccess !== "boolean") {
-      return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+    if (!role || !dashboardSection || typeof hasAccess !== "boolean") {
+      return NextResponse.json({ error: "Invalid input" }, { status: 401 });
     }
 
     // Find the role document
     const roleDoc = await Role.findOne({ name: role });
     if (!roleDoc) {
-      return NextResponse.json({ error: "Role not found" }, { status: 404 });
+      return NextResponse.json({ error: "Role not found" }, { status: 406 });
     }
-
+    console.log(dashboardSection)
     // Update access for the page
-    roleDoc.access.set(page, hasAccess);
+    roleDoc.access.set(dashboardSection, hasAccess);
 
     // Save the updated document
     await roleDoc.save();
