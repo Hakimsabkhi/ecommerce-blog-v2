@@ -62,6 +62,10 @@ const Orderitemslistproduct:React.FC<orderitemslistproductProps> = ({
   handleAddItem,
   
   }) => {
+    const safeItemTva = itemTva ?? 0; // Default to 0 if undefined
+    const safeItemDiscount = itemDiscount ?? 0; // Default to 0 if undefined
+    const safeItemQuantity = itemQuantity ?? 0; // Default to 0 if undefined
+    const safePrice = price ?? 0; // Def
     
   return (
     <div  className="w-full flex flex-col mt-4 mb-3">
@@ -124,7 +128,7 @@ const Orderitemslistproduct:React.FC<orderitemslistproductProps> = ({
           <input
             type="number"
             placeholder="Prix brut"
-            value={price}
+            value={safePrice}
             onChange={(e) => setPrice(Number(e.target.value))}
             className="py-2 px-4 bg-gray-100"
           />
@@ -134,7 +138,7 @@ const Orderitemslistproduct:React.FC<orderitemslistproductProps> = ({
           <input
             type="number"
             placeholder="TVA"
-            value={itemTva}
+            value={safeItemTva}
             onChange={(e) => setItemTva(Number(e.target.value))}
             className="py-2 px-4 bg-gray-100"
           />
@@ -144,7 +148,7 @@ const Orderitemslistproduct:React.FC<orderitemslistproductProps> = ({
           <input
             type="number"
             placeholder="Discount"
-            value={itemDiscount}
+            value={safeItemDiscount}
             onChange={(e) => setItemDiscount(Number(e.target.value))}
             className="py-2 px-4 bg-gray-100"
           />
@@ -154,7 +158,7 @@ const Orderitemslistproduct:React.FC<orderitemslistproductProps> = ({
           <input
             type="number"
             placeholder="Quantity"
-            value={itemQuantity}
+            value={safeItemQuantity}
             onChange={(e) => setItemQuantity(Number(e.target.value))}
             className="py-2 px-4 bg-gray-100"
           />
@@ -164,7 +168,7 @@ const Orderitemslistproduct:React.FC<orderitemslistproductProps> = ({
           <input
             type="number"
             placeholder="Quantity"
-            value={price - (price * (itemDiscount / 100 || 0))}
+            value={safePrice - (safePrice * (safeItemDiscount / 100 || 0))}
             readOnly
             className="py-2 px-4 bg-gray-100"
           />

@@ -17,7 +17,7 @@ const UserSchema: Schema = new Schema({
   phone:{type:String},
   email: { type: String, required: true, unique: true },
   password: { type: String },
-  role: { type: String, enum:  ['SuperAdmin', 'Admin', 'Consulter', 'Visiteur'] , default:'Visiteur'},
+  role: { type: String, enum:  ['SuperAdmin', 'admin', 'visiteur'] , default:'visiteur'},
  
 },{ timestamps: true });
 
