@@ -22,7 +22,7 @@ export async function DELETE(
   if (
     !user ||
     (user.role !== "Admin" &&
-      user.role !== "Consulter" &&
+     
       user.role !== "SuperAdmin")
   ) {
     return NextResponse.json(

@@ -169,13 +169,11 @@ const AdminDashboard = () => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg sm:w-[20%] block p-2.5"
         >
           <option value="">All</option>
-          {session?.user.role === "SuperAdmin" ? <option value="Admin">Admin</option> : null}
-
-          <option value="Visiteur">Visiteur</option>
+    
           {roles.map((role, index) => (
-            <option key={index} value={role.name}>
+          (session?.user?.role !== "SuperAdmin" && role.name !== "Admin") || session?.user?.role === "SuperAdmin" ? (   <option key={index} value={role.name}>
               {role.name}
-            </option>
+            </option>):null
           ))}
         </select>
       </div>
@@ -222,12 +220,11 @@ const AdminDashboard = () => {
                       onChange={(e) => handleChangeRole(user._id, e.target.value)}
                       disabled={loadingUserId === user._id}
                     >
-                        {session?.user.role === "SuperAdmin" ? <option value="Admin">Admin</option> : null}
-                       <option value="Visiteur">Visiteur</option>
+                       
                       {roles.map((role, index) => (
-                        <option key={index} value={role.name}>
+                      (session?.user?.role !== "SuperAdmin" && role.name !== "Admin") || session?.user?.role === "SuperAdmin" ? (   <option key={index} value={role.name}>
                           {role.name}
-                        </option>
+                        </option>):null
                       ))}
                     </select>
                   </td>
