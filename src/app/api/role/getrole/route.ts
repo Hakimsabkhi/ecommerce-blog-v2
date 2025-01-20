@@ -9,7 +9,22 @@ export async function GET() {
     const adminExists = role.some(role => role.name === 'Admin');
     const visitorExists = role.some(role => role.name === 'Visiteur');
     if(!adminExists){
-      const role = new Role({ name: 'Admin', access: {} });
+      const role = new Role({ name: 'Admin', access: {
+        Entreprise: true,
+        'P Category': true,
+        Brands: true,
+        Categories: true,
+        Products: true,
+        Promotion: true,
+        Reviews: true,
+        Users: true,
+        Role: true,
+        Orders: true,
+        Invoice: true,
+        Revenue: true,
+        'All Post': true,
+        'P Comments': true,
+        } });
       await role.save();
     }
     if(!visitorExists){
@@ -17,8 +32,6 @@ export async function GET() {
       await role.save();
     }
     const roles = await Role.find({ name: { $nin: [ 'SuperAdmin'] }}, { name: 1, access: 1 }).lean();
-    console.log('Admin exists:', adminExists);
-    console.log('Visitor exists:', visitorExists);
     return NextResponse.json({ roles });
   } catch (err) {
     console.log(err)
