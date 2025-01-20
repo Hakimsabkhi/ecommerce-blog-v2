@@ -61,6 +61,7 @@ const Notification: React.FC = () => {
       const isOpening = !prevState.isOpen;
       return { isOpen: isOpening };
     });
+    ViewNotification();
   };
 
   /**
@@ -82,6 +83,23 @@ const Notification: React.FC = () => {
       if (response.ok) {
         // Navigate to the order page
         router.push(`/admin/order/${item.order.ref}`);
+
+        // Refresh the unread count (since we’ve marked one more as read)
+      } else {
+        console.error("Error updating notification to 'read'");
+      }
+    } catch (err) {
+      console.error("Error handling order view:", err);
+    }
+  };
+  const ViewNotification = async () => {
+    try {
+      const response = await fetch(
+        `/api/notification/markallread`,
+        { method: "PUT" }
+      );
+      if (response.ok) {
+        // Navigate to the order page
 
         // Refresh the unread count (since we’ve marked one more as read)
         fetchUnreadCount();

@@ -14,9 +14,9 @@ export async function PUT(req: NextRequest) {
     // Mark all unread notifications as read (look: false => true) 
     // for the current user if you store user ref in notifications
     // For example, if the notification doc has a `user: ObjectId`:
-    const userId = token.sub; // or however you store the user ID in the token
+    // or however you store the user ID in the token
     await Notifications.updateMany(
-      { user: userId, look: false },
+      {  look: false },
       { $set: { look: true } }
     );
 
