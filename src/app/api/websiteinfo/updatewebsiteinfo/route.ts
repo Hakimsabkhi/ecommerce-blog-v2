@@ -36,7 +36,7 @@ export async function PUT(req: NextRequest) {
   if (
     !user ||
     (user.role !== "Admin" &&
-      user.role !== "Consulter" &&
+      
       user.role !== "SuperAdmin")
   ) {
     return NextResponse.json(

@@ -20,7 +20,7 @@ export async function PUT(
       const user = await User.findOne({ email:token.email});
   
       
-      if (!user || user.role !== 'Admin' && user.role !== 'Consulter'&& user.role !== 'SuperAdmin') {
+      if (!user || user.role !== 'Admin' && user.role !== 'SuperAdmin') {
         return NextResponse.json({ error: 'Forbidden: Access is denied' }, { status: 404 });
       }
     try {
