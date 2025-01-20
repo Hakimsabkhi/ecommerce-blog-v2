@@ -115,7 +115,7 @@ const ListNotification: React.FC<ListNotificationProps> = ({
                 <FaSpinner className="animate-spin text-[30px] text-gray-800" />
               </div>
             ) : (
-              <div className="p-2 hover:bg-primary hover:text-white">
+              <div className={`p-2  ${item.seen === false ? 'bg-blue-900 text-white' : 'bg-default'} hover:bg-primary hover:text-white`}>
                 <p>Order Ref: {item.order.ref}</p>
               </div>
             )}

@@ -6,8 +6,10 @@ import { FaTrashAlt } from "react-icons/fa";
 import { DashboardAdmin } from "@/lib/page";
 import Pagination from "@/components/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
+import { useSession } from "next-auth/react";
 
 const Page = () => {
+    const {data:session}=useSession();
   const [roles, setRoles] = useState<
     { _id: string; name: string; access: Record<string, boolean> }[]
   >([]);
@@ -173,7 +175,7 @@ const Page = () => {
 
           <tbody>
             {roles.map((role) => (
-              <tr key={role._id} className="even:bg-gray-100 odd:bg-white">
+      (session?.user?.role !== "SuperAdmin" && role.name !== "Admin") || session?.user?.role === "SuperAdmin" ? (     <tr key={role._id} className="even:bg-gray-100 odd:bg-white">
                 <td className="border border-gray-300 px-2 py-2">
                   {role.name}
                 </td>
@@ -212,7 +214,7 @@ const Page = () => {
                   </button>
                 </td>
               </tr>
-            ))}
+            ) : null  ))}
           </tbody>
         </table>
       </div>

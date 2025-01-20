@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import InvoiceTable from "@/components/invoice/InvoiceTable";
 import InvoiceAddress from "@/components/invoice/InvoiceAddress";
@@ -106,12 +106,12 @@ export default function EditInvoice() {
     setOpenCustomer(true);
     setFilteredCustomers(filteredCustomers); // Update the filtered customer list
   };
-  const handleCustomerSelect = (customerId: string, username: string) => {
+  const handleCustomerSelect = useCallback((customerId: string, username: string) => {
     setOpenCustomer(false);
     setCustomer(customerId); // Set the selected customer ID
     fetchAddress(customerId);
     setSearchTerm(username);  // Set the search term to the selected username
-  };
+  },[]);
   const [paymentMethod, setPaymentMethod] = useState<string>("");
   const router = useRouter();
 
@@ -349,11 +349,11 @@ const invoiceData = {
     };
 
                 
-  const handleCompanySelect = (companiesId: string, name: string) => {
+  const handleCompanySelect = useCallback((companiesId: string, name: string) => {
     setOpenCompany(false);
     setCompany(companiesId); // Set the selected customer ID
     setSearchTerm(name);  // Set the search term to the selected username
-  };
+  },[]);
   // Fetch customers and products on component mount
   useEffect(() => {
     const fetchData = async () => {
@@ -400,7 +400,7 @@ const invoiceData = {
   };
     
     fetchData();
-  }, [params.id]);
+  }, [params.id,, handleCustomerSelect, handleCompanySelect]);
  const handleSearchCompany = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
     setSearchTerm(query);
