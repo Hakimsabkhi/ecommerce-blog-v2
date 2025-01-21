@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import connectToDatabase from "@/lib/db";
 import UserModel from "@/models/User";
-import nodemailer from 'nodemailer';
-import jwt from 'jsonwebtoken';
+import { sendEmail } from "@/lib/sendEmailvf";
+import { verificationEmailTemplate } from "@/lib/verificationEmailTemplate";
+
 // In-memory rate-limiting store
-const JWT_SECRET = process.env.JWT_SECRET 
+
 const rateLimit = new Map<string, { count: number; lastRequest: number }>();
 
 export async function POST(req: NextRequest) {
@@ -78,29 +79,15 @@ export async function POST(req: NextRequest) {
       role,
     });
 
+    const verificationToken = newUser.getVerificationToken();
+
     await newUser.save();
-    const token  = jwt.sign(
-      { email },
-      JWT_SECRET,
-      { expiresIn: '1h' } // Token expires in 1 hour
-    );
-    const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
-// Create a transporter for sending emails
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
-  // Send the verification email
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: 'Email Verification',
-    text: `Please verify your email by clicking the following link: ${verificationLink }`,
-  };
-  await transporter.sendMail(mailOptions);
+    const verificationLink = `${process.env.NEXTAUTH_URL}/verify-email?verifyToken=${verificationToken}&id=${newUser?._id}`;
+    const message = verificationEmailTemplate(verificationLink);
+    // Send verification email
+    await sendEmail(newUser?.email, "Email Verification", message);
+
+
     return NextResponse.json(
       { message: "User registered successfully." },
       { status: 201 }

@@ -1,43 +1,45 @@
-import { NextRequest, NextResponse } from "next/server";
-import jwt from 'jsonwebtoken';
-const JWT_SECRET = process.env.JWT_SECRET 
-export async function POST(req: NextRequest)  {
-    const { token } = req.query;
-  
-    if (!token) {
-        return NextResponse.json(
-            {
-              error: 'Token is required'
-            },
-            { status: 400 }
-          );
-     
-    }
-  
-    try {
-      // Verify the token using the JWT secret
-      const decoded = jwt.verify(token as string, JWT_SECRET) as { email: string };
-  
-      // If verification succeeds, you can proceed with updating the user record (mark as verified)
-      console.log('Decoded token:', decoded); // You can log it or update your database
-  
-      // Example: You would find the user by email and mark them as verified in the database
-      // const user = await User.findOne({ email: decoded.email });
-      // user.isVerified = true;
-      // await user.save();
-      return NextResponse.json(
-        {
-          message: "Email verified successfully.",
-        },
-        { status: 429 }
-      );
-    
-    } catch (error) {
-      // Handle verification errors (e.g., invalid or expired token)
+import User from "@/models/User";
+import { NextResponse } from "next/server";
+import crypto from "crypto";
+import connectToDatabase from "@/lib/db";
 
+export async function GET(reqeust: Request) {
+  try {
+    await connectToDatabase();
+
+    const { searchParams } = new URL(reqeust.url);
+    const verificationToken = searchParams.get("verifyToken") as string;
+    const userId = searchParams.get("id");
+
+    const verifyToken = crypto
+      .createHash("sha256")
+      .update(verificationToken)
+      .digest("hex");
+
+    const user = await User.findOne({
+      _id: userId,
+      verifyToken,
+      verifyTokenExpire: { $gt: new Date() },
+    });
+
+    if (!user) {
       return NextResponse.json(
-        {
-            error: "Email verified successfully.",
-        }, { status: 400 })
+        { message: "Invalid or expired token" },
+        { status: 400 }
+      );
     }
+
+    user.isverified = true;
+    user.verifyToken = "";
+    user.verifyTokenExpire = new Date(11/11/1111);
+
+    await user.save();
+
+    return NextResponse.json({ verified: true }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Something went wrong" + error },
+      { status: 500 }
+    );
   }
+}
