@@ -45,7 +45,7 @@ const AddedProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const is2xl = useIs2xl();
-  const productsPerPage = is2xl ? 7 : 4;
+  const productsPerPage = is2xl ? 7 : 5;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState({ id: "", name: "" });
@@ -319,29 +319,29 @@ const AddedProducts: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <p className="text-3xl font-bold">ALL Products</p>
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+    <div className="flex items-center justify-between h-[80px] ">
+      <p className="text-3xl max-sm:text-sm font-bold">ALL Products</p>
         <Link href="/admin/product/addproduct">
-        <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2'>
+        <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
         <p>Add Product</p>
           </button>
         </Link>
       </div>
 
-      <div className="flex justify-between items-center">
+      <div className="h-[50px] flex justify-between items-center">
         <input
           type="text"
           placeholder="Search products"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 border border-gray-300 rounded-lg max-sm:w-[50%] "
+          className="p-2 border border-gray-300 rounded-lg max-w-max"
         />
         <select
           name="category"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block p-2.5 min-w-32"
+          className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
           required
         >
            <option value="">Select Category</option>
@@ -353,8 +353,8 @@ const AddedProducts: React.FC = () => {
         </select>
       </div>
 
-      <div className="h-[55vh] max-2xl:h-[43vh]  max-md:hidden">
-        <table className="w-full  table-fixed ">
+      <div className="h-[50vh] max-2xl:h-80 max-md:hidden">
+        <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
               <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">REF</th>
@@ -399,18 +399,18 @@ const AddedProducts: React.FC = () => {
                       <Image
                         alt={item.name}
                         src={item.imageUrl}
-                        width={50}
-                        height={50}
+                        width={30}
+                        height={30}
                       />
                     </div>
                   </td>
                   <td className="border px-4 py-2 truncate max-xl:hidden">
                     {item?.user?.username}
                   </td>
-                  <td className="border px-4 py-2">
+                  <td className="flex gap-2 justify-center">
                     <div className="flex justify-center gap-2">
                       <select
-                        className={` w-full max-w-32 h-10 text-black rounded-md truncate p-2 ${
+                        className={`w-32 text-black rounded-md h-10 ${
                           item.vadmin === "not-approve"
                             ? "bg-gray-400 text-white"
                             : "bg-green-500 text-white"
@@ -655,7 +655,7 @@ const AddedProducts: React.FC = () => {
           ))
         )}
       </div>
-      <div className="flex justify-center">
+      <div className="mt-4">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

@@ -27,7 +27,7 @@ const Page = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
      const [colSpan, setColSpan] = useState(5);
     const is2xl = useIs2xl();
-    const productsPerPage =is2xl ? 8 : 5;
+    const productsPerPage =is2xl ? 7 : 5;
     const fetchProducts = async () => {
             try {
                 const response = await fetch('/api/review/admin/getAllProductReview', {
@@ -111,22 +111,22 @@ const Page = () => {
     }, []);
 
     return (
-        <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <p className="text-3xl font-bold "> Product Reviews</p>
+      <div className="flex flex-col mx-auto w-[90%] gap-4">
+      <div className="flex items-center h-[80px] ">
+        <p className="text-3xl max-sm:text-sm font-bold"> Product Reviews</p>
       </div>
-      <div className="w-full">
+      <div className="h-[50px] flex items-center ">
         <input
           type="text"
           placeholder="Search products"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="p-2 border border-gray-300 rounded-lg max-w-max"
-        />
+          />
       </div>
-      <div className='max-2xl:h-80 h-[50vh] pt-1 max-md:hidden'>
-      <table className="w-full rounded overflow-hidden table-fixed">
-        <thead>
+      <div className="h-[50vh] max-2xl:h-80 max-md:hidden">
+        <table className="w-full rounded overflow-hidden table-fixed ">
+          <thead>
           <tr className="bg-gray-800 ">
             <th className="px-4 py-3 w-1/5 md:max-lg:w-1/4 ">REF</th>
             <th className="px-4 py-3 w-1/5 md:max-lg:w-1/4 ">Name</th>
@@ -168,14 +168,13 @@ const Page = () => {
                 <Image
                   alt={item.name}
                   src={item.imageUrl}
-                  height={60}
-                  width={60}
-                   className="mx-auto"
+                  height={30}
+                  width={30}
                 />
               </td>
               <td className="border px-4 py-2 flex justify-center items-center">
                 <Link href={`/admin/review/${item._id}`}>
-                  <button className="bg-gray-800 text-white px-2 h-10 hover:bg-gray-600 rounded-md max-sm:text-sm">
+                  <button className="bg-gray-800 text-white px-2 w-10 h-10 hover:bg-gray-600 rounded-md max-sm:text-sm">
                     Reviews 
                   </button>
                 </Link>
@@ -237,7 +236,7 @@ const Page = () => {
             ))
           )}
         </div>
-      <div className="flex justify-center mt-4">
+      <div className="mt-4">
        
       <Pagination
           currentPage={currentPage}

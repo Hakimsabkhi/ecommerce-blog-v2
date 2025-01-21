@@ -38,7 +38,7 @@ const BlogTable: React.FC = () => {
   const [selectedPost, setselectedPost] = useState<Post | null>(null);
 
   const is2xl = useIs2xl();
-  const blogsPerPage = is2xl ? 8 : 5;
+  const blogsPerPage = is2xl ? 7 : 5;
 
   const handleDeleteClick = (blog: Post) => {
     setselectedPost(blog);
@@ -181,27 +181,29 @@ const BlogTable: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <p className="text-3xl font-bold">ALL POSTS</p>
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+      <div className="flex items-center justify-between h-[80px] ">
+        <p className="text-3xl max-sm:text-sm font-bold">ALL POSTS</p>
         <div>
          
           <Link href="blog/addpost" className="w-full">
-            <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-[5px] p-2">
-              Add New Post
+          <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
+            Add New Post
             </button>
           </Link>
         </div>
       </div>
-      <input
-        type="text"
-        placeholder="Search blogs"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="p-2 border border-gray-300 rounded-lg max-w-max"
-      />
-      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
-        <table className="w-full rounded overflow-hidden table-fixed">
+      <div className="h-[50px] flex items-center ">
+        <input
+          type="text"
+          placeholder="Search blogs"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="p-2 border border-gray-300 rounded-lg max-w-max"
+        />
+      </div>
+      <div className="h-[50vh] max-2xl:h-80 max-md:hidden">
+        <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
               <th className="px-4 py-3 xl:w-2/12 lg:w-[15%] md:w-1/6">Title</th>
@@ -242,13 +244,13 @@ const BlogTable: React.FC = () => {
                   <td className="border px-4 py-2">
                     {blog.postcategory?.name}
                   </td>
-                  <td className="border px-4 py-2 flex  justify-center">
+                  <td className="border px-16 py-2">
                     <Link href={blog.imageUrl}>
                       <Image
                         src={blog.imageUrl}
                         alt={blog.title}
-                        width={40}
-                        height={40} // Makes image fill the container
+                        width={30}
+                        height={30} // Makes image fill the container
                         // Ensures image covers the div without stretching/distorting
                         // Optional: rounded corners on the image
                       />
@@ -257,10 +259,10 @@ const BlogTable: React.FC = () => {
 
                   <td className="border px-4 py-2 max-lg:hidden truncate">{blog?.user?.username}</td>
                   <td className="border px-4 py-2 max-xl:hidden">{blog?.user?.role}</td>
-                  <td className="border px-4 py-2">
-                    <div className="flex justify-center gap-2">
+                  <td className="flex gap-2 justify-center">
+                  <div className="flex justify-center gap-2 ">
                       <select
-                        className={`w-50 h-10 text-black rounded-md p-2 truncate ${
+                        className={`w-32 h-10 text-black rounded-md truncate ${
                           blog.vadmin === "not-approve"
                             ? "bg-gray-400 text-white"
                             : "bg-green-500 text-white"
@@ -393,7 +395,7 @@ const BlogTable: React.FC = () => {
             </div>
           ))}
         </div>
-      <div className="flex justify-center mt-4">
+      <div className="mt-4">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
