@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
     const verificationToken = newUser.getVerificationToken();
 
     await newUser.save();
-    const verificationLink = `${process.env.NEXTAUTH_URL}/verify-email?verifyToken=${verificationToken}&id=${newUser?._id}`;
+    const verificationLink = `${process.env.NEXTAUTH_URL}/verifyemail?verifyToken=${verificationToken}&id=${newUser?._id}`;
     const message = verificationEmailTemplate(verificationLink);
     // Send verification email
     await sendEmail(newUser?.email, "Email Verification", message);
