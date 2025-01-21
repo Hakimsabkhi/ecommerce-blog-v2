@@ -1,35 +1,12 @@
 import React from 'react';
 import Products from '@/components/Products';
 import Chairsbanner from '@/components/Chairsbanner';
-import { ICategory } from '@/models/Category';
 import { notFound } from 'next/navigation';
+import { searchcategory } from '@/lib/StaticCatgoryproduct';
 
 
 
-// Fetch category data by ID
-const fetchCategoryData = async (id: string): Promise<ICategory | null> => {
-  if (!id) return null; // Early return if the ID is invalid
-  try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/searchcategory/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 0 }, // Disable caching for dynamic data
-    });
 
-    if (!res.ok) {
-      console.error('Failed to fetch category data:', res.statusText);
-      return null;
-    }
-
-    const data: ICategory = await res.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching category data:', error);
-    return null;
-  }
-};
 
 // CategoryPage component
 async function CategoryPage({ params }:{ params:Promise< { slugCategory: string }>}) {
@@ -43,8 +20,8 @@ async function CategoryPage({ params }:{ params:Promise< { slugCategory: string 
   }
 
   // Fetch category data
-  const category = await fetchCategoryData(id);
-
+  const categorys = await searchcategory(id);
+  const category = JSON.parse(categorys)
   if (!category) {
     return notFound();
   }
