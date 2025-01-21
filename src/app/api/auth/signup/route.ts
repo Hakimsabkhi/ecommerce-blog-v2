@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import connectToDatabase from "@/lib/db";
 import UserModel from "@/models/User";
-
+import nodemailer from 'nodemailer';
+import jwt from 'jsonwebtoken';
 // In-memory rate-limiting store
+const JWT_SECRET = process.env.JWT_SECRET 
 const rateLimit = new Map<string, { count: number; lastRequest: number }>();
 
 export async function POST(req: NextRequest) {
@@ -77,7 +79,28 @@ export async function POST(req: NextRequest) {
     });
 
     await newUser.save();
-
+    const token  = jwt.sign(
+      { email },
+      JWT_SECRET,
+      { expiresIn: '1h' } // Token expires in 1 hour
+    );
+    const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
+// Create a transporter for sending emails
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
+  // Send the verification email
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Email Verification',
+    text: `Please verify your email by clicking the following link: ${verificationLink }`,
+  };
+  await transporter.sendMail(mailOptions);
     return NextResponse.json(
       { message: "User registered successfully." },
       { status: 201 }
