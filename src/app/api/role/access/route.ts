@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     if (!roleDoc) {
       return NextResponse.json({ error: "Role not found" }, { status: 406 });
     }
-    console.log(dashboardSection)
+ 
     // Update access for the page
     roleDoc.access.set(dashboardSection, hasAccess);
 

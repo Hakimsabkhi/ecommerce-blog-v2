@@ -26,7 +26,8 @@ export async function GET() {
       email: 'superadmin@example.com',
       password: hashedPassword, // Store the hashed password
       role: 'SuperAdmin',
-    });
+      isverified:true,
+        });
 
     await superAdmin.save();
     return NextResponse.json({ message: 'SuperAdmin created successfully' });
