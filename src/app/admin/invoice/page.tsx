@@ -10,7 +10,6 @@ import DeletePopup from "@/components/Popup/DeletePopup";
 type User = {
   _id: string;
   username: string;
-  // other user fields
 };
 
 interface Address {
@@ -20,18 +19,20 @@ interface Address {
   zipcode: string;
   address: string;
 }
-interface Companies{
+
+interface Companies {
   name: string;
-  matriculefiscal:string;
-  address:string;
-  numtele:string
-  gerantsoc:string;
+  matriculefiscal: string;
+  address: string;
+  numtele: string;
+  gerantsoc: string;
 }
-interface invoice {
+
+interface Invoice {
   _id: string;
   user: User;
   ref: string;
-  companies:Companies;
+  companies: Companies;
   address: Address;
   paymentMethod: string;
   deliveryMethod: string;
@@ -39,88 +40,59 @@ interface invoice {
   total: number;
 }
 
+type Timeframe = "all" | "year" | "month" | "day";
+
 const Listinvoice: React.FC = () => {
-  const [invoice, setinvoice] = useState<invoice[]>([]); // All invoice
-  const [filteredinvoice, setFilteredinvoice] = useState<invoice[]>([]); // Filtered invoice
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [filtered, setFiltered] = useState<Invoice[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
+
+  // Popup & loading states
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [selectedInvoice, setSelectedInvoice] = useState({ id: "", name: "" });
+  const [loadingInvoiceId, setLoadingInvoiceId] = useState<string | null>(null);
+
+  // Pagination
+  const is2xl = useIs2xl();
+  const invoicesPerPage = is2xl ? 7 : 5;
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const is2xl = useIs2xl();
-  const invoicePerPage = is2xl ? 8 : 5;
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [selectedinvoice, setSelectedinvoice] = useState({ id: "", name: "" });
-  const [loadinginvoiceId, setLoadinginvoiceId] = useState<string | null>(null);
-  // Timeframe state (par an, par mois, par jour)
-  const [timeframe, setTimeframe] = useState<"year" | "month" | "day">("month");
+  // Timeframe state
+  const [timeframe, setTimeframe] = useState<Timeframe>("all");
+
+  /**
+   * We'll store the user’s chosen date string in one of:
+   * - "YYYY" (for year)
+   * - "YYYY-MM" (for month)
+   * - "YYYY-MM-DD" (for day)
+   * - "" (for all)
+   */
   const [selectedDate, setSelectedDate] = useState<string>("");
-  const [colSpan, setColSpan] = useState(5);
 
-  const handleDeleteClick = (invoice: invoice) => {
-    setLoadinginvoiceId(invoice._id);
+  // Used to adjust table colSpan on smaller screens
+  const [colSpan, setColSpan] = useState<number>(5);
 
-    setSelectedinvoice({ id: invoice._id, name: invoice.ref });
-    setIsPopupOpen(true);
-  };
-
-  const handleClosePopup = () => {
-    setIsPopupOpen(false);
-    setLoadinginvoiceId(null);
-  };
-
-  const Deleteinvoice = async (id: string) => {
-    try {
-      const response = await fetch(`/api/invoice/deleteinvoicebyid/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      handleClosePopup();
-      toast.success("invoice delete successfully!");
-
-      await getinvoice();
-    } catch (error: unknown) {
-      // Handle different error types effectively
-      if (error instanceof Error) {
-        console.error("Error deleting category:", error.message);
-        setError(error.message);
-      } else if (typeof error === "string") {
-        console.error("String error:", error);
-        setError(error);
-      } else {
-        console.error("Unknown error:", error);
-        setError("An unexpected error occurred. Please try again.");
-      }
-    } finally {
-      setLoadinginvoiceId(null);
-    }
-  };
-  const getinvoice = useCallback(async () => {
+  // ─────────────────────────────────────────────────────────────────────────────
+  // FETCH & DELETE
+  // ─────────────────────────────────────────────────────────────────────────────
+  const getAllInvoices = useCallback(async () => {
     try {
       const response = await fetch("/api/invoice/getallinvoice", {
         method: "GET",
       });
-
       if (!response.ok) {
-        throw new Error("Failed to fetch invoice");
+        throw new Error("Failed to fetch invoices");
       }
-
       const data = await response.json();
-      setinvoice(data); // Store all invoice
-      setFilteredinvoice(data); // Initially, filteredinvoice are the same as invoice
-    } catch (error: unknown) {
-      // Handle different error types effectively
-      if (error instanceof Error) {
-        console.error("Error deleting category:", error.message);
-        setError(error.message);
-      } else if (typeof error === "string") {
-        console.error("String error:", error);
-        setError(error);
+      setInvoices(data);
+      setFiltered(data);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Error fetching invoices:", err.message);
+        setError(err.message);
       } else {
-        console.error("Unknown error:", error);
         setError("An unexpected error occurred. Please try again.");
       }
     } finally {
@@ -128,95 +100,174 @@ const Listinvoice: React.FC = () => {
     }
   }, []);
 
+  const handleDeleteClick = (inv: Invoice) => {
+    setLoadingInvoiceId(inv._id);
+    setSelectedInvoice({ id: inv._id, name: inv.ref });
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setLoadingInvoiceId(null);
+  };
+
+  const deleteInvoice = async (id: string) => {
+    try {
+      const response = await fetch(`/api/invoice/deleteinvoicebyid/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      handleClosePopup();
+      toast.success("Invoice deleted successfully!");
+      await getAllInvoices();
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Error deleting invoice:", err.message);
+        setError(err.message);
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setLoadingInvoiceId(null);
+    }
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // LIFECYCLE
+  // ─────────────────────────────────────────────────────────────────────────────
+  useEffect(() => {
+    getAllInvoices();
+  }, [getAllInvoices]);
+
+  useEffect(() => {
+    // If timeframe = "all", reset selectedDate to ""
+    if (timeframe === "all") {
+      setSelectedDate("");
+      return;
+    }
+
+    // Otherwise, set a default value for each timeframe
+    const now = new Date();
+    if (timeframe === "year") {
+      // e.g. "2025"
+      setSelectedDate(String(now.getFullYear()));
+    } else if (timeframe === "month") {
+      // e.g. "2025-01"
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      setSelectedDate(`${year}-${month}`);
+    } else if (timeframe === "day") {
+      // e.g. "2025-01-21"
+      setSelectedDate(now.toISOString().split("T")[0]); // "YYYY-MM-DD"
+    }
+  }, [timeframe]);
+
+  // Dynamically update colSpan based on screen size
   useEffect(() => {
     const updateColSpan = () => {
       const isSmallScreen = window.innerWidth <= 768; // max-md
       const isMediumScreen = window.innerWidth <= 1024; // max-lg
-      const isXlLScreen = window.innerWidth <= 1280; // max-lg
+      const isXlScreen = window.innerWidth <= 1280; // max-xl
 
       if (isSmallScreen) {
-        setColSpan(3); // max-md: colSpan = 4
+        setColSpan(3);
       } else if (isMediumScreen) {
-        setColSpan(4); // max-lg: colSpan = 5
-      } else if (isXlLScreen) {
+        setColSpan(4);
+      } else if (isXlScreen) {
         setColSpan(5);
       } else {
-        setColSpan(6); // Default: colSpan = 6
+        setColSpan(6); // default
       }
     };
-
-    // Initial check
     updateColSpan();
-
-    // Add event listener
     window.addEventListener("resize", updateColSpan);
-
-    // Cleanup event listener
     return () => window.removeEventListener("resize", updateColSpan);
   }, []);
 
+  /**
+   * FILTER invoices based on:
+   * - searchTerm
+   * - timeframe
+   * - selectedDate (which can be "YYYY", "YYYY-MM", "YYYY-MM-DD", or "")
+   */
   useEffect(() => {
-    getinvoice();
-  }, [getinvoice]);
-  useEffect(() => {
-    // Set default selectedDate when the component is mounted
-    const currentDate = new Date();
-    if (timeframe === "year") {
-      setSelectedDate(`${currentDate.getFullYear()}-01-01`);
-    } else if (timeframe === "month") {
-      setSelectedDate(
-        `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}-01`
-      );
-    } else if (timeframe === "day") {
-      setSelectedDate(currentDate.toISOString().split("T")[0]); // Current date in YYYY-MM-DD format
-    }
-  }, [timeframe]);
-  useEffect(() => {
-    // Apply search filter
-    const filtered = invoice.filter((invoice) => {
-      const matchesSearch =
-        invoice.ref?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        invoice.user?.username.toLowerCase().includes(searchTerm.toLowerCase());
-        invoice.companies?.name?.toLowerCase().includes(searchTerm.toLowerCase());
-      // Apply date filtering based on the selected timeframe
-      const matchesDateFilter = (date: string) => {
-        const invoiceDate = new Date(invoice.createdAt);
-        const selectedDateObj = new Date(date);
+    const filteredList = invoices.filter((inv) => {
+      // 1. Basic search match
+      const searchMatch =
+        inv.ref.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        inv.user?.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        inv.companies?.name?.toLowerCase().includes(searchTerm.toLowerCase());
 
-        if (timeframe === "year") {
-          return invoiceDate.getFullYear() === selectedDateObj.getFullYear();
-        } else if (timeframe === "month") {
-          return (
-            invoiceDate.getFullYear() === selectedDateObj.getFullYear() &&
-            invoiceDate.getMonth() === selectedDateObj.getMonth()
-          );
-        } else if (timeframe === "day") {
-          return (
-            invoiceDate.getFullYear() === selectedDateObj.getFullYear() &&
-            invoiceDate.getMonth() === selectedDateObj.getMonth() &&
-            invoiceDate.getDate() === selectedDateObj.getDate()
-          );
+      // If timeframe === "all", skip date checking
+      if (timeframe === "all") {
+        return searchMatch;
+      }
+
+      // Otherwise, parse invoice date
+      const invoiceDate = new Date(inv.createdAt);
+
+      // 2. Does invoice fall within the chosen timeframe?
+      let invoiceMatchesTimeframe = false;
+
+      switch (timeframe) {
+        case "year": {
+          // selectedDate should be "YYYY"
+          const selectedYear = parseInt(selectedDate, 10);
+          if (invoiceDate.getFullYear() === selectedYear) {
+            invoiceMatchesTimeframe = true;
+          }
+          break;
         }
-        return true; // No filter if no timeframe is selected
-      };
+        case "month": {
+          // selectedDate should be "YYYY-MM"
+          // => e.g. "2025-01"
+          const [y, m] = selectedDate.split("-");
+          const selectedYear = parseInt(y, 10);
+          const selectedMonth = parseInt(m, 10); // 1-based
+          if (
+            invoiceDate.getFullYear() === selectedYear &&
+            invoiceDate.getMonth() + 1 === selectedMonth
+          ) {
+            invoiceMatchesTimeframe = true;
+          }
+          break;
+        }
+        case "day": {
+          // selectedDate should be "YYYY-MM-DD"
+          // => e.g. "2025-01-21"
+          const [y, m, d] = selectedDate.split("-");
+          const selectedYear = parseInt(y, 10);
+          const selectedMonth = parseInt(m, 10);
+          const selectedDay = parseInt(d, 10);
+          if (
+            invoiceDate.getFullYear() === selectedYear &&
+            invoiceDate.getMonth() + 1 === selectedMonth &&
+            invoiceDate.getDate() === selectedDay
+          ) {
+            invoiceMatchesTimeframe = true;
+          }
+          break;
+        }
+      }
 
-      return matchesSearch && matchesDateFilter(selectedDate);
+      return searchMatch && invoiceMatchesTimeframe;
     });
 
-    setFilteredinvoice(filtered);
-    setCurrentPage(1); // Reset to the first page
-  }, [searchTerm, invoice, timeframe, selectedDate]);
+    setFiltered(filteredList);
+    setCurrentPage(1);
+  }, [searchTerm, invoices, timeframe, selectedDate]);
 
-  const indexOfLastinvoice = currentPage * invoicePerPage;
-  const indexOfFirstinvoice = indexOfLastinvoice - invoicePerPage;
-  const currentinvoice = filteredinvoice.slice(
-    indexOfFirstinvoice,
-    indexOfLastinvoice
-  );
-  const totalPages = Math.ceil(filteredinvoice.length / invoicePerPage);
+  // PAGINATION
+  const indexOfLastItem = currentPage * invoicesPerPage;
+  const indexOfFirstItem = indexOfLastItem - invoicesPerPage;
+  const currentInvoices = filtered.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filtered.length / invoicesPerPage);
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // RENDER
+  // ─────────────────────────────────────────────────────────────────────────────
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -224,91 +275,143 @@ const Listinvoice: React.FC = () => {
   return (
     <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
       <div className="flex justify-between">
-        <p className="text-3xl font-bold">ALL invoice</p>
-        <Link href={"/admin/invoice/addinvoice"} className="bg-gray-800 text-white rounded-md flex justify-center items-center p-2">Create Invoice</Link>
+        <p className="text-3xl font-bold">ALL INVOICES</p>
+        <Link
+          href={"/admin/invoice/addinvoice"}
+          className="bg-gray-800 text-white rounded-md flex justify-center items-center p-2"
+        >
+          Create Invoice
+        </Link>
       </div>
+
+      {/* SEARCH + TIMEFRAME FILTER */}
       <div className="flex max-lg:flex-col max-lg:gap-4 justify-between">
+        {/* Search */}
         <input
           type="text"
-          placeholder="Search invoice"
+          placeholder="Search invoices"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="p-2 border border-gray-300 rounded-lg md:max-xl:w-[30%] lg:w-1/5"
         />
-        <div className="flex justify-between md:w-[70%] lg:w-[50%] xl:w-[40%]  ">
+
+        {/* Timeframe Controls */}
+        <div className="flex justify-between gap-2">
           <button
-            onClick={() => setTimeframe("year")}
-            className={`p-2 rounded ${
-              timeframe === "year"
+            onClick={() => setTimeframe("all")}
+            className={`w-[90px] rounded ${
+              timeframe === "all"
                 ? "bg-gray-800 text-white"
-                : "bg-gray-300 text-white"
+                : "bg-gray-300 text-black"
             }`}
           >
-            Par Année
+            All
+          </button>
+          <button
+            onClick={() => setTimeframe("year")}
+            className={`w-[90px] rounded ${
+              timeframe === "year"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-300 text-black"
+            }`}
+          >
+            Year
           </button>
           <button
             onClick={() => setTimeframe("month")}
-            className={`p-2 rounded ${
+            className={`w-[90px] rounded ${
               timeframe === "month"
                 ? "bg-gray-800 text-white"
-                : "bg-gray-300 text-white"
+                : "bg-gray-300 text-black"
             }`}
           >
-            Par Mois
+            Month
           </button>
           <button
             onClick={() => setTimeframe("day")}
-            className={`p-2 md:mr-8 rounded ${
+            className={`w-[90px] rounded ${
               timeframe === "day"
                 ? "bg-gray-800 text-white"
-                : "bg-gray-300 text-white"
+                : "bg-gray-300 text-black"
             }`}
           >
-            Par Jour
+            Day
           </button>
-          <input
-            type={
-              timeframe === "year"
-                ? "number"
-                : timeframe === "month"
-                ? "month"
-                : "date"
-            }
-            className="border rounded-lg p-2 w-36"
-            value={
-              timeframe === "year"
-                ? selectedDate.split("-")[0]
-                : timeframe === "month"
-                ? selectedDate.slice(0, 7)
-                : selectedDate
-            }
-            onChange={(e) => {
-              if (timeframe === "year") {
-                setSelectedDate(`${e.target.value}-01-01`);
-              } else if (timeframe === "month") {
-                setSelectedDate(e.target.value);
-              } else {
-                setSelectedDate(e.target.value);
-              }
-            }}
-          />
+
+          {/* Conditionally show an input based on timeframe */}
+{timeframe !== "all" ? (
+  <div>
+    {timeframe === "year" && (
+      /**
+       * We'll use a text or number input for just "YYYY".
+       * Example: "2025"
+       */
+      <input
+        type="text"
+        className="border rounded-lg p-2 w-[190px]"
+        value={selectedDate} // e.g. "2025"
+        placeholder="YYYY"
+        onChange={(e) => setSelectedDate(e.target.value)}
+        pattern="\d{4}"
+      />
+    )}
+
+    {timeframe === "month" && (
+      /**
+       * HTML5 month input => returns "YYYY-MM"
+       * e.g. "2025-01"
+       */
+      <input
+        type="month"
+        className="border rounded-lg p-2 w-[190px]"
+        value={selectedDate} // "YYYY-MM"
+        onChange={(e) => setSelectedDate(e.target.value)}
+      />
+    )}
+
+    {timeframe === "day" && (
+      /**
+       * HTML5 date input => returns "YYYY-MM-DD"
+       * e.g. "2025-01-21"
+       */
+      <input
+        type="date"
+        className="border rounded-lg p-2 w-[190px]"
+        value={selectedDate} // "YYYY-MM-DD"
+        onChange={(e) => setSelectedDate(e.target.value)}
+      />
+    )}
+  </div>
+) : (
+  /**
+   * Always show an empty date input when timeframe is "all"
+   */
+  <input
+  
+  className="border rounded-lg p-2 w-[190px]"
+  value={""} // Always empty
+  disabled
+/>
+)}
+
         </div>
       </div>
-      <div className="max-2xl:h-80 h-[50vh] pt-4 max-md:hidden">
-        <table className="w-full rounded overflow-hidden table-fixed ">
+
+      {/* TABLE (Desktop) */}
+      <div className="max-2xl:h-80 h-[500px] max-md:hidden">
+        <table className="w-full rounded overflow-hidden table-fixed">
           <thead>
-            <tr className="bg-gray-800">
+            <tr className="bg-gray-800 text-white">
               <th className="px-4 py-3 w-[15%] md:max-lg:w-[25%] lg:max-xl:w-[15%]">
                 REF
               </th>
               <th className="px-4 py-3 w-[15%] lg:max-xl:w-[18%] max-lg:hidden">
-                Customer Name
+                Customer
               </th>
               <th className="px-4 py-3 w-[10%] lg:max-xl:w-[15%] lg:table-cell hidden">
                 Total
               </th>
-
-              <th className="px-4 py-3 w-[20%] max-xl:hidden ">
+              <th className="px-4 py-3 w-[20%] max-xl:hidden">
                 Payment Method
               </th>
               <th className="px-4 py-3 w-[15%] md:max-lg:w-[25%] lg:max-xl:w-[20%]">
@@ -329,151 +432,173 @@ const Listinvoice: React.FC = () => {
                 </td>
               </tr>
             </tbody>
-          ) : filteredinvoice.length === 0 ? (
+          ) : filtered.length === 0 ? (
             <tbody>
               <tr>
                 <td colSpan={colSpan}>
                   <div className="text-center py-6 text-gray-600 w-full">
-                    <p>Aucune invoice trouvée.</p>
+                    <p>No invoices found.</p>
                   </div>
                 </td>
               </tr>
             </tbody>
           ) : (
             <tbody>
-              {currentinvoice.map((item) => (
-                <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
-                  <td className="border px-4 py-2 truncate">{item.ref}</td>
-                  <td className="border px-4 py-2 uppercase max-lg:hidden truncate">
-                  {item?.user?.username || item.companies.name}
-                  </td>
-                  <td className="border px-4 py-2 text-start lg:table-cell hidden truncate">
-                    {item.total.toFixed(2)} TND
-                  </td>
+              {currentInvoices.map((inv) => {
+                // Format date/time as "DD/MM/YYYY - HH:mm" (24-hour)
+                const datePart = new Date(inv.createdAt).toLocaleDateString(
+                  "en-GB",
+                  {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  }
+                );
+                const timePart = new Date(inv.createdAt).toLocaleTimeString(
+                  "en-GB",
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  }
+                );
+                const fullDateTime = `${datePart} - ${timePart}`;
 
-                  <td className="border px-4 py-2 uppercase truncate max-xl:hidden">
-                    {item.paymentMethod}
-                  </td>
-                  <td className="border px-4 py-2 truncate">
-                    {new Date(item.createdAt).toLocaleDateString("en-GB")} -{" "}
-                    {new Date(item.createdAt).toLocaleTimeString("en-GB", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </td>
-                  <td className="border px-4 py-2">
-                    <div className="flex justify-center gap-2">
-                      <Link href={`/admin/invoice/editinvoice/${item._id}`}>
-                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                          <FaRegEdit />
-                        </button>
-                      </Link>
-
-                      <Link href={`/admin/invoice/${item._id}`}>
+                return (
+                  <tr key={inv._id} className="even:bg-gray-100 odd:bg-white">
+                    <td className="border px-4 py-2 truncate">{inv.ref}</td>
+                    <td className="border px-4 py-2 uppercase max-lg:hidden truncate">
+                      {inv.user?.username || inv.companies?.name}
+                    </td>
+                    <td className="border px-4 py-2 text-start lg:table-cell hidden truncate">
+                      {inv.total.toFixed(2)} TND
+                    </td>
+                    <td className="border px-4 py-2 uppercase truncate max-xl:hidden">
+                      {inv.paymentMethod}
+                    </td>
+                    <td className="border px-4 py-2 truncate">
+                      {fullDateTime}
+                    </td>
+                    <td className="border px-4 py-2">
+                      <div className="flex justify-center gap-2">
+                        <Link href={`/admin/invoice/editinvoice/${inv._id}`}>
+                          <button
+                            title="Edit Invoice"
+                            className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                          >
+                            <FaRegEdit />
+                          </button>
+                        </Link>
+                        <Link href={`/admin/invoice/${inv._id}`}>
+                          <button
+                            type="button"
+                            className="bg-gray-800 text-white w-32 h-10 hover:bg-gray-600 rounded-md uppercase"
+                          >
+                            Facture
+                          </button>
+                        </Link>
                         <button
-                          type="button"
-                          className="bg-gray-800 text-white w-32 h-10 hover:bg-gray-600 rounded-md uppercase"
+                          onClick={() => handleDeleteClick(inv)}
+                          className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                          disabled={loadingInvoiceId === inv._id}
                         >
-                          FACture
+                          {loadingInvoiceId === inv._id ? "..." : <FaTrashAlt />}
                         </button>
-                      </Link>
-                      <button
-                        onClick={() => handleDeleteClick(item)}
-                        className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                        disabled={loadinginvoiceId === item._id}
-                      >
-                        {loadinginvoiceId === item._id ? (
-                          "Processing..."
-                        ) : (
-                          <FaTrashAlt />
+                        {isPopupOpen && (
+                          <DeletePopup
+                            handleClosePopup={handleClosePopup}
+                            Delete={deleteInvoice}
+                            id={selectedInvoice.id}
+                            name={selectedInvoice.name}
+                          />
                         )}
-                      </button>
-                      {isPopupOpen && (
-                        <DeletePopup
-                          handleClosePopup={handleClosePopup}
-                          Delete={Deleteinvoice}
-                          id={selectedinvoice.id} // Pass selected user's id
-                          name={selectedinvoice.name}
-                        />
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           )}
         </table>
       </div>
-      <div className="block md:hidden">
-        {currentinvoice.map((invoice) => (
-          <div
-            key={invoice._id}
-            className="bg-white rounded shadow p-4 mb-4 border"
-          >
-            <div className="flex justify-between">
-            <div className="flex flex-col gap-2">
-            <p>
-               {invoice.ref}
-            </p>
-            <p>
-            {invoice?.user?.username || invoice.companies.name}
-            </p>
-            <p>
-              {invoice.paymentMethod}
-            </p>
-            </div>
-            <div className="flex flex-col gap-2">
-            <p>
-              {invoice.total.toFixed(2)} TND
-            </p>
-            <p>
-              
-              {new Date(invoice.createdAt).toLocaleDateString()}
-            </p>
-            </div>
-            </div>
-            <div className="flex  justify-center gap-2 mt-4">
-                      <Link href={`/admin/invoice/editinvoice/${invoice._id}`}>
-                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                          <FaRegEdit />
-                        </button>
-                      </Link>
 
-                      <Link href={`/admin/invoice/${invoice._id}`}>
-                        <button
-                          type="button"
-                          className="bg-gray-800 text-white w-32 h-10 hover:bg-gray-600 rounded-md uppercase"
-                        >
-                          FACture
-                        </button>
-                      </Link>
-                      <button
-                        onClick={() => handleDeleteClick(invoice)}
-                        className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                        disabled={loadinginvoiceId === invoice._id}
-                      >
-                        {loadinginvoiceId === invoice._id ? (
-                          "Processing..."
-                        ) : (
-                          <FaTrashAlt />
-                        )}
-                      </button>
-                      {isPopupOpen && (
-                        <DeletePopup
-                          handleClosePopup={handleClosePopup}
-                          Delete={Deleteinvoice}
-                          id={selectedinvoice.id} // Pass selected user's id
-                          name={selectedinvoice.name}
-                        />
-                      )}
-                    </div>
-          </div>
-        ))}
+      {/* LIST (Mobile) */}
+      <div className="block md:hidden">
+        {currentInvoices.map((inv) => {
+          // Same date/time formatting for mobile
+          const datePart = new Date(inv.createdAt).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+          const timePart = new Date(inv.createdAt).toLocaleTimeString("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          });
+          const fullDateTime = `${datePart} - ${timePart}`;
+
+          return (
+            <div
+              key={inv._id}
+              className="bg-white rounded shadow p-4 mb-4 border"
+            >
+              <div className="flex justify-between">
+                <div className="flex flex-col gap-2">
+                  <p className="font-semibold">{inv.ref}</p>
+                  <p className="uppercase">
+                    {inv.user?.username || inv.companies?.name}
+                  </p>
+                  <p className="uppercase">{inv.paymentMethod}</p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <p>{inv.total.toFixed(2)} TND</p>
+                  <p>{fullDateTime}</p>
+                </div>
+              </div>
+              <div className="flex justify-center gap-2 mt-4">
+                <Link href={`/admin/invoice/editinvoice/${inv._id}`}>
+                  <button
+                    title="Edit Invoice"
+                    className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                  >
+                    <FaRegEdit />
+                  </button>
+                </Link>
+                <Link href={`/admin/invoice/${inv._id}`}>
+                  <button
+                    type="button"
+                    className="bg-gray-800 text-white w-32 h-10 hover:bg-gray-600 rounded-md uppercase"
+                  >
+                    Facture
+                  </button>
+                </Link>
+                <button
+                  onClick={() => handleDeleteClick(inv)}
+                  className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                  disabled={loadingInvoiceId === inv._id}
+                >
+                  {loadingInvoiceId === inv._id ? "..." : <FaTrashAlt />}
+                </button>
+                {isPopupOpen && (
+                  <DeletePopup
+                    handleClosePopup={handleClosePopup}
+                    Delete={deleteInvoice}
+                    id={selectedInvoice.id}
+                    name={selectedInvoice.name}
+                  />
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
+
+      {/* PAGINATION */}
       <div className="flex justify-center mt-4">
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(totalPages)}
+          totalPages={totalPages}
           onPageChange={setCurrentPage}
         />
       </div>
