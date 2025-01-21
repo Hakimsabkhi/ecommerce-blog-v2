@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
         try {
           await connectToDatabase();
 
-          const user = await UserModel.findOne({ email: credentials.email }).exec() as UserType | null;
+          const user = await UserModel.findOne({ email: credentials.email,isverified:true }).exec() as UserType | null;
           if (!user) {
             console.error('No user found with this email:', credentials.email);
             return null;
