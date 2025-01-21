@@ -4,7 +4,13 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { pic4 } from '@/assets/image'; // Ensure path is correct
-
+interface Errors {
+  name?: string;
+  lastname?: string;
+  email?: string;
+  password?: string;
+  repeatPassword?:string;
+}
 const Signup = () => {
   const [credentials, setCredentials] = useState({
     email: '',
@@ -35,7 +41,7 @@ const Signup = () => {
     e.preventDefault();
     setError({}); // Reset errors before validating
 
-    const newErrors: any = {};
+    const newErrors: Errors  = {};
 
     // Check if fields are filled
     if (!credentials.name) newErrors.name = "Name is required.";
