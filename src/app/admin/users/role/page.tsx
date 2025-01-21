@@ -18,7 +18,7 @@ const Page = () => {
   const [updatingRole, setUpdatingRole] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState({ id: "", name: "" });
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+  const [error, setError] = useState<string | null>(null); 
   const is2xl = useIs2xl();
   const usersPerPage = is2xl ? 8 : 5;
 
@@ -105,7 +105,7 @@ const Page = () => {
 
   const handleAddRole = async () => {
     if (!newRole.trim()) {
-      alert("Role name cannot be empty.");
+      setError("Role name cannot be empty.");
       return;
     }
 
@@ -116,13 +116,24 @@ const Page = () => {
         body: JSON.stringify({ newRole }),
       });
 
-      if (!res.ok) throw new Error("Failed to add role");
+      if (!res.ok){
+        if(res.status==406)
+        {
+          if (!res.ok) {
+            if (res.status === 406) {
+              setError("Role exist.");
+            }
+          }
+       
+        }
+      } 
       const data = await res.json();
       setRoles((prevRoles) => [
         ...prevRoles,
         { name: data.name, access: {}, _id: data._id },
       ]);
       setNewRole("");
+
     } catch (err) {
       console.error("Error adding role:", err);
     }
@@ -241,7 +252,26 @@ console.log(session?.user.role)
           name={selectedRole.name}
         />
       )}
+  {error && (
+  <div
+    className="min-w-screen h-screen animated fadeIn faster fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover backdrop-filter backdrop-brightness-75"
+  >
+    <div className="absolute inset-0 z-0 opacity-80 bg-black"></div>
+    <div className="w-full max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg bg-red-500 text-white">
+      <h1 className="text-xl font-bold flex justify-center">Notification</h1>
+      <button
+        onClick={() => setError(null)}  // Assuming `setError` is your method to reset the error state
+        className="absolute top-0 right-3 text-xl text-white"
+      >
+        x
+      </button>
+      <p className="flex justify-center p-8">{error}</p>
     </div>
+  </div>
+)}
+
+    </div>
+    
   );
 };
 
