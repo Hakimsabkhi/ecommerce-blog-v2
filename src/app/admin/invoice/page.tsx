@@ -47,7 +47,7 @@ const Listinvoice: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const is2xl = useIs2xl();
-  const invoicePerPage = is2xl ? 8 : 5;
+  const invoicePerPage = is2xl ? 7 : 5;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedinvoice, setSelectedinvoice] = useState({ id: "", name: "" });
@@ -222,12 +222,14 @@ const Listinvoice: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex justify-between">
-        <p className="text-3xl font-bold">ALL invoice</p>
-        <Link href={"/admin/invoice/addinvoice"} className="bg-gray-800 text-white rounded-md flex justify-center items-center p-2">Create Invoice</Link>
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+    <div className="flex items-center justify-between h-[80px] ">
+      <p className="text-3xl max-sm:text-sm font-bold">ALL invoice</p>
+        <Link href={"/admin/invoice/addinvoice"} 
+        className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
+          Create Invoice</Link>
       </div>
-      <div className="flex max-lg:flex-col max-lg:gap-4 justify-between">
+      <div className="h-[50px] flex max-lg:flex-col max-lg:gap-4 justify-between items-center">
         <input
           type="text"
           placeholder="Search invoice"
@@ -294,7 +296,7 @@ const Listinvoice: React.FC = () => {
           />
         </div>
       </div>
-      <div className="max-2xl:h-80 h-[50vh] pt-4 max-md:hidden">
+      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
@@ -345,7 +347,7 @@ const Listinvoice: React.FC = () => {
                 <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-2 truncate">{item.ref}</td>
                   <td className="border px-4 py-2 uppercase max-lg:hidden truncate">
-                  {item?.user?.username || item.companies.name}
+                  {item?.user?.username || item.companies?.name}
                   </td>
                   <td className="border px-4 py-2 text-start lg:table-cell hidden truncate">
                     {item.total.toFixed(2)} TND
@@ -361,8 +363,8 @@ const Listinvoice: React.FC = () => {
                       minute: "2-digit",
                     })}
                   </td>
-                  <td className="border px-4 py-2">
-                    <div className="flex justify-center gap-2">
+                  <td className="flex gap-2 justify-center">
+                   <div className="flex justify-center gap-2">
                       <Link href={`/admin/invoice/editinvoice/${item._id}`}>
                         <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                           <FaRegEdit />
@@ -416,7 +418,7 @@ const Listinvoice: React.FC = () => {
                {invoice.ref}
             </p>
             <p>
-            {invoice?.user?.username || invoice.companies.name}
+            {invoice?.user?.username || invoice.companies?.name}
             </p>
             <p>
               {invoice.paymentMethod}
@@ -470,7 +472,7 @@ const Listinvoice: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-4">
+      <div className="mt-4">
         <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(totalPages)}

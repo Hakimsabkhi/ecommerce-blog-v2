@@ -106,23 +106,24 @@ const Page = () => {
   const totalPages = Math.ceil(filteredCompanies.length / CompaniesPerPage);
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <p className="text-3xl font-bold">All Enterprises</p>
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+      <div className="flex items-center justify-between h-[80px] ">
+        <p className="text-3xl max-sm:text-sm font-bold">All Enterprises</p>
         <Link href="/admin/companies/addcompanies">
-          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
+          <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
             Add a New Enterprise
           </button>
         </Link>
       </div>
-
-      <input
-        type="text"
-        placeholder="Search Enterprise"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="p-2 border border-gray-300 rounded-lg max-w-max"
-      />
+      <div className="h-[50px] flex items-center ">
+        <input
+          type="text"
+          placeholder="Search Enterprise"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="p-2 border border-gray-300 rounded-lg max-w-max"
+        />
+      </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-[50vh]">
@@ -149,19 +150,21 @@ const Page = () => {
                 <td className="border px-4 py-3">{company.address}</td>
                 <td className="border px-4 py-3">{company.gerantsoc}</td>
                 <td className="border px-4 py-3">{company.user?.username}</td>
-                <td className="border px-4 py-3 text-center">
+                <td className="flex gap-2 justify-center">
+                <div className="flex justify-center gap-2 ">
                   <Link href={`/admin/companies/${company._id}`}>
-                    <button aria-label="Edit Company" className="bg-gray-800 text-white p-2 hover:bg-gray-600 rounded-md">
-                      <FaRegEdit />
-                    </button>
+                  <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                        <FaRegEdit />
+                      </button>
                   </Link>
                   <button
                     aria-label="Delete Company"
-                    className="bg-gray-800 text-white p-2 hover:bg-gray-600 rounded-md ml-2"
+                    className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
                     onClick={() => handleDeleteClick(company)}
                   >
                     {loadingCompanyId === company._id ? "Processing..." : <FaTrashAlt />}
                   </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -179,11 +182,7 @@ const Page = () => {
         />
       )}
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+      
         <div className="md:hidden flex flex-col gap-4">
           {currentCompanies.map((item) => (
             <div key={item._id} 
@@ -234,7 +233,13 @@ const Page = () => {
           ))}
         </div>
       
-
+        <div className="mt-4">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      </div>
      
     </div>
   );

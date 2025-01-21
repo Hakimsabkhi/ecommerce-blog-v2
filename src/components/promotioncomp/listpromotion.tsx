@@ -5,6 +5,7 @@ import { FaSpinner } from "react-icons/fa";
 import Pagination from "@/components/Pagination";
 import Image from "next/image";
 import useIs2xl from "@/hooks/useIs2x";
+import { FaRegEye } from "react-icons/fa6";
 
 type User = {
   _id: string;
@@ -153,17 +154,17 @@ const ListPromotion: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex justify-between items-center">
-        <p className="text-3xl max-sm:text-xl  font-bold">ALL Products Promotion</p>
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+    <div className="flex items-center justify-between h-[80px] ">
+      <p className="text-3xl max-sm:text-sm font-bold">ALL Products Promotion</p>
         <Link href="/admin/promotion/banner">
-          <button className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2">
-            <p>Banner promotion</p>
+        <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
+        <p>Banner promotion</p>
           </button>
         </Link>
       </div>
 
-      <div className="flex justify-between items-center  ">
+      <div className="h-[50px] flex justify-between items-center">
         <input
           type="text"
           placeholder="Search products"
@@ -175,7 +176,7 @@ const ListPromotion: React.FC = () => {
           name="category"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block p-2.5 min-w-32"
+          className="p-2 bg-gray-50 border border-gray-300 rounded-lg max-w-max"
           required
         >
           <option value="">Select Category</option>
@@ -231,23 +232,23 @@ const ListPromotion: React.FC = () => {
                       <Image
                         alt={item.name}
                         src={item.imageUrl}
-                        width={50}
-                        height={50}
+                        width={30}
+                        height={30}
                       />
                     </div>
                   </td>
                   <td className="border px-4 py-2 max-lg:hidden">
                     {item?.user?.username}
                   </td>
-                  <td className="border px-4 py-2">
-                    <div className="flex items-center justify-center gap-2">
+                  <td className="flex justify-center">
+                    <div className="flex justify-center gap-2">
                       <Link
                         href={`/${item.vadmin === "approve" ? "" : "admin/"}${
                           item.category?.slug
                         }/${item.slug}`}
                       >
-                        <button className="bg-gray-800 text-white px-2 h-10 hover:bg-gray-600 rounded-md max-sm:text-sm">
-                          See Product
+                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                          <FaRegEye />
                         </button>
                       </Link>
                     </div>
@@ -297,7 +298,7 @@ const ListPromotion: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-10">
+      <div className="mt-4">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

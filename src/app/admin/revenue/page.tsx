@@ -176,7 +176,7 @@ const RevenueDashboard: React.FC = () => {
         </div>
 
         {/* Revenue Chart */}
-        <div className="bg-white rounded-lg xl:w-[40%] h-full border-2 p-2">
+        <div className="bg-white rounded-lg xl:w-[40%] h-full border-2 p-1">
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />

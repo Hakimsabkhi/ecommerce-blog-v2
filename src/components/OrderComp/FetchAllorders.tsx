@@ -348,18 +348,18 @@ const ListOrders: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex justify-between">
-        <p className="text-3xl font-bold">ALL Orders</p>
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+    <div className="flex items-center justify-between h-[80px] ">
+      <p className="text-3xl max-sm:text-sm font-bold">ALL Orders</p>
         <Link
           href={"order/addorder"}
-          className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2"
+          className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4"
         >
           <button type="button">create order</button>
         </Link>
       </div>
 
-      <div className="flex max-lg:flex-col max-lg:gap-4 justify-between">
+      <div className="h-[50px] flex max-lg:flex-col max-lg:gap-4 justify-between items-center">
         <input
           type="text"
           placeholder="Search orders"
@@ -501,10 +501,10 @@ const ListOrders: React.FC = () => {
                       minute: "2-digit",
                     })}
                   </td>
-                  <td className="border px-4 py-2">
-                    <div className="flex justify-center gap-2">
-                      <select
-                        className={`w-full h-10 text-black rounded-md p-2 truncate ${
+                  <td className="flex gap-2 justify-center">
+                   <div className="flex justify-center gap-2">
+                  <select
+                         className={` w-full max-w-44 h-10 text-black rounded-md p-2 truncate  ${
                           item.orderStatus === "Processing"
                             ? "bg-gray-800 text-white"
                             : "bg-red-700 text-white"
@@ -531,7 +531,7 @@ const ListOrders: React.FC = () => {
                         </button>
                       </Link>
                       <select
-                        className={`w-full h-10 text-black rounded-md p-2 truncate ${
+                        className={`w-32 text-black rounded-md h-10 ${
                           item.statusinvoice === false
                             ? "bg-gray-400 text-white"
                             : "bg-green-500 text-white"
@@ -719,7 +719,7 @@ const ListOrders: React.FC = () => {
           ))
         )}
       </div>
-      <div className="flex justify-center mt-4">
+      <div className="mt-4">
         <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(totalPages)}

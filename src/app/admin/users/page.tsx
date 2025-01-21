@@ -149,24 +149,25 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="mx-auto w-[95%] sm:w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+    <div className="flex items-center h-[80px] ">
+      <p className="text-3xl max-sm:text-sm font-bold">Admin Dashboard</p>
         
       </div>
-      <div className="flex justify-between items-center">
+
+      <div className="h-[50px] flex justify-between items-center">
         <input
           type="text"
           placeholder="Search users"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 border border-gray-300 rounded-lg"
+          className="p-2 border border-gray-300 rounded-lg max-w-max"
         />
         <select
           name="Role"
           value={selectedRole}
           onChange={handleSearchRole}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg sm:w-[20%] block p-2.5"
+          className="bg-gray-50 p-2 border border-gray-300 rounded-lg w-[20%] "
         >
           <option value="">All</option>
     
