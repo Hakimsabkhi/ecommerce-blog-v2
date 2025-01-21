@@ -33,6 +33,7 @@ interface Order {
   orderStatus: string;
   statusinvoice: boolean;
 }
+type Timeframe = "all" | "year" | "month" | "day";
 
 const ListOrders: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]); // All orders
@@ -42,18 +43,20 @@ const ListOrders: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const is2xl = useIs2xl();
-  const ordersPerPage = is2xl ? 8 : 5;
+  const ordersPerPage = is2xl ? 7 : 5;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState({ id: "", name: "" });
   const [loadingOrderId, setLoadingOrderId] = useState<string | null>(null);
   const [status, setStatus] = useState(""); // Initial value
-  const [timeframe, setTimeframe] = useState<"year" | "month" | "day">("month");
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [isPopupOpeninvoice, setIsPopupOpeninvoice] = useState(false);
   const [selectedorderid, setSelectedorderid] = useState<string>("");
   const [selectedval, setSelectedval] = useState<string>("");
   const [colSpan, setColSpan] = useState(5);
+  
+    // Timeframe state
+    const [timeframe, setTimeframe] = useState<Timeframe>("all");
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStatus(e.target.value);
@@ -353,9 +356,9 @@ const ListOrders: React.FC = () => {
         <p className="text-3xl font-bold">ALL Orders</p>
         <Link
           href={"order/addorder"}
-          className="bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2"
+          className="bg-gray-800 text-white rounded-md flex justify-center items-center p-2"
         >
-          <button type="button">create order</button>
+          create order
         </Link>
       </div>
 
@@ -383,63 +386,104 @@ const ListOrders: React.FC = () => {
           <option value="Refunded">Remboursée</option>
         </select>
 
-        <div className="flex justify-between md:w-[70%] lg:w-[50%] xl:w-[40%]  ">
+        <div className="flex justify-between gap-2">
           <button
-            onClick={() => setTimeframe("year")}
-            className={`p-2 rounded ${
-              timeframe === "year"
+            onClick={() => setTimeframe("all")}
+            className={`w-[90px] rounded ${
+              timeframe === "all"
                 ? "bg-gray-800 text-white"
-                : "bg-gray-300 text-white"
+                : "bg-gray-300 text-black"
             }`}
           >
-            Par Année
+            All
+          </button>
+          <button
+            onClick={() => setTimeframe("year")}
+            className={`w-[90px] rounded ${
+              timeframe === "year"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-300 text-black"
+            }`}
+          >
+            Year
           </button>
           <button
             onClick={() => setTimeframe("month")}
-            className={`p-2 rounded ${
+            className={`w-[90px] rounded ${
               timeframe === "month"
                 ? "bg-gray-800 text-white"
-                : "bg-gray-300 text-white"
+                : "bg-gray-300 text-black"
             }`}
           >
-            Par Mois
+            Month
           </button>
           <button
             onClick={() => setTimeframe("day")}
-            className={`p-2 md:mr-8 rounded ${
+            className={`w-[90px] rounded ${
               timeframe === "day"
                 ? "bg-gray-800 text-white"
-                : "bg-gray-300 text-white"
+                : "bg-gray-300 text-black"
             }`}
           >
-            Par Jour
+            Day
           </button>
-          <input
-            type={
-              timeframe === "year"
-                ? "number"
-                : timeframe === "month"
-                ? "month"
-                : "date"
-            }
-            className="border rounded-lg p-2 w-36"
-            value={
-              timeframe === "year"
-                ? selectedDate.split("-")[0]
-                : timeframe === "month"
-                ? selectedDate.slice(0, 7)
-                : selectedDate
-            }
-            onChange={(e) => {
-              if (timeframe === "year") {
-                setSelectedDate(`${e.target.value}-01-01`);
-              } else if (timeframe === "month") {
-                setSelectedDate(e.target.value);
-              } else {
-                setSelectedDate(e.target.value);
-              }
-            }}
-          />
+
+          {/* Conditionally show an input based on timeframe */}
+{timeframe !== "all" ? (
+  <div>
+    {timeframe === "year" && (
+      /**
+       * We'll use a text or number input for just "YYYY".
+       * Example: "2025"
+       */
+      <input
+        type="text"
+        className="border rounded-lg p-2 w-[190px]"
+        value={selectedDate} // e.g. "2025"
+        placeholder="YYYY"
+        onChange={(e) => setSelectedDate(e.target.value)}
+        pattern="\d{4}"
+      />
+    )}
+
+    {timeframe === "month" && (
+      /**
+       * HTML5 month input => returns "YYYY-MM"
+       * e.g. "2025-01"
+       */
+      <input
+        type="month"
+        className="border rounded-lg p-2 w-[190px]"
+        value={selectedDate} // "YYYY-MM"
+        onChange={(e) => setSelectedDate(e.target.value)}
+      />
+    )}
+
+    {timeframe === "day" && (
+      /**
+       * HTML5 date input => returns "YYYY-MM-DD"
+       * e.g. "2025-01-21"
+       */
+      <input
+        type="date"
+        className="border rounded-lg p-2 w-[190px]"
+        value={selectedDate} // "YYYY-MM-DD"
+        onChange={(e) => setSelectedDate(e.target.value)}
+      />
+    )}
+  </div>
+) : (
+  /**
+   * Always show an empty date input when timeframe is "all"
+   */
+  <input
+  
+  className="border rounded-lg p-2 w-[190px]"
+  value={""} // Always empty
+  disabled
+/>
+)}
+
         </div>
       </div>
       <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
@@ -504,7 +548,7 @@ const ListOrders: React.FC = () => {
                   <td className="border px-4 py-2">
                     <div className="flex justify-center gap-2">
                       <select
-                        className={`w-full h-10 text-black rounded-md p-2 truncate ${
+                        className={`w-full max-w-40 h-10 text-black rounded-md p-2 truncate ${
                           item.orderStatus === "Processing"
                             ? "bg-gray-800 text-white"
                             : "bg-red-700 text-white"
@@ -531,7 +575,7 @@ const ListOrders: React.FC = () => {
                         </button>
                       </Link>
                       <select
-                        className={`w-full h-10 text-black rounded-md p-2 truncate ${
+                        className={`w-full max-w-40 h-10 text-black rounded-md p-2 truncate ${
                           item.statusinvoice === false
                             ? "bg-gray-400 text-white"
                             : "bg-green-500 text-white"

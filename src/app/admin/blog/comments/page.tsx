@@ -123,18 +123,23 @@ const BlogLikes = () => {
   }, []);
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-        <h1 className="text-3xl max-sm:text-xl font-bold">List blog comment</h1>
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+      <div className="flex items-center justify-between h-[80px] ">
+        <p className="text-3xl max-sm:text-sm font-bold">List blog comment</p></div>
+        
+        <div className="h-[50px] flex items-center ">
         <input
-        type="text"
-        placeholder="Search blogs"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="p-2 border border-gray-300 rounded-lg max-w-max"
-      />
-      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
-      <table className="w-full rounded overflow-hidden table-fixed">
-        <thead>
+          type="text"
+          placeholder="Search blogs"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="p-2 border border-gray-300 rounded-lg max-w-max"
+        />
+      </div>
+    
+      <div className="h-[50vh] max-2xl:h-80 max-md:hidden">
+        <table className="w-full rounded overflow-hidden table-fixed ">
+          <thead>
           <tr className="bg-gray-800">
             
 
@@ -191,8 +196,8 @@ const BlogLikes = () => {
 
               <td className="border px-4 py-2 max-lg:hidden">{blog?.user?.username}</td>
 
-              <td className="border px-4 py-2">
-                <div>
+              <td className="flex gap-2 justify-center">
+                    <div className="flex justify-center gap-2 ">
                     <Link href={`/admin/blog/comments/${blog._id}`}>
                            <button className="bg-gray-800 text-white w-32 h-10  hover:bg-gray-600 rounded-md uppercase">
                          {blog.numbercomment} Comments

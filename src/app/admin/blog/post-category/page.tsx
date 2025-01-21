@@ -157,28 +157,30 @@ const AddedCategories: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <p className="text-3xl font-bold">ALL Post Categories</p>
-        <div className="flex gap-2">
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+    <div className="flex items-center justify-between h-[80px] ">
+      <p className="text-3xl max-sm:text-sm font-bold">ALL Post Categories</p>
+        
         
         <Link href="/admin/blog/post-category/addpostcategory" >
-          <button className='bg-gray-800 font-bold hover:bg-gray-600 text-white rounded-lg p-2'>
+        <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
           Add a new category
           </button>
         </Link>
-        </div>
+        
       </div>
-      <input
-        type="text"
-        placeholder="Search categories"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="p-2 border border-gray-300 rounded-lg max-w-max"
-      />
-      <div className="max-2xl:h-80 h-[50vh]  max-md:hidden">
-      <table className="w-full rounded overflow-hidden table-fixed">
-        <thead>
+      <div className="h-[50px] flex items-center ">
+        <input
+          type="text"
+          placeholder="Search post categories"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="p-2 border border-gray-300 rounded-lg max-w-max"
+        />
+      </div>
+      <div className="h-[50vh] max-2xl:h-80 max-md:hidden">
+        <table className="w-full rounded overflow-hidden table-fixed ">
+          <thead>
           <tr className="bg-gray-800 ">
             
             <th className="px-4 py-3 w-1/3">Name</th>
@@ -209,13 +211,13 @@ const AddedCategories: React.FC = () => {
         ) : (
         <tbody>
           {currentCategories.map((item, index) => (
-            <tr key={index} className="bg-white text-balck">
+            <tr key={index} className="even:bg-gray-100 odd:bg-white">
              <td className="border px-4 py-2 truncate">{item.name}</td>
 
               <td className="border px-4 py-2 truncate">{item?.user?.username}</td>
-              <td>
-               
-                <div className="flex  justify-center gap-2">
+
+              <td className="flex gap-2 justify-center">
+                    <div className="flex justify-center gap-2 ">
                 <select
                     className={`w-full max-w-32 h-10 text-black rounded-md p-2 truncate ${
                       item.vadmin === "not-approve"
@@ -318,7 +320,7 @@ const AddedCategories: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-4">
+      <div className="mt-4">
         
       <Pagination
           currentPage={currentPage}
