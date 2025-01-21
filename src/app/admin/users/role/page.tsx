@@ -128,12 +128,14 @@ const Page = () => {
         }
       } 
       const data = await res.json();
+      if (res.ok) {
       setRoles((prevRoles) => [
         ...prevRoles,
         { name: data.name, access: {}, _id: data._id },
       ]);
+      
       setNewRole("");
-
+      }
     } catch (err) {
       console.error("Error adding role:", err);
     }
