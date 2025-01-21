@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { LuCircleX, LuSquareCheckBig } from "react-icons/lu";
 
@@ -10,7 +11,7 @@ const VerifyEmail = () => {
   const [loading, setLoading] = React.useState(false);
   const [verified, setVerified] = React.useState(false);
   const [error, setError] = React.useState(false);
-
+  const route=useRouter()
   const searchParams = useSearchParams();
   const verifyToken = searchParams.get("verifyToken");
   const id = searchParams.get("id");
@@ -45,6 +46,9 @@ const VerifyEmail = () => {
         setLoading(false);
         setVerified(true);
       }
+      setTimeout(() => {
+        route.push("/"); // Redirect to home page
+      }, 30000); // 30 seconds
     } catch (error) {
       console.log(error);
       setLoading(false);
