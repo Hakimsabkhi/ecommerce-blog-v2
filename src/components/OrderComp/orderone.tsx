@@ -102,8 +102,8 @@ if (loading) {
                         </p>
                     </div>
                     <div className='bg-primary rounded-md text-white  h-[auto] w-[15%] max-xl:w-[50%]  items-center justify-center flex-grow-1 p-5'>
-                    <p className='rounded-lg font-bold text-left '>Name : {order?.user.username}</p>
-                    <p className='rounded-lg font-bold text-left '>Phone Number : {order?.user.phone}</p>
+                    <p className='rounded-lg font-bold text-left '>Name : {order?.user?.username}</p>
+                    <p className='rounded-lg font-bold text-left '>Phone Number : {order?.user?.phone}</p>
                     <p className='rounded-lg font-bold text-left '>Address : {order?.address.address}</p>
                     <p className='rounded-lg font-bold text-left '>{order?.address.governorate}</p>
                     <p className='rounded-lg font-bold text-left '>{order?.address.city}/{order?.address.zipcode}</p>
@@ -116,18 +116,18 @@ if (loading) {
                         <div className="flex max-lg:justify-between max-lg:w-full gap-4 max-md:flex-col max-md:items-center">
                             <Image src={item.image} alt={item.name} width={200} height={200} />
                             <div className='flex flex-col justify-between max-md:items-center'>
-                                <p className='text-2xl font-bold'>{item.name}</p>
+                                <span className='text-2xl font-bold'>{item.name}</span>
                                
                                 <div className='flex items-center text-xl'>
-                                    <p className='pr-6 py-2 border-r-2'>ref : <span className='text-gray-400'>{item.refproduct}</span></p>
-                                    <p className='px-6 py-2'>QTY : <span className='text-gray-400'>{item.quantity}</span></p>
+                                    <div className='pr-6 py-2 border-r-2'>ref : <span className='text-gray-400'>{item.refproduct}</span></div>
+                                    <div className='px-6 py-2'>QTY : <span className='text-gray-400'>{item.quantity}</span></div>
                                 </div>
                             </div>
                         </div>
                         <div className='flex items-start gap-8 max-lg:w-full max-lg:justify-between max-md:flex-col max-md:items-center'>
                             <div className='flex lg:flex-col gap-2 text-xl'>
                                 <p>price</p>
-                                <p className='text-blue-500'>{item.discount != null && item.discount > 0 ? (
+                                <div className='text-blue-500'>{item.discount != null && item.discount > 0 ? (
                         <p>
                           {" "}
                           {(
@@ -138,7 +138,7 @@ if (loading) {
                         </p>
                       ) : (
                         <p>{item.price.toFixed(2)} TND</p>
-                      )}</p>
+                      )}</div>
                             </div>
                             
                         </div>
