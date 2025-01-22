@@ -5,7 +5,7 @@ import { getToken } from 'next-auth/jwt';
 import User from '@/models/User';
 import cloudinary from '@/lib/cloudinary';
 import stream from 'stream';
-import { create } from 'domain';
+
 interface CloudinaryUploadResult {
     secure_url: string;
     public_id: string;
