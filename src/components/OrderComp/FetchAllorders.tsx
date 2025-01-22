@@ -428,18 +428,18 @@ const ListOrders: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex justify-between">
-        <p className="text-3xl font-bold">ALL Orders</p>
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+    <div className="flex items-center justify-between h-[80px] ">
+      <p className="text-3xl max-sm:text-sm font-bold">ALL Orders</p>
         <Link
           href={"order/addorder"}
-          className="bg-gray-800 text-white rounded-md flex justify-center items-center p-2"
-        >
+          className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
+        
           create order
         </Link>
       </div>
 
-      <div className="flex max-lg:flex-col max-lg:gap-4 justify-between">
+      <div className="flex max-lg:flex-col max-lg:gap-4 justify-between mt-1">
         <input
           type="text"
           placeholder="Search orders"
@@ -563,7 +563,7 @@ const ListOrders: React.FC = () => {
 
         </div>
       </div>
-      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
+      <div className="max-2xl:h-80 h-[50vh] max-md:hidden mt-1">
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
