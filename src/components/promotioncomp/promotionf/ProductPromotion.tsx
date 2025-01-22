@@ -105,7 +105,7 @@ const ProductPromotion: React.FC = () => {
 
   // Filter products based on the selected filters
   const filteredProducts = products.filter(product => {
-    const brandMatch = selectedBrand ? product.brand._id === selectedBrand : true;
+    const brandMatch = selectedBrand ? product?.brand?._id === selectedBrand : true;
     const colorMatch = selectedColor ? product.color === selectedColor : true;
     const materialMatch = selectedMaterial ? product.material === selectedMaterial : true;
 
