@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { LuCircleX, LuSquareCheckBig } from "react-icons/lu";
 
 const VerifyEmail = () => {
@@ -18,19 +18,12 @@ const VerifyEmail = () => {
 
   const initialized = React.useRef(false);
 
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-      verifyEmail();
-    }
-  }, []);
 
-  const verifyEmail = async () => {
-    if (!verifyToken || !id)
-      return console.log(  "Invalid URL" );
-
+  const verifyEmail = useCallback(async () => {
+    if (!verifyToken || !id) return console.log("Invalid URL");
+  
     setLoading(true);
-
+  
     try {
       const res = await fetch(
         `/api/verifyemail?verifyToken=${verifyToken}&id=${id}`,
@@ -41,11 +34,12 @@ const VerifyEmail = () => {
           },
         }
       );
-
+  
       if (res.ok) {
         setLoading(false);
         setVerified(true);
       }
+  
       setTimeout(() => {
         route.push("/"); // Redirect to home page
       }, 30000); // 30 seconds
@@ -54,8 +48,14 @@ const VerifyEmail = () => {
       setLoading(false);
       setError(true);
     }
-  };
+  }, [verifyToken, id,route]); 
 
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      verifyEmail();
+    }
+  }, [verifyEmail]);
   if (loading)
     return (
       <h1 className="flex justify-center items-center h-screen">

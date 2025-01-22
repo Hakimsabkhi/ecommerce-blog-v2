@@ -23,10 +23,7 @@ interface ProductData {
   slug: string;
 }
 
-interface Brand {
-  _id: string;
-  name: string;
-}
+
 
 interface ProductFilterClientProps {
   products: ProductData[];

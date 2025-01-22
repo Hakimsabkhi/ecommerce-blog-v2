@@ -3,7 +3,7 @@ import connectToDatabase from "@/lib/db";
 import Brand from "@/models/Brand";
 import Category from "@/models/Category";
 import Product from "@/models/Product";
-import User from "@/models/User";
+
 
 export async function searchcategory(id:string) {
     await connectToDatabase();
