@@ -281,9 +281,33 @@ const ListOrders: React.FC = () => {
     // Cleanup event listener
     return () => window.removeEventListener("resize", updateColSpan);
   }, []);
+
   useEffect(() => {
     getOrders();
   }, [getOrders]);
+
+  useEffect(() => {
+      // If timeframe = "all", reset selectedDate to ""
+      if (timeframe === "all") {
+        setSelectedDate("");
+        return;
+      }
+  
+      // Otherwise, set a default value for each timeframe
+      const now = new Date();
+      if (timeframe === "year") {
+        // e.g. "2025"
+        setSelectedDate(String(now.getFullYear()));
+      } else if (timeframe === "month") {
+        // e.g. "2025-01"
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        setSelectedDate(`${year}-${month}`);
+      } else if (timeframe === "day") {
+        // e.g. "2025-01-21"
+        setSelectedDate(now.toISOString().split("T")[0]); // "YYYY-MM-DD"
+      }
+    }, [timeframe]);
 
   useEffect(() => {
     // Apply search and status filter
@@ -323,21 +347,74 @@ const ListOrders: React.FC = () => {
     setCurrentPage(1); // Reset to the first page
   }, [searchTerm, status, orders, timeframe, selectedDate]);
 
+  
+
   useEffect(() => {
-    // Set default selectedDate when the component is mounted
-    const currentDate = new Date();
-    if (timeframe === "year") {
-      setSelectedDate(`${currentDate.getFullYear()}-01-01`);
-    } else if (timeframe === "month") {
-      setSelectedDate(
-        `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}-01`
-      );
-    } else if (timeframe === "day") {
-      setSelectedDate(currentDate.toISOString().split("T")[0]); // Current date in YYYY-MM-DD format
-    }
-  }, [timeframe]);
+      const filtered = orders.filter((order) => {
+        // 1. Basic search match
+        const searchMatch =
+          order.ref.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.user?.username.toLowerCase().includes(searchTerm.toLowerCase()) ;
+  
+        // If timeframe === "all", skip date checking
+        if (timeframe === "all") {
+          return searchMatch;
+        }
+  
+        // Otherwise, parse invoice date
+        const invoiceDate = new Date(order.createdAt);
+  
+        // 2. Does invoice fall within the chosen timeframe?
+        let invoiceMatchesTimeframe = false;
+  
+        switch (timeframe) {
+          case "year": {
+            // selectedDate should be "YYYY"
+            const selectedYear = parseInt(selectedDate, 10);
+            if (invoiceDate.getFullYear() === selectedYear) {
+              invoiceMatchesTimeframe = true;
+            }
+            break;
+          }
+          case "month": {
+            // selectedDate should be "YYYY-MM"
+            // => e.g. "2025-01"
+            const [y, m] = selectedDate.split("-");
+            const selectedYear = parseInt(y, 10);
+            const selectedMonth = parseInt(m, 10); // 1-based
+            if (
+              invoiceDate.getFullYear() === selectedYear &&
+              invoiceDate.getMonth() + 1 === selectedMonth
+            ) {
+              invoiceMatchesTimeframe = true;
+            }
+            break;
+          }
+          case "day": {
+            // selectedDate should be "YYYY-MM-DD"
+            // => e.g. "2025-01-21"
+            const [y, m, d] = selectedDate.split("-");
+            const selectedYear = parseInt(y, 10);
+            const selectedMonth = parseInt(m, 10);
+            const selectedDay = parseInt(d, 10);
+            if (
+              invoiceDate.getFullYear() === selectedYear &&
+              invoiceDate.getMonth() + 1 === selectedMonth &&
+              invoiceDate.getDate() === selectedDay
+            ) {
+              invoiceMatchesTimeframe = true;
+            }
+            break;
+          }
+        }
+  
+        return searchMatch && invoiceMatchesTimeframe;
+      });
+  
+      setFilteredOrders(filtered);
+      setCurrentPage(1);
+    }, [searchTerm, orders, timeframe, selectedDate]);
+
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = filteredOrders.slice(
@@ -351,18 +428,18 @@ const ListOrders: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto w-[90%] py-8 flex flex-col gap-8">
-      <div className="flex justify-between">
-        <p className="text-3xl font-bold">ALL Orders</p>
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
+    <div className="flex items-center justify-between h-[80px] ">
+      <p className="text-3xl max-sm:text-sm font-bold">ALL Orders</p>
         <Link
           href={"order/addorder"}
-          className="bg-gray-800 text-white rounded-md flex justify-center items-center p-2"
-        >
+          className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
+        
           create order
         </Link>
       </div>
 
-      <div className="flex max-lg:flex-col max-lg:gap-4 justify-between">
+      <div className="flex max-lg:flex-col max-lg:gap-4 justify-between mt-1">
         <input
           type="text"
           placeholder="Search orders"
@@ -486,7 +563,7 @@ const ListOrders: React.FC = () => {
 
         </div>
       </div>
-      <div className="max-2xl:h-80 h-[50vh] max-md:hidden">
+      <div className="max-2xl:h-80 h-[50vh] max-md:hidden mt-1">
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
@@ -527,7 +604,27 @@ const ListOrders: React.FC = () => {
             </tbody>
           ) : (
             <tbody>
-              {currentOrders.map((item) => (
+              {currentOrders.map((item) =>  {
+                // Format date/time as "DD/MM/YYYY - HH:mm" (24-hour)
+                const datePart = new Date(item.createdAt).toLocaleDateString(
+                  "en-GB",
+                  {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  }
+                );
+                const timePart = new Date(item.createdAt).toLocaleTimeString(
+                  "en-GB",
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  }
+                );
+                const fullDateTime = `${datePart} - ${timePart}`;
+
+                return (
                 <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-2 uppercase truncate">
                     {item.ref}
@@ -539,11 +636,7 @@ const ListOrders: React.FC = () => {
                     {item.total.toFixed(2)} TND
                   </td>
                   <td className="border px-4 py-2 truncate">
-                    {new Date(item.createdAt).toLocaleDateString("en-GB")} -{" "}
-                    {new Date(item.createdAt).toLocaleTimeString("en-GB", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                  {fullDateTime}
                   </td>
                   <td className="border px-4 py-2">
                     <div className="flex justify-center gap-2">
@@ -628,8 +721,8 @@ const ListOrders: React.FC = () => {
                       )}
                     </div>
                   </td>
-                </tr>
-              ))}
+                </tr>);
+              })}
             </tbody>
           )}
         </table>
