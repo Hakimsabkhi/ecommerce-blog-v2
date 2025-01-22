@@ -124,7 +124,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
         <Link href={`/${item.category?.slug}/${item.slug}`}>
           <div className=" flex justify-between h-24 max-md:h-20">
             <div className="flex-col gap-1" >
-              <p className="text-productNameCard cursor-pointer text-2xl max-md:text-lg font-bold">
+              <p className="text-productNameCard cursor-pointer text-2xl max-md:text-lg font-bold first-letter:uppercase">
               {item.name}
             </p>
             <div className="flex gap-2 items-center text-secondary ">
