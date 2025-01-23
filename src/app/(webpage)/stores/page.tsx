@@ -1,4 +1,4 @@
-import { getstore } from '@/lib/StaticDataHomePage';
+import {  getstores } from '@/lib/StaticDataHomePage';
 import Image from 'next/image'
 import React from 'react'
 import { BsFillTelephoneFill } from 'react-icons/bs';
@@ -18,7 +18,7 @@ interface OpeningHours {
     openingHours: OpeningHours;
   }
 const Boutique = async () => {
-    const store = await getstore();
+    const store = await getstores();
       const boutiques=JSON.parse(store)
 
   return (

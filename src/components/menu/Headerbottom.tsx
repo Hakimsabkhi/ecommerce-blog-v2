@@ -127,7 +127,11 @@ const Headerbottom: React.FC = () => {
           <div className="flex w-[60%] justify-end gap-8 font-semibold items-center text-white text-xl tracking-wider max-xl:text-base max-lg:text-xs max-md:hidden">
             <Link className="hover:text-secondary" href="/promotion">PROMOTION</Link>
             <Link className="hover:text-secondary" href="/">BEST PRODUCTS</Link>
+            <Link className="hover:text-secondary" href="/stores"> NOS BOUTIQUES</Link>
+            <Link className="hover:text-secondary" href="/blog">BLOG</Link>
             <Link className="hover:text-secondary" href="/contactus">CONTACT US</Link>
+            
+
           </div>
         </div>
       </div>
