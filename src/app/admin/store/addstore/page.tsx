@@ -31,13 +31,13 @@ const Form: React.FC = () => {
     city: '',
     localisation: '',
     openingHours: {
-      Monday: [{ open: '', close: '' }],
-      Tuesday: [{ open: '', close: '' }],
-      Wednesday: [{ open: '', close: '' }],
-      Thursday: [{ open: '', close: '' }],
-      Friday: [{ open: '', close: '' }],
-      Saturday: [{ open: '', close: '' }],
-      Sunday: [{ open: '', close: '' }],
+      Monday: [{ open: '', close: '' },{ open: '', close: '' }],
+      Tuesday: [{ open: '', close: '' },{ open: '', close: '' }],
+      Wednesday:[{ open: '', close: '' },{ open: '', close: '' }],
+      Thursday: [{ open: '', close: '' },{ open: '', close: '' }],
+      Friday: [{ open: '', close: '' },{ open: '', close: '' }],
+      Saturday: [{ open: '', close: '' },{ open: '', close: '' }],
+      Sunday: [{ open: '', close: '' },{ open: '', close: '' }],
     },
   });
 
@@ -137,13 +137,13 @@ const Form: React.FC = () => {
             city: '',
             localisation: '',
             openingHours: {
-              Monday: [{ open: '', close: '' }],
-              Tuesday: [{ open: '', close: '' }],
-              Wednesday: [{ open: '', close: '' }],
-              Thursday: [{ open: '', close: '' }],
-              Friday: [{ open: '', close: '' }],
-              Saturday: [{ open: '', close: '' }],
-              Sunday: [{ open: '', close: '' }],
+              Monday: [{ open: '', close: '' },{ open: '', close: '' }],
+              Tuesday: [{ open: '', close: '' },{ open: '', close: '' }],
+              Wednesday:[{ open: '', close: '' },{ open: '', close: '' }],
+              Thursday: [{ open: '', close: '' },{ open: '', close: '' }],
+              Friday: [{ open: '', close: '' },{ open: '', close: '' }],
+              Saturday: [{ open: '', close: '' },{ open: '', close: '' }],
+              Sunday: [{ open: '', close: '' },{ open: '', close: '' }],
             },
           })
           router.push("/admin/store")
@@ -186,7 +186,7 @@ const Form: React.FC = () => {
         />
         {formData.image && (
           <div className="mt-4">
-            <Image src={formData.image} alt="Preview" className="w-full h-auto rounded-md" />
+            <Image src={formData.image} alt="Preview" className="w-full h-auto rounded-md"  width={500} height={500}/>
           </div>
         )}
       </div>

@@ -24,6 +24,7 @@ interface FormValues {
 const Form: React.FC = () => {
     const params = useParams() as { id: string };
     const router = useRouter();
+     const [imgPatentes, setImgPatentes] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormValues>({
     nom: '',
     image: '',
@@ -57,7 +58,15 @@ const Form: React.FC = () => {
               address: data.address,
               city: data.city,
               localisation: data.localisation,
-              openingHours: data.openingHours,
+              openingHours: data.openingHours||{
+                Monday: [{ open: '', close: '' },{ open: '', close: '' }],
+              Tuesday: [{ open: '', close: '' },{ open: '', close: '' }],
+              Wednesday:[{ open: '', close: '' },{ open: '', close: '' }],
+              Thursday: [{ open: '', close: '' },{ open: '', close: '' }],
+              Friday: [{ open: '', close: '' },{ open: '', close: '' }],
+              Saturday: [{ open: '', close: '' },{ open: '', close: '' }],
+              Sunday: [{ open: '', close: '' },{ open: '', close: '' }],
+              },
             });
           } else {
             console.error('Failed to fetch store data');
@@ -80,6 +89,10 @@ const Form: React.FC = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    if (e.target.files) {
+      setImgPatentes(e.target.files[0]);
+  
+  }
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -127,22 +140,10 @@ const Form: React.FC = () => {
     }
 
     // Append the image if available
-    if (formData.image) {
-      const imageFile = formData.image.startsWith('data:image') ? formData.image : null;
-      if (imageFile) {
-        const byteString = atob(imageFile.split(',')[1]);
-        const mimeString = imageFile.split(',')[0].split(':')[1].split(';')[0];
-        const arrayBuffer = new ArrayBuffer(byteString.length);
-        const uintArray = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < byteString.length; i++) {
-          uintArray[i] = byteString.charCodeAt(i);
-        }
-        const file = new Blob([uintArray], { type: mimeString });
-        formDataObj.append('image', file, 'image.png');
-      } else {
-        formDataObj.append('image', formData.image);
-      }
+    if (imgPatentes) {
+      formDataObj.append('image', imgPatentes); // imgPatentes is of type File
     }
+    
 
     // Send the FormData object to the backend API
     try {
@@ -162,13 +163,13 @@ const Form: React.FC = () => {
           city: '',
           localisation: '',
           openingHours: {
-            Monday: [{ open: '', close: '' }],
-            Tuesday: [{ open: '', close: '' }],
-            Wednesday: [{ open: '', close: '' }],
-            Thursday: [{ open: '', close: '' }],
-            Friday: [{ open: '', close: '' }],
-            Saturday: [{ open: '', close: '' }],
-            Sunday: [{ open: '', close: '' }],
+            Monday: [{ open: '', close: '' },{ open: '', close: '' }],
+            Tuesday: [{ open: '', close: '' },{ open: '', close: '' }],
+            Wednesday:[{ open: '', close: '' },{ open: '', close: '' }],
+            Thursday: [{ open: '', close: '' },{ open: '', close: '' }],
+            Friday: [{ open: '', close: '' },{ open: '', close: '' }],
+            Saturday: [{ open: '', close: '' },{ open: '', close: '' }],
+            Sunday: [{ open: '', close: '' },{ open: '', close: '' }],
           },
         });
         router.push('/admin/store');
@@ -177,7 +178,7 @@ const Form: React.FC = () => {
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An error occurred. Please try again later.');
+      console.error('An error occurred. Please try again later.');
     }
   }; 
 
@@ -209,7 +210,7 @@ const Form: React.FC = () => {
           />
           {formData.image && (
             <div className="mt-4">
-              <Image src={formData.image} alt="Preview" className="w-full h-auto rounded-md" />
+              <Image src={formData.image} alt="Preview" className="w-full h-auto rounded-md" width={500} height={500}/>
             </div>
           )}
         </div>
@@ -282,6 +283,7 @@ const Form: React.FC = () => {
                     className="mt-1 block w-1/2 px-4 py-2 border border-gray-300 rounded-md"
                   />
                 </div>
+                
               ))}
             </div>
           ))}

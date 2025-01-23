@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
 
     daysOfWeek.forEach((day) => {
       const hours = formData.get(day) as string | null;
+      console.log(hours)
       if (hours) {
         // Assuming `hours` is a JSON string like '[{"open":"09:00","close":"17:00"}]'
         openingHours[day] = JSON.parse(hours);
