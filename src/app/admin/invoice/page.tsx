@@ -479,7 +479,7 @@ const Listinvoice: React.FC = () => {
                     <td className="border px-4 py-2 truncate">
                       {fullDateTime}
                     </td>
-                    <td className="border px-4 py-2">
+                    <td className="flex gap-2 justify-center">
                       <div className="flex justify-center gap-2">
                         <Link href={`/admin/invoice/editinvoice/${inv._id}`}>
                           <button
@@ -595,7 +595,7 @@ const Listinvoice: React.FC = () => {
       </div>
 
       {/* PAGINATION */}
-      <div className="flex justify-center mt-4">
+      <div className="mt-4">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

@@ -78,106 +78,127 @@ const Display: React.FC = () => {
   }, []);
 
   return (
-    <div className=" w-[90%] mx-auto pt-8">
+    <div className="flex flex-col mx-auto w-[90%] gap-4">
       {loading ? (
         <p className="text-xl font-bold text-center">Loading...</p>
       ) : (
-        <div className="flex flex-col pl-8">
-          <p className="text-3xl font-bold">Company Details</p>
-          <button
-            type="button"
-            className="bg-gray-800 text-white hover:bg-gray-600 rounded-md w-[20%] h-10 ml-[70%] mb-6 max-lg:w-[30%]"
-            onClick={() => router.push("company/details")}
-          >
-            <p className="text-white">{companyData ? "Update" : "Create"}</p>
-          </button>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="mb-4">
-              <p className="block text-lg font-bold">Name Company</p>
-              <p>{name}</p>
-            </div>
-            <div className="mb-4">
-              <p className="block text-lg font-bold">Phone</p>
-              <p>{phone}</p>
-            </div>
-            <div className="mb-4">
-              <p className="block text-lg font-bold">Email</p>
-              <p>{email}</p>
-            </div>
-            <div className="mb-4">
-              <p className="block text-lg font-bold">Address</p>
-              <p>{address}</p>
-            </div>
-            <div className="mb-4">
-              <p className="block text-lg font-bold">City</p>
-              <p>{city}</p>
-            </div>
-            <div className="mb-4">
-              <p className="block text-lg font-bold">ZipCode</p>
-              <p>{zipcode}</p>
-            </div>
-            <div className="mb-4">
-              <p className="block text-lg font-bold">Governorate</p>
-              <p>{governorate}</p>
-            </div>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center justify-between h-[80px] ">
+            <p className="text-3xl max-sm:text-sm font-bold">Company Details</p>
+            <button
+              type="button"
+              className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4"
+              onClick={() => router.push("company/details")}
+            >
+              <p className="text-white">{companyData ? "Update" : "Create"}</p>
+            </button>
           </div>
+          <div className="h-[50px] flex justify-between items-center"></div>
+          <table className="w-full rounded overflow-hidden table-fixed mb-8">
+            <thead>
+              <tr className="bg-gray-800">
+                <th className="px-4 py-3">Name Company</th>
+                <th className="px-4 py-3">Phone</th>
+                <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3"> Address </th>
+                <th className="px-4 py-3">City</th>
+                <th className="px-4 py-3">ZipCode </th>
+                <th className="px-4 py-3">Governorate </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border px-4 py-2 truncate">{name}</td>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="mb-4">
-              <p className="block text-lg font-bold">Upload Icon</p>
-              {iconPreview && (
+                <td className="border px-4 py-2 truncate">{phone}</td>
+
+                <td className="border px-4 py-2 truncate">{email}</td>
+
+                <td className="border px-4 py-2 truncate">{address}</td>
+
+                <td className="border px-4 py-2 truncate">{city}</td>
+
+                <td className="border px-4 py-2 truncate">{zipcode}</td>
+
+                <td className="border px-4 py-2 truncate">{governorate}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <table className="w-full rounded overflow-hidden table-fixed ">
+            <thead>
+              <tr className="bg-gray-800">
+                <th className="px-4 py-3 text-center">Upload Icon</th>
+                <th className="px-4 py-3 text-center">Upload Banner</th>
+                <th className="px-4 py-3 text-center">Upload Banner Contact</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border px-4 py-2 ">{iconPreview && (
                 <Image
                   src={iconPreview}
                   alt="Icon preview"
-                  className="w-24 h-auto mt-4"
+                  className="w-24 h-auto mx-auto"
                   width={50}
                   height={50}
                 />
-              )}
-            </div>
-            <div className="mb-4">
-              <p className="block text-lg font-bold">Upload Banner</p>
-              {iconPreviewBanner && (
+              )}</td>
+
+                <td className="border px-4 py-2 ">{iconPreviewBanner && (
                 <Image
                   src={iconPreviewBanner}
                   alt="Banner preview"
-                  className="w-24 h-auto mt-4"
+                  className="w-24 h-auto  mx-auto"
                   width={50}
                   height={50}
                 />
-              )}
-            </div>
-            <div className="mb-4">
-              <p className="block text-lg font-bold">Upload Banner Contact</p>
-              {iconPreviewContacts && (
+              )}</td>
+
+                <td className="border px-4 py-2 ">{iconPreviewContacts && (
                 <Image
                   src={iconPreviewContacts}
                   alt="Banner Contact preview"
-                  className="w-24 h-auto mt-4"
+                  className="w-24 h-auto mx-auto "
                   width={50}
                   height={50}
                 />
-              )}
-            </div>
-            {facebook && (
-              <div className="mb-4">
-                <p className="block text-lg font-bold">Facebook</p>
+              )}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table className="w-full rounded overflow-hidden table-fixed ">
+            <thead>
+              <tr className="bg-gray-800">
+                <th className="px-4 py-3 text-center">Facebook</th>
+                <th className="px-4 py-3 text-center">LinkedIn</th>
+                <th className="px-4 py-3 text-center">Instagram</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border px-4 py-2 text-center ">{facebook && (
                 <p>{facebook}</p>
-              </div>
-            )}
-            {linkedin && (
-              <div className="mb-4">
-                <p className="block text-lg font-bold">LinkedIn</p>
+            )}</td>
+
+                <td className="border px-4 py-2 text-center"> {linkedin && (
+              
+                
                 <p>{linkedin}</p>
-              </div>
+              
             )}
-            {instagram && (
-              <div className="mb-4">
-                <p className="block text-lg font-bold">Instagram</p>
+            </td>
+
+                <td className="border px-4 py-2  text-center">{instagram && (
+              
                 <p>{instagram}</p>
-              </div>
-            )}
-          </div>
+             
+            )}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          
         </div>
       )}
     </div>
