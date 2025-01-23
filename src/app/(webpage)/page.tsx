@@ -5,6 +5,7 @@ import Brands from "@/components/Brands";
 import Collection from "@/components/Collection";    {/*  not fixed */}
 import Furniture from "@/components/Furniture";       {/*  not fixed */}
 import Categories from "@/components/Categorys/Categories";
+import Boutique from "@/components/Boutique";
 
 export default function HomePage() {
   return (
@@ -15,6 +16,7 @@ export default function HomePage() {
       <Brands />
       <Collection />  {/*   fixed */}
       <Furniture />   {/*   fixed */}
+      <Boutique/>
     </>
   );
 }

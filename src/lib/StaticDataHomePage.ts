@@ -3,7 +3,7 @@ import Category from "@/models/Category";
 import Product from "@/models/Product";
 import Promotion from '@/models/Promotion';
 import Websiteinfo from '@/models/Websiteinfo';
-
+import Boutique from '@/models/Boutique';
 
   
 interface CategoryType {
@@ -82,3 +82,11 @@ export async function getBestsellersData() {
     imageUrl: item.imageUrl ?? "/fallback.jpg", // optional fallback
   }));
 }
+export async function getstore(){
+  await connectToDatabase(); 
+  const boutique = await Boutique.find().exec();
+  return JSON.stringify(boutique );
+}
+
+
+

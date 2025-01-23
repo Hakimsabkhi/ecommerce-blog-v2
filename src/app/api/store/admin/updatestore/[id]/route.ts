@@ -51,11 +51,23 @@ export async function PUT(
     daysOfWeek.forEach((day) => {
       const hours = formData.get(day) as string | null;
       if (hours) {
-        // Assuming `hours` is a JSON string like '[{"open":"09:00","close":"17:00"}]'
-        openingHours[day] = JSON.parse(hours);
+        try {
+          // Assuming `hours` is a JSON string like '[{"open":"09:00","close":"17:00"},{}]' 
+          const parsedHours = JSON.parse(hours);
+          
+          // Optionally, validate the structure of the parsed hours
+          if (Array.isArray(parsedHours)) {
+            openingHours[day] = parsedHours;
+          } else {
+            console.error(`Invalid format for ${day}:`, parsedHours);
+          }
+        } catch (error) {
+          console.error(`Failed to parse hours for ${day}:`, error);
+        }
       }
     });
-
+    
+   
     const name = formData.get("nom") as string;
     const phoneNumber = formData.get("phoneNumber") as string;
     const address = formData.get("address") as string;
@@ -91,7 +103,13 @@ export async function PUT(
     existboutique.address = address;
     existboutique.city = city;
     existboutique.localisation = localisation;
+    if (openingHours){
+      Boutique.updateOne(
+        { _id: id }, // Find the boutique by ID
+        { $unset: { openingHours: 1 } } // Remove the openingHours field
+      )
     existboutique.openingHours = openingHours; // Update opening hours
+  }
     existboutique.user = user;
 
     await existboutique.save(); // Ensure that save is awaited
