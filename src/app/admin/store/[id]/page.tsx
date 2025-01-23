@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
@@ -208,7 +209,7 @@ const Form: React.FC = () => {
           />
           {formData.image && (
             <div className="mt-4">
-              <img src={formData.image} alt="Preview" className="w-full h-auto rounded-md" />
+              <Image src={formData.image} alt="Preview" className="w-full h-auto rounded-md" />
             </div>
           )}
         </div>

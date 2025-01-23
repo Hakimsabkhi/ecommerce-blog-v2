@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { FaRegEdit, FaSpinner, FaTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 import DeletePopup from "@/components/Popup/DeletePopup";
@@ -26,7 +25,7 @@ interface User {
   username: string;
 }
 
-const store: React.FC = () => {
+const Store: React.FC = () => {
   const [boutiques, setBoutiques] = useState<Boutique[]>([]);
   const [filteredBoutique, setFilteredBoutique] = useState<Boutique[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -63,7 +62,6 @@ const store: React.FC = () => {
       toast.success("Brand deleted successfully!");
       setBoutiques(boutiques.filter((boutique) => boutique._id !== boutiquesId));
     } catch (error: unknown) {
-      // Handle different error types effectively
       if (error instanceof Error) {
         console.error("Error deleting category:", error.message);
       } else if (typeof error === "string") {
@@ -92,7 +90,6 @@ const store: React.FC = () => {
       const data: Boutique[] = await response.json();
       setBoutiques(data);
     } catch (error: unknown) {
-      // Handle different error types effectively
       if (error instanceof Error) {
         console.error("Error deleting category:", error.message);
       } else if (typeof error === "string") {
@@ -129,8 +126,8 @@ const store: React.FC = () => {
 
   useEffect(() => {
     const updateColSpan = () => {
-      const isSmallScreen = window.matchMedia("(max-width: 768px)").matches; // max-md
-      const isMediumScreen = window.matchMedia("(max-width: 1024px)").matches; // max-lg
+      const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+      const isMediumScreen = window.matchMedia("(max-width: 1024px)").matches;
 
       if (isSmallScreen) {
         setColSpan(4); // max-md: colSpan = 4
@@ -141,13 +138,10 @@ const store: React.FC = () => {
       }
     };
 
-    // Initial check
     updateColSpan();
 
-    // Add event listener
     window.addEventListener("resize", updateColSpan);
 
-    // Cleanup event listener
     return () => window.removeEventListener("resize", updateColSpan);
   }, []);
 
@@ -176,7 +170,6 @@ const store: React.FC = () => {
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
-    
               <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[30%]">
                 Image
               </th>
@@ -184,13 +177,13 @@ const store: React.FC = () => {
                 Name
               </th>
               <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[20%]">
-              Localisation
+                Localisation
               </th>
               <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[20%]">
-              Address
+                Address
               </th>
               <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[20%]">
-              City
+                City
               </th>
               <th className="px-4 text-left border-r-white py-3 w-[20%] max-lg:hidden">
                 Created By
@@ -224,7 +217,6 @@ const store: React.FC = () => {
             <tbody>
               {currentBrands.map((item, index) => (
                 <tr key={index} className="even:bg-gray-100 odd:bg-white">
-               
                   <td className="border px-4 py-3 truncate">
                     <Link href={item.image}>
                       {item.image.split("/").pop()}
@@ -272,7 +264,7 @@ const store: React.FC = () => {
               ))}
             </tbody>
           )}
-        </table>{" "}
+        </table>
       </div>
 
       <div className="md:hidden flex flex-col gap-4">
@@ -281,35 +273,32 @@ const store: React.FC = () => {
             key={item._id}
             className="p-4 mb-4 flex flex-col gap-4 bg-gray-100 rounded shadow-md"
           >
-            <div className="">
-              <div>
-                <div className="flex gap-1 text-3xl font-semibold uppercase text-center justify-center ">
-                  <p className="text-gray-600 ">name:</p>
-                  <p>{item.nom}</p>
-                </div>
-                <hr className="border-white border-2 w-full my-2" />
-                <div className="flex  gap-1 font-semibold pl-[15%]">
-                  <p className="text-gray-600 w-1/4 mr-4">Place:</p>
-                  <p className="truncate">{item.localisation}</p>
-                </div>
-                <div className="flex  gap-1 font-semibold pl-[15%]">
-                  <p className="text-gray-600 w-1/4 mr-4">Address:</p>
-                  <p className="truncate">{item.address}</p>
-                </div>
-                <div className="flex  gap-1 font-semibold pl-[15%]">
-                  <p className="text-gray-600 w-1/4 mr-4">City:</p>
-                  <p className="truncate">{item.city}</p>
-                </div>
-                <div className="flex  gap-1 font-semibold pl-[15%]">
-                  <p className="text-gray-600 w-1/4 mr-4">Telephone:</p>
-                  <p className="truncate">{item.phoneNumber}</p>
-                </div>
-                <div className="flex gap-1 font-semibold pl-[15%]">
-                  <p className="text-gray-600  w-1/4 mr-4">Created by:</p>
-                  <p>{item?.user?.username}</p>
-                </div>
+            <div>
+              <div className="flex gap-1 text-3xl font-semibold uppercase text-center justify-center ">
+                <p className="text-gray-600 ">name:</p>
+                <p>{item.nom}</p>
               </div>
-              
+              <hr className="border-white border-2 w-full my-2" />
+              <div className="flex gap-1 font-semibold pl-[15%]">
+                <p className="text-gray-600 w-1/4 mr-4">Place:</p>
+                <p className="truncate">{item.localisation}</p>
+              </div>
+              <div className="flex gap-1 font-semibold pl-[15%]">
+                <p className="text-gray-600 w-1/4 mr-4">Address:</p>
+                <p className="truncate">{item.address}</p>
+              </div>
+              <div className="flex gap-1 font-semibold pl-[15%]">
+                <p className="text-gray-600 w-1/4 mr-4">City:</p>
+                <p className="truncate">{item.city}</p>
+              </div>
+              <div className="flex gap-1 font-semibold pl-[15%]">
+                <p className="text-gray-600 w-1/4 mr-4">Telephone:</p>
+                <p className="truncate">{item.phoneNumber}</p>
+              </div>
+              <div className="flex gap-1 font-semibold pl-[15%]">
+                <p className="text-gray-600  w-1/4 mr-4">Created by:</p>
+                <p>{item?.user?.username}</p>
+              </div>
             </div>
             <div className="flex justify-center gap-4 mt-4">
               <Link href={`/admin/store/${item._id}`}>
@@ -347,4 +336,4 @@ const store: React.FC = () => {
   );
 };
 
-export default store;
+export default Store;
