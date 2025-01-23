@@ -127,7 +127,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
               <p className="text-productNameCard cursor-pointer text-2xl max-md:text-lg font-bold first-letter:uppercase">
               {item.name}
             </p>
-            <div className="flex gap-2 items-center text-secondary ">
+            <div className="flex gap-2 items-center text-secondary mt-2">
             {Array.from({ length: 5 }, (_, index) => {
                     const starValue = index + 1;
                     if (starValue <= reatingstatictotal) {
