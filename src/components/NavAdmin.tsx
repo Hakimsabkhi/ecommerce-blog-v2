@@ -90,23 +90,7 @@ const NavAdmin = () => {
                     )}
                   </div>
                 );
-              } else {
-                // Handle single items
-                return (
-                  item.path && (
-                    <Link key={item.name} href={item.path}>
-                      <p
-                        onClick={() => handleClick(item.name)}
-                        className={`text-gray-300 hover:bg-gray-600 hover:text-white p-2 text-sm font-medium cursor-pointer ${
-                          activeLink === item.name ? "bg-gray-600" : ""
-                        }`}
-                      >
-                        {item.name}
-                      </p>
-                    </Link>
-                  )
-                );
-              }
+              } 
             })}
           </div>
         </div>
@@ -144,23 +128,7 @@ const NavAdmin = () => {
                         ))}
                     </div>
                   );
-                } else {
-                  // Handle single items
-                  return (
-                    item.path && (
-                      <Link key={item.name} href={item.path}>
-                        <p
-                          onClick={() => handleClick(item.name)}
-                          className={`text-gray-300 hover:bg-gray-600 hover:text-white p-2 text-sm font-medium cursor-pointer ${
-                            activeLink === item.name ? "bg-gray-600" : ""
-                          }`}
-                        >
-                          {item.name}
-                        </p>
-                      </Link>
-                    )
-                  );
-                }
+                } 
               })}
             </div>
           </div>

@@ -1,5 +1,10 @@
 export const DashboardAdmin = [
-  { name: "Website Info", path: "/admin/company" },
+  { group: "Info Mon Entreprise",
+    items:[
+    {name: "Website Info", path: "/admin/company" },
+    {name: "Boutique Info", path: "/admin/store" },
+    ],
+  },
   {
     group: "Gestion des Produits",
     items: [
