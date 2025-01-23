@@ -89,7 +89,7 @@ function PostCategory() {
               alt={item.title} // It's a good practice to provide alt text
             />
           </div>
-          <div className="flex flex-col border-x-2 border-b-2 rounded-b-xl gap-1 items-center bg-white w-full h-[150px]">
+          <div className="flex flex-col border-x-2 border-b-2 rounded-b-xl gap-1 items-center bg-white w-full h-52">
             <div className="w-[302px] max-sm:w-[90%] pt-1 pl-2 ">
               <p className="text-[#525566]">
                 {new Date(item.createdAt).toLocaleDateString("en-GB", {

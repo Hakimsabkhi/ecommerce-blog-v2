@@ -46,8 +46,8 @@ const Blog: React.FC<blogprops> = ({ blogs }) => {
                 alt=""
               />
             </div>
-            <div className="flex flex-col border-x-2 border-b-2 gap-2 items-center bg-white w-full h-[235px]">
-              <div className="w-[302px]  max-sm:w-[90%] pt-2 ">
+            <div className="flex flex-col border-x-2 border-b-2 gap-2 items-center bg-white w-full h-64">
+              <div className="w-[302px]  max-sm:w-[90%] pt-2">
                 <p className="text-[#525566]    ">
                   {new Date(item.createdAt).toLocaleDateString("en-GB", {
                     day: "2-digit",
@@ -55,7 +55,7 @@ const Blog: React.FC<blogprops> = ({ blogs }) => {
                     year: "numeric",
                   })}
                 </p>
-                <div className="flex flex-col  gap-5 max-md:gap-2 ">
+                <div className="flex flex-col  gap-5 max-md:gap-2">
                   <div className="flex flex-col  gap-2">
                     <p className="text-[#525566] text-2xl max-sm:text-xl font-bold line-clamp-2 overflow-hidden">
                       {item.title}
@@ -87,7 +87,7 @@ const Blog: React.FC<blogprops> = ({ blogs }) => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center items-center gap-x-4 ">
+      <div className="flex justify-center items-center gap-x-4 pt-4">
         <div
           className="flex items-center gap-1 cursor-pointer  "
           onClick={() => handlePageChange(currentPage - 1)}
@@ -99,7 +99,7 @@ const Blog: React.FC<blogprops> = ({ blogs }) => {
           <p
             key={i + 1}
             onClick={() => handlePageChange(i + 1)}
-            className={`cursor-pointer text-xl rounded-full py-3 px-5 ${
+            className={`cursor-pointer text-xs rounded py-2 px-4 ${
               currentPage === i + 1 ? "bg-black text-white" : ""
             }`}
           >
