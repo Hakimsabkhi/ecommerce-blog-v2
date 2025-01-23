@@ -84,9 +84,19 @@ export async function getBestsellersData() {
 }
 export async function getstore(){
   await connectToDatabase(); 
+  const boutique = await Boutique.find().limit(2).exec();
+  return JSON.stringify(boutique );
+}
+
+export async function getstores(){
+  await connectToDatabase(); 
   const boutique = await Boutique.find().exec();
   return JSON.stringify(boutique );
 }
 
-
-
+  
+export async function getWebsiteinfo() {
+  await connectToDatabase();
+  const company = await Websiteinfo.findOne({}).exec();
+  return JSON.stringify(company );
+}
