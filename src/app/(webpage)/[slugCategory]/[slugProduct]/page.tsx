@@ -4,7 +4,7 @@ import FirstBlock from "@/components/Products/SingleProduct/FirstBlock";
 import SecondBlock from "@/components/Products/SingleProduct/SecondBlock";
 import ForthBlock from "@/components/Products/SingleProduct/ForthBlock";
 import FifthBlock from "@/components/Products/SingleProduct/FifthBlock";
-import { getProductById } from "@/lib/StaticCatgoryproduct";
+import { getproductbycatgory, getProductById } from "@/lib/StaticCatgoryproduct";
 
 
 
@@ -16,10 +16,12 @@ export default async function Page({ params }: { params:Promise< { slugCategory:
   const { slugCategory } =  await params;
   const { slugProduct } =  await params;
 
-  const products = await getProductById(slugProduct);
-  const product = JSON.parse(products)
-
-  if (slugCategory !== product.category.slug) {
+  const product = await getProductById(slugProduct);
+  const productJson = JSON.parse(product)
+ const productCategory= await getproductbycatgory(slugCategory) 
+    const productCategoryJson = JSON.parse(productCategory)
+  
+  if (slugCategory !== productJson.category.slug) {
     notFound();
   }
 
@@ -29,10 +31,10 @@ export default async function Page({ params }: { params:Promise< { slugCategory:
 
   return (
     <div>
-      <FirstBlock product={product} />
-      <SecondBlock product={product} />
-      <ForthBlock product={product} />
-      <FifthBlock />
+      <FirstBlock product={productJson} />
+      <SecondBlock product={productJson} />
+      <ForthBlock product={productJson} />
+      <FifthBlock products={productCategoryJson}/>
     </div>
   );
 }

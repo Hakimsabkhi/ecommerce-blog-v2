@@ -41,7 +41,7 @@ export async function getProductById(id:string) {
       return JSON.stringify(product );
 }
 export async function getproductbycatgory(categorySlug:string){
-
+  console.log(categorySlug)
     // Ensure database connection
     await connectToDatabase();
 
