@@ -13,7 +13,7 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({ session }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+ const[valid,setValid]=useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -54,7 +54,34 @@ const UserMenu: React.FC<UserMenuProps> = ({ session }) => {
   useEffect(() => {
     closeDropdown();
   }, [pathname]);
-
+  useEffect(()=>{
+    const verificationRole = async () => {
+       try {
+         const response = await fetch(`/api/role/getDashbordAccessRole`, {
+           method: "GET",
+           headers: {
+             "Content-Type": "application/json",
+           },
+         });
+   
+         if (!response.ok) {
+           throw new Error("Failed to valid role");
+         }
+         const data= await response.json()
+      
+         setValid(data)
+       } catch (error: unknown) {
+         if (error instanceof Error) {
+           
+           console.error(error.message);
+         } else {
+           // Handle unexpected error types
+           console.error("An unexpected error occurred:", error);
+         }
+       } 
+     };
+     verificationRole();
+   },[])
   return (
     <div className="flex items-center justify-center w-[200px] max-lg:w-fit text-white cursor-pointer select-none">
       <div
@@ -73,6 +100,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ session }) => {
                 <Dropdown
                   username={session.user?.name ?? ""}
                   role={session.user?.role ?? ""}
+                  valid={valid}
                 />
               </div>
             ) : (

@@ -2,6 +2,7 @@ import mongoose, { Document, Model } from 'mongoose';
 import { IUser } from './User';  // Import the IUser interface
 import { ICategory } from './Category';  // Import the ICategory interface
 import { IBrand } from './Brand';  // Import the IBrand interface
+import { IBoutique } from './Boutique';
 
 // Interface for the product document
 export interface IProduct extends Document {
@@ -18,6 +19,7 @@ export interface IProduct extends Document {
   dimensions?: string;
   warranty?: string;
   category: ICategory | string;  // Reference to a category document or category ID
+  boutique: IBoutique | string; 
   brand?: IBrand | string | null;  // Reference to a brand document, brand ID, or null
   stock: number;
   user: IUser | string;  // Reference to a User document or User ID
@@ -47,7 +49,8 @@ const ProductSchema = new mongoose.Schema({
   dimensions: { type: String },
   color: { type: String },
   warranty: { type: String },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },  // Category reference must exist
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true }, 
+  boutique: { type: mongoose.Schema.Types.ObjectId, ref: 'Boutique', required: true }, // Category reference must exist
   brand: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand', default: null },  // Brand can be null or an ObjectId
   stock: { type: Number, required: true, min: 0 },  // Ensure stock is a non-negative number
   price: { type: Number, required: true, min: 0 },  // Ensure price is a non-negative number

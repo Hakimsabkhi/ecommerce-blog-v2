@@ -284,12 +284,11 @@ const AddedProducts: React.FC = () => {
           console.error("Unknown error:", error);
           setError("An unexpected error occurred. Please try again.");
         }
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
     getCategory();
     getProducts();
+   
   }, []);
 
   useEffect(() => {

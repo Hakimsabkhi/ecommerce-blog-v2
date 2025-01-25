@@ -9,8 +9,8 @@ export interface IBoutique extends Document {
     city: string; 
     localisation: string;
     openingHours: {
-      [day: string]: { open: string; close: string }[]; 
-    };
+      [day: string]: { open: string; close: string }[] | "closed";
+    }
     user: IUser | string;
 
 }
@@ -25,9 +25,9 @@ const BoutiqueSchema: Schema = new Schema(
     localisation: { type: String, required: false },
     openingHours: {
       type: Map,
-      of: [{ open: String, close: String }],
-      required: true,
-    },
+      of: { type: [{ open: String, close: String }] },
+      default: {}
+  },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
