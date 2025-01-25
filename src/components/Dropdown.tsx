@@ -5,9 +5,10 @@ import Link from 'next/link';
 interface DropdownProps {
   username: string;
   role: string;
+  valid:boolean;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ username, role }) => {
+const Dropdown: React.FC<DropdownProps> = ({ username, role,valid }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [dropdownOpen, setDropdownOpen] = useState(true);
 
@@ -48,7 +49,7 @@ const Dropdown: React.FC<DropdownProps> = ({ username, role }) => {
           <div className="text-gray-500">Role: {role}</div>
         </div>
         <div className="border-t border-gray-100"></div>
-        {(role === 'Admin' || role === 'SuperAdmin') && (
+        {valid && (
           <Link
             href="/admin/users"
             className="block px-4 py-2 text-sm text-primary hover:bg-primary hover:text-white"
