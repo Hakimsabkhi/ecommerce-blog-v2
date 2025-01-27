@@ -24,6 +24,8 @@ export async function GET(req: NextRequest) {
       const roles = await Role.find({});
       const userRole = ConnectUser?.user?.role; // Assuming 'role' is a reference to a role in your User model
       const roleExists = roles.some(role => role.name?.toString() === userRole?.toString());
+
+      if(userRole!='SuperAdmin'){
       // If role does not exist or the role is 'Visitor'
 if (!roleExists || userRole?.toString() === 'Visiteur') {
     console.log("Role does not exist or is Visitor. Returning false.");
@@ -34,6 +36,8 @@ if (!roleExists || userRole?.toString() === 'Visiteur') {
     const veif= true; // or proceed with other logic
     return NextResponse.json(veif);
 }
+}
+return NextResponse.json(true);
       
     } catch (err) {
       console.log(err)
