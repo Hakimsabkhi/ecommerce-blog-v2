@@ -19,7 +19,7 @@ export interface IProduct extends Document {
   dimensions?: string;
   warranty?: string;
   category: ICategory | string;  // Reference to a category document or category ID
-  boutique: IBoutique | string; 
+  boutique: IBoutique | string | null; 
   brand?: IBrand | string | null;  // Reference to a brand document, brand ID, or null
   stock: number;
   user: IUser | string;  // Reference to a User document or User ID

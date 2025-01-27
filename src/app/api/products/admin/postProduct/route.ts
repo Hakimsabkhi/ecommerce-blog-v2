@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
     const description = formData.get('description') as string;
     const ref = formData.get('ref') as string;
     const category = formData.get('category') as string;
+    const boutique = formData.get('boutique') as string;
     let brand = formData.get('brand') as string | null;  // Brand can be null or a string
     const stock = formData.get('stock') as string;
     const discount = formData.get('discount') as string;
@@ -46,7 +47,7 @@ export async function POST(req: NextRequest) {
     const weight = formData.get('weight') as string;
     const warranty = formData.get('warranty') as string;
     const statuspage = formData.get('statuspage') as string;
-
+    
     // Handle multiple image files
     const imageFiles: File[] = [];
     const entries = Array.from(formData.entries());
@@ -141,6 +142,7 @@ export async function POST(req: NextRequest) {
       warranty,
       dimensions,
       category,
+      boutique,
       brand,
       stock,
       tva,
