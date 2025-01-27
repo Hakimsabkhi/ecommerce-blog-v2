@@ -268,25 +268,31 @@ const Form: React.FC = () => {
   return (
     <div className="relative w-[80%] h-full mx-auto my-[20px] flex flex-col">
       <h1 className="text-3xl font-bold pb-6">Create Boutique</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div>
-          <p className="max-lg:text-base font-bold mb-2">Upload Image*</p>
-          <input
-            id="image"
-            name="image"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="mt-1 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-md file:text-sm file:bg-gray-50 file:text-gray-700"
-          />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+        <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+          <p className="max-lg:text-base font-bold">Upload Image*</p>
+
+          <label className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[50%] h-10 border-2 flex items-center justify-center cursor-pointer">
+            {" "}
+            <input
+              id="image"
+              name="image"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
+            />
+            Select an Image
+          </label>
+
           {formData.image && (
-            <div className="mt-4">
+            <div className="w-[15%] max-lg:w-full">
               <Image
                 src={formData.image}
-                alt="Preview"
-                className="w-full h-auto rounded-md"
-                width={500}
-                height={500}
+                alt="Image preview"
+                className="w-full h-auto mt-4"
+                width={50}
+                height={50}
               />
             </div>
           )}
@@ -326,82 +332,86 @@ const Form: React.FC = () => {
             />
           </div>
 
-          <div>
-            <label
-              htmlFor="address"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Address
-            </label>
-            <input
-              id="address"
-              name="address"
-              type="text"
-              value={formData.address}
-              onChange={handleChange}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="city"
-              className="block text-sm font-medium text-gray-700"
-            >
-              City
-            </label>
-            <input
-              id="city"
-              name="city"
-              type="text"
-              value={formData.city}
-              onChange={handleChange}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="localisation"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Localisation
-            </label>
-            <input
-              id="localisation"
-              name="localisation"
-              type="text"
-              value={formData.localisation}
-              onChange={handleChange}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
+          
         </div>
+        <div className="flex justify-between w-full gap-4">
+            <div className="w-1/3">
+              <label
+                htmlFor="address"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Address
+              </label>
+              <input
+                id="address"
+                name="address"
+                type="text"
+                value={formData.address}
+                onChange={handleChange}
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+
+            <div className="w-1/3">
+              <label
+                htmlFor="city"
+                className="block text-sm font-medium text-gray-700"
+              >
+                City
+              </label>
+              <input
+                id="city"
+                name="city"
+                type="text"
+                value={formData.city}
+                onChange={handleChange}
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+
+            <div className="w-1/3">
+              <label
+                htmlFor="localisation"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Localisation
+              </label>
+              <input
+                id="localisation"
+                name="localisation"
+                type="text"
+                value={formData.localisation}
+                onChange={handleChange}
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+          </div>
         <h3 className="text-lg font-medium text-gray-900">Opening Hours</h3>
 
-          <div className="grid grid-cols-3 max-md:grid-cols-1 max-lg:grid-cols-2 gap-y-8 gap-4">
-        {Object.keys(formData.openingHours).map((day) => (
-          <div key={day} className=" ">
-            <div className="">
-              <label className="block text-sm font-medium text-gray-700">
-                {day}
-              </label>
-              <div className="flex items-center ">
-                <span className="mr-3 text-sm font-medium text-gray-600 ">
-                  Close
-                </span>
-                <label className="relative flex items-center  cursor-pointer">
-                  <input
-                    type="checkbox"
-                    value=""
-                    onChange={(e) => handleToggleClose(day, e.target.checked)}
-                    className="sr-only peer"
-                  />
-                  <div className="w-9 h-5 bg-gray-200 hover:bg-gray-300 peer-focus:outline-0  rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600 hover:peer-checked:bg-indigo-700 "></div>
+        <div className="grid grid-cols-3 max-md:grid-cols-1 max-lg:grid-cols-2 gap-y-8 gap-4">
+          {Object.keys(formData.openingHours).map((day) => (
+            <div key={day} className=" ">
+              <div className="flex gap-4 mb-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  {day}
                 </label>
-                <span className="ml-3 text-sm font-medium text-gray-600 ">
-                  Open
-                </span>
+                <div className="flex items-center ">
+                  <span className="mr-3 text-sm font-medium text-gray-600 ">
+                    Close
+                  </span>
+                  <label className="relative flex items-center  cursor-pointer">
+                    <input
+                      type="checkbox"
+                      value=""
+                      onChange={(e) => handleToggleClose(day, e.target.checked)}
+                      className="sr-only peer"
+                    />
+                    <div className="w-9 h-5 bg-gray-200 hover:bg-gray-300 peer-focus:outline-0  rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600 hover:peer-checked:bg-indigo-700 "></div>
+                  </label>
+                  <span className="ml-3 text-sm font-medium text-gray-600 ">
+                    Open
+                  </span>
+                </div>
               </div>
 
               <div className="">
@@ -474,23 +484,31 @@ const Form: React.FC = () => {
                 ))}
               </div>
             </div>
-          </div>
-        ))}</div>
-
-        <div className="flex flex-col gap-4 pt-4">
-          <button
-            type="submit"
-            className="w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 focus:outline-none"
-          >
-            Submit
-          </button>
-          <Link
-            href={"/admin/store"}
-            className="flex justify-center bg-gray-600 hover:bg-gray-500 py-2 px-4 rounded-md focus:outline-none"
-          >
-            Cancel
-          </Link>
+          ))}
         </div>
+
+
+        <div className="flex justify-center gap-4 w-full ">
+          
+          <div className="w-[30%]  max-sm:w-2/5">
+            <Link href="/admin/store">
+              <button className="bg-white border-2 border-gray-400 hover:bg-gray-600 hover:border-0 hover:text-white rounded-md w-full h-10 flex items-center justify-center">
+                <p className=" font-bold">Cancel</p>
+              </button>
+            </Link>
+          </div>
+          <div className="w-[30%]  max-sm:w-2/5">
+            <button
+              type="submit"
+              className="bg-gray-800 text-white hover:bg-gray-600 rounded-md w-full  h-10"
+            >
+              <p className="text-white">Add boutique</p>
+            </button>
+          </div>
+        </div>
+
+
+        
       </form>
     </div>
   );
