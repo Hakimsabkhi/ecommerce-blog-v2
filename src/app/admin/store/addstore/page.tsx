@@ -3,8 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { FaMinusSquare } from "react-icons/fa";
-import { FaSquarePlus } from "react-icons/fa6";
+import { FaMinusSquare, FaPlusSquare } from "react-icons/fa";
 
 interface OpeningHour {
   open: string;
@@ -388,17 +387,15 @@ const Form: React.FC = () => {
           </div>
         <h3 className="text-lg font-medium text-gray-900">Opening Hours</h3>
 
-        <div className="grid grid-cols-3 max-md:grid-cols-1 max-lg:grid-cols-2 gap-y-8 gap-4">
+        <div className="grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 max-2xl:grid-cols-3 gap-y-8 gap-8">
           {Object.keys(formData.openingHours).map((day) => (
             <div key={day} className=" ">
               <div className="flex gap-4 mb-2">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-md font-bold text-gray-700  w-24">
                   {day}
                 </label>
                 <div className="flex items-center ">
-                  <span className="mr-3 text-sm font-medium text-gray-600 ">
-                    Close
-                  </span>
+                 
                   <label className="relative flex items-center  cursor-pointer">
                     <input
                       type="checkbox"
@@ -408,9 +405,7 @@ const Form: React.FC = () => {
                     />
                     <div className="w-9 h-5 bg-gray-200 hover:bg-gray-300 peer-focus:outline-0  rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600 hover:peer-checked:bg-indigo-700 "></div>
                   </label>
-                  <span className="ml-3 text-sm font-medium text-gray-600 ">
-                    Open
-                  </span>
+                  
                 </div>
               </div>
 
@@ -418,12 +413,12 @@ const Form: React.FC = () => {
                 {formData.openingHours[day].map((hour, index) => (
                   <div key={index} className="">
                     <div className="flex gap-2">
-                      <div className=" w-2/5">
+                      <div className=" w-1/5">
                         <label className="block text-sm font-medium text-gray-700">
                           Open
                         </label>
                         <input
-                          type="time"
+                          
                           value={hour.open}
                           onChange={(e) =>
                             handleOpeningHoursChange(
@@ -441,12 +436,12 @@ const Form: React.FC = () => {
                           </div>
                         )}
                       </div>
-                      <div className=" w-2/5 ">
+                      <div className=" w-1/5 ">
                         <label className="block text-sm font-medium text-gray-700">
                           Close
                         </label>
                         <input
-                          type="time"
+                          type="number"
                           value={hour.close}
                           onChange={(e) =>
                             handleOpeningHoursChange(
@@ -464,18 +459,19 @@ const Form: React.FC = () => {
                         <div className="flex gap-1 mt-2">
                           <button
                             type="button"
-                            onClick={() => handleMinusTimeSlot(day)}
-                            className="text-gray-600 hover:underline mt-2 "
+                            onClick={() => handleAddTimeSlot(day)}
+                            className="text-gray-600 hover:underline mt-3 "
                           >
-                            <FaMinusSquare size={20} />
+                            <FaPlusSquare size={50} />
                           </button>
                           <button
                             type="button"
-                            onClick={() => handleAddTimeSlot(day)}
-                            className="text-gray-600 hover:underline mt-2 "
+                            onClick={() => handleMinusTimeSlot(day)}
+                            className="text-gray-600 hover:underline mt-3 "
                           >
-                            <FaSquarePlus size={20} />
+                            <FaMinusSquare  size={50} />
                           </button>
+                          
                         </div>
                       )}
                     </div>
