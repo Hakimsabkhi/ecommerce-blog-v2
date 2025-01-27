@@ -30,6 +30,7 @@ const noimage =
     color?: string;
     material?: string;
     status?: string;
+    boutique: { _id: string; nom: string; address:string;city:string;phoneNumber:string };
   }
 interface Review {
   _id: string;
@@ -242,6 +243,7 @@ const FirstBlock: React.FC<FirstBlockProps> = ({ product }) => {
               <hr className="bg-gray-500 mt-5 mb-5"></hr>
 
               <ProductQ product={product} addToCartHandler={addToCartHandler} />
+            
             </div>
           </div>
         ) : (

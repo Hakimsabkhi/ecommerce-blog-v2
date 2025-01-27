@@ -1,5 +1,6 @@
 
 import connectToDatabase from "@/lib/db";
+import Boutique from "@/models/Boutique";
 import Brand from "@/models/Brand";
 import Category from "@/models/Category";
 import Product from "@/models/Product";
@@ -32,8 +33,10 @@ export async function getProductById(id:string) {
    
     await Category.find();
     await Brand.find();
+    await Boutique.find();
     const product = await Product.findOne({ slug: id,vadmin:"approve" })
       .populate("category")
+      .populate("boutique")
       .populate("brand").exec();
 
 
