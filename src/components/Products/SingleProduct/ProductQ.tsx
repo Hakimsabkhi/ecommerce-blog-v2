@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import { BsFillTelephoneFill } from "react-icons/bs";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 interface Product {
   _id: string;
@@ -8,7 +10,7 @@ interface Product {
   description: string;
   info: string;
   ref: string;
-  tva?:number
+  tva?: number;
   price: number;
   imageUrl?: string;
   images?: string[];
@@ -20,6 +22,7 @@ interface Product {
   color?: string;
   material?: string;
   status?: string;
+  boutique: { _id: string; nom: string; address:string;city:string;phoneNumber:string };
 }
 
 interface ProductQProps {
@@ -74,7 +77,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
         {product.status != "out-of-stock" ? (
           product.stock > 0 ? (
             <div className="flex max-md:flex-col xl:flex-col justify-between gap-5">
-              <div className=" items-center md:max-xl:w-2/5 ">
+              <div className=" items-center md:max-xl:w-2/5 flex">
                 <div className="flex items-center max-md:justify-center space-x-2">
                   <p>Quantity:&nbsp;</p>
                   <button
@@ -99,6 +102,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
                     +
                   </button>
                 </div>
+
                 {/* Assuming you want to show the quantity here */}
               </div>
               <div className="flex gap-4 md:max-xl:w-2/5">
@@ -119,6 +123,26 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
                     <p>Buy now</p>
                   </button>
                 </Link>
+              </div>
+              <div className="flex flex-col space-y-2">
+                <p className="font-bold">Disponibilité :</p>
+                <div className="flex items-center space-x-4">
+                  <span className="font-semibold uppercase"> {product.boutique?.nom || 'Disponible Dans notre magasin'}</span>
+                  {product.boutique && <div>
+                 <div className="flex items-center  space-x-1 ">
+                    <span className="inline-block bg-black p-1 font-semibold mr-2 rounded-md ">
+                      <BsFillTelephoneFill className="text-white" size={15} />
+                    </span>
+                    <span>{product.boutique?.phoneNumber}</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="inline-block text-black font-semibold mr-2">
+                      <FaMapMarkerAlt size={23} />
+                    </span>
+                    <span>{product.boutique?.city}, {product.boutique?.address}</span>
+                  </div>
+                  </div>}
+                </div>
               </div>
             </div>
           ) : (
