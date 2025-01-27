@@ -16,10 +16,15 @@ interface Brand {
   name: string;
 }
 
+interface boutique {
+  _id: string;
+  nom: string;
+}
 const AddProduct = () => {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
+  const [boutiques, setBoutiques] = useState<boutique[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -32,6 +37,7 @@ const AddProduct = () => {
     info: "",
     category: "",
     brand: "",
+    boutique: "",
     stock: "",
     price: "",
     tva: "",
@@ -58,6 +64,20 @@ const AddProduct = () => {
         console.error("Error fetching categories:", error);
       }
     };
+   
+      const fetchboutique= async () => {
+        try {
+          const response = await fetch('/api/store/admin/getallstore', {
+            method: 'GET',
+            next: { revalidate: 0 }, // Disable caching to always fetch the latest data
+          });
+          if (!response.ok) throw new Error("Failed to fetch categories");
+          const data = await response.json();
+          setBoutiques(data);
+        } catch (error) {
+          console.error("Error fetching categories:", error);
+        }
+      };
 
     const fetchBrands = async () => {
       try {
@@ -72,6 +92,7 @@ const AddProduct = () => {
 
     fetchCategories();
     fetchBrands();
+    fetchboutique();
   }, []);
 
   const handleChange = (
@@ -135,6 +156,7 @@ const AddProduct = () => {
     formData.append("ref", productData.ref);
     formData.append("category", productData.category);
     formData.append("brand", productData.brand);
+    formData.append("boutique", productData.boutique);
     formData.append("stock", productData.stock);
     formData.append("price", productData.price);
     formData.append("tva", productData.tva);
@@ -412,6 +434,24 @@ const AddProduct = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
           />
         </div>
+        <div className="flex items-center w-full justify-between gap-4">
+          <p className="text-xl font-bold">Boutique </p>
+          <select
+            name="boutique"
+            value={productData.boutique}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
+            
+          >
+            <option value="">Select a Boutique</option>
+            {boutiques.map((boutique) => (
+              <option key={boutique._id} value={boutique._id}>
+                {boutique.nom}
+              </option>
+            ))}
+          </select>
+        </div>
+      
       </div>
     
       <div className="flex max-lg:flex-col items-center max-lg:gap-8 justify-between">

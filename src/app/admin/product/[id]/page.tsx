@@ -14,6 +14,7 @@ interface ProductData {
     price: number;
     imageUrl?: string;
     category: {_id:string}; // Assuming category is an object
+    boutique: {_id:string}; 
     brand: {_id:string}; // Assuming brand is an object
     stock: number;
     user: string;

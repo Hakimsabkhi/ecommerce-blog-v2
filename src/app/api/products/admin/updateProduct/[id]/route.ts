@@ -11,6 +11,7 @@ interface ProductUpdates {
   description?: string;
   ref?: string;
   category?: string;
+  boutique?:string;
   brand?: string;
   stock?: number;
   price?: number;
@@ -48,6 +49,7 @@ export async function PUT(
     const description = (formData.get("description") as string | undefined) || undefined;
     const ref = (formData.get("ref") as string | undefined) || undefined;
     const category = (formData.get("category") as string | undefined) || undefined;
+    const boutique = (formData.get("boutique") as string | undefined) || undefined;
     const brandId = (formData.get("brand") as string | undefined) || undefined;
     const stock = (formData.get("stock") as string | undefined) || undefined;
     const price = (formData.get("price") as string | undefined) || undefined;
@@ -160,7 +162,11 @@ if (brandId) {
     }
 
     updates.updatedAt = new Date();
-
+   if(boutique===undefined){
+   await Product.findByIdAndUpdate(id, {boutique:null})
+  }else{
+    updates.boutique=boutique;
+  }
     // Update the product in the database
     const updatedProduct = await Product.findByIdAndUpdate(id, updates, {
       new: true,

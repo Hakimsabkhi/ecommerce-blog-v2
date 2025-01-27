@@ -4,6 +4,7 @@ import Product from "@/models/Product";
 import User from "@/models/User";
 import Category from "@/models/Category";
 import Brand from "@/models/Brand";
+import Boutique from "@/models/Boutique";
 
 // Handler for GET requests
 export async function GET(
@@ -20,9 +21,11 @@ export async function GET(
       await User.find();
       await Category.find();
       await Brand.find();
+      await Boutique.find();
       const product = await Product.findById(id)
         .populate("user")
         .populate("category")
+        .populate("boutique")
         .populate("brand");
   
       if (!product) {
