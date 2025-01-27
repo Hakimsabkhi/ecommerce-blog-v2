@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
+import { FaMinusSquare } from 'react-icons/fa';
 import { FaSquarePlus } from 'react-icons/fa6';
 
 interface OpeningHour {
@@ -21,10 +22,14 @@ interface FormValues {
     [day: string]: OpeningHour[];
   };
 }
-
+interface close{
+  day:string;
+  on:boolean
+}
 const Form: React.FC = () => {
     const params = useParams() as { id: string };
     const router = useRouter();
+    const [closed,setClosed]=useState<close[]>([])
      const [imgPatentes, setImgPatentes] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormValues>({
     nom: '',
@@ -69,6 +74,8 @@ const Form: React.FC = () => {
               Sunday: [{ open: '', close: '' },{ open: '', close: '' }],
               },
             });
+            
+            
           } else {
             console.error('Failed to fetch store data');
           }
@@ -183,6 +190,7 @@ const Form: React.FC = () => {
             Sunday: [{ open: '', close: '' },{ open: '', close: '' }],
           },
         });
+        
         router.push('/admin/store');
       } else {
         console.error('Failed to submit form:', response.statusText);
@@ -192,7 +200,64 @@ const Form: React.FC = () => {
       console.error('An error occurred. Please try again later.');
     }
   }; 
+  const handleToggleClose = (day: string, isChecked: boolean) => {
+    // Update the openingHours state for the given day
+    setFormData((prevFormData) => {
+      const updatedOpeningHours = { ...prevFormData.openingHours };
 
+      // If the checkbox is checked (closed), set the hours to null or empty
+      if (!isChecked) {
+        updatedOpeningHours[day] = updatedOpeningHours[day].map((hour) => ({
+          ...hour,
+          open: "", // Clear the open time
+          close: "", // Clear the close time
+        }));
+        setClosed((prevClosed) => [
+          ...prevClosed.filter((item) => item.day !== day), // Remove previous closure if exists
+          { day, on: false }, // Mark the day as closed
+        ]);
+       
+updatedOpeningHours[day] = []; // Clear the opening hours for the specific day
+
+setFormData((prevData) => ({
+  ...prevData,
+  openingHours: updatedOpeningHours,
+}));
+
+      } else {
+       
+        setClosed((prevClosed) => [
+          ...prevClosed.filter((item) => item.day !== day), // Remove previous closure if exists
+          { day, on: true }, // Mark the day as closed
+        ]);
+        const updatedOpeningHours = { ...formData.openingHours };
+        updatedOpeningHours[day] = [...updatedOpeningHours[day], { open: "", close: "" }];
+
+    
+        setFormData((prevData) => ({
+          ...prevData,
+          openingHours: updatedOpeningHours,
+        }));
+      }
+      return {
+        ...prevFormData,
+        openingHours: updatedOpeningHours,
+      };
+    });
+  };
+  const handleMinusTimeSlot = (day: string) => {
+    const updatedOpeningHours = { ...formData.openingHours };
+    
+    // Remove the last time slot for the specified day if there are any slots
+    if (updatedOpeningHours[day].length > 1) {
+      updatedOpeningHours[day].pop(); // Remove the last time slot
+    }
+  
+    setFormData((prevData) => ({
+      ...prevData,
+      openingHours: updatedOpeningHours,
+    }));
+  };
   return (
     <div className="relative w-[80%] h-full mx-auto my-[20px] flex flex-col">
       <h1 className="text-3xl font-bold pb-6">Edit Boutique</h1>
@@ -289,6 +354,24 @@ const Form: React.FC = () => {
                   {Object.keys(formData.openingHours).map((day) => (
                     <div key={day} className='relative'>
                       <label className="block text-sm font-medium text-gray-700">{day}</label>
+                      <div className="flex items-center mb-5">
+                <span className="mr-3 text-sm font-medium text-gray-600 ">
+                  Close
+                </span>
+                <label className="relative flex items-center  cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.openingHours[day].length>0} 
+                    value=""
+                    onChange={(e) => handleToggleClose(day, e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <div className="w-9 h-5 bg-gray-200 hover:bg-gray-300 peer-focus:outline-0  rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600 hover:peer-checked:bg-indigo-700 "></div>
+                </label>
+                <span className="ml-3 text-sm font-medium text-gray-600 ">
+                  Open
+                </span>
+              </div>
                       {formData.openingHours[day].map((hour, index) => (
                         <div key={index} className="flex space-x-4">
                           <div className='flex flex-col w-[48%]'>
@@ -312,13 +395,24 @@ const Form: React.FC = () => {
                           </div>
                         </div>
                       ))}
-                      <button
-                        type="button"
-                        onClick={() => handleAddTimeSlot(day)}
-                        className="text-gray-600 hover:underline mt-2 absolute right-0 bottom-3"
-                      >
+                   {closed.some(item => item.day === day && item.on)|| formData.openingHours[day].length>0 && (
+                               <div>
+                               <button
+                               type="button"
+                               onClick={() => handleMinusTimeSlot(day)}
+                               className="text-gray-600 hover:underline mt-2 absolute right-0 bottom-6"
+                             >
+                               <FaMinusSquare  size={20} />
+                             </button>
+                     <button
+                       type="button"
+                       onClick={() => handleAddTimeSlot(day)}
+                       className="text-gray-600 hover:underline mt-2 absolute right-0 bottom-1"
+                     >
                        <FaSquarePlus size={20} />
-                      </button>
+                     </button>
+                     </div>
+                   )}
                     </div>
                   ))}
                 </div>
