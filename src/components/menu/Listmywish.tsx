@@ -127,7 +127,7 @@ const Listmywish: React.FC<ListmywishProps> = ({ data }) => {
                 return (
                   <div
                     key={item._id}
-                    className=" py-2 max-md:mx-[10%] border-b-2"
+                    className=" py-2 max-md:mx-[10%] border-b-2 px-4"
                   >
                     <Link
                       href={`/${item.category.slug}/${item.slug}`}
@@ -168,8 +168,8 @@ const Listmywish: React.FC<ListmywishProps> = ({ data }) => {
                         <button
                           type="button"
                           onClick={() => handleDeleteFavorite(item._id)}
-                          className=" text-gray-500 pr-4"
-                        >
+                          className="p-1 hover:bg-[#15335E]  border-2 max-md:border-none border-[#15335E] rounded text-black hover:text-white cursor-pointer"
+                   >
                           <FaRegTrashAlt />
                         </button>
                       </div>
