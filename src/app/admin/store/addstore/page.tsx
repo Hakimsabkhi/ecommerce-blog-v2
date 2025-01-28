@@ -390,7 +390,7 @@ const Form: React.FC = () => {
 
         <div className="grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 max-2xl:grid-cols-3 gap-y-8 gap-8">
           {Object.keys(formData.openingHours).map((day) => (
-            <div key={day} className=" ">
+            <div key={day}>
               <div className="flex gap-4 mb-2">
                 <label className="block text-md font-bold text-gray-700  w-24">
                   {day}
@@ -410,9 +410,9 @@ const Form: React.FC = () => {
                 </div>
               </div>
 
-              <div className="">
+              <div>
                 {formData.openingHours[day].map((hour, index) => (
-                  <div key={index} className="">
+                  <div key={index}>
                     <div className="flex gap-2">
                       <div className=" w-2/5">
                         <label className="block text-sm font-medium text-gray-700">
@@ -442,7 +442,7 @@ const Form: React.FC = () => {
                           Close
                         </label>
                         <input
-                          type="number"
+                          type="time"
                           value={hour.close}
                           onChange={(e) =>
                             handleOpeningHoursChange(
