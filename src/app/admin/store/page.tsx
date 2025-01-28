@@ -12,8 +12,8 @@ type Boutique = {
   nom: string;
   image: string;
   phoneNumber: string;
-  address: string; 
-  city: string; 
+  address: string;
+  city: string;
   localisation: string;
   user: User;
   vadmin: string;
@@ -81,9 +81,12 @@ const Store: React.FC = () => {
 
   const deletestore = async (boutiquesId: string) => {
     try {
-      const response = await fetch(`/api/store/admin/deletestore/${boutiquesId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `/api/store/admin/deletestore/${boutiquesId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -91,7 +94,9 @@ const Store: React.FC = () => {
 
       handleClosePopup();
       toast.success("Brand deleted successfully!");
-      setBoutiques(boutiques.filter((boutique) => boutique._id !== boutiquesId));
+      setBoutiques(
+        boutiques.filter((boutique) => boutique._id !== boutiquesId)
+      );
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error("Error deleting category:", error.message);
@@ -204,22 +209,22 @@ const Store: React.FC = () => {
               <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[30%]">
                 Image
               </th>
-              <th className="px-4 text-left border-r-white py-3 w-[15%] md:max-lg:w-[20%]">
+              <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[20%]">
                 Name
               </th>
-              <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[20%]">
+              <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[20%]">
                 Localisation
               </th>
               <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[20%]">
                 Address
               </th>
-              <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[20%]">
+              <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[20%]">
                 City
               </th>
-              <th className="px-4 text-left border-r-white py-3 w-[20%] max-lg:hidden">
+            <th className="px-4 text-left border-r-white py-3 w-[10%] max-lg:hidden">
                 Created By
               </th>
-              <th className="px-4 text-center border-r-white py-3 w-[10%] md:max-lg:w-[20%]">
+              <th className="px-4 text-center border-r-white py-3 w-[20%] md:max-lg:w-[20%]">
                 Action
               </th>
             </tr>
@@ -249,9 +254,7 @@ const Store: React.FC = () => {
               {currentBrands.map((item, index) => (
                 <tr key={index} className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-3 truncate">
-                    <Link href={item.image}>
-                      {item.image.split("/").pop()}
-                    </Link>
+                    <Link href={item.image}>{item.image.split("/").pop()}</Link>
                   </td>
                   <td className="border px-4 py-3 truncate">{item.nom}</td>
                   <td className="border px-4 py-3 max-md:hidden">
@@ -267,27 +270,27 @@ const Store: React.FC = () => {
                     {item?.user?.username}
                   </td>
                   <td className="flex gap-2 justify-center">
-                  <select
-                    className={`w-32 text-black rounded-md h-10 ${
-                      item.vadmin === "not-approve"
-                        ? "bg-gray-400 text-white"
-                        : "bg-green-500 text-white"
-                    }`}
-                    value={item.vadmin}
-                    onChange={(e) =>
-                      updateboutiqueIdvadmin(item._id, e.target.value)
-                    }
-                  >
-                    <option value="approve" className="text-white uppercase">
-                      approve
-                    </option>
-                    <option
-                      value="not-approve"
-                      className="text-white uppercase"
+                    <select
+                      className={`w-32 text-black rounded-md h-10 ${
+                        item.vadmin === "not-approve"
+                          ? "bg-gray-400 text-white"
+                          : "bg-green-500 text-white"
+                      }`}
+                      value={item.vadmin}
+                      onChange={(e) =>
+                        updateboutiqueIdvadmin(item._id, e.target.value)
+                      }
                     >
-                      Not approve
-                    </option>
-                  </select>
+                      <option value="approve" className="text-white uppercase">
+                        approve
+                      </option>
+                      <option
+                        value="not-approve"
+                        className="text-white uppercase"
+                      >
+                        Not approve
+                      </option>
+                    </select>
                     <Link href={`/admin/store/${item._id}`}>
                       <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                         <FaRegEdit />
@@ -353,41 +356,42 @@ const Store: React.FC = () => {
               </div>
             </div>
             <div className="mt-4 flex items-center">
-            <div className="flex flex-col gap-2 w-3/5 mx-auto">
-            <select
-                    className={`w-32 text-black rounded-md h-10 ${
-                      item.vadmin === "not-approve"
-                        ? "bg-gray-400 text-white"
-                        : "bg-green-500 text-white"
-                    }`}
-                    value={item.vadmin}
-                    onChange={(e) =>
-                      updateboutiqueIdvadmin(item._id, e.target.value)
-                    }
-                  >
-                    <option value="approve" className="text-white uppercase">
-                      approve
-                    </option>
-                    <option
-                      value="not-approve"
-                      className="text-white uppercase"
-                    >
-                      Not approve
-                    </option>
-                  </select>
-                  </div>
-            <div className="flex justify-center gap-4 mt-4">
-              <Link href={`/admin/store/${item._id}`}>
-                <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                  <FaRegEdit />
+              <div className="flex flex-col gap-2 w-3/5 mx-auto">
+                <select
+                  className={`w-32 text-black rounded-md h-10 ${
+                    item.vadmin === "not-approve"
+                      ? "bg-gray-400 text-white"
+                      : "bg-green-500 text-white"
+                  }`}
+                  value={item.vadmin}
+                  onChange={(e) =>
+                    updateboutiqueIdvadmin(item._id, e.target.value)
+                  }
+                >
+                  <option value="approve" className="text-white uppercase">
+                    approve
+                  </option>
+                  <option value="not-approve" className="text-white uppercase">
+                    Not approve
+                  </option>
+                </select>
+              </div>
+              <div className="flex justify-center gap-4 mt-4">
+                <Link href={`/admin/store/${item._id}`}>
+                  <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                    <FaRegEdit />
+                  </button>
+                </Link>
+                <button
+                  onClick={() => handleDeleteClick(item)}
+                  className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                >
+                  {loadingBrandId === item._id ? (
+                    "Processing..."
+                  ) : (
+                    <FaTrashAlt />
+                  )}
                 </button>
-              </Link>
-              <button
-                onClick={() => handleDeleteClick(item)}
-                className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-              >
-                {loadingBrandId === item._id ? "Processing..." : <FaTrashAlt />}
-              </button>
               </div>
               {isPopupOpen && (
                 <DeletePopup
