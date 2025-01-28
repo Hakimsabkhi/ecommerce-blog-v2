@@ -67,7 +67,6 @@ export async function PUT(
       }
     });
     
-   
     const name = formData.get("nom") as string;
     const phoneNumber = formData.get("phoneNumber") as string;
     const address = formData.get("address") as string;
@@ -84,6 +83,7 @@ export async function PUT(
     }
 
     // If an image is provided, handle the file upload
+    let imageUrl: string | undefined;
     if (imageFile) {
       if (existboutique.image) {
         const publicId = extractPublicId(existboutique.image);
@@ -93,26 +93,37 @@ export async function PUT(
       }
 
       const result = await uploadToCloudinary(imageFile, "boutique", "webp");
-      const imageUrl = result.secure_url;
-      existboutique.image = imageUrl; // Update image URL
+      imageUrl = result.secure_url;
     }
 
-    // Update other boutique fields
-    existboutique.nom = name;
-    existboutique.phoneNumber = phoneNumber;
-    existboutique.address = address;
-    existboutique.city = city;
-    existboutique.localisation = localisation;
-    if (openingHours){
-      Boutique.updateOne(
-        { _id: id }, // Find the boutique by ID
-        { $unset: { openingHours: 1 } } // Remove the openingHours field
-      )
-    existboutique.openingHours = openingHours; // Update opening hours
-  }
-    existboutique.user = user;
+    // Prepare update data
+    const updateData: Record<string, unknown> = {
+      nom: name,
+      phoneNumber: phoneNumber,
+      address: address,
+      city: city,
+      localisation: localisation,
+      user: user,
+    };
 
-    await existboutique.save(); // Ensure that save is awaited
+    if (openingHours) {
+      updateData.openingHours = openingHours;
+    }
+
+    if (imageUrl) {
+      updateData.image = imageUrl;
+    }
+
+    // Use findOneAndUpdate to update the boutique
+    const updatedBoutique = await Boutique.findOneAndUpdate(
+      { _id: id }, // Find the boutique by ID
+      { $set: updateData }, // Set the updated fields
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedBoutique) {
+      return NextResponse.json({ message: "Failed to update the company" }, { status: 500 });
+    }
 
     return NextResponse.json({ status: 200 });
   } catch (error) {
