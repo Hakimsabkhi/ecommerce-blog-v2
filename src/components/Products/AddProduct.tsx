@@ -67,7 +67,7 @@ const AddProduct = () => {
    
       const fetchboutique= async () => {
         try {
-          const response = await fetch('/api/store/admin/getallstore', {
+          const response = await fetch('/api/store/admin/getstoreapprove', {
             method: 'GET',
             next: { revalidate: 0 }, // Disable caching to always fetch the latest data
           });

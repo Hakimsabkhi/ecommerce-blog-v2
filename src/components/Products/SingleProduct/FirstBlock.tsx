@@ -30,7 +30,7 @@ const noimage =
     color?: string;
     material?: string;
     status?: string;
-    boutique: { _id: string; nom: string; address:string;city:string;phoneNumber:string };
+    boutique: { _id: string; nom: string; address:string;city:string;phoneNumber:string; vadmin:string; };
   }
 interface Review {
   _id: string;
