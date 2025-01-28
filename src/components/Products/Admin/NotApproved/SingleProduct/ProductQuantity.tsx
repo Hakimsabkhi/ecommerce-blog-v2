@@ -22,7 +22,7 @@ interface Product {
   color?: string;
   material?: string;
   status?: string;
-  boutique: { _id: string; nom: string; address:string;city:string;phoneNumber:string };
+  boutique: { _id: string; nom: string; address:string;city:string;phoneNumber:string;vadmin:string};
 }
 
 interface ProductQuantityProps {
@@ -126,8 +126,8 @@ const ProductQuantity: React.FC<ProductQuantityProps> = ({ product }) => {
                <div className="flex flex-col space-y-2">
                               <p className="font-bold">Disponibilité :</p>
                               <div className="flex items-center space-x-4">
-                                <span className="font-semibold uppercase"> {product.boutique?.nom || 'Disponible Dans notre magasin'}</span>
-                                {product.boutique && <div>
+                                <span className="font-semibold uppercase"> {product.boutique?.nom && product.boutique.vadmin==="approve" || 'Disponible Dans notre magasin'}</span>
+                                {product.boutique  && product.boutique.vadmin==="approve" && <div>
                                <div className="flex items-center  space-x-1 ">
                                   <span className="inline-block bg-black p-1 font-semibold mr-2 rounded-md ">
                                     <BsFillTelephoneFill className="text-white" size={15} />

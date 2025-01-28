@@ -84,13 +84,13 @@ export async function getBestsellersData() {
 }
 export async function getstore(){
   await connectToDatabase(); 
-  const boutique = await Boutique.find().limit(2).exec();
+  const boutique = await Boutique.find({vadmin:"approve"}).limit(2).exec();
   return JSON.stringify(boutique );
 }
 
 export async function getstores(){
   await connectToDatabase(); 
-  const boutique = await Boutique.find().exec();
+  const boutique = await Boutique.find({vadmin:"approve"}).exec();
   return JSON.stringify(boutique );
 }
 
