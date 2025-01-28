@@ -1,12 +1,12 @@
-import { getstore } from '@/lib/StaticDataHomePage';
+import { getstores } from '@/lib/StaticDataHomePage';
 
 import React from 'react'
-import Boutique from './showroom/Boutique';
+import Boutiquecroserl from './showroom/Boutiquecroserl';
 
 
 
 const Boutiquehomepage = async () => {
-    const store = await getstore();
+    const store = await getstores();
       const boutiques=JSON.parse(store)
 
   return (
@@ -20,7 +20,7 @@ const Boutiquehomepage = async () => {
           </h3>
         </div>
       )}
-    <Boutique boutiques={boutiques} />
+    <Boutiquecroserl boutiques={boutiques} />
   </div>
       
   )

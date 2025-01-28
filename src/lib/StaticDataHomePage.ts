@@ -82,12 +82,12 @@ export async function getBestsellersData() {
     imageUrl: item.imageUrl ?? "/fallback.jpg", // optional fallback
   }));
 }
-export async function getstore(){
+/* export async function getstore(){
   await connectToDatabase(); 
   const boutique = await Boutique.find({vadmin:"approve"}).limit(2).exec();
   return JSON.stringify(boutique );
 }
-
+ */
 export async function getstores(){
   await connectToDatabase(); 
   const boutique = await Boutique.find({vadmin:"approve"}).exec();
