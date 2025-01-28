@@ -170,7 +170,7 @@ const Store: React.FC = () => {
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
-              <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[30%]">
+              <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[30%]">
                 Image
               </th>
               <th className="px-4 text-left border-r-white py-3 w-[15%] md:max-lg:w-[20%]">
@@ -188,7 +188,7 @@ const Store: React.FC = () => {
               <th className="px-4 text-left border-r-white py-3 w-[20%] max-lg:hidden">
                 Created By
               </th>
-              <th className="px-4 text-center border-r-white py-3 w-[20%] md:max-lg:w-[20%]">
+              <th className="px-4 text-center border-r-white py-3 w-[10%] md:max-lg:w-[20%]">
                 Action
               </th>
             </tr>
@@ -222,7 +222,7 @@ const Store: React.FC = () => {
                       {item.image.split("/").pop()}
                     </Link>
                   </td>
-                  <td className="border px-4 py-3">{item.nom}</td>
+                  <td className="border px-4 py-3 truncate">{item.nom}</td>
                   <td className="border px-4 py-3 max-md:hidden">
                     {item.localisation}
                   </td>
@@ -232,7 +232,7 @@ const Store: React.FC = () => {
                   <td className="border px-4 py-3 max-md:hidden">
                     {item.city}
                   </td>
-                  <td className="border px-4 py-3 max-lg:hidden">
+                  <td className="border px-4 py-3 max-lg:hidden truncate">
                     {item?.user?.username}
                   </td>
                   <td className="flex gap-2 justify-center">
