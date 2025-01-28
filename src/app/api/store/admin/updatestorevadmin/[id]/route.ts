@@ -46,12 +46,13 @@ export async function PUT(
         );
       }
 
+ /*   if(vadmin){
+      existingstore.vadmin=vadmin
+   } */
    
-      const updatedStore =  await Boutique.updateOne({ _id: id }, { $set: { '$vadmin': vadmin } });
-  
-       
-     
-      return NextResponse.json(updatedStore, { status: 200 });
+      // const store=await existingstore.save();
+      await Boutique.findByIdAndUpdate(id,{vadmin:vadmin})
+      return NextResponse.json(/* store */ { status: 200 });
     } catch (error) {
       console.log(error); // Log error for debugging
       return NextResponse.json(
