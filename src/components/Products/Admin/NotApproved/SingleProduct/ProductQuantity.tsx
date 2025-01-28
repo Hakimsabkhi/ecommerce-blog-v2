@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import { BsFillTelephoneFill } from "react-icons/bs";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 interface Product {
   _id: string;
@@ -20,6 +22,7 @@ interface Product {
   color?: string;
   material?: string;
   status?: string;
+  boutique: { _id: string; nom: string; address:string;city:string;phoneNumber:string };
 }
 
 interface ProductQuantityProps {
@@ -120,6 +123,26 @@ const ProductQuantity: React.FC<ProductQuantityProps> = ({ product }) => {
                   </button>
                 </Link>
               </div>
+               <div className="flex flex-col space-y-2">
+                              <p className="font-bold">Disponibilité :</p>
+                              <div className="flex items-center space-x-4">
+                                <span className="font-semibold uppercase"> {product.boutique?.nom || 'Disponible Dans notre magasin'}</span>
+                                {product.boutique && <div>
+                               <div className="flex items-center  space-x-1 ">
+                                  <span className="inline-block bg-black p-1 font-semibold mr-2 rounded-md ">
+                                    <BsFillTelephoneFill className="text-white" size={15} />
+                                  </span>
+                                  <span>{product.boutique?.phoneNumber}</span>
+                                </div>
+                                <div className="flex items-center space-x-1">
+                                  <span className="inline-block text-black font-semibold mr-2">
+                                    <FaMapMarkerAlt size={23} />
+                                  </span>
+                                  <span>{product.boutique?.city}, {product.boutique?.address}</span>
+                                </div>
+                                </div>}
+                              </div>
+                            </div>
             </div>
           ) : (
             <button

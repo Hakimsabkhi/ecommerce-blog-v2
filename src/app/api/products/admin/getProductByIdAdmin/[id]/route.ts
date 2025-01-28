@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Product from "@/models/Product";
+import Boutique from "@/models/Boutique";
 
 
 
@@ -32,10 +33,11 @@ export async function GET(
         { status: 400 } // 400 Bad Request
       );
     }
-
+    await Boutique.find();
     // Fetch the product by `slug`
     const product = await Product.findOne({ slug: id, vadmin: "not-approve" })
       .populate("category")
+      .populate("boutique")
       .populate("brand")
       .exec();
 
