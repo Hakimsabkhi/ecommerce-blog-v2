@@ -24,6 +24,7 @@ interface ProductData {
   color?: string;
   material?: string;
   status?: string;
+  boutique: { _id: string; nom: string; address:string;city:string;phoneNumber:string };
 }
 
 interface Category {
