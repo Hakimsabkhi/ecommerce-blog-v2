@@ -16,6 +16,7 @@ type Boutique = {
   city: string; 
   localisation: string;
   user: User;
+  vadmin: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -42,7 +43,37 @@ const Store: React.FC = () => {
     setSelectedBrand({ id: boutique._id, name: boutique.nom });
     setIsPopupOpen(true);
   };
+  const updateboutiqueIdvadmin = async (
+    boutiqueId: string,
+    newStatus: string
+  ) => {
+    try {
+      const updateFormData = new FormData();
+      updateFormData.append("vadmin", newStatus);
 
+      const response = await fetch(
+        `/api/store/admin/updatestorevadmin/${boutiqueId}`,
+        {
+          method: "PUT",
+          body: updateFormData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      setBoutiques((prevData) =>
+        prevData.map((item) =>
+          item._id === boutiqueId ? { ...item, vadmin: newStatus } : item
+        )
+      );
+      const data = await response.json();
+      console.log("boutique status updated successfully:", data);
+    } catch (error) {
+      console.error("Failed to update boutique status:", error);
+      toast.error("Failed to update boutique status");
+    }
+  };
   const handleClosePopup = () => {
     setIsPopupOpen(false);
     setLoadingBrandId(null);
@@ -236,6 +267,27 @@ const Store: React.FC = () => {
                     {item?.user?.username}
                   </td>
                   <td className="flex gap-2 justify-center">
+                  <select
+                    className={`w-32 text-black rounded-md h-10 ${
+                      item.vadmin === "not-approve"
+                        ? "bg-gray-400 text-white"
+                        : "bg-green-500 text-white"
+                    }`}
+                    value={item.vadmin}
+                    onChange={(e) =>
+                      updateboutiqueIdvadmin(item._id, e.target.value)
+                    }
+                  >
+                    <option value="approve" className="text-white uppercase">
+                      approve
+                    </option>
+                    <option
+                      value="not-approve"
+                      className="text-white uppercase"
+                    >
+                      Not approve
+                    </option>
+                  </select>
                     <Link href={`/admin/store/${item._id}`}>
                       <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                         <FaRegEdit />
@@ -300,6 +352,30 @@ const Store: React.FC = () => {
                 <p>{item?.user?.username}</p>
               </div>
             </div>
+            <div className="mt-4 flex items-center">
+            <div className="flex flex-col gap-2 w-3/5 mx-auto">
+            <select
+                    className={`w-32 text-black rounded-md h-10 ${
+                      item.vadmin === "not-approve"
+                        ? "bg-gray-400 text-white"
+                        : "bg-green-500 text-white"
+                    }`}
+                    value={item.vadmin}
+                    onChange={(e) =>
+                      updateboutiqueIdvadmin(item._id, e.target.value)
+                    }
+                  >
+                    <option value="approve" className="text-white uppercase">
+                      approve
+                    </option>
+                    <option
+                      value="not-approve"
+                      className="text-white uppercase"
+                    >
+                      Not approve
+                    </option>
+                  </select>
+                  </div>
             <div className="flex justify-center gap-4 mt-4">
               <Link href={`/admin/store/${item._id}`}>
                 <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
@@ -312,6 +388,7 @@ const Store: React.FC = () => {
               >
                 {loadingBrandId === item._id ? "Processing..." : <FaTrashAlt />}
               </button>
+              </div>
               {isPopupOpen && (
                 <DeletePopup
                   handleClosePopup={handleClosePopup}
