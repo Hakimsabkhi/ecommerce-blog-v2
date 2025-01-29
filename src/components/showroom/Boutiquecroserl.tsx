@@ -37,7 +37,7 @@ const Boutiquecroserl: React.FC<Boutiqueprops> = ({ boutiques }) => {
   };
 
   return ( 
-    <div className="container mx-auto py-8">
+    <div className="py-8">
       {/* Slider wrapper */}
       <div className="relative overflow-hidden">
         {/* Slide content */}
@@ -52,31 +52,33 @@ const Boutiquecroserl: React.FC<Boutiqueprops> = ({ boutiques }) => {
             const slideItems = boutiques.slice(start, end);
 
             return (
-              <div key={slideIndex} className="flex-shrink-0 w-full flex ml-9 mr-9">
+              <div key={slideIndex} className="flex-shrink-0 w-full flex ml-9 pl-4 pr-12 mr-9">
                 {slideItems.map((item: StoreData) => (
-                  <div key={item._id} className="w-1/4 p-2 ">
-                    <div className="bg-white shadow-lg overflow-hidden">
+                  <div key={item._id} className=" px-2 flex w-1/3 h-full">
+                     <div className="w-1/3">
                       {item.image && (
                         <Image
                           src={item.image} // Replace with your image path
                           alt="Store Image"
                           width={1920}
                           height={1080}
-                          className="w-full object-cover h-96"
+                          className="w-full object-cover h-full"
                         />
-                      )}
-                      <div className="p-6">
+                      )}</div>
+                    <div className="bg-white  overflow-hidden w-2/3 h-full">
+                     
+                      <div className="p-2">
                         <h2 className="text-center text-lg font-bold uppercase mb-4">
                           {item.nom}
                         </h2>
                         <div className="text-center text-black flex justify-center items-center gap-4">
-                          <div className="flex flex-col justify-center items-center">
+                          <div className="flex  justify-center items-center">
                             <span className="inline-block bg-black p-1 font-semibold mr-2 rounded-md">
                               <BsFillTelephoneFill className="text-white" size={15} />
                             </span>
                             <span className="font-bold"> {item.phoneNumber}</span>
                           </div>
-                          <div className="flex flex-col justify-center items-center">
+                          <div className="flex justify-center items-center">
                             <span className="inline-block text-black font-semibold mr-2">
                               <FaMapMarkerAlt size={23} />
                             </span>
@@ -85,15 +87,15 @@ const Boutiquecroserl: React.FC<Boutiqueprops> = ({ boutiques }) => {
                             </span>
                           </div>
                         </div>
-                        <div className="mt-4 flex flex-col justify-center gap-3">
-                          <h3 className="text-center text-black font-bold mb-2">
+                        <div className="mt-4 flex flex-col justify-center ">
+                          <h3 className="text-center text-black font-bold mb-4">
                             TEMPS OUVERT :
                           </h3>
-                          <ul className="text-center text-md space-y-1">
+                          <ul className="text-center text-sm space-y-1">
                             {item?.openingHours &&
                               Object.entries(item.openingHours).map(([day, hours]) => (
-                                <li key={day} className="flex gap-8 text-left">
-                                  <span className="font-medium w-20">{day}:</span>{" "}
+                                <li key={day} className="flex text-left">
+                                  <span className="font-medium w-28">{day}:</span>{" "}
                                   {Array.isArray(hours) && hours.length > 0
                                     ? hours
                                         .map((hour) => {
@@ -121,15 +123,15 @@ const Boutiquecroserl: React.FC<Boutiqueprops> = ({ boutiques }) => {
         {/* Prev & Next buttons */}
         <button
           onClick={prevSlide}
-          className="absolute top-1/2 left-0 transform -translate-y-1/2 p-1  z-10"
+          className="absolute top-1/2 -left-1 transform -translate-y-1/2 p-1  z-10"
         >
-          <FaRegArrowAltCircleLeft size={30} />
+          <FaRegArrowAltCircleLeft size={50} />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute top-1/2 right-0 transform -translate-y-1/2 p-1    z-10"
+          className="absolute top-1/2 -right-1 transform -translate-y-1/2 p-1    z-10"
         >
-         <FaRegArrowAltCircleRight size={30}/>
+         <FaRegArrowAltCircleRight size={50}/>
 
         </button>
       </div>
