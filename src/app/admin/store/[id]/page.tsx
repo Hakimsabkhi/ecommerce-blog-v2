@@ -483,8 +483,8 @@ const Form: React.FC = () => {
                           disabled={!hour.open} // Disable the close field if open is empty
                         />
                       </div>
-                      {closed.some((item) => item.day === day && item.on) ||
-                  (formData.openingHours[day].length > 0 && (
+                      
+                  {formData.openingHours[day].length >0 && (
                     <div className="flex gap-1 mt-2">
                       <button
                         type="button"
@@ -499,7 +499,7 @@ const Form: React.FC = () => {
                         <FaMinusSquare size={50} />
                       </button>
                     </div>
-                  ))}
+                )}
                     </div>
                   </div>
                 ))}
