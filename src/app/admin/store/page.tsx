@@ -110,7 +110,7 @@ const Store: React.FC = () => {
     }
   };
 
-  const getBrands = async (): Promise<void> => {
+  const getcompany = async (): Promise<void> => {
     try {
       const response = await fetch(`/api/store/admin/getallstore`, {
         method: "GET",
@@ -139,7 +139,7 @@ const Store: React.FC = () => {
   };
 
   useEffect(() => {
-    getBrands();
+    getcompany();
   }, []);
 
   useEffect(() => {

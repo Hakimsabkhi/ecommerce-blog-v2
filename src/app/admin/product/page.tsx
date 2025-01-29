@@ -12,6 +12,18 @@ type User = {
   _id: string;
   username: string;
 };
+interface Boutique {
+  _id: string;
+  nom: string;
+  image: string;
+  phoneNumber: string;
+  address: string;
+  city: string;
+  localisation: string;
+  vadmin: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 type Product = {
   _id: string;
@@ -21,6 +33,7 @@ type Product = {
   price: number;
   imageUrl: string;
   category: Category;
+  boutique:Boutique
   stock: number;
   user: User;
   discount: number;
@@ -38,6 +51,7 @@ interface Category {
 }
 
 const AddedProducts: React.FC = () => {
+    const [boutiques, setBoutiques] = useState<Boutique[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const[categories,setCategories]=useState<Category[]>([]);
@@ -51,6 +65,7 @@ const AddedProducts: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState({ id: "", name: "" });
   const [loadingProductId, setLoadingProductId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedBoutique, setSelectedBoutique] = useState<string>("");
   const [colSpan, setColSpan] = useState(6);
   const handleDeleteClick = (product: Product) => {
     setLoadingProductId(product._id);
@@ -259,6 +274,33 @@ const AddedProducts: React.FC = () => {
         setLoading(false);
       }
     };
+    const getcompany = async (): Promise<void> => {
+      try {
+        const response = await fetch(`/api/store/admin/getallstore`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        const data: Boutique[] = await response.json();
+        setBoutiques(data);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error("Error deleting category:", error.message);
+        } else if (typeof error === "string") {
+          console.error("String error:", error);
+        } else {
+          console.error("Unknown error:", error);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
     const getCategory = async () => {
       try {
         const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
@@ -286,6 +328,7 @@ const AddedProducts: React.FC = () => {
         }
       } 
     };
+    getcompany();
     getCategory();
     getProducts();
    
@@ -293,17 +336,25 @@ const AddedProducts: React.FC = () => {
 
   useEffect(() => {
     const filtered = products.filter((product) => {
+      const searchTermLower = searchTerm.toLowerCase();
+  
       const matchesSearchTerm =
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.ref.toLowerCase().includes(searchTerm.toLowerCase());
+        product.name.toLowerCase().includes(searchTermLower) ||
+        product.ref.toLowerCase().includes(searchTermLower);
+  
       const matchesCategory =
-        selectedCategory === "" || product.category._id === selectedCategory;
-      return matchesSearchTerm && matchesCategory;
+        !selectedCategory || product.category?._id === selectedCategory;
+  
+      const matchesBoutique =
+        !selectedBoutique || product.boutique?._id === selectedBoutique;
+  
+      return matchesSearchTerm && matchesCategory && matchesBoutique;
     });
+    
 
     setFilteredProducts(filtered);
     setCurrentPage(1);
-  }, [searchTerm, selectedCategory, products]);
+  }, [searchTerm, selectedCategory,selectedBoutique ,products]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -336,6 +387,21 @@ const AddedProducts: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="p-2 border border-gray-300 rounded-lg max-w-max"
         />
+          <div className=" flex gap-2">
+            <select
+          name="boutique"
+          value={selectedBoutique}
+          onChange={(e) => setSelectedBoutique(e.target.value)}
+          className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
+          required
+        >
+           <option value="">Select Boutique</option>
+            {boutiques.map((boutique) => (
+              <option key={boutique._id} value={boutique._id}>
+                {boutique.nom}
+              </option>
+            ))} 
+        </select>
         <select
           name="category"
           value={selectedCategory}
@@ -350,6 +416,7 @@ const AddedProducts: React.FC = () => {
               </option>
             ))} 
         </select>
+        </div>
       </div>
 
       <div className="h-[50vh] max-2xl:h-80 max-md:hidden">
