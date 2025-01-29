@@ -5,6 +5,7 @@ import User from "@/models/User";
 import { getToken } from 'next-auth/jwt';
 import Brand from '@/models/Brand';
 import Category from '@/models/Category';
+import Boutique from '@/models/Boutique';
 
 
 
@@ -32,6 +33,7 @@ export async function GET(req: NextRequest) {
     if ('error' in result) {
       return NextResponse.json({ error: result.error }, { status: result.status });
     }
+    await Boutique.find();
     await Brand.find();
     await Category.find();
     await User.find();
@@ -39,6 +41,7 @@ export async function GET(req: NextRequest) {
     const products = await Products.find({})
       .populate("user")
       .populate("category")
+      .populate("boutique")
       .populate("brand")
       .exec();
 
