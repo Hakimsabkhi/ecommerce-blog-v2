@@ -314,6 +314,11 @@ const AddedCategories: React.FC = () => {
                       <FaRegEye />
                     </button>
                   </Link>
+                  <Link href={`/admin/category/subcategory/${category._id}`}>
+                    <button className="bg-gray-800 text-white  w-32 h-10 hover:bg-gray-600 rounded-md">
+                     Sub Category
+                    </button>
+                  </Link>
                 </div>
               </td>
             </tr>
