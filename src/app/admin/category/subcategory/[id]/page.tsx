@@ -206,7 +206,7 @@ const params = useParams() as { id: string };
           }
         };
         getsubCategory();
-      }, []);
+      }, [params.id]);
     
       const filteredsubCategory = useMemo(() => {
         return addedSubCategory.filter((subcategory) =>
