@@ -22,14 +22,11 @@ interface FormValues {
     [day: string]: OpeningHour[];
   };
 }
-interface close {
-  day: string;
-  on: boolean;
-}
+
 const Form: React.FC = () => {
   const params = useParams() as { id: string };
   const router = useRouter();
-  const [closed, setClosed] = useState<close[]>([]);
+  
   const [imgPatentes, setImgPatentes] = useState<File | null>(null);
   const [formData, setFormData] = useState<FormValues>({
     nom: "",
@@ -256,10 +253,7 @@ const Form: React.FC = () => {
           open: "", // Clear the open time
           close: "", // Clear the close time
         }));
-        setClosed((prevClosed) => [
-          ...prevClosed.filter((item) => item.day !== day), // Remove previous closure if exists
-          { day, on: false }, // Mark the day as closed
-        ]);
+       
 
         updatedOpeningHours[day] = []; // Clear the opening hours for the specific day
 
@@ -268,10 +262,7 @@ const Form: React.FC = () => {
           openingHours: updatedOpeningHours,
         }));
       } else {
-        setClosed((prevClosed) => [
-          ...prevClosed.filter((item) => item.day !== day), // Remove previous closure if exists
-          { day, on: true }, // Mark the day as closed
-        ]);
+        
         const updatedOpeningHours = { ...formData.openingHours };
         updatedOpeningHours[day] = [
           ...updatedOpeningHours[day],
