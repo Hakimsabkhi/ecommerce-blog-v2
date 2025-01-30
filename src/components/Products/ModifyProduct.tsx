@@ -144,7 +144,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
       fetchsubCategories(productData?.category?._id)
     }
    
-  }, []);
+  }, [productData]);
 
   useEffect(() => {
     if (image) {
