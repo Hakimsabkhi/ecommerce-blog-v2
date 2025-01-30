@@ -13,6 +13,7 @@ interface ProductData {
   description: string;
   ref: string;
   category: { _id: string };
+  subcategory: { _id: string };
   boutique: { _id: string };
   brand: { _id: string };
   stock: number;
@@ -42,7 +43,10 @@ interface Brand {
   _id: string;
   name: string;
 }
-
+interface SubCategory {
+  _id: string;
+  name: string;
+}
 interface boutique {
   _id: string;
   nom: string;
@@ -50,6 +54,7 @@ interface boutique {
 const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
+  const [subcategories, setSubCategories] = useState<SubCategory[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [boutiques, setBoutiques] = useState<boutique[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -63,6 +68,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     description: productData?.description || "",
     ref: productData?.ref || "",
     category: productData?.category || { _id: "" },
+    subcategory: productData?.subcategory || { _id: "" },
     boutique: productData?.boutique || { _id: "" },
     brand: productData?.brand || { _id: "" },
     stock: productData?.stock || 0,
@@ -134,7 +140,11 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     fetchboutique();
     fetchCategories();
     fetchBrands();
-  }, []);
+    if(productData){
+      fetchsubCategories(productData?.category?._id)
+    }
+   
+  }, [productData]);
 
   useEffect(() => {
     if (image) {
@@ -174,6 +184,13 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
           ? Number(value) || 0
           : value,
     }));
+    if(name==="category"){
+      if(value){
+       fetchsubCategories(value)
+      }else{
+        setSubCategories([])
+      }
+  }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -252,6 +269,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     updateFormData.append("description", formData.description);
     updateFormData.append("ref", formData.ref);
     updateFormData.append("category", formData.category._id);
+    updateFormData.append("subcategory", formData.subcategory._id);
     updateFormData.append("boutique", formData.boutique._id);
     updateFormData.append("brand", formData.brand._id); 
     updateFormData.append("stock", formData.stock.toString());
@@ -298,6 +316,20 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
       }
     }
   };
+  const fetchsubCategories = async (selectcatgoray:string) => {
+    try {
+      const response = await fetch(`/api/SubCategory/admin/getsubcategoraybycategoray/${selectcatgoray}`, {
+        method: 'GET',
+        next: { revalidate: 0 }, // Disable caching to always fetch the latest data
+      });
+      if (!response.ok) throw new Error("Failed to fetch categories");
+      const data = await response.json();
+    setSubCategories(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -362,7 +394,23 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
           </select>
         </div>
       </div>
-      
+      <div className="flex items-center w-full justify-between gap-4">
+          <p className="text-xl font-bold">Sous Categorie </p>
+          <select
+            name="subcategory"
+            value={formData.subcategory._id}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5"
+            
+          >
+            <option value="">Select a Sous Categorie</option>
+            {subcategories.map((subcategory) => (
+              <option key={subcategory._id} value={subcategory._id}>
+                {subcategory.name}
+              </option>
+            ))}
+          </select>
+        </div>
       
       <div className="grid grid-cols-3 gap-8 lg:gap-x-20">
         <div className="flex items-center w-full justify-between gap-4">

@@ -10,6 +10,10 @@ interface Category {
   _id: string;
   name: string;
 }
+interface SubCategory {
+  _id: string;
+  name: string;
+}
 
 interface Brand {
   _id: string;
@@ -23,13 +27,13 @@ interface boutique {
 const AddProduct = () => {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
+  const [subcategories, setSubCategories] = useState<SubCategory[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [boutiques, setBoutiques] = useState<boutique[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [images, setImages] = useState<File[]>([]);
-
   const [productData, setProductData] = useState({
     name: "",
     description: "",
@@ -48,6 +52,7 @@ const AddProduct = () => {
     warranty: "",
     dimensions: "",
     statuspage:"",
+    subcategory:""
   });
 
   useEffect(() => {
@@ -94,6 +99,19 @@ const AddProduct = () => {
     fetchBrands();
     fetchboutique();
   }, []);
+    const fetchsubCategories = async (selectcatgoray:string) => {
+      try {
+        const response = await fetch(`/api/SubCategory/admin/getsubcategoraybycategoray/${selectcatgoray}`, {
+          method: 'GET',
+          next: { revalidate: 0 }, // Disable caching to always fetch the latest data
+        });
+        if (!response.ok) throw new Error("Failed to fetch categories");
+        const data = await response.json();
+      setSubCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -101,10 +119,18 @@ const AddProduct = () => {
     >
   ) => {
     const { name, value } = e.target;
+  
     setProductData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+    if (name === "category") {
+      if(value){
+        fetchsubCategories(value)
+       }else{
+         setSubCategories([])
+       }
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,6 +181,7 @@ const AddProduct = () => {
     formData.append("description", productData.description);
     formData.append("ref", productData.ref);
     formData.append("category", productData.category);
+    formData.append("subcategory", productData.subcategory);
     formData.append("brand", productData.brand);
     formData.append("boutique", productData.boutique);
     formData.append("stock", productData.stock);
@@ -258,6 +285,23 @@ const AddProduct = () => {
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex items-center w-full justify-between gap-4">
+          <p className="text-xl font-bold">Sous Categorie </p>
+          <select
+            name="subcategory"
+            value={productData.subcategory}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-[60%] block p-2.5"
+            
+          >
+            <option value="">Select a Sous Categorie</option>
+            {subcategories.map((subcategory) => (
+              <option key={subcategory._id} value={subcategory._id}>
+                {subcategory.name}
               </option>
             ))}
           </select>
