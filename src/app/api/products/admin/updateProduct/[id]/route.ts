@@ -5,12 +5,14 @@ import cloudinary from "@/lib/cloudinary";
 import stream from "stream";
 import Brand from "@/models/Brand";
 import Category from "@/models/Category";
+import Subcategory from "@/models/Subcategory";
 
 interface ProductUpdates {
   name?: string;
   description?: string;
   ref?: string;
   category?: string;
+  subcategory?:string|null;
   boutique?:string;
   brand?: string;
   stock?: number;
@@ -49,6 +51,7 @@ export async function PUT(
     const description = (formData.get("description") as string | undefined) || undefined;
     const ref = (formData.get("ref") as string | undefined) || undefined;
     const category = (formData.get("category") as string | undefined) || undefined;
+    const subcategory = (formData.get("subcategory") as string | undefined) || undefined;
     const boutique = (formData.get("boutique") as string | undefined) || undefined;
     const brandId = (formData.get("brand") as string | undefined) || undefined;
     const stock = (formData.get("stock") as string | undefined) || undefined;
@@ -77,7 +80,7 @@ export async function PUT(
     if (weight) updates.weight = weight;
     if (warranty) updates.warranty = warranty;
     if (dimensions) updates.dimensions = dimensions;
-
+  
     // Validate and handle category
     if (category) {
       const oldCategory = await Product.findById(id).select("category");
@@ -96,6 +99,14 @@ export async function PUT(
         }
       }
       updates.category = category;
+    }
+    if(subcategory){
+      const exstsubcategory = await Subcategory.findById(subcategory)
+      if(exstsubcategory?.category===category){
+        updates.subcategory = subcategory;
+      }else{
+        updates.subcategory = null;
+      }
     }
 
     // Validate brand
