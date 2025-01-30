@@ -201,7 +201,7 @@ const Role = () => {
         ) : (
           <table className="rounded overflow-hidden w-full table-fixed mx-auto">
             <thead>
-              <tr className="bg-gray-800 text-sm">
+              <tr className="bg-gray-800 text-xs">
                 <th className="border border-gray-300 p-2">Role Name</th>
                 {DashboardAdmin.flatMap((section) =>
                   section.items ? section.items.map((item) => item.name) : []
