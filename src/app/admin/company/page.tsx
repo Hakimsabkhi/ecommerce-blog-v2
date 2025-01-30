@@ -144,7 +144,7 @@ const Display: React.FC = () => {
               </tr>
             </tbody>)}
           </table>
-          <div className="w-full space-y-4 lg:hidden">
+          <div className="w-full space-y-4 lg:hidden bg-gray-100 ">
       {loading ? (
         <div className="flex justify-center items-center w-full h-28">
           <FaSpinner className="animate-spin text-[30px]" />
@@ -193,8 +193,8 @@ const Display: React.FC = () => {
             <thead>
               <tr className="bg-gray-800">
                 <th className="px-4 py-3 text-center">Upload Icon</th>
-                <th className="px-4 py-3 text-center">Upload Banner</th>
-                <th className="px-4 py-3 text-center">Upload Banner Contact</th>
+                <th className="px-4 py-3 text-center"> Banner</th>
+                <th className="px-4 py-3 text-center"> B. Contact</th>
               </tr>
             </thead>
             {loading ? (

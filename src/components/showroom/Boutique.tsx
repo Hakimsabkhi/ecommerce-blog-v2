@@ -1,7 +1,10 @@
+"use client"
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import Pagination from "../Pagination";
+//import Pagination from "../Pagination";
 interface OpeningHours {
   [day: string]: { open: string; close: string }[];
 }
@@ -21,34 +24,52 @@ interface Boutiqueprops {
 }
 
 const Boutique: React.FC<Boutiqueprops> = ({ boutiques }) => {
+    const [currentPage, setCurrentPage] = useState<number>(1);
+   
+     const [filteredProducts, setFilteredProducts] = useState<StoreData[]>([]);
+     useEffect(()=>{
+      setFilteredProducts(boutiques);
+      setCurrentPage(1);
+     }, [boutiques])
+     const productsPerPage = 6;
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   return (
-    <div className="container mx-auto py-8 ">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
+    <div className="mx-[2%]   py-8 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-8 py-8">
         {/* Repeated block */}
-        {boutiques.map((item: StoreData) => (
-          <div key={item._id} className="bg-white shadow-lg  overflow-hidden">
-            {item.image && (
+        {currentProducts.map((item: StoreData) => (
+          <div key={item._id} className="bg-white shadow-lg flex overflow-hidden">
+            
+      <div className="w-1/3">
+      {item.image && (
               <Image
                 src={item.image} // Replace with your image path
                 alt="Store Image"
                 width={1920}
                 height={1080}
-                className="w-full object-cover h-96"
+            className="w-full h-full object-cover"
               />
-            )}
+            )}</div>
 
+<div className="bg-white w-2/3 h-full overflow-hidden">
             <div className="p-6">
               <h2 className="text-center text-lg font-bold uppercase mb-4">
                 {item.nom}
               </h2>
-              <div className="text-center text-black flex justify-center items-center gap-4">
-                <div className="flex flex-col-1 justify-center items-center">
-                  <span className="inline-block bg-black p-1 font-semibold mr-2 rounded-md ">
+          <div className="text-center text-black flex justify-center items-center gap-4">
+            <div className="flex justify-center items-center">
+              <span className="inline-block bg-black p-1 font-semibold mr-2 rounded-md">
                     <BsFillTelephoneFill className="text-white" size={15} />
                   </span>
                   <span className="font-bold"> {item.phoneNumber}</span>
                 </div>
-                <div className="flex flex-col-1 justify-center items-center">
+                <div className="flex justify-center items-center">
                   <span className="inline-block text-black font-semibold mr-2">
                     <FaMapMarkerAlt size={23} />
                   </span>
@@ -57,11 +78,11 @@ const Boutique: React.FC<Boutiqueprops> = ({ boutiques }) => {
                   </span>
                 </div>
               </div>
-              <div className="mt-4 flex flex-col-1 justify-center gap-3">
-                <h3 className="text-center text-black font-bold mb-2">
+          <div className="mt-4 flex flex-col justify-center w-fit mx-auto">
+            <h3 className="text-center text-black font-bold mb-4">
                   TEMPS OUVERT :
                 </h3>
-                <ul className="text-center text-md space-y-1">
+                <ul className="text-center text-sm space-y-1">
                   {item?.openingHours &&
                     Object.entries(item.openingHours).map(([day, hours]) => (
                       <li key={day} className="flex gap-8 text-left">
@@ -81,9 +102,16 @@ const Boutique: React.FC<Boutiqueprops> = ({ boutiques }) => {
                     ))}
                 </ul>
               </div>
-            </div>
+            </div></div>
           </div>
         ))}
+      </div>
+      <div className="mt-4">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );
