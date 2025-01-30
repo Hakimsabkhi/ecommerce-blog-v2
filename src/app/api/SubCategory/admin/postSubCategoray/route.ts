@@ -5,6 +5,7 @@ import cloudinary from '@/lib/cloudinary';
 import stream from 'stream';
 import User from '@/models/User';
 import { getToken } from 'next-auth/jwt';
+import Category from '@/models/Category';
 
 // Define a type for the Cloudinary upload result
 interface UploadResult {
@@ -31,13 +32,19 @@ export async function POST(req: NextRequest) {
     // Handle form data
     const formData = await req.formData();
     const name = formData.get('name') as string;
-    const category = formData.get('category') as File | null;
+    const category = formData.get('category') as string;
     const logoFile = formData.get('logo') as File | null;
     const bannerFile = formData.get('banner') as File | null;
     if (!name || !category) {
       return NextResponse.json({ message: 'Name et catgoray is required' }, { status: 400 });
     }
 
+   if(category){
+    const existingcategory = await Category.findById({ _id:category });
+    if (!existingcategory) {
+      return NextResponse.json({ message: 'Subcategory with this name already exists' }, { status: 408 });
+    }
+   }
     const existingSubcategory = await Subcategory.findOne({ name });
     if (existingSubcategory) {
       return NextResponse.json({ message: 'Subcategory with this name already exists' }, { status: 402 });

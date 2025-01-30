@@ -12,9 +12,13 @@ interface SubCategoryData {
   logoUrl: string;
   bannerUrl: string;
 }
+  interface Category {
+    _id: string;
+    name: string;
+  }
 
 const ModifyCategory = () => {
-  const params = useParams() as { id:string;edit: string }; // Explicitly type the params object
+  const params = useParams() as {edit: string }; // Explicitly type the params object
   const router = useRouter();
   const [subCategoryData, setSubCategoryData] = useState<SubCategoryData>({
     name: "",
@@ -24,13 +28,45 @@ const ModifyCategory = () => {
 
   const [selectedIcon, setSelectedIcon] = useState<File | null>(null);
   const [selectedBanner, setSelectedBanner] = useState<File | null>(null);
-
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [category, setCategory] = useState<string>("");
+    const [error, setError] = useState<string | null>(null);
   useEffect(() => {
-    // Fetch category data by ID
+    const getCategory = async () => {
+      try {
+        const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+
+        const data = await response.json();
+        setCategories(data);
+        
+      } catch (error: unknown) {
+        // Handle different error types effectively
+        if (error instanceof Error) {
+          console.error("Error deleting category:", error.message);
+          setError(error.message);
+        } else if (typeof error === "string") {
+          console.error("String error:", error);
+          setError(error);
+        } else {
+          console.error("Unknown error:", error);
+          setError("An unexpected error occurred. Please try again.");
+        }
+      }
+     
+    };
+
     const fetchCategoryData = async () => {
       try {
         const response = await fetch(
-          `/api/category/admin/SubCategory/getsubCategoryById/${params.edit}`
+          `/api/SubCategory/admin/getsubCategoryById/${params.edit}`
         );
 
         if (!response.ok) {
@@ -39,12 +75,13 @@ const ModifyCategory = () => {
 
         const data = await response.json();
         setSubCategoryData(data);
-        console.log(data);
+        setCategory(data.category)
+      
       } catch (error) {
         console.error("Error fetching subcategory data:", error);
       }
     };
-
+    getCategory();
     fetchCategoryData();
   }, [params.edit]);
 
@@ -69,13 +106,16 @@ const ModifyCategory = () => {
       setSelectedBanner(e.target.files[0]);
     }
   };
+    const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setCategory(e.target.value);
+    };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("name", subCategoryData.name);
-  
+    formData.append("category", category);
     if (selectedIcon) {
       formData.append("logo", selectedIcon);
     }
@@ -85,7 +125,7 @@ const ModifyCategory = () => {
 
     try {
       const response = await fetch(
-        `/api/category/admin/SubCategory/updatesubCategory/${params.edit}`,
+        `/api/SubCategory/admin/updatesubCategory/${params.edit}`,
         {
           method: "PUT",
           body: formData,
@@ -98,7 +138,7 @@ const ModifyCategory = () => {
       }
 
       toast.success(`Sub Category ${subCategoryData.name} modification successfully!`);
-      router.push(`/admin/category/subcategory/${params.id}`);
+      router.push(`/admin/subcategory`);
     } catch (error) {
       toast.error(
         `Error: ${error instanceof Error ? error.message : "Unknown error"}`
@@ -108,7 +148,7 @@ const ModifyCategory = () => {
 
   return (
     <div className="flex flex-col gap-8  mx-auto w-[90%] py-8 ">
-      <p className="text-3xl font-bold">Modify Sub Category</p>
+      <p className="text-3xl font-bold">Modify Sous Categorie</p>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center mx-auto gap-4 w-full lg:w-3/5"
@@ -135,7 +175,7 @@ const ModifyCategory = () => {
           />
           <label
             htmlFor="upload-icon"
-            className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[60%] h-10 border-2 flex items-center justify-center cursor-pointer"
+            className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[50%] h-10 border-2 flex items-center justify-center cursor-pointer"
           >
             Select an Icon Type SVG
           </label>
@@ -200,8 +240,25 @@ const ModifyCategory = () => {
             />
           </div>
         )}
+          <div className="flex items-center w-full justify-between gap-4">
+          <p className="text-xl font-bold">Category *</p>
+          <select
+            name="category"
+            value={category}
+            onChange={handleCategoryChange}
+            className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-1/2 h-10 border-2 flex items-center justify-center cursor-pointer"
+            required
+          >
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="flex w-full justify-center gap-4 px-20">
-           <Link className="w-1/2"  href={`/admin/category/subcategory/${params.id}`}>
+           <Link className="w-1/2"  href={`/admin/subcategory/`}>
            <button className="w-full  rounded-md border-2 font-light  h-10
              "><p className="font-bold">Cancel</p>
             </button>
@@ -215,6 +272,7 @@ const ModifyCategory = () => {
         </div>
         
       </form>
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 };

@@ -1,12 +1,16 @@
 "use client";
 import { toast } from "react-toastify";
-import { useParams, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
+interface Category {
+  _id: string;
+  name: string;
+}
 const AddSubCategory = () => {
-    const params = useParams() as { id: string };
+
   const router = useRouter();
   const [name, setName] = useState("");
   const [icon, setIcon] = useState<File | null>(null);
@@ -14,8 +18,40 @@ const AddSubCategory = () => {
   const [iconPreview, setIconPreview] = useState<string | null>(null);
   const [bannerPreview, setBannerPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [category, setCategory] = useState<string>("");
+  useEffect(() => {
+    const getCategory = async () => {
+      try {
+        const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
 
-
+        const data = await response.json();
+        setCategories(data);
+      } catch (error: unknown) {
+        // Handle different error types effectively
+        if (error instanceof Error) {
+          console.error("Error deleting category:", error.message);
+          setError(error.message);
+        } else if (typeof error === "string") {
+          console.error("String error:", error);
+          setError(error);
+        } else {
+          console.error("Unknown error:", error);
+          setError("An unexpected error occurred. Please try again.");
+        }
+      }
+     
+    };
+    getCategory();
+  }, []);
 
   useEffect(() => {
     if (icon) {
@@ -54,12 +90,14 @@ const AddSubCategory = () => {
       setBanner(e.target.files[0]);
     }
   };
-
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value);
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !icon || !banner) {
-      setError("Name, image, icon, and banner are required");
+    if (!name || !icon || !banner || !category) {
+      setError("Name, icon, banner, and category are required");
       return;
     }
 
@@ -67,9 +105,9 @@ const AddSubCategory = () => {
     formData.append("name", name);
     formData.append("logo", icon); // Correctly naming the field
     formData.append("banner", banner); // Added banner field
-    formData.append("category", params.id); 
+    formData.append("category", category);
     try {
-      const response = await fetch("/api/category/admin/SubCategory/postSubCategoray", {
+      const response = await fetch("/api/SubCategory/admin/postSubCategoray", {
         method: "POST",
         body: formData,
       });
@@ -80,7 +118,7 @@ const AddSubCategory = () => {
       }
 
       toast.success(`Sub Category ${name} Add successfully!`);
-      router.push(`/admin/category/subcategory/${params.id}`);
+      router.push(`/admin/subcategory`);
     } catch (error: unknown) {
       // Handle different error types effectively
       if (error instanceof Error) {
@@ -98,7 +136,7 @@ const AddSubCategory = () => {
 
   return (
     <div className="flex flex-col gap-8  mx-auto w-[90%] py-8 ">
-      <p className="text-3xl font-bold">ADD Sub Categoray</p>
+      <p className="text-3xl font-bold">ADD New Sous Categorie</p>
 
       <form
         onSubmit={handleSubmit}
@@ -168,10 +206,28 @@ const AddSubCategory = () => {
               />
             </div>
           )}
+            
+        </div>
+        <div className="flex items-center w-full justify-between gap-4">
+          <p className="text-xl font-bold">Category *</p>
+          <select
+            name="category"
+            value={category}
+            onChange={handleCategoryChange}
+            className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-1/2 h-10 border-2 flex items-center justify-center cursor-pointer"
+            required
+          >
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="flex w-full justify-center gap-4 px-20">
           <Link
-          className="w-1/2" href={`/admin/category/subcategory/${params.id}`}>
+          className="w-1/2" href={`/admin/subcategory`}>
             <button className="w-full  rounded-md border-2 font-light  h-10
              ">
               <p className="font-bold">Cancel</p>

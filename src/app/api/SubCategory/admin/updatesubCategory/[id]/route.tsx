@@ -28,6 +28,7 @@ export async function PUT(req: NextRequest, { params }:{ params: Promise<{ id: s
   try {
     const formData = await req.formData();
     const name = formData.get("name") as string;
+    const category = formData.get("category") as string;
     const logoFile = formData.get("logo") as File | null;
     const bannerFile = formData.get("banner") as File | null;
     const {id} = await params;
@@ -92,6 +93,7 @@ export async function PUT(req: NextRequest, { params }:{ params: Promise<{ id: s
     existingSubcategory.name = name;
     existingSubcategory.logoUrl = logoUrl;
     existingSubcategory.bannerUrl = bannerUrl;
+    existingSubcategory.category=category;
     existingSubcategory.user = user;
     await existingSubcategory.save();
 

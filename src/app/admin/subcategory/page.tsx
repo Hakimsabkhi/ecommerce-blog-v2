@@ -9,11 +9,7 @@ import { toast } from "react-toastify";
 import {  FaSpinner } from "react-icons/fa6";
 import Image from "next/image";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
-interface CategoryData {
-    _id:string
-    name: string;
-   
-  }
+
 
   type Subcategory = {
     _id: string;
@@ -32,8 +28,7 @@ interface CategoryData {
 
 
 const Subcategory= () => {
-const params = useParams() as { id: string };
-   const [categoryData, setCategoryData] = useState<CategoryData>();
+
    const [addedSubCategory, setAddedSubCategory] = useState<Subcategory[]>([]);
    const [isPopupOpen, setIsPopupOpen] = useState(false);
    const [error, setError] = useState<string | null>(null);
@@ -43,29 +38,7 @@ const params = useParams() as { id: string };
    const [selectedSubCategory, setSelectedSubCategory] = useState<Subcategory | null>(
      null
    );
-     useEffect(() => {
-        // Fetch category data by ID
-        const fetchCategoryData = async () => {
-          try {
-            const response = await fetch(
-              `/api/category/admin/getCategoryById/${params.id}`
-            );
-    
-            if (!response.ok) {
-              throw new Error("Failed to fetch category data");
-            }
-    
-            const data = await response.json();
-           
-            setCategoryData(data);
-          } catch (error) {
-            console.error("Error fetching category data:", error);
-          }
-        };
-    
-        fetchCategoryData();
-      }, [params.id]);
-     
+
       
       const [colSpan, setColSpan] = useState(5);
     
@@ -85,7 +58,7 @@ const params = useParams() as { id: string };
       const deleteSubCategory = async (SubcategoryId: string) => {
         try {
           const response = await fetch(
-            `/api/category/admin/SubCategory/deleteSubCategory/${SubcategoryId}`,
+            `/api/SubCategory/admin/deleteSubCategory/${SubcategoryId}`,
             {
               method: "DELETE",
             }
@@ -126,7 +99,7 @@ const params = useParams() as { id: string };
           updateFormData.append("vadmin", newStatus);
     
           const response = await fetch(
-            `/api/category/admin/SubCategory/updateSubCategoryvadmin/${subcategoryId}`,
+            `/api/SubCategory/admin/updateSubCategoryvadmin/${subcategoryId}`,
             {
               method: "PUT",
               body: updateFormData,
@@ -177,14 +150,14 @@ const params = useParams() as { id: string };
       useEffect(() => {
         const getsubCategory = async () => {
           try {
-            const response = await fetch(`/api/category/admin/SubCategory/getSubCategoryByCategory/${params.id}`, {
+            const response = await fetch(`/api/SubCategory/admin/getallSubCategory`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
               },
             });
             if (!response.ok) {
-              throw new Error("Failed to fetch categories");
+              throw new Error("Failed to fetch sub categories");
             }
     
             const data = await response.json();
@@ -192,7 +165,7 @@ const params = useParams() as { id: string };
           } catch (error: unknown) {
             // Handle different error types effectively
             if (error instanceof Error) {
-              console.error("Error deleting category:", error.message);
+              console.error("Error deleting sub category:", error.message);
               setError(error.message);
             } else if (typeof error === "string") {
               console.error("String error:", error);
@@ -206,7 +179,7 @@ const params = useParams() as { id: string };
           }
         };
         getsubCategory();
-      }, [params.id]);
+      }, []);
     
       const filteredsubCategory = useMemo(() => {
         return addedSubCategory.filter((subcategory) =>
@@ -230,11 +203,11 @@ const params = useParams() as { id: string };
   return (
     <div className="mx-auto w-[90%]  flex flex-col gap-4">
       <div className="flex items-center justify-between h-[80px] ">
-        <p className="text-3xl max-sm:text-sm font-bold">SubCategory {categoryData?.name}</p>
+        <p className="text-3xl max-sm:text-sm font-bold">All Sous Categorie </p>
 
-        <Link href={`/admin/category/subcategory/${categoryData?._id}/addsubcategory`}>
+        <Link href={`/admin/subcategory/addsubcategory`}>
         <button className='bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4'>
-            Add SubCategory
+            Add Sous Categorie
           </button>
         </Link>
       </div>
@@ -320,7 +293,7 @@ const params = useParams() as { id: string };
                       Not approve
                     </option>
                   </select>
-                  <Link href={`/admin/category/subcategory/${categoryData?._id}/${subcategory._id}`}>
+                  <Link href={`/admin/subcategory/${subcategory._id}`}>
                     <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                     <FaRegEdit />
                     </button>
@@ -389,7 +362,7 @@ const params = useParams() as { id: string };
                   </select>
                   
                   <div className="flex gap-2 justify-center">
-                  <Link href={`/admin/category/subcategory/${categoryData?._id}/${subcategory._id}`}>
+                  <Link href={`/admin/subcategory/${subcategory._id}`}>
                     <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                     <FaRegEdit />
                     </button>
