@@ -85,7 +85,7 @@ const params = useParams() as { id: string };
       const deleteSubCategory = async (SubcategoryId: string) => {
         try {
           const response = await fetch(
-            `/api/category/admin/deleteCategory/${SubcategoryId}`,
+            `/api/category/admin/SubCategory/deleteSubCategory/${SubcategoryId}`,
             {
               method: "DELETE",
             }
@@ -126,7 +126,7 @@ const params = useParams() as { id: string };
           updateFormData.append("vadmin", newStatus);
     
           const response = await fetch(
-            `/api/category/admin/updateCategoryvadmin/${subcategoryId}`,
+            `/api/category/admin/SubCategory/updateSubCategoryvadmin/${subcategoryId}`,
             {
               method: "PUT",
               body: updateFormData,
@@ -241,7 +241,7 @@ const params = useParams() as { id: string };
       <div className="h-[50px] flex items-center ">
       <input
         type="text"
-        placeholder="Search categories"
+        placeholder="Search SubCategories"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="p-2 border border-gray-300 rounded-lg max-w-max"
@@ -280,34 +280,34 @@ const params = useParams() as { id: string };
             </tbody>
           ) : (
         <tbody>
-          {currentSubCategories.map((category) => (
-            <tr key={category._id} className="even:bg-gray-100 odd:bg-white">
+          {currentSubCategories.map((subcategory) => (
+            <tr key={subcategory._id} className="even:bg-gray-100 odd:bg-white">
               <td className="border px-4 py-2 max-sm:hidden">
                 <Image
-                  src={category.logoUrl}
+                  src={subcategory.logoUrl}
                   width={30}
                   height={30}
                   alt="icon"
                 />
               </td>
               <td className="border px-4 py-2 max-md:hidden truncate">
-                <Link href={category.bannerUrl}>
-                  {category.bannerUrl.split("/").pop()}
+                <Link href={subcategory.bannerUrl}>
+                  {subcategory.bannerUrl.split("/").pop()}
                 </Link>
               </td>
-              <td className="border px-4 py-2 truncate">{category.name}</td>
-              <td className="border px-4 py-2 max-lg:hidden">{category?.user?.username}</td>
+              <td className="border px-4 py-2 truncate">{subcategory.name}</td>
+              <td className="border px-4 py-2 max-lg:hidden">{subcategory?.user?.username}</td>
               <td className="border px-4 py-2">
                 <div className="flex justify-center gap-2 ">
                   <select
                     className={`w-32 text-black rounded-md h-10 ${
-                      category.vadmin === "not-approve"
+                      subcategory.vadmin === "not-approve"
                         ? "bg-gray-400 text-white"
                         : "bg-green-500 text-white"
                     }`}
-                    value={category.vadmin}
+                    value={subcategory.vadmin}
                     onChange={(e) =>
-                      updateSubCategoryvadmin(category._id, e.target.value)
+                      updateSubCategoryvadmin(subcategory._id, e.target.value)
                     }
                   >
                     <option value="approve" className="text-white uppercase">
@@ -320,35 +320,23 @@ const params = useParams() as { id: string };
                       Not approve
                     </option>
                   </select>
-                  <Link href={`/admin/category/${category._id}`}>
+                  <Link href={`/admin/category/subcategory/${categoryData?._id}/${subcategory._id}`}>
                     <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                     <FaRegEdit />
                     </button>
                   </Link>
                   <button
-                    onClick={() => handleDeleteClick(category)}
+                    onClick={() => handleDeleteClick(subcategory)}
                     className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
-                    disabled={selectedSubCategory?._id === category._id}
+                    disabled={selectedSubCategory?._id === subcategory._id}
                   >
-                    {selectedSubCategory?._id === category._id
+                    {selectedSubCategory?._id === subcategory._id
                       ? "Processing..."
                       : <FaTrashAlt />}
                   </button>
 
-                  <Link
-                    href={`/${category.vadmin === "approve" ? "" : "admin/"}${
-                      category.slug
-                    }`}
-                  >
-                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                      <FaRegEye />
-                    </button>
-                  </Link>
-                  <Link href={`/admin/category/subcategory/${category._id}`}>
-                    <button className="bg-gray-800 text-white  w-32 h-10 hover:bg-gray-600 rounded-md">
-                     Sub Category
-                    </button>
-                  </Link>
+                 
+                 
                 </div>
               </td>
             </tr>
@@ -356,23 +344,23 @@ const params = useParams() as { id: string };
         </tbody> )}
       </table> </div>
       <div className="md:hidden flex flex-col gap-4">
-        {currentSubCategories.map((category) => (
+        {currentSubCategories.map((subcategory) => (
           <div
-            key={category._id}
+            key={subcategory._id}
             className="p-4 mb-4 bg-gray-100 rounded shadow-md"
           >
             <div className="flex items-center justify-center gap-4">
               <Image
-                src={category.logoUrl}
+                src={subcategory.logoUrl}
                 width={50}
                 height={50}
                 alt="category logo"
                 className="rounded-full"
               />
               <div>
-                <p className="font-bold text-lg">{category.name}</p>
+                <p className="font-bold text-lg">{subcategory.name}</p>
                 <p className="text-sm text-gray-600">
-                  Created by: {category?.user?.username}
+                  Created by: {subcategory?.user?.username}
                 </p>
               </div>
             </div>
@@ -380,13 +368,13 @@ const params = useParams() as { id: string };
             <div className="flex flex-col gap-2 w-3/5 mx-auto">
                   <select
                     className={` text-black rounded-md p-2 ${
-                      category.vadmin === "not-approve"
+                      subcategory.vadmin === "not-approve"
                         ? "bg-gray-400 text-white"
                         : "bg-green-500 text-white"
                     }`}
-                    value={category.vadmin}
+                    value={subcategory.vadmin}
                     onChange={(e) =>
-                      updateSubCategoryvadmin(category._id, e.target.value)
+                      updateSubCategoryvadmin(subcategory._id, e.target.value)
                     }
                   >
                     <option value="approve" className="text-white uppercase">
@@ -401,30 +389,22 @@ const params = useParams() as { id: string };
                   </select>
                   
                   <div className="flex gap-2 justify-center">
-                  <Link href={`/admin/category/${category._id}`}>
+                  <Link href={`/admin/category/subcategory/${categoryData?._id}/${subcategory._id}`}>
                     <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
                     <FaRegEdit />
                     </button>
                   </Link>
                   <button
-                    onClick={() => handleDeleteClick(category)}
+                    onClick={() => handleDeleteClick(subcategory)}
                     className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
-                    disabled={selectedSubCategory?._id === category._id}
+                    disabled={selectedSubCategory?._id === subcategory._id}
                   >
-                    {selectedSubCategory?._id === category._id
+                    {selectedSubCategory?._id === subcategory._id
                       ? "Processing..."
                       : <FaTrashAlt />}
                   </button>
 
-                  <Link
-                    href={`/${category.vadmin === "approve" ? "" : "admin/"}${
-                      category.slug
-                    }`}
-                  >
-                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                      <FaRegEye />
-                    </button>
-                  </Link>
+              
                   </div>
                 </div>
             </div>
