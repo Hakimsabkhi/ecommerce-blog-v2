@@ -93,8 +93,7 @@ const Display: React.FC = () => {
               <p className="text-white">{companyData ? "Update" : "Create"}</p>
             </button>
           </div>
-          <div className="h-[50px] flex justify-between items-center"></div>
-          <table className="w-full h-28 rounded overflow-hidden table-fixed mb-8">
+          <table className="w-full h-28 rounded overflow-hidden table-fixed mb-8 max-lg:hidden">
             <thead>
               <tr className="bg-gray-800">
                 <th className="px-4 py-3">Name Company</th>
@@ -145,7 +144,51 @@ const Display: React.FC = () => {
               </tr>
             </tbody>)}
           </table>
-          
+          <div className="w-full space-y-4 lg:hidden">
+      {loading ? (
+        <div className="flex justify-center items-center w-full h-28">
+          <FaSpinner className="animate-spin text-[30px]" />
+        </div>
+      ) : name === null ? (
+        <div className="text-center py-6 text-gray-600 w-full">
+          <p>Aucune Company trouvée.</p>
+        </div>
+      ) : (
+        <div className="bg-white shadow-lg rounded-lg p-4 w-full">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div>
+              <p className="text-gray-500 text-sm">Name Company</p>
+              <p className="font-semibold">{name}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">Phone</p>
+              <p className="font-semibold">{phone}</p>
+            </div>
+            
+            <div>
+              <p className="text-gray-500 text-sm">Address</p>
+              <p className="font-semibold">{address}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">City</p>
+              <p className="font-semibold">{city}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">Zip Code</p>
+              <p className="font-semibold">{zipcode}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">Governorate</p>
+              <p className="font-semibold">{governorate}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">Email</p>
+              <p className="font-semibold">{email}</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
           <table className="w-full h-36 rounded overflow-hidden table-fixed ">
             <thead>
               <tr className="bg-gray-800">
@@ -264,7 +307,7 @@ const Display: React.FC = () => {
 
           
         </div>
-      
+        
     </div>
   );
 };
