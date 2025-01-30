@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { FaSpinner } from "react-icons/fa6";
 
 interface Company {
   _id?: string;
@@ -28,6 +29,7 @@ const Display: React.FC = () => {
   const [city, setCity] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [governorate, setGovernorate] = useState("");
+  
   const [facebook, setFacebook] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [instagram, setInstagram] = useState("");
@@ -79,9 +81,7 @@ const Display: React.FC = () => {
 
   return (
     <div className="flex flex-col mx-auto w-[90%] gap-4">
-      {loading ? (
-        <p className="text-xl font-bold text-center">Loading...</p>
-      ) : (
+      
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between h-[80px] ">
             <p className="text-3xl max-sm:text-sm font-bold">Company Details</p>
@@ -93,8 +93,7 @@ const Display: React.FC = () => {
               <p className="text-white">{companyData ? "Update" : "Create"}</p>
             </button>
           </div>
-          <div className="h-[50px] flex justify-between items-center"></div>
-          <table className="w-full rounded overflow-hidden table-fixed mb-8">
+          <table className="w-full h-28 rounded overflow-hidden table-fixed mb-8 max-lg:hidden">
             <thead>
               <tr className="bg-gray-800">
                 <th className="px-4 py-3">Name Company</th>
@@ -106,6 +105,27 @@ const Display: React.FC = () => {
                 <th className="px-4 py-3">Governorate </th>
               </tr>
             </thead>
+            {loading ? (
+                        <tbody>
+                          <tr>
+                            <td colSpan={7}>
+                              <div className="flex justify-center items-center w-full ">
+                                <FaSpinner className="animate-spin text-[30px]" />
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      ) : name === null ? (
+                        <tbody>
+                          <tr>
+                            <td colSpan={7}>
+                              <div className="text-center py-6 text-gray-600 w-full">
+                                <p>Aucune Company trouvée.</p>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      ) : (
             <tbody>
               <tr>
                 <td className="border px-4 py-2 truncate">{name}</td>
@@ -122,10 +142,54 @@ const Display: React.FC = () => {
 
                 <td className="border px-4 py-2 truncate">{governorate}</td>
               </tr>
-            </tbody>
+            </tbody>)}
           </table>
-          
-          <table className="w-full rounded overflow-hidden table-fixed ">
+          <div className="w-full space-y-4 lg:hidden">
+      {loading ? (
+        <div className="flex justify-center items-center w-full h-28">
+          <FaSpinner className="animate-spin text-[30px]" />
+        </div>
+      ) : name === null ? (
+        <div className="text-center py-6 text-gray-600 w-full">
+          <p>Aucune Company trouvée.</p>
+        </div>
+      ) : (
+        <div className="bg-white shadow-lg rounded-lg p-4 w-full">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div>
+              <p className="text-gray-500 text-sm">Name Company</p>
+              <p className="font-semibold">{name}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">Phone</p>
+              <p className="font-semibold">{phone}</p>
+            </div>
+            
+            <div>
+              <p className="text-gray-500 text-sm">Address</p>
+              <p className="font-semibold">{address}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">City</p>
+              <p className="font-semibold">{city}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">Zip Code</p>
+              <p className="font-semibold">{zipcode}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">Governorate</p>
+              <p className="font-semibold">{governorate}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">Email</p>
+              <p className="font-semibold">{email}</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+          <table className="w-full h-36 rounded overflow-hidden table-fixed ">
             <thead>
               <tr className="bg-gray-800">
                 <th className="px-4 py-3 text-center">Upload Icon</th>
@@ -133,6 +197,27 @@ const Display: React.FC = () => {
                 <th className="px-4 py-3 text-center">Upload Banner Contact</th>
               </tr>
             </thead>
+            {loading ? (
+                        <tbody>
+                          <tr>
+                            <td colSpan={3}>
+                              <div className="flex justify-center items-center w-full">
+                                <FaSpinner className="animate-spin text-[30px]" />
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      ) : iconPreview === null ? (
+                        <tbody>
+                          <tr>
+                            <td colSpan={3}>
+                              <div className="text-center py-6 text-gray-600 w-full">
+                                <p>Aucune Company trouvée.</p>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      ) : (
             <tbody>
               <tr>
                 <td className="border px-4 py-2 ">{iconPreview && (
@@ -165,9 +250,9 @@ const Display: React.FC = () => {
                 />
               )}</td>
               </tr>
-            </tbody>
+            </tbody>)}
           </table>
-          <table className="w-full rounded overflow-hidden table-fixed ">
+          <table className="w-full h-28 rounded overflow-hidden table-fixed ">
             <thead>
               <tr className="bg-gray-800">
                 <th className="px-4 py-3 text-center">Facebook</th>
@@ -175,6 +260,27 @@ const Display: React.FC = () => {
                 <th className="px-4 py-3 text-center">Instagram</th>
               </tr>
             </thead>
+            {loading ? (
+                        <tbody>
+                          <tr>
+                            <td colSpan={3}>
+                              <div className="flex justify-center items-center w-full">
+                                <FaSpinner className="animate-spin text-[30px]" />
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      ) : facebook === null ? (
+                        <tbody>
+                          <tr>
+                            <td colSpan={3}>
+                              <div className="text-center py-6 text-gray-600 w-full">
+                                <p>Aucune Company trouvée.</p>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      ) : (
             <tbody>
               <tr>
                 <td className="border px-4 py-2 text-center ">{facebook && (
@@ -196,11 +302,12 @@ const Display: React.FC = () => {
             )}</td>
               </tr>
             </tbody>
+                      )}
           </table>
 
           
         </div>
-      )}
+        
     </div>
   );
 };
