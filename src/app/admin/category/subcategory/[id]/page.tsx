@@ -6,7 +6,7 @@ import DeletePopup from "@/components/Popup/DeletePopup";
 import Pagination from "@/components/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 import { toast } from "react-toastify";
-import { FaRegEye, FaSpinner } from "react-icons/fa6";
+import {  FaSpinner } from "react-icons/fa6";
 import Image from "next/image";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 interface CategoryData {
