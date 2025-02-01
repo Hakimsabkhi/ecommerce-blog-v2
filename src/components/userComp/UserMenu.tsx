@@ -104,7 +104,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ session }) => {
                 />
               </div>
             ) : (
-              <div className="absolute shadow-xl z-30 flex flex-col gap-4 top-12 -translate-x-1/5 bg-white p-4 border-[#15335D] border-4 rounded-lg">
+              <div className="absolute shadow-xl z-30 flex flex-col gap-4 top-12 -translate-x-1/5 max-md:-translate-x-1/3 max-sm:-translate-x-1/2 bg-white p-4 border-[#15335D] border-4 rounded-lg">
                 <Link href="/signin" className="bg-primary px-8 py-2 rounded border-2 border-primary text-center hover:bg-white hover:text-black ">
                   LOGIN
                 </Link>

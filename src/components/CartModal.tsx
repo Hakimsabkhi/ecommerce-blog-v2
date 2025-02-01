@@ -75,7 +75,7 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose }) => {
 
   return (
     <div
-      className="flex flex-col px-4 w-[400px] max-md:w-[350px] border-[#15335D] border-4 rounded-lg bg-white z-30"
+      className="flex flex-col px-4 w-[400px] max-md:mx-auto max-md:w-[90%] border-[#15335D] border-4 rounded-lg bg-white z-30"
       onClick={(event) => event.stopPropagation()} // Prevents modal from closing when clicking inside
     >
       <h1 className="text-lg font-bold text-black border-b-2 text-center py-2 max-md:text-sm">
@@ -107,12 +107,12 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose }) => {
               <div className="text-black flex-col flex gap-2">
                 <p className="text-sm font-bold">{item.name}</p>
                 <p className="text-gray-800 text-xs">Quantity: {item.quantity}</p>
-                <p className="text-gray-800 text-xs max-md:hidden">
+                <p className="text-gray-800 text-xs">
                   Price Unit: TND {((item.price - (item.discount ? (item.price * item.discount) / 100 : 0)).toFixed(2))}
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2 max-md:hidden">
+                <div className="flex items-center gap-2 ">
                   <button
                     className="text-black w-8 h-8 flex items-center justify-center bg-opacity-40 rounded-lg border-2 border-[#15335E] bg-white hover:bg-[#15335E] hover:text-white"
                     onClick={(event) => decrementHandler(item, event)}
@@ -130,10 +130,10 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose }) => {
                   </button>
                 </div>
                 <button
-                  className="flex gap-2 items-center justify-center hover:bg-[#15335E]  border-2 max-md:border-none border-[#15335E] rounded text-black hover:text-white cursor-pointer"
+                  className="flex gap-2 items-center justify-center hover:bg-[#15335E]  border-2  border-[#15335E] rounded text-black hover:text-white cursor-pointer"
                   onClick={(event) => removeCartHandler(item._id, event)}
                 >
-                  <span className="max-md:hidden">Remove</span>
+                  <span className="">Remove</span>
                   <FaRegTrashAlt size={15} />
                 </button>
               </div>
