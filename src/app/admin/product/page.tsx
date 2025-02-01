@@ -208,7 +208,7 @@ const AddedProducts: React.FC = () => {
         throw new Error(`Error: ${response.statusText}`);
       }
 
-      const data = await response.json();
+
       
       setProducts((prevData) =>
         prevData.map((item) =>

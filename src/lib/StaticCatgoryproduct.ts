@@ -2,8 +2,9 @@
 import connectToDatabase from "@/lib/db";
 import Boutique from "@/models/Boutique";
 import Brand from "@/models/Brand";
-import Category from "@/models/Category";
-import Product from "@/models/Product";
+import Category, { ICategory } from "@/models/Category";
+import Product, { IProduct } from "@/models/Product";
+import Subcategory, { ISubcategory } from "@/models/Subcategory";
 
 
 export async function searchcategory(id:string) {
@@ -14,11 +15,17 @@ export async function searchcategory(id:string) {
          console.error('Category name is required and should be a string');
       
     }
+
       const foundCategory = await Category.findOne({ slug: category, vadmin: 'approve' }).exec();
-    
+      let search: ICategory | ISubcategory | null;
+      if (foundCategory===null){
+        search= await Subcategory.findOne({ slug: category, vadmin: 'approve' }).exec();
+      }else{
+        search=foundCategory
+      }
      
  
-    return JSON.stringify(foundCategory );
+    return JSON.stringify(search );
 }
 
 export async function getProductById(id:string) {
@@ -44,10 +51,10 @@ export async function getProductById(id:string) {
       return JSON.stringify(product );
 }
 export async function getproductbycatgory(categorySlug:string){
-  console.log(categorySlug)
+
     // Ensure database connection
     await connectToDatabase();
-
+  
     // Await the params object
 
     // Validate and ensure `categorySlug` is available
@@ -56,16 +63,34 @@ export async function getproductbycatgory(categorySlug:string){
       
     }
 
-  
-
+    let products:IProduct[]
+    await Brand.find();
     // Find the category by slug with "approve" status
     const foundCategory = await Category.findOne({ slug: categorySlug, vadmin: 'approve' });
 
     if (!foundCategory) {
-      console.error('Category not found. Please check the slug.');
+      const foundsubCategory = await Subcategory.findOne({ slug: categorySlug, vadmin: 'approve' });
+      products= await Product.find({
+        subcategory: foundsubCategory?._id,
+        vadmin: 'approve',
+      })
+        .populate('category', 'name slug') // Populate category with only needed fields
+        .populate('brand', 'name')        // Populate brand with only needed fields
+        .populate('user', 'name email')  // Populate user with only needed fields
+        .exec();
       
+    }else{
+
+      products= await Product.find({
+        category: foundCategory?._id,
+        vadmin: 'approve',
+      })
+        .populate('category', 'name slug') // Populate category with only needed fields
+        .populate('brand', 'name')        // Populate brand with only needed fields
+        .populate('user', 'name email')  // Populate user with only needed fields
+        .exec();
     }
-    
+   /*  
     // Check if products exist for the category
     const productCount = await Product.countDocuments({
       category: foundCategory?._id,
@@ -75,17 +100,10 @@ export async function getproductbycatgory(categorySlug:string){
     if (productCount === 0) {
       console.error('No products found for this category.');
         
-    }
-await Brand.find();
+    } */
+
     // Fetch the products with populated references
-    const products = await Product.find({
-      category: foundCategory?._id,
-      vadmin: 'approve',
-    })
-      .populate('category', 'name slug') // Populate category with only needed fields
-      .populate('brand', 'name')        // Populate brand with only needed fields
-      .populate('user', 'name email')  // Populate user with only needed fields
-      .exec();
+   
       return JSON.stringify(products );
 }
 
