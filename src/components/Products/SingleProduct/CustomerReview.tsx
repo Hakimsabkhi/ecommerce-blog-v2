@@ -106,10 +106,13 @@ const ratingCounts5 = ratingCounts[5] || 0;
             <FaStar />
           </div>
           <div className="relative w-full h-2.5 rounded-full bg-gray-200 ">
-            <div
+          <div
               className="absolute top-0 left-0 h-full bg-primary rounded"
-              style={{ width: `${ratingstatic5}%` }} 
+              style={{ width: `${ratingstatic5}%` }}
               role="progressbar"
+              aria-label="Rating progress" // Optionally describe what the progress represents
+              
+              
             ></div>
           </div>
 
