@@ -53,17 +53,32 @@ const Headertop: React.FC = async () => {
             <p className="flex gap-2 items-center px-4"><span className="font-semibold uppercase tracking-wider">EMAIL: </span>{companyData.email}</p>
           </div>
           <div className="flex w-[200px] gap-4 justify-center items-center px-4">
-            {/* Social Media Icons */}
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-              <FaFacebookF className="text-white hover:text-blue-500 transition-colors" />
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              <FaTwitter className="text-white hover:text-blue-400 transition-colors" />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-              <FaLinkedinIn className="text-white hover:text-blue-600 transition-colors" />
-            </a>
-          </div>
+  {/* Social Media Icons */}
+  <a
+    href="https://facebook.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Visit our Facebook page"
+  >
+    <FaFacebookF className="text-white hover:text-blue-500 transition-colors" />
+  </a>
+  <a
+    href="https://twitter.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Visit our Twitter profile"
+  >
+    <FaTwitter className="text-white hover:text-blue-400 transition-colors" />
+  </a>
+  <a
+    href="https://linkedin.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Visit our LinkedIn profile"
+  >
+    <FaLinkedinIn className="text-white hover:text-blue-600 transition-colors" />
+  </a>
+</div>
         </div>
       </div>
   );
