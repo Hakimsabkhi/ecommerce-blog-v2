@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
     const description = formData.get('description') as string;
     const ref = formData.get('ref') as string;
     const category = formData.get('category') as string;
-    const subcategory = formData.get('subcategory') as string;
-    const boutique = formData.get('boutique') as string;
+    let subcategory = formData.get('subcategory') as string | null;
+    let boutique = formData.get('boutique') as string | null;
     let brand = formData.get('brand') as string | null;  // Brand can be null or a string
     const stock = formData.get('stock') as string;
     const discount = formData.get('discount') as string;
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     const weight = formData.get('weight') as string;
     const warranty = formData.get('warranty') as string;
     const statuspage = formData.get('statuspage') as string;
-    console.log(subcategory)
+
     // Handle multiple image files
     const imageFiles: File[] = [];
     const entries = Array.from(formData.entries());
@@ -85,7 +85,12 @@ export async function POST(req: NextRequest) {
     if (existingProduct) {
       return NextResponse.json({ message: 'Product with this ref already exists' }, { status: 400 });
     }
-
+    if(!subcategory){
+      subcategory=null
+    }
+    if(!boutique){
+      boutique=null
+    }
     // Upload a single image
     let imageUrl = '';
     const imageFile = formData.get('image') as File | null;
