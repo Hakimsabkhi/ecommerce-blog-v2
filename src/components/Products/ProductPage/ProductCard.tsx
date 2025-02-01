@@ -1,34 +1,34 @@
-// components/ProductCard.tsx
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaEye, FaRegHeart, FaHeart, FaCartShopping, FaStar, FaRegStar } from "react-icons/fa6";
+import {
+  FaEye,
+  FaRegHeart,
+  FaHeart,
+  FaCartShopping,
+} from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { addItem } from "@/store/cartSlice";
 import { addToWishlist } from "@/store/wishlistSlice";
-import { FaStarHalfAlt } from "react-icons/fa";
+import Reviews from "@/components/Reviews"; // Adjust the path if necessary
 
 interface Brand {
   _id: string;
   name: string;
 }
-interface Review {
-  _id: string;
+
+interface Category {
   name: string;
-  email: string;
-  text: string;
-  reply: string;
-  rating: number;
-  createdAt: string;
-  updatedAt: string;
+  slug: string;
 }
+
 interface ProductData {
   _id: string;
   name: string;
   description: string;
   ref: string;
-  tva?:number;
+  tva?: number;
   price: number;
   imageUrl?: string;
   brand?: Brand;
@@ -40,80 +40,27 @@ interface ProductData {
   category: Category;
   slug: string;
 }
-interface Category {
-  name: string;
-  slug: string;
-}
 
 interface ProductCardProps {
   item: ProductData;
 }
-const fetchReviews = async (productId: string) => {
-  if (!productId) {
-    throw new Error("Product ID is required");
-  }
-
-  const response = await fetch(
-    `/api/review/getAllReviewByProduct?id=${productId}`
-  );
-  if (!response.ok) {
-    throw new Error(`Error: ${response.statusText}`);
-  }
-
-  const data = await response.json();
-  return data; // Ensure you return the fetched data
-};
 
 const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
-  const [reviews, setReviews] = useState<Review[]>([]);
-  useEffect(() => {
-    const loadReviews = async () => {
-
-        const data = await fetchReviews(item._id);
-        setReviews(data);
-      } 
-  
-  
-    loadReviews();
-  }, [item._id]);
-  
-  const countRatings = (reviews: Review[]): Record<number, number> => {
-    const counts: Record<number, number> = {};
-  
-    reviews.forEach((review) => {
-      counts[review.rating] = (counts[review.rating] || 0) + 1;
-    });
-  
-    return counts;
-  };
-  
-  const ratingCounts = countRatings(reviews);
-  const ratingCounts1 = ratingCounts[1] || 0;
-  const ratingCounts2 = ratingCounts[2] || 0;
-  const ratingCounts3 = ratingCounts[3] || 0;
-  const ratingCounts4 = ratingCounts[4] || 0;
-  const ratingCounts5 = ratingCounts[5] || 0;
-  
-  const numberOfReviews = reviews.length;
-  const reatingstatictotal=((ratingCounts1*1)+(ratingCounts2*2)+(ratingCounts3*3)+(ratingCounts4*4)+(ratingCounts5*5))/numberOfReviews;
-  const handleClick = async (product: ProductData) => {
-  
-    dispatch(addToWishlist(product));
-  
-   
-};
   const dispatch = useDispatch();
+
   const addToCartHandler = (product: ProductData, quantity: number) => {
     dispatch(addItem({ item: product, quantity }));
-   
+  };
+
+  const handleWishlistClick = (product: ProductData) => {
+    dispatch(addToWishlist(product));
   };
 
   return (
-    <div className="flex gap-2 h-fit flex-col duration-500 lg:group-hover:scale-[0.85] lg:hover:!scale-100 max-md:h-fit relative
-                   ">
+    <div className="flex gap-2 h-fit flex-col duration-500 lg:group-hover:scale-[0.85] lg:hover:!scale-100 max-md:h-fit relative">
       <Link href={`/${item.category?.slug}/${item.slug}`}>
         <Image
-          className=" w-full h-auto mx-auto top-5"
+          className="w-full h-auto mx-auto top-5"
           src={item.imageUrl || ""}
           alt={item.name}
           height={300}
@@ -122,25 +69,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
       </Link>
       <div className="flex-col flex bottom-0 gap-2 pl-2 pr-2 w-full">
         <Link href={`/${item.category?.slug}/${item.slug}`}>
-          <div className=" flex justify-between h-24 max-md:h-20">
-            <div className="flex-col gap-1" >
+          <div className="flex justify-between h-24 max-md:h-20">
+            <div className="flex-col flex gap-1">
               <p className="text-productNameCard cursor-pointer text-2xl max-md:text-lg font-bold first-letter:uppercase">
-              {item.name}
-            </p>
-            <div className="flex gap-2 items-center text-secondary mt-2">
-            {Array.from({ length: 5 }, (_, index) => {
-                    const starValue = index + 1;
-                    if (starValue <= reatingstatictotal) {
-                        return <FaStar key={index} />;  // Full star
-                    } else if (starValue - 0.5 <= reatingstatictotal) {
-                        return <FaStarHalfAlt key={index} />;  // Half star
-                    } else {
-                        return <FaRegStar key={index} />;  // Empty star
-                    }
-                })}
-          
-        </div>
-             </div>
+                {item.name}
+              </p>
+              {/* Render the Reviews component in summary mode.
+                  It will display the star ratings using the same CSS as your original file. */}
+              <Reviews productId={item._id} summary={true} />
+            </div>
             <div className="flex-col gap-1">
               {item.discount && item.discount !== 0 ? (
                 <div className="flex-col flex gap-1">
@@ -190,7 +127,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
             )
           ) : (
             <button
-              className="AddtoCart bg-gray-400 hover:bg-gray-500 text-white max-lg:w-[60%] w-[50%]  max-md:rounded-[3px] max-2xl:text-sm group/box"
+              className="AddtoCart bg-gray-400 hover:bg-gray-500 text-white max-lg:w-[60%] w-[50%] max-md:rounded-[3px] max-2xl:text-sm group/box"
               disabled
             >
               <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 ease max-md:text-xs">
@@ -214,7 +151,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
             </button>
           </a>
           <button
-            onClick={()=>handleClick(item)}
+            onClick={() => handleWishlistClick(item)}
             className="relative bg-white hover:bg-primary max-md:rounded-[3px] AddtoCart w-[15%] group/box text-primary hover:text-white border border-primary max-lg:hidden"
             aria-label="wishlist"
           >
@@ -225,9 +162,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
                 fill="currentColor"
               />
             </p>
-            <p
-              className="absolute flex items-center justify-center w-full h-full group-hover/box:opacity-100"
-            >
+            <p className="absolute flex items-center justify-center w-full h-full group-hover/box:opacity-100">
               <FaHeart
                 className="w-5 h-5 max-2xl:w-3 max-2xl:h-3"
                 aria-hidden="true"
