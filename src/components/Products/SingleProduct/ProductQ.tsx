@@ -62,7 +62,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
             {product.price - product.price * (product.discount / 100)} TND
           </p>
           <span className="   text-xl font-bold">
-            <p className="text-gray-300 line-through"> {product.price} TND</p>
+            <p className="text-gray-500 line-through"> {product.price} TND</p>
           </span>
         </div>
       ) : (
@@ -79,7 +79,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
             <div className="flex w-full max-md:flex-col xl:flex-col justify-between gap-5">
               <div className=" justify-center flex">
                 <div className="flex items-center justify-center space-x-2">
-                  <p>Quantity:&nbsp;</p>
+                  <p>Quantity:&nbsp;</p><label htmlFor="quantityInput" className="text-lg">
                   <button
                     onClick={decreaseQuantity}
                     className="p-2 border text-xl text-gray-700"
@@ -87,13 +87,17 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
                   >
                     -
                   </button>
-                  <input
-                    value={quantity}
-                    onChange={handleQuantityChange}
-                    min="1"
-                    max={product.stock}
-                    className="p-2 border text-xl text-center w-[20%] "
-                  />
+                  
+    
+  </label>
+  <input
+    id="quantityInput"
+    value={quantity}
+    onChange={handleQuantityChange}
+    min="1"
+    max={product.stock}
+    className="p-2 border text-xl text-center w-[20%]"
+  />
                   <button
                     onClick={increaseQuantity}
                     className="p-2 border text-xl text-gray-700"

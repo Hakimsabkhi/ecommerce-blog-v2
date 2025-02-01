@@ -19,6 +19,10 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   
   return (
     <html lang="en" className={`${poppins.className} w-full h-full`}>
+      <head>
+    <title>Your Page Title</title>
+    
+  </head>
       <body className="w-full h-full">
         <SessionProviderWrapper session={session}>    
             {children}

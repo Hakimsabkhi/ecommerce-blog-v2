@@ -85,7 +85,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
                     {item.price - item.price * (item.discount / 100)} TND
                   </p>
                   <span className="text-primary line-through text-xl max-md:text-sm font-bold">
-                    <p className="text-gray-300">{item.price} TND</p>
+                    <p className="text-gray-500">{item.price} TND</p>
                   </span>
                 </div>
               ) : (

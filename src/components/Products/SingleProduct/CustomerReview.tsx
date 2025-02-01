@@ -132,6 +132,7 @@ const ratingCounts5 = ratingCounts[5] || 0;
               className="absolute top-0 left-0 h-full bg-primary rounded"
               style={{ width: `${ratingstatic4}%` }} 
               role="progressbar"
+              aria-label="Rating progress"
             ></div>
           </div>
           <p className="text-[#525566]">{ratingCounts4}</p>
@@ -149,6 +150,7 @@ const ratingCounts5 = ratingCounts[5] || 0;
               className="absolute top-0 left-0 h-full bg-primary rounded"
               style={{ width: `${ratingstatic3}%` }} 
               role="progressbar"
+              aria-label="Rating progress"
             ></div>
           </div>
           <p className="text-[#525566]">{ratingCounts3}</p>
@@ -166,6 +168,7 @@ const ratingCounts5 = ratingCounts[5] || 0;
               className="absolute top-0 left-0 h-full bg-primary rounded"
               style={{ width: `${ratingstatic2}%` }} 
               role="progressbar"
+              aria-label="Rating progress"
             ></div>
           </div>
           <p className="text-[#525566]">{ratingCounts2}</p>
@@ -183,6 +186,7 @@ const ratingCounts5 = ratingCounts[5] || 0;
               className="absolute top-0 left-0 h-full bg-primary rounded"
               style={{ width: `${ratingstatic1}%` }} 
               role="progressbar"
+              aria-label="Rating progress"
             ></div>
           </div>
           <p className="text-[#525566]">{ratingCounts1}</p>
