@@ -113,7 +113,7 @@ const CartLogic = () => {
               
               </div>
               <div
-  className="absolute max-md:fixed shadow-xl z-30 flex gap-2 flex-col top-12 left-1/2 -translate-x-1/3 max-md:-translate-x-1/2 max-md:top-16 "
+  className="absolute max-md:fixed shadow-xl z-30 flex gap-2 flex-col top-12 left-1/2 -translate-x-1/3 max-md:-translate-x-1/2 max-md:top-16 max-md:w-full"
   onClick={(e) => e.stopPropagation()} 
 >
                 {isCartOpen && !isOnscrollCart && items.length > 0 && (
