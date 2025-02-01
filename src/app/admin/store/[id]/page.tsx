@@ -297,7 +297,7 @@ const Form: React.FC = () => {
     <div className="relative w-[80%] h-full mx-auto my-[20px] flex flex-col">
       <h1 className="text-3xl font-bold pb-6">Edit Boutique </h1>
       <form onSubmit={handleupdate} className="flex flex-col gap-8">
-        <div className="flex items-center w-[30%] max-lg:w-full justify-between">
+        <div className="flex md:items-center gap-4 w-4/6 max-md:w-full max-md:flex-col justify-between">
           <p className="max-lg:text-base font-bold">Upload Image*</p>
           <label className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[50%] h-10 border-2 flex items-center justify-center cursor-pointer">
             {" "}
@@ -312,7 +312,7 @@ const Form: React.FC = () => {
             Select an Image
           </label>
           {formData.image && (
-            <div className="w-[15%] max-lg:w-full">
+            <div className="w-[15%] ">
               <Image
                 src={formData.image}
                 alt="Image preview"
