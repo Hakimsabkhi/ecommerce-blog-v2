@@ -3,6 +3,7 @@ import dbConnect from "@/lib/db";
 import Subcategory from "@/models/Subcategory";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
+import Product from "@/models/Product";
 
 
 export async function PUT(
@@ -37,7 +38,13 @@ export async function PUT(
           { status: 400 }
         );
       }
-  
+      const existingproductsub=await Product.find({subcategory:id})
+    if(existingproductsub){
+      await Product.updateMany(
+        { subcategory: id },
+        { $set: { vadmin: vadmin } } // Update the status field to "vd"
+      );
+    }
       const existingsubCategory= await Subcategory.findById(id);
       if (!existingsubCategory) {
         return NextResponse.json(

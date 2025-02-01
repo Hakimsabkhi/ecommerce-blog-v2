@@ -6,6 +6,7 @@ import cloudinary from "@/lib/cloudinary";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
 import Review from "@/models/Review";
+import Subcategory from "@/models/Subcategory";
 
 export async function DELETE(
   req: NextRequest,
@@ -72,6 +73,39 @@ export async function DELETE(
       }
 
       await Product.findByIdAndDelete(products[i]._id);
+    }
+    }
+    const subcategorys = await Subcategory.find({ category: id });
+
+    if (subcategorys.length > 0) {
+      for (let i = 0; i < subcategorys.length; i++) {
+      
+      // Find the product by ID
+      const subcategory = await Subcategory.findById(subcategorys[i]._id);
+
+      if (!subcategory) {
+        return NextResponse.json(
+          { message: "Product not found" },
+          { status: 404 }
+        );
+      }
+
+
+      // If the product has an associated image, delete it from Cloudinary
+      if (subcategory.logoUrl) {
+        const publicId = extractPublicId(subcategory.logoUrl);
+        if (publicId) {
+          await cloudinary.uploader.destroy(`subcategories/logos/${publicId}`);
+        }
+      }
+      if (subcategory.bannerUrl) {
+        const publicId = extractPublicId(subcategory.bannerUrl);
+        if (publicId) {
+          await cloudinary.uploader.destroy(`subcategories/banner/${publicId}`);
+        }
+      }
+
+      await Subcategory.findByIdAndDelete(products[i]._id);
     }
     }
 
