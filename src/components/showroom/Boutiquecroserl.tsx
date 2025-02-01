@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { BsFillTelephoneFill } from "react-icons/bs";
 import {
+  FaPhoneAlt,
   FaMapMarkerAlt,
   FaRegArrowAltCircleLeft,
   FaRegArrowAltCircleRight,
@@ -12,7 +12,7 @@ interface OpeningHours {
   [day: string]: { open: string; close: string }[];
 }
 
-interface StoreData {
+export interface StoreData {
   _id: string;
   nom: string;
   image: string;
@@ -27,73 +27,82 @@ interface BoutiqueProps {
   boutiques: StoreData[];
 }
 
-const ITEMS_PER_SLIDE = 3; // A single source of truth for items per slide
+// Update BoutiqueCard to accept the dynamic itemsPerSlide prop so that we can set its width.
+interface BoutiqueCardProps {
+  boutique: StoreData;
+  itemsPerSlide: number;
+}
 
-// Boutique card component
-const BoutiqueCard: React.FC<{ boutique: StoreData }> = ({ boutique }) => {
+const BoutiqueCard: React.FC<BoutiqueCardProps> = ({
+  boutique,
+  itemsPerSlide,
+}) => {
   return (
-    <div className="px-2 flex w-1/3 h-full">
+    // Instead of a fixed width class (e.g. w-1/3), we set the width based on itemsPerSlide.
+    <div
+      className="flex h-full gap-6 max-sm:flex-col"
+      style={{ flex: `0 0 ${100 / itemsPerSlide}%` }}
+    >
       {/* Image Section */}
-      <div className="w-1/3">
+      <div className="w-1/2 max-sm:w-full max-sm:h-[100px] max-sm:justify-center flex justify-end">
         {boutique.image && (
           <Image
             src={boutique.image}
             alt={boutique.nom}
             width={1920}
             height={1080}
-            className="w-full h-full object-cover"
+            className="w-[300px] h-[400px] max-sm:h-[100px] object-cover"
           />
         )}
       </div>
 
       {/* Info Section */}
-      <div className="bg-white w-2/3 h-full overflow-hidden">
-        <div className="p-2">
-          <h2 className="text-center text-lg font-bold uppercase mb-4">
+      <div className="w-1/2 max-sm:w-full my-auto">
+        <div className=" flex flex-col gap-4 max-sm:items-center ">
+          <h2 className=" text-2xl font-bold uppercase">
             {boutique.nom}
           </h2>
-          <div className="text-center text-black flex justify-center items-center gap-4">
-            <div className="flex justify-center items-center">
-              <span className="inline-block bg-black p-1 font-semibold mr-2 rounded-md">
-                <BsFillTelephoneFill className="text-white" size={15} />
+          <div className=" text-black flex  gap-2 flex-col max-sm:flex-row ">
+            <div className="flex  gap-2 items-center">
+              <span>
+                <FaPhoneAlt size={20} />
               </span>
-              <span className="font-bold">{boutique.phoneNumber}</span>
+              <span className=" font-semibold ">:{boutique.phoneNumber}</span>
             </div>
 
-            <div className="flex justify-center items-center">
-              <span className="inline-block text-black font-semibold mr-2">
-                <FaMapMarkerAlt size={23} />
+            <div className="flex  gap-2 items-center">
+              <span className="inline-block text-black font-semibold">
+                <FaMapMarkerAlt size={20} />
               </span>
-              <span className="font-bold">
+              <span className="font-semibold">
                 {boutique.address} {boutique.city}
               </span>
             </div>
           </div>
 
           {/* Opening Hours */}
-          <div className="mt-4 flex flex-col justify-center w-fit mx-auto">
-            <h3 className="text-center text-black font-bold mb-4">
+          <div className="flex flex-col justify-center w-fit gap-2">
+            <h3 className=" text-black font-semibold text-xl">
               TEMPS OUVERT :
             </h3>
-            <ul className="text-center text-sm space-y-1">
-              {boutique.openingHours
-                ? Object.entries(boutique.openingHours).map(([day, hours]) => (
-                    <li key={day} className="flex text-left">
-                      <span className="font-medium w-28">{day}:</span>
-                      {Array.isArray(hours) && hours.length > 0
-                        ? hours
-                            .map((hour) => {
-                              const openTime = hour.open || "";
-                              const closeTime = hour.close || "";
-                              if (!openTime && !closeTime) return "";
-                              return `${openTime} - ${closeTime}`;
-                            })
-                            .filter(Boolean)
-                            .join(" / ") || "Closed"
-                        : "Closed"}
-                    </li>
-                  ))
-                : null}
+            <ul className=" text-sm space-y-1">
+              {boutique.openingHours &&
+                Object.entries(boutique.openingHours).map(([day, hours]) => (
+                  <li key={day} className="flex gap-2 text-left">
+                    <span className="font-medium">{day.slice(0, 2)}:</span>
+                    {Array.isArray(hours) && hours.length > 0
+                      ? hours
+                          .map((hour) => {
+                            const openTime = hour.open || "";
+                            const closeTime = hour.close || "";
+                            if (!openTime && !closeTime) return "";
+                            return `${openTime} - ${closeTime}`;
+                          })
+                          .filter(Boolean)
+                          .join(" / ") || "Closed"
+                      : "Closed"}
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
@@ -104,15 +113,41 @@ const BoutiqueCard: React.FC<{ boutique: StoreData }> = ({ boutique }) => {
 
 const BoutiqueCarousel: React.FC<BoutiqueProps> = ({ boutiques }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  // itemsPerSlide will be dynamic based on viewport width.
+  const [itemsPerSlide, setItemsPerSlide] = useState(3);
 
-  // Compute slides in groups of ITEMS_PER_SLIDE
+  // Update itemsPerSlide based on current window width.
+  useEffect(() => {
+    const updateItemsPerSlide = () => {
+      const width = window.innerWidth;
+      if (width < 1210) {
+        // For screens smaller than "md" (max-md)
+        setItemsPerSlide(1);
+      } else if (width < 1620) {
+        // For screens smaller than "xl" (changed from lg to xl)
+        setItemsPerSlide(2);
+      } else {
+        // For screens larger than or equal to "lg"
+        setItemsPerSlide(3);
+      }
+    };
+
+    // Run on mount
+    updateItemsPerSlide();
+
+    // Listen for resize events
+    window.addEventListener("resize", updateItemsPerSlide);
+    return () => window.removeEventListener("resize", updateItemsPerSlide);
+  }, []);
+
+  // Compute slides in groups of itemsPerSlide.
   const slides = useMemo(() => {
     const chunked: StoreData[][] = [];
-    for (let i = 0; i < boutiques.length; i += ITEMS_PER_SLIDE) {
-      chunked.push(boutiques.slice(i, i + ITEMS_PER_SLIDE));
+    for (let i = 0; i < boutiques.length; i += itemsPerSlide) {
+      chunked.push(boutiques.slice(i, i + itemsPerSlide));
     }
     return chunked;
-  }, [boutiques]);
+  }, [boutiques, itemsPerSlide]);
 
   const totalSlides = slides.length;
 
@@ -135,10 +170,14 @@ const BoutiqueCarousel: React.FC<BoutiqueProps> = ({ boutiques }) => {
           {slides.map((slideItems, slideIndex) => (
             <div
               key={`slide-${slideIndex}`}
-              className="flex-shrink-0 w-full flex ml-9 pl-4 pr-12 mr-9"
+              className="flex-shrink-0 w-full flex gap-4 px-16"
             >
               {slideItems.map((item) => (
-                <BoutiqueCard key={item._id} boutique={item} />
+                <BoutiqueCard
+                  key={item._id}
+                  boutique={item}
+                  itemsPerSlide={itemsPerSlide}
+                />
               ))}
             </div>
           ))}
@@ -160,7 +199,7 @@ const BoutiqueCarousel: React.FC<BoutiqueProps> = ({ boutiques }) => {
       </div>
 
       {/* Slider Indicators */}
-      <div className="flex justify-center gap-2 mt-4">
+      <div className="flex justify-center gap-2 mt-4 pt-4">
         {Array.from({ length: totalSlides }).map((_, index) => (
           <div
             key={`indicator-${index}`}
