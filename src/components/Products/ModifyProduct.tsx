@@ -178,7 +178,7 @@ const ModifyProduct: React.FC<ModifyProductProps> = ({ productData }) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]:
-        name === "category" || name === "brand" || name === "boutique"
+        name === "category" || name === "brand" || name === "boutique"||name === "subcategory"
           ? { _id: value }
           : name === "price" || name === "stock"
           ? Number(value) || 0

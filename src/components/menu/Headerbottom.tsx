@@ -11,9 +11,16 @@ interface Category {
   logoUrl?: string;
   slug: string;
 }
-
+interface Subcategory {
+  _id: string;
+  name: string;
+  slug: string;
+  logoUrl?: string;
+}
 const Headerbottom: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [subcategories, setSubcategories] = useState<{ [key: string]: Subcategory[] }>({}); // Storing subcategories by category ID
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuWrapperRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLDivElement>(null);
@@ -32,6 +39,30 @@ const Headerbottom: React.FC = () => {
     };
     fetchCategoryData();
   }, []);
+  const fetchSubcategories = async (categoryId: string) => {
+    try {
+      const res = await fetch(`/api/SubCategory/admin/getsubcategoraybycategoray/${categoryId}`);
+      if (!res.ok) throw new Error("Failed to fetch subcategories");
+      const data = await res.json();
+      setSubcategories((prevSubcategories) => ({
+        ...prevSubcategories,
+        [categoryId]: data,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleMouseEnter = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    
+    // Only fetch subcategories if they haven't been fetched yet
+    if (!subcategories[categoryId]) {
+      fetchSubcategories(categoryId);
+    }
+  };
+  const handleMouseLeave = () => {
+    setActiveCategory(null);
+  }; 
 
   const toggleMenu = (event: React.MouseEvent) => {
     event.stopPropagation(); // Stop propagation to prevent outside click logic
@@ -99,9 +130,12 @@ const Headerbottom: React.FC = () => {
               >
                 <div className="flex flex-col w-[300px] border-[#15335D] border-4 bg-white z-30">
                   {categories.map((category) => (
+                    <div className="relative" key={category._id}>
                     <Link
                       href={`/${category.slug}`}
                       key={category._id}
+                      onMouseEnter={() => handleMouseEnter(category._id)}
+                     
                       className="flex items-center gap-3 duration-300 hover:bg-primary hover:text-white border-b-2"
                       onClick={closeMenu} // Close menu on link click
                     >
@@ -118,6 +152,34 @@ const Headerbottom: React.FC = () => {
                         <span className="font-bold text-base">{category.name}</span>
                       </div>
                     </Link>
+                    {activeCategory === category._id && subcategories[category._id] && (
+                      <div onMouseLeave={handleMouseLeave} className="absolute top-0 left-72  w-[300px] border-[#15335D] border-4   bg-white shadow-lg z-20 ">
+                        <div className="flex flex-col">
+                          {subcategories[category._id].map((subCategory) => (
+                            <Link
+                              key={subCategory?._id}
+                              href={`/${subCategory.slug}`}
+                              className="px-4 py-4 text-black hover:bg-primary hover:text-white border-b-2"
+                            >
+                              <div className="pl-4 flex gap-6 items-center py-2">
+                        {subCategory.logoUrl && (
+                          <Image
+                            src={subCategory.logoUrl}
+                            alt={subCategory.name}
+                            width={20}
+                            height={20}
+                            className="rounded-full object-cover"
+                          />
+                        )}
+                        <span className="font-bold text-base">{subCategory.name}</span>
+                      </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    </div>
+                    
                   ))}
                 </div>
               </div>

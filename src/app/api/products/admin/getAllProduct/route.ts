@@ -6,6 +6,7 @@ import { getToken } from 'next-auth/jwt';
 import Brand from '@/models/Brand';
 import Category from '@/models/Category';
 import Boutique from '@/models/Boutique';
+import Subcategory from '@/models/Subcategory';
 
 
 
@@ -36,11 +37,13 @@ export async function GET(req: NextRequest) {
     await Boutique.find();
     await Brand.find();
     await Category.find();
+    await Subcategory.find();
     await User.find();
     // Fetch products and populate references
     const products = await Products.find({})
       .populate("user")
       .populate("category")
+      .populate("subcategory")
       .populate("boutique")
       .populate("brand")
       .exec();

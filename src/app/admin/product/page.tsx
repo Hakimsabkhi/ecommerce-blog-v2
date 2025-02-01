@@ -33,7 +33,8 @@ type Product = {
   price: number;
   imageUrl: string;
   category: Category;
-  boutique:Boutique
+  subcategory:SubCategory;
+  boutique:Boutique;
   stock: number;
   user: User;
   discount: number;
@@ -49,12 +50,19 @@ interface Category {
   name: string;
   slug: string;
 }
+interface SubCategory {
+  _id: string;
+  name: string;
+  slug: string;
+}
+
 
 const AddedProducts: React.FC = () => {
     const [boutiques, setBoutiques] = useState<Boutique[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const[categories,setCategories]=useState<Category[]>([]);
+  const[subcategories,setSubCategories]=useState<SubCategory[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -65,6 +73,7 @@ const AddedProducts: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState({ id: "", name: "" });
   const [loadingProductId, setLoadingProductId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
   const [selectedBoutique, setSelectedBoutique] = useState<string>("");
   const [colSpan, setColSpan] = useState(6);
   const handleDeleteClick = (product: Product) => {
@@ -199,8 +208,8 @@ const AddedProducts: React.FC = () => {
         throw new Error(`Error: ${response.statusText}`);
       }
 
-      const data = await response.json();
-      console.log("Product status page updated successfully:", data);
+
+      
       setProducts((prevData) =>
         prevData.map((item) =>
           item._id === productId ? { ...item, statuspage: statuspage } : item
@@ -328,6 +337,34 @@ const AddedProducts: React.FC = () => {
         }
       } 
     };
+    const getSubCategory = async () => {
+      try {
+        const response = await fetch("/api/SubCategory/admin/getallSubCategory", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data: Product[] = await response.json();
+        setSubCategories(data);
+      } catch (error: unknown) {
+        // Handle different error types effectively
+        if (error instanceof Error) {
+          console.error("Error  sub Category:", error.message);
+          setError(error.message);
+        } else if (typeof error === "string") {
+          console.error("String error:", error);
+          setError(error);
+        } else {
+          console.error("Unknown error:", error);
+          setError("An unexpected error occurred. Please try again.");
+        }
+      } 
+    };
+    getSubCategory()
     getcompany();
     getCategory();
     getProducts();
@@ -344,17 +381,19 @@ const AddedProducts: React.FC = () => {
   
       const matchesCategory =
         !selectedCategory || product.category?._id === selectedCategory;
+      const matchesSubCategory =
+        !selectedSubCategory || product.subcategory?._id === selectedSubCategory;
   
       const matchesBoutique =
         !selectedBoutique || product.boutique?._id === selectedBoutique;
-  
-      return matchesSearchTerm && matchesCategory && matchesBoutique;
+
+      return matchesSearchTerm && matchesCategory && matchesSubCategory && matchesBoutique;
     });
     
 
     setFilteredProducts(filtered);
     setCurrentPage(1);
-  }, [searchTerm, selectedCategory,selectedBoutique ,products]);
+  }, [searchTerm, selectedCategory,selectedBoutique,selectedSubCategory ,products]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -413,6 +452,20 @@ const AddedProducts: React.FC = () => {
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.name}
+              </option>
+            ))} 
+        </select>
+        <select
+          name="subcategory"
+          value={selectedSubCategory}
+          onChange={(e) => setSelectedSubCategory(e.target.value)}
+          className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
+          required
+        >
+           <option value="">Select SubCategory</option>
+            {subcategories.map((subcategory) => (
+              <option key={subcategory._id} value={subcategory._id}>
+                {subcategory.name}
               </option>
             ))} 
         </select>

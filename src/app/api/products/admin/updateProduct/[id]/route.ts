@@ -100,6 +100,8 @@ export async function PUT(
       }
       updates.category = category;
     }
+    const existproduct= await Product.findById(id);
+    if(existproduct?.subcategory){
     if(subcategory){
       const exstsubcategory = await Subcategory.findById(subcategory)
       if(exstsubcategory?.category===category){
@@ -107,6 +109,9 @@ export async function PUT(
       }else{
         updates.subcategory = null;
       }
+    }}else{
+      updates.subcategory = subcategory;
+      console.log(subcategory)
     }
 
     // Validate brand
