@@ -93,6 +93,7 @@ const Display: React.FC = () => {
               <p className="text-white">{companyData ? "Update" : "Create"}</p>
             </button>
           </div>
+          <div className="h-[50px] flex justify-between items-center"></div>
           <table className="w-full h-28 rounded overflow-hidden table-fixed mb-8 max-lg:hidden">
             <thead>
               <tr className="bg-gray-800">
@@ -144,7 +145,7 @@ const Display: React.FC = () => {
               </tr>
             </tbody>)}
           </table>
-          <div className="w-full space-y-4 lg:hidden bg-gray-100 ">
+          <div className="w-full space-y-4 lg:hidden ">
       {loading ? (
         <div className="flex justify-center items-center w-full h-28">
           <FaSpinner className="animate-spin text-[30px]" />
@@ -154,7 +155,7 @@ const Display: React.FC = () => {
           <p>Aucune Company trouvée.</p>
         </div>
       ) : (
-        <div className="bg-white shadow-lg rounded-lg p-4 w-full">
+        <div className=" shadow-lg rounded-lg p-4 w-full bg-gray-100">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <div>
               <p className="text-gray-500 text-sm">Name Company</p>

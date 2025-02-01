@@ -138,6 +138,7 @@ const Store: React.FC = () => {
     }
   };
 
+  
   useEffect(() => {
     getcompany();
   }, []);
@@ -158,7 +159,7 @@ const Store: React.FC = () => {
   );
   const totalPages = Math.ceil(filteredBoutique.length / brandsPerPage);
 
-  const [colSpan, setColSpan] = useState(6);
+  const [colSpan, setColSpan] = useState(7);
 
   useEffect(() => {
     const updateColSpan = () => {
@@ -170,7 +171,7 @@ const Store: React.FC = () => {
       } else if (isMediumScreen) {
         setColSpan(5); // max-lg: colSpan = 5
       } else {
-        setColSpan(6); // Default: colSpan = 6
+        setColSpan(7); // Default: colSpan = 6
       }
     };
 
@@ -206,25 +207,25 @@ const Store: React.FC = () => {
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800">
-              <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[30%]">
+              <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[25%]">
                 Image
               </th>
               <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[20%]">
                 Name
               </th>
-              <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[20%]">
+              <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[20%]  max-lg:hidden">
                 Localisation
               </th>
-              <th className="px-4 text-left border-r-white py-3 w-[20%] md:max-lg:w-[20%]">
+              <th className="px-4 text-left border-r-white py-3 w-[10%] max-lg:hidden md:max-lg:w-[20%]">
                 Address
               </th>
-              <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[20%]">
+              <th className="px-4 text-left border-r-white py-3 w-[10%] md:max-lg:w-[25%]">
                 City
               </th>
             <th className="px-4 text-left border-r-white py-3 w-[10%] max-lg:hidden">
                 Created By
               </th>
-              <th className="px-4 text-center border-r-white py-3 w-[20%] md:max-lg:w-[20%]">
+              <th className="px-4 text-center border-r-white py-3 w-[20%] md:max-lg:w-[30%]">
                 Action
               </th>
             </tr>
@@ -257,10 +258,10 @@ const Store: React.FC = () => {
                     <Link href={item.image}>{item.image.split("/").pop()}</Link>
                   </td>
                   <td className="border px-4 py-3 truncate">{item.nom}</td>
-                  <td className="border px-4 py-3 max-md:hidden">
+                  <td className="border px-4 py-3 max-md:hidden  max-lg:hidden">
                     {item.localisation}
                   </td>
-                  <td className="border px-4 py-3 max-md:hidden">
+                  <td className="border px-4 py-3 max-md:hidden  max-lg:hidden">
                     {item.address}
                   </td>
                   <td className="border px-4 py-3 max-md:hidden">

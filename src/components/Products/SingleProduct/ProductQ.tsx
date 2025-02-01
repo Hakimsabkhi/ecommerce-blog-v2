@@ -1,8 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-import { BsFillTelephoneFill } from "react-icons/bs";
-import { FaMapMarkerAlt } from "react-icons/fa";
+
 
 interface Product {
   _id: string;
@@ -76,9 +75,10 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
       <div className="xl:flex xl:items-center  gap-3 ">
         {product.status != "out-of-stock" ? (
           product.stock > 0 ? (
-            <div className="flex max-md:flex-col xl:flex-col justify-between gap-5">
-              <div className=" items-center md:max-xl:w-2/5 flex">
-                <div className="flex items-center max-md:justify-center space-x-2">
+          <div>
+            <div className="flex w-full max-md:flex-col xl:flex-col justify-between gap-5">
+              <div className=" justify-center flex">
+                <div className="flex items-center justify-center space-x-2">
                   <p>Quantity:&nbsp;</p>
                   <button
                     onClick={decreaseQuantity}
@@ -105,7 +105,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
 
                 {/* Assuming you want to show the quantity here */}
               </div>
-              <div className="flex gap-4 md:max-xl:w-2/5">
+              <div className="flex gap-4 w-full">
                 <button
                   onClick={() => addToCartHandler(product, quantity)}
                   className="text-white bg-primary hover:bg-[#15335D] h-10 w-[60%]  font-bold rounded-md"
@@ -124,11 +124,13 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
                   </button>
                 </Link>
               </div>
-              <div className="flex flex-col space-y-2">
+              
+              </div>
+              <div className="flex pt-5 gap-4">
                 <p className="font-bold">Disponibilité :</p>
                 <div className="flex items-center space-x-4">
                   <span className="font-semibold uppercase"> {product.boutique?.vadmin==="approve"   && (product.boutique?.nom || 'Disponible Dans notre magasin')||'Disponible Dans notre magasin'}</span>
-                  {product.boutique && product.boutique.vadmin==="approve" && <div>
+                  {/* {product.boutique && product.boutique.vadmin==="approve" && <div>
                  <div className="flex items-center  space-x-1 ">
                     <span className="inline-block bg-black p-1 font-semibold mr-2 rounded-md ">
                       <BsFillTelephoneFill className="text-white" size={15} />
@@ -141,10 +143,11 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
                     </span>
                     <span>{product.boutique?.city}, {product.boutique?.address}</span>
                   </div>
-                  </div>}
+                  </div>} */}
                 </div>
               </div>
-            </div>
+              
+              </div>
           ) : (
             <button
               className="text-white bg-gray-500 h-10 w-[60%] font-bold rounded-md"
