@@ -11,21 +11,23 @@ interface Category {
   logoUrl?: string;
   slug: string;
 }
+
 interface Subcategory {
   _id: string;
   name: string;
   slug: string;
   logoUrl?: string;
 }
+
 const Headerbottom: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [subcategories, setSubcategories] = useState<{ [key: string]: Subcategory[] }>({}); // Storing subcategories by category ID
+  const [subcategories, setSubcategories] = useState<{ [key: string]: Subcategory[] }>({});
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuWrapperRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLDivElement>(null);
 
-  // Fetch categories
+  // Fetch all categories on mount
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
@@ -39,44 +41,44 @@ const Headerbottom: React.FC = () => {
     };
     fetchCategoryData();
   }, []);
+
+  // Fetch subcategories for a given category ID if not already loaded
   const fetchSubcategories = async (categoryId: string) => {
     try {
       const res = await fetch(`/api/SubCategory/admin/getsubcategoraybycategoray/${categoryId}`);
       if (!res.ok) throw new Error("Failed to fetch subcategories");
       const data = await res.json();
-      setSubcategories((prevSubcategories) => ({
-        ...prevSubcategories,
+      setSubcategories((prev) => ({
+        ...prev,
         [categoryId]: data,
       }));
     } catch (error) {
       console.error(error);
     }
   };
+
+  // When hovering over a category, set it as active and fetch its subcategories if needed
   const handleMouseEnter = (categoryId: string) => {
     setActiveCategory(categoryId);
-    
-    // Only fetch subcategories if they haven't been fetched yet
     if (!subcategories[categoryId]) {
       fetchSubcategories(categoryId);
     }
   };
-  const handleMouseLeave = () => {
-    setActiveCategory(null);
-  }; 
 
-  const toggleMenu = (event: React.MouseEvent) => {
-    event.stopPropagation(); // Stop propagation to prevent outside click logic
+  // Toggle the category dropdown menu open/closed
+  const toggleMenu = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsMenuOpen((prev) => !prev);
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+    setActiveCategory(null);
   };
 
-  // Close menu on outside click
+  // Close menu if a click is detected outside the menu or toggle button
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Check if the click is outside both the menu and the toggle button
       if (
         isMenuOpen &&
         !menuWrapperRef.current?.contains(event.target as Node) &&
@@ -85,115 +87,113 @@ const Headerbottom: React.FC = () => {
         closeMenu();
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMenuOpen]);
 
   // Close menu on scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (isMenuOpen) {
-        closeMenu();
-      }
+      if (isMenuOpen) closeMenu();
     };
-
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [isMenuOpen]);
 
   return (
     <header>
-      <div className="w-full h-[80px] bg-primary flex justify-center items-center gap-4 border-y border-gray-600">
+      <div className="w-full h-[80px] bg-primary flex justify-center items-center border-y border-gray-600">
         <div className="w-[90%] h-full flex justify-between max-md:justify-center items-center">
           {/* Toggle Button */}
           <div
-            className="relative w-[300px] border-4 border-[#15335D] h-[70%] bg-white text-primary font-bold flex justify-center items-center cursor-pointer"
-            onClick={toggleMenu} // Toggle menu on click
-            ref={toggleButtonRef} // Reference to the toggle button
+            className="relative w-[300px] h-[70%] bg-white text-primary font-bold flex justify-center items-center cursor-pointer"
+            onClick={toggleMenu}
+            ref={toggleButtonRef}
           >
-            <div className="flex gap-6 items-center">
+            <div className="flex gap-6 items-center select-none">
               <FaBars />
               <p>ALL OUR CATEGORIES</p>
             </div>
 
-            {/* Category Dropdown Menu */}
+            {/* Dropdown Menu */}
             {isMenuOpen && (
               <div
-                className="absolute shadow-xl z-30 flex gap-2 flex-col top-12 left-1/2 -translate-x-1/2 max-md:-translate-x-1/2 max-md:top-12"
-                ref={menuWrapperRef} // Reference to the dropdown menu
-                onClick={(e) => e.stopPropagation()} // Prevent menu close on inside click
+                className="absolute z-30 top-12 left-1/2 -translate-x-1/2 bg-white shadow-lg mt-4 select-none"
+                ref={menuWrapperRef}
+                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
               >
-                <div className="flex flex-col w-[300px] border-[#15335D] border-4 bg-white z-30">
+                <div className="flex flex-col w-[300px] bg-white z-30">
                   {categories.map((category) => (
-                    <div className="relative" key={category._id}>
-                    <Link
-                      href={`/${category.slug}`}
+                    <div
                       key={category._id}
+                      className="relative"
                       onMouseEnter={() => handleMouseEnter(category._id)}
-                     
-                      className="flex items-center gap-3 duration-300 hover:bg-primary hover:text-white border-b-2"
-                      onClick={closeMenu} // Close menu on link click
+                      onMouseLeave={() => setActiveCategory(null)}
                     >
-                      <div className="pl-4 flex gap-6 items-center py-2">
+                      <Link
+                        href={`/${category.slug}`}
+                        onClick={closeMenu}
+                        className="flex items-center gap-3 duration-300 hover:bg-primary hover:text-white p-4"
+                      >
                         {category.logoUrl && (
                           <Image
                             src={category.logoUrl}
                             alt={category.name}
                             width={20}
                             height={20}
-                            className="rounded-full object-cover"
                           />
                         )}
                         <span className="font-bold text-base">{category.name}</span>
-                      </div>
-                    </Link>
-                    {activeCategory === category._id && subcategories[category._id] && (
-                      <div onMouseLeave={handleMouseLeave} className="absolute top-0 left-72  w-[300px] border-[#15335D] border-4   bg-white shadow-lg z-20 ">
-                        <div className="flex flex-col">
+                      </Link>
+                      {activeCategory === category._id && subcategories[category._id] && (
+                        <div className="absolute top-0 left-full pl-4 w-[300px] ">
                           {subcategories[category._id].map((subCategory) => (
                             <Link
-                              key={subCategory?._id}
+                              key={subCategory._id}
                               href={`/${subCategory.slug}`}
-                              className="px-4 py-4 text-black hover:bg-primary hover:text-white border-b-2"
+                              onClick={closeMenu}
+                              className="flex bg-white items-center gap-3 duration-300 hover:bg-primary hover:text-white p-4"
                             >
-                              <div className="pl-4 flex gap-6 items-center py-2">
-                        {subCategory.logoUrl && (
-                          <Image
-                            src={subCategory.logoUrl}
-                            alt={subCategory.name}
-                            width={20}
-                            height={20}
-                            className="rounded-full object-cover"
-                          />
-                        )}
-                        <span className="font-bold text-base">{subCategory.name}</span>
-                      </div>
+                              {subCategory.logoUrl && (
+                                <Image
+                                  src={subCategory.logoUrl}
+                                  alt={subCategory.name}
+                                  width={20}
+                                  height={20}
+                                  className="rounded-full object-cover"
+                                />
+                              )}
+                              <span className="font-bold text-base">
+                                {subCategory.name}
+                              </span>
                             </Link>
                           ))}
                         </div>
-                      </div>
-                    )}
+                      )}
                     </div>
-                    
                   ))}
                 </div>
               </div>
             )}
           </div>
 
-          <div className="flex w-[60%] justify-end gap-8 font-semibold items-center text-white text-xl tracking-wider max-xl:text-base max-lg:text-xs max-md:hidden">
-            <Link className="hover:text-secondary" href="/promotion">PROMOTION</Link>
-            <Link className="hover:text-secondary" href="/">BEST PRODUCTS</Link>
-            <Link className="hover:text-secondary" href="/stores"> NOS BOUTIQUES</Link>
-            <Link className="hover:text-secondary" href="/blog">BLOG</Link>
-            <Link className="hover:text-secondary" href="/contactus">CONTACT US</Link>
-            
-
+          {/* Other Navigation Links */}
+          <div className="flex w-[60%] justify-end gap-8 font-semibold items-center text-white text-sm tracking-wider max-xl:text-base max-lg:text-xs max-md:hidden">
+            <Link className="hover:text-secondary" href="/promotion">
+              PROMOTION
+            </Link>
+            <Link className="hover:text-secondary" href="/">
+              BEST PRODUCTS
+            </Link>
+            <Link className="hover:text-secondary" href="/stores">
+              NOS BOUTIQUES
+            </Link>
+            <Link className="hover:text-secondary" href="/blog">
+              BLOG
+            </Link>
+            <Link className="hover:text-secondary" href="/contactus">
+              CONTACT US
+            </Link>
           </div>
         </div>
       </div>
