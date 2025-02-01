@@ -3,6 +3,8 @@ import dbConnect from "@/lib/db";
 import Category from "@/models/Category";
 import User from "@/models/User";
 import { getToken } from "next-auth/jwt";
+import Product from "@/models/Product";
+import Subcategory from "@/models/Subcategory";
 
 
 export async function PUT(
@@ -37,7 +39,20 @@ export async function PUT(
           { status: 400 }
         );
       }
-  
+      const existingproductsub=await Product.find({category:id})
+      if(existingproductsub){
+        await Product.updateMany(
+          { category: id },
+          { $set: { vadmin: vadmin } } // Update the status field to "vd"
+        );
+      }
+      const existingSubcategory=await Subcategory.find({category:id})
+      if(existingSubcategory){
+        await Subcategory.updateMany(
+          { category: id },
+          { $set: { vadmin: vadmin } } // Update the status field to "vd"
+        );
+      }
       const existingCategory= await Category.findById(id);
       if (!existingCategory) {
         return NextResponse.json(

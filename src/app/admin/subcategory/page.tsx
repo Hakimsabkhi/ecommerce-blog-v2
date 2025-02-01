@@ -5,7 +5,7 @@ import DeletePopup from "@/components/Popup/DeletePopup";
 import Pagination from "@/components/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 import { toast } from "react-toastify";
-import {  FaSpinner } from "react-icons/fa6";
+import {  FaRegEye, FaSpinner } from "react-icons/fa6";
 import Image from "next/image";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 
@@ -306,7 +306,15 @@ const Subcategory= () => {
                       ? "Processing..."
                       : <FaTrashAlt />}
                   </button>
-
+                  <Link
+                    href={`/${subcategory.vadmin === "approve" ? "" : "admin/"}${
+                      subcategory.slug
+                    }`}
+                  >
+                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                      <FaRegEye />
+                    </button>
+                  </Link>
                  
                  
                 </div>
