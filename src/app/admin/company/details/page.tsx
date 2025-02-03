@@ -198,7 +198,7 @@ function CreateCompany() {
         onSubmit={companyData ? handleUpadte : handleSubmit}
         className="mb-4 mt-4 flex flex-col gap-4"
       >
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-4">
           <div className="mb-4">
             <p className="pb-2 block text-sm font-medium">Name Company*</p>
             <input
@@ -298,9 +298,9 @@ function CreateCompany() {
                 <Image
                   src={iconPreview}
                   alt="Icon preview"
-                  className="w-full h-auto mt-4"
-                  width={50}
-                  height={50}
+                  className="w-full h-40 mt-4 object-cover"
+                  width={1000}
+                  height={1000}
                 />
               </div>
             )}
@@ -325,7 +325,7 @@ function CreateCompany() {
                 <Image
                   src={iconPreviewBanner}
                   alt="Banner preview"
-                  className="w-full h-auto mt-4"
+                  className="w-full h-40 mt-4 object-cover"
                   width={1000}
                   height={100}
                 />
@@ -352,8 +352,8 @@ function CreateCompany() {
                 <Image
                   src={iconPreviewcontacts}
                   alt="Banner Contacts preview"
-                  className="w-full h-auto"
-                  width={100}
+                  className="w-full h-40 object-cover"
+                  width={1000}
                   height={100}
                 />
               </div>
