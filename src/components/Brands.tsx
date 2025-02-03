@@ -34,7 +34,7 @@ export default async function BrandsPage() {
   return (
     <div className="desktop max-md:w-[95%] flex flex-col gap-10 max-md:gap-4 py-8">
       {/* Page Header */}
-      <div className="flex flex-col gap-2 max-md:gap-1 text-center w-full pb-8">
+      <div className="flex flex-col gap-2 max-md:gap-1 text-center w-full ">
         <h3 className="font-bold text-4xl text-HomePageTitles">
           Shopping by brands
         </h3>
