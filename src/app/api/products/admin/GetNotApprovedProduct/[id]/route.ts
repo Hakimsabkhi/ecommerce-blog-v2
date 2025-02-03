@@ -4,6 +4,7 @@ import Category from "@/models/Category";
 import Product from "@/models/Product";
 import { getToken } from "next-auth/jwt";
 import User from "@/models/User";
+import Subcategory from "@/models/Subcategory";
 
 export async function GET( req: NextRequest,context: { params: Promise<{ id: string }> }) {
   await dbConnect();
@@ -29,10 +30,23 @@ export async function GET( req: NextRequest,context: { params: Promise<{ id: str
     }).exec();
 
     if (!foundCategory) {
-      return NextResponse.json(
-        { message: "No Category found with vadmin not-approve" },
-        { status: 202 }
-      );
+     
+      const foundsubCategory = await Subcategory.findOne({
+        slug: categorySlug,
+        vadmin: "not-approve",
+      }).exec();
+      if (!foundsubCategory){
+        return NextResponse.json({message:'no data foundsubCategory'}, { status: 204 });
+      }
+ 
+      const products = await Product.find({
+        subcategory: foundsubCategory._id,
+        vadmin: "not-approve",
+      })
+        .populate("category brand user")
+        .exec();
+
+      return NextResponse.json(products, { status: 200 });
     }
 
     // Find products by the category ID

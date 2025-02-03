@@ -45,7 +45,7 @@ const Headerbottom: React.FC = () => {
   // Fetch subcategories for a given category ID if not already loaded
   const fetchSubcategories = async (categoryId: string) => {
     try {
-      const res = await fetch(`/api/SubCategory/admin/getsubcategoraybycategoray/${categoryId}`);
+      const res = await fetch(`/api/SubCategory/getsubcategoraybycategoray/${categoryId}`);
       if (!res.ok) throw new Error("Failed to fetch subcategories");
       const data = await res.json();
       setSubcategories((prev) => ({

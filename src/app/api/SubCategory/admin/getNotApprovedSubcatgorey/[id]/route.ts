@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
-import Category from "@/models/Category";
+import Subcategory from "@/models/Subcategory";
 import { getToken } from "next-auth/jwt";
 import User from "@/models/User";
 
@@ -23,23 +23,24 @@ export async function GET(
   try {
     // Await the params to access the dynamic route parameters
     const { id: categorySlug } = await params;
-
+console.log('sub')
     // Ensure database connection
+   
 
     // Find the category by slug with "not-approve" status
-    const foundCategory = await Category.findOne({
+    const foundsubCategory = await Subcategory.findOne({
       slug: categorySlug,
       vadmin: "not-approve",
     }).exec();
 
-    if (!foundCategory) {
+    if (!foundsubCategory) {
       return NextResponse.json(
-        { message: "No Category found with vadmin not-approve" },
+        { message: "No subCategory found with vadmin not-approve" },
         { status: 202 }
       );
     }
 
-    return NextResponse.json(foundCategory, { status: 200 });
+    return NextResponse.json(foundsubCategory, { status: 200 });
   } catch (error) {
     console.error("Error fetching category:", error);
     return NextResponse.json(

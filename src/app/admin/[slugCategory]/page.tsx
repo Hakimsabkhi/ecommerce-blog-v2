@@ -51,18 +51,45 @@ export default function CategoryPage() {
           }
         );
         if (!res.ok) {
-          console.error('Category not found');
-          return;
+          const res = await fetch(
+            `/api/SubCategory/admin/getNotApprovedSubcatgorey/${slugCategory}`,
+            {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' },
+            }
+          );
+          if (!res.ok) {
+            console.error('nod data')
+            return;
+          }
+          const data = await res.json();
+          setCategory(data); 
+        }else if(res.status==202){
+          const res = await fetch(
+            `/api/SubCategory/admin/getNotApprovedSubcatgorey/${slugCategory}`,
+            {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' },
+            }
+          );
+          if (!res.ok) {
+            console.error('nod data')
+            return;
+          }
+          const data = await res.json();
+          setCategory(data);
+        }else if(res.status==200){
+          const data = await res.json();
+          setCategory(data);
         }
 
-        const data = await res.json();
-        setCategory(data); // Update if response wraps data
+        // Update if response wraps data
       } catch (error) {
         console.error('Error fetching category data:', error);
       }
     };
 
-    const fetchProductsData = async () => {
+ const fetchProductsData = async () => {
       try {
         const res = await fetch(
           `/api/products/admin/GetNotApprovedProduct/${slugCategory}`,
@@ -104,19 +131,18 @@ export default function CategoryPage() {
       } catch (error) {
         console.error('Error fetching brand data:', error);
       }
-    };
+    }; 
 
     fetchCategoryData();
     fetchProductsData();
-    fetchBrandData();
+    fetchBrandData(); 
   },  [slugCategory]);
-
 
   return (
     <div>
-      <h1>Category Admin</h1>
+      
       <Banner category={category} />
-       <Products products={products} brands={brands} />
+       <Products products={products} brands={brands} /> 
     </div>
   );
 }
