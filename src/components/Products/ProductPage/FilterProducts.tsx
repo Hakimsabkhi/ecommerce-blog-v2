@@ -34,7 +34,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
   uniqueMaterials,
 }) => {
   return (
-    <div className="flex flex-col w-full justify-center p-4 bg-white">
+    <div className="flex flex-col w-full justify-center px-2 bg-white">
       {/* Brand Filter */}
       <div className="mb-4">
         <label htmlFor="brand-filter" className="font-bold">
@@ -98,7 +98,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
       {/* Price Range Filter */}
       <div className="mb-4">
         <label className="font-bold">Price:</label>
-        <div className="flex justify-between mb-2">
+        <div className="flex gap-2 mb-2">
           <input
             type="number"
             placeholder="Min Price"
