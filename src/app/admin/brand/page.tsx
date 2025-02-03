@@ -153,11 +153,18 @@ const AddedBrands: React.FC = () => {
     <div className="flex flex-col mx-auto w-[90%] gap-4">
       <div className="flex items-center justify-between h-[80px] ">
         <p className="text-3xl max-sm:text-sm font-bold">ALL Brands</p>
+        <div className="flex gap-2">
+        <Link href="brand/costmize">
+        <button className='bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4'>
+       Costmize Brand
+          </button>
+        </Link>
         <Link href="brand/addbrand">
           <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
             Add a new Brand
           </button>
         </Link>
+        </div>
       </div>
 
       <div className="h-[50px] flex items-center ">
