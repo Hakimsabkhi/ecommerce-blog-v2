@@ -29,7 +29,6 @@ interface ProductData {
 interface ProductFilterClientProps {
   products: ProductData[];
  
-  slugCategory?: string;
 }
 
 const ProductFilterClient: React.FC<ProductFilterClientProps> = ({
