@@ -25,7 +25,7 @@ export const Costmizepoductcomp: React.FC<CostmizepoductcompParam> = ({ name,han
     
     <form
       onSubmit={id ? handleUpdate:handleSubmit}
-      className="flex flex-col items-center mx-auto gap-4 w-full lg:w-3/5"
+      className="flex flex-col items-center mx-auto gap-4 w-2/3 max-lg:w-full"
     >
       <div className="flex items-center gap-6 w-full justify-between">
         <p className="text-xl max-lg:text-base font-bold">Best Product title*</p>
