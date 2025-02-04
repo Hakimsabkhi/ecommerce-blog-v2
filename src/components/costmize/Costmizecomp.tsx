@@ -9,16 +9,17 @@ interface CostmizecompParam {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error: string | null;
   url:string;
+  id:string;
 }
 
-export const Costmizecomp: React.FC<CostmizecompParam> = ({ name,handleSubmit,handleUpdate, formdata, handleChange, error,url }) => {
+export const Costmizecomp: React.FC<CostmizecompParam> = ({ name,handleSubmit,handleUpdate, formdata, handleChange, error,url,id }) => {
 
   return (
     <div>    <div className="flex flex-col gap-8  mx-auto w-[90%] py-8 ">
-    <p className="text-3xl font-bold">{formdata.title ? "Update" : "Create"} Costmize {name} Title</p>
+    <p className="text-3xl font-bold">{id ? "Update" : "Create"} Costmize {name} Title</p>
     
     <form
-      onSubmit={formdata===null ? handleUpdate:handleSubmit}
+      onSubmit={id ? handleUpdate:handleSubmit}
       className="flex flex-col items-center mx-auto gap-4 w-full lg:w-3/5"
     >
       <div className="flex items-center gap-6 w-full justify-between">
@@ -56,7 +57,7 @@ export const Costmizecomp: React.FC<CostmizecompParam> = ({ name,handleSubmit,ha
           type="submit"
           className="w-1/2 bg-gray-800 text-white rounded-md  hover:bg-gray-600 h-10"
         >
-          <p className="text-white">{formdata.title ? "Update" : "Create"} Title</p>
+          <p className="text-white">{id ? "Update" : "Create"} Title</p>
         </button>
       
         
