@@ -211,12 +211,12 @@ const ListPromotion: React.FC = () => {
                 </td>
               </tr>
             </tbody>
-          ) : filteredProducts.length === 0 ? (
+          ) :(searchTerm||selectedCategory) && filteredProducts.length === 0 ? (
             <tbody>
               <tr>
                 <td colSpan={colSpan}>
                   <div className="text-center py-6 text-gray-600 w-full">
-                    <p>Aucune categorie trouvée.</p>
+                    <p>Aucune Product trouvée.</p>
                   </div>
                 </td>
               </tr>

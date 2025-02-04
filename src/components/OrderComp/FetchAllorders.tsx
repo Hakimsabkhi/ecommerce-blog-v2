@@ -592,7 +592,7 @@ const ListOrders: React.FC = () => {
                 </td>
               </tr>
             </tbody>
-          ) : filteredOrders.length === 0 ? (
+          ) : (searchTerm || status) &&filteredOrders.length === 0 ? (
             <tbody>
               <tr>
                 <td colSpan={colSpan}>
