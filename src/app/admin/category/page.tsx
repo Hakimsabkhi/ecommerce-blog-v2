@@ -199,6 +199,7 @@ const AddedCategories: React.FC = () => {
     <div className="mx-auto w-[90%]  flex flex-col gap-4">
       <div className="flex items-center justify-between h-[80px] ">
         <p className="text-3xl max-sm:text-sm font-bold">ALL Post Categories</p>
+        <div className="flex gap-2">
         <Link href="category/costmize">
         <button className='bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4'>
        Costmize Category
@@ -209,7 +210,9 @@ const AddedCategories: React.FC = () => {
         Add category
           </button>
         </Link>
+        </div>
       </div>
+
       <div className="h-[50px] flex items-center ">
       <input
         type="text"
@@ -217,13 +220,13 @@ const AddedCategories: React.FC = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="p-2 border border-gray-300 rounded-lg max-w-max"
-      /></div>
+      />
+      </div>
+      
       <div className="max-md:hidden max-2xl:h-80 h-[50vh]">
       <table className="w-full rounded overflow-hidden table-fixed">
         <thead>
           <tr className="bg-gray-800">
-            
-
             <th className="px-4 border-r-white py-3 max-sm:w-1/5 w-[5%] max-sm:hidden">Icon</th>
             <th className="px-4 text-left border-r-white py-3 max-sm:w-1/4 w-[20%] max-md:hidden">ImageURL</th>
             <th className="px-4 text-left border-r-white py-3 max-md:w-1/4 w-[12%]">Name</th>
@@ -271,7 +274,8 @@ const AddedCategories: React.FC = () => {
               </td>
               <td className="border px-4 py-2 truncate">{category.name}</td>
               <td className="border px-4 py-2 max-lg:hidden">{category?.user?.username}</td>
-              <td className="border px-4 py-2">
+              
+              <td className="flex gap-2 justify-center">
                 <div className="flex justify-center gap-2 ">
                   <select
                     className={`w-32 text-black rounded-md h-10 ${
