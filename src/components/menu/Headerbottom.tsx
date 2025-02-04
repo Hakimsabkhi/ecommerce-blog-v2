@@ -182,8 +182,11 @@ const Headerbottom: React.FC = () => {
             <Link className="hover:text-secondary" href="/promotion">
               PROMOTION
             </Link>
-            <Link className="hover:text-secondary" href="/">
+            <Link className="hover:text-secondary" href="/bestproducts">
               BEST PRODUCTS
+            </Link>
+            <Link className="hover:text-secondary" href="/bestcollection">
+              BEST COLLECTION
             </Link>
             <Link className="hover:text-secondary" href="/stores">
               NOS BOUTIQUES

@@ -20,6 +20,7 @@ interface ProductData {
   material?: string;
   status?: string;
   category: { name: string; slug: string };
+  boutique: { _id: string;nom: string; };
   slug: string;
 }
 
@@ -28,7 +29,6 @@ interface ProductData {
 interface ProductFilterClientProps {
   products: ProductData[];
  
-  slugCategory?: string;
 }
 
 const ProductFilterClient: React.FC<ProductFilterClientProps> = ({
@@ -36,6 +36,7 @@ const ProductFilterClient: React.FC<ProductFilterClientProps> = ({
 }) => {
   // ----- Client state and filtering logic -----
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedBoutique, setSelectedBoutique] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [minPrice, setMinPrice] = useState<number | null>(null);
@@ -52,6 +53,7 @@ const ProductFilterClient: React.FC<ProductFilterClientProps> = ({
   return Array.from(
     new Set(products.map((p) => p.material).filter((m): m is string => !!m))
   );
+  
 }, [products]);
 const brands = Array.from(
   new Map(
@@ -61,13 +63,23 @@ const brands = Array.from(
       .map((brand) => [brand._id, brand]) // Map the brand by _id
   ).values()
 );
-
+const boutique = Array.from(
+  new Map(
+    products
+      .map((product) => product?.boutique)
+      .filter(Boolean)
+      .map((boutique) => [boutique._id, boutique]) // Map the brand by _id
+  ).values()
+);
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
-      console.log(product)
+      
       const brandMatch = selectedBrand
         ? product?.brand?._id === selectedBrand
+        : true;
+        const boutiqueMatch = selectedBoutique
+        ? product?.boutique?._id === selectedBoutique
         : true;
       const colorMatch = selectedColor ? product.color === selectedColor : true;
       const materialMatch = selectedMaterial
@@ -82,9 +94,9 @@ const brands = Array.from(
         (minPrice !== null ? effectivePrice >= minPrice : true) &&
         (maxPrice !== null ? effectivePrice <= maxPrice : true);
 
-      return brandMatch && colorMatch && materialMatch && priceMatch;
+      return brandMatch && boutiqueMatch && colorMatch && materialMatch && priceMatch ;
     });
-  }, [products, selectedBrand, selectedColor, selectedMaterial, minPrice, maxPrice]);
+  }, [products, selectedBrand,selectedBoutique, selectedColor, selectedMaterial, minPrice, maxPrice]);
 
   const sortedProducts = useMemo(() => {
     return [...filteredProducts].sort((a, b) => {
@@ -106,6 +118,8 @@ const brands = Array.from(
         <FilterProducts
           selectedBrand={selectedBrand}
           setSelectedBrand={setSelectedBrand}
+          selectedBoutique={selectedBoutique}
+          setSelectedBoutique={setSelectedBoutique}
           selectedColor={selectedColor}
           setSelectedColor={setSelectedColor}
           selectedMaterial={selectedMaterial}
@@ -115,6 +129,7 @@ const brands = Array.from(
           maxPrice={maxPrice}
           setMaxPrice={setMaxPrice}
           brands={brands}
+          boutique={boutique}
           uniqueColors={uniqueColors}
           uniqueMaterials={uniqueMaterials}
         />

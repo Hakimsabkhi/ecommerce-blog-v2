@@ -5,6 +5,8 @@ import "rc-slider/assets/index.css";
 interface FilterProductsProps {
   selectedBrand: string | null;
   setSelectedBrand: (brand: string | null) => void;
+  selectedBoutique: string | null;
+  setSelectedBoutique: (brand: string | null) => void;
   selectedColor: string | null;
   setSelectedColor: (color: string | null) => void;
   selectedMaterial: string | null;
@@ -14,6 +16,7 @@ interface FilterProductsProps {
   maxPrice: number | null;
   setMaxPrice: (price: number | null) => void;
   brands: { _id: string; name: string }[];
+  boutique: { _id: string; nom: string }[];
   uniqueColors: string[];
   uniqueMaterials: string[];
 }
@@ -21,6 +24,8 @@ interface FilterProductsProps {
 const FilterProducts: React.FC<FilterProductsProps> = ({
   selectedBrand,
   setSelectedBrand,
+  selectedBoutique,
+  setSelectedBoutique,
   selectedColor,
   setSelectedColor,
   selectedMaterial,
@@ -30,6 +35,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
   maxPrice,
   setMaxPrice,
   brands,
+  boutique,
   uniqueColors,
   uniqueMaterials,
 }) => {
@@ -50,6 +56,24 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
           {brands.map((brand) => (
             <option key={brand._id} value={brand._id}>
               {brand.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-4">
+        <label htmlFor="brand-filter" className="font-bold">
+          Boutique:
+        </label>
+        <select
+          id="brand-filter"
+          className="w-full p-2 border border-gray-300 rounded"
+          value={selectedBoutique || ""}
+          onChange={(e) => setSelectedBoutique(e.target.value || null)}
+        >
+          <option value="">All Boutique</option>
+          {boutique.map((b) => (
+            <option key={b._id} value={b._id}>
+              {b.nom}
             </option>
           ))}
         </select>

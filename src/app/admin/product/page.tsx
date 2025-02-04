@@ -23,7 +23,7 @@ interface Boutique {
   vadmin: string;
   createdAt: Date;
   updatedAt: Date;
-};
+}
 
 type Product = {
   _id: string;
@@ -33,8 +33,8 @@ type Product = {
   price: number;
   imageUrl: string;
   category: Category;
-  subcategory:SubCategory;
-  boutique:Boutique;
+  subcategory: SubCategory;
+  boutique: Boutique;
   stock: number;
   user: User;
   discount: number;
@@ -56,13 +56,12 @@ interface SubCategory {
   slug: string;
 }
 
-
 const AddedProducts: React.FC = () => {
-    const [boutiques, setBoutiques] = useState<Boutique[]>([]);
+  const [boutiques, setBoutiques] = useState<Boutique[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-  const[categories,setCategories]=useState<Category[]>([]);
-  const[subcategories,setSubCategories]=useState<SubCategory[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [subcategories, setSubCategories] = useState<SubCategory[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -208,8 +207,6 @@ const AddedProducts: React.FC = () => {
         throw new Error(`Error: ${response.statusText}`);
       }
 
-
-      
       setProducts((prevData) =>
         prevData.map((item) =>
           item._id === productId ? { ...item, statuspage: statuspage } : item
@@ -291,11 +288,11 @@ const AddedProducts: React.FC = () => {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-  
+
         const data: Boutique[] = await response.json();
         setBoutiques(data);
       } catch (error: unknown) {
@@ -312,12 +309,15 @@ const AddedProducts: React.FC = () => {
     };
     const getCategory = async () => {
       try {
-        const response = await fetch("/api/category/admin/getAllCategoryAdmin", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "/api/category/admin/getAllCategoryAdmin",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }
@@ -335,16 +335,19 @@ const AddedProducts: React.FC = () => {
           console.error("Unknown error:", error);
           setError("An unexpected error occurred. Please try again.");
         }
-      } 
+      }
     };
     const getSubCategory = async () => {
       try {
-        const response = await fetch("/api/SubCategory/admin/getallSubCategory", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "/api/SubCategory/admin/getallSubCategory",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }
@@ -362,38 +365,48 @@ const AddedProducts: React.FC = () => {
           console.error("Unknown error:", error);
           setError("An unexpected error occurred. Please try again.");
         }
-      } 
+      }
     };
-    getSubCategory()
+    getSubCategory();
     getcompany();
     getCategory();
     getProducts();
-   
   }, []);
 
   useEffect(() => {
     const filtered = products.filter((product) => {
       const searchTermLower = searchTerm.toLowerCase();
-  
+
       const matchesSearchTerm =
         product.name.toLowerCase().includes(searchTermLower) ||
         product.ref.toLowerCase().includes(searchTermLower);
-  
+
       const matchesCategory =
         !selectedCategory || product.category?._id === selectedCategory;
       const matchesSubCategory =
-        !selectedSubCategory || product.subcategory?._id === selectedSubCategory;
-  
+        !selectedSubCategory ||
+        product.subcategory?._id === selectedSubCategory;
+
       const matchesBoutique =
         !selectedBoutique || product.boutique?._id === selectedBoutique;
 
-      return matchesSearchTerm && matchesCategory && matchesSubCategory && matchesBoutique;
+      return (
+        matchesSearchTerm &&
+        matchesCategory &&
+        matchesSubCategory &&
+        matchesBoutique
+      );
     });
-    
 
     setFilteredProducts(filtered);
     setCurrentPage(1);
-  }, [searchTerm, selectedCategory,selectedBoutique,selectedSubCategory ,products]);
+  }, [
+    searchTerm,
+    selectedCategory,
+    selectedBoutique,
+    selectedSubCategory,
+    products,
+  ]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -409,20 +422,21 @@ const AddedProducts: React.FC = () => {
 
   return (
     <div className="flex flex-col mx-auto w-[90%] gap-4">
-    <div className="flex items-center justify-between h-[80px] ">
-      <p className="text-3xl max-sm:text-sm font-bold">ALL Products</p>
-     <div className="flex gap-2">
-     <Link href="product/costmize">
-        <button className='bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4'>
-        Costmize Product 
+      <div className="flex items-center justify-between h-[80px] ">
+        <p className="text-3xl max-sm:text-sm font-bold">ALL Products</p>
+        <div className="flex gap-2">
+        <Link href="/admin/product/costmize">
+          <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
+            <p>Costmize Product</p>
           </button>
         </Link>
         <Link href="/admin/product/addproduct">
-        <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
-        <p>Add Product</p>
+          <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
+            <p>Add Product</p>
           </button>
         </Link>
         </div>
+       
       </div>
 
       <div className="h-[50px] flex justify-between items-center">
@@ -433,49 +447,49 @@ const AddedProducts: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="p-2 border border-gray-300 rounded-lg max-w-max"
         />
-          <div className=" flex gap-2">
-            <select
-          name="boutique"
-          value={selectedBoutique}
-          onChange={(e) => setSelectedBoutique(e.target.value)}
-          className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
-          required
-        >
-           <option value="">Select Boutique</option>
+        <div className=" flex gap-2">
+          <select
+            name="boutique"
+            value={selectedBoutique}
+            onChange={(e) => setSelectedBoutique(e.target.value)}
+            className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
+            required
+          >
+            <option value="">Select Boutique</option>
             {boutiques.map((boutique) => (
               <option key={boutique._id} value={boutique._id}>
                 {boutique.nom}
               </option>
-            ))} 
-        </select>
-        <select
-          name="category"
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
-          required
-        >
-           <option value="">Select Category</option>
+            ))}
+          </select>
+          <select
+            name="category"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
+            required
+          >
+            <option value="">Select Category</option>
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.name}
               </option>
-            ))} 
-        </select>
-        <select
-          name="subcategory"
-          value={selectedSubCategory}
-          onChange={(e) => setSelectedSubCategory(e.target.value)}
-          className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
-          required
-        >
-           <option value="">Select SubCategory</option>
+            ))}
+          </select>
+          <select
+            name="subcategory"
+            value={selectedSubCategory}
+            onChange={(e) => setSelectedSubCategory(e.target.value)}
+            className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
+            required
+          >
+            <option value="">Select SubCategory</option>
             {subcategories.map((subcategory) => (
               <option key={subcategory._id} value={subcategory._id}>
                 {subcategory.name}
               </option>
-            ))} 
-        </select>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -486,9 +500,14 @@ const AddedProducts: React.FC = () => {
               <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">REF</th>
               <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">Name</th>
               <th className="px-4 py-3 xl:w-[8%] max-xl:hidden">Quantity</th>
-              <th className="px-4 py-3 xl:w-[8%] lg:w-1/6 max-lg:hidden"> Image </th>
+              <th className="px-4 py-3 xl:w-[8%] lg:w-1/6 max-lg:hidden">
+                {" "}
+                Image{" "}
+              </th>
               <th className="px-4 py-3 xl:w-[11%] max-xl:hidden">Created By</th>
-              <th className="px-4 py-3 xl:w-[55%] lg:w-2/3 md:w-4/6 text-center">Action </th>
+              <th className="px-4 py-3 xl:w-[55%] lg:w-2/3 md:w-4/6 text-center">
+                Action{" "}
+              </th>
             </tr>
           </thead>
           {loading ? (
@@ -501,7 +520,12 @@ const AddedProducts: React.FC = () => {
                 </td>
               </tr>
             </tbody>
-          ) : filteredProducts.length === 0 ? (
+          ) : // 2) Check if a filter is applied AND no results
+          (searchTerm ||
+              selectedCategory ||
+              selectedSubCategory ||
+              selectedBoutique) &&
+            filteredProducts.length === 0 ? (
             <tbody>
               <tr>
                 <td colSpan={colSpan}>
@@ -605,7 +629,7 @@ const AddedProducts: React.FC = () => {
 
                       <Link href={`/admin/product/${item._id}`}>
                         <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
-                          <FaRegEdit/>
+                          <FaRegEdit />
                         </button>
                       </Link>
                       <button
@@ -764,7 +788,11 @@ const AddedProducts: React.FC = () => {
                     className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
                     disabled={loadingProductId === item._id}
                   >
-                    {loadingProductId === item._id ? ( "Processing...") : ( <FaTrashAlt />  )}
+                    {loadingProductId === item._id ? (
+                      "Processing..."
+                    ) : (
+                      <FaTrashAlt />
+                    )}
                   </button>
                   <Link
                     href={`/${item.vadmin === "approve" ? "" : "admin/"}${

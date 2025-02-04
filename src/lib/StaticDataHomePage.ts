@@ -7,6 +7,7 @@ import Boutique from '@/models/Boutique';
 import CustomizeCategoy from "@/models/CustomizeCategoy";
 import CustomizeBrand from "@/models/CustomizeBrand";
 import CustomizeProduct from "@/models/CustomizeProduct";
+import Brand from "@/models/Brand";
 
   
 interface CategoryType {
@@ -120,4 +121,40 @@ export async function gettitleproduct(){
   await connectToDatabase();
   const titleproduct = await CustomizeProduct.findOne().exec();
   return JSON.stringify(titleproduct);
+}
+export async function getBestproductData() {
+  await connectToDatabase();
+  // You can adjust the filters as needed (e.g., `statuspage: "home-page"` or any other filters)
+  await Category.find();
+  await Boutique.find();
+  await Brand.find();
+  const bestsellers = await Product.find({
+    vadmin: "approve",
+    statuspage: "home-page",
+  }).lean()
+  .populate('category')
+  .populate('boutique')
+  .populate('brand');
+  return JSON.stringify(bestsellers);
+
+  // Convert `_id` to string so Next.js won’t complain
+ 
+}
+export async function getBestCollectionData() {
+  await connectToDatabase();
+  // You can adjust the filters as needed (e.g., `statuspage: "home-page"` or any other filters)
+  await Category.find();
+  await Boutique.find();
+  await Brand.find();
+  const bestsellers = await Product.find({
+    vadmin: "approve",
+    statuspage: "best-collection",
+  }).lean()
+  .populate('category')
+  .populate('boutique')
+  .populate('brand');
+  return JSON.stringify(bestsellers);
+
+  // Convert `_id` to string so Next.js won’t complain
+ 
 }
