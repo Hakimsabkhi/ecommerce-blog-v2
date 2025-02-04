@@ -224,7 +224,8 @@ const BlogTable: React.FC = () => {
                 </td>
               </tr>
             </tbody>
-          ) : filteredBlogs.length === 0 ? (
+          ) : (searchTerm ||
+            selectedPost ) &&filteredBlogs.length === 0 ? (
             <tbody>
               <tr>
                 <td colSpan={colSpan}>

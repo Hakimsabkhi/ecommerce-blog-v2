@@ -432,7 +432,7 @@ const Listinvoice: React.FC = () => {
                 </td>
               </tr>
             </tbody>
-          ) : filtered.length === 0 ? (
+          ) : searchTerm&&filtered.length === 0 ? (
             <tbody>
               <tr>
                 <td colSpan={colSpan}>

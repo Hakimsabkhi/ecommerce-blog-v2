@@ -211,7 +211,7 @@ const AddedBrands: React.FC = () => {
                 </td>
               </tr>
             </tbody>
-          ) : filteredBrands.length === 0 ? (
+          )  :   searchTerm  &&  filteredBrands.length === 0 ? (
             <tbody>
               <tr>
                 <td colSpan={colSpan}>
