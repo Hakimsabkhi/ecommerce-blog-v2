@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getCategoriesData } from "@/lib/StaticDataHomePage";
+import { getCategoriesData, gettitlecategory } from "@/lib/StaticDataHomePage";
 
 export const revalidate = 60;
 // This enables ISR (Incremental Static Regeneration)
@@ -14,8 +14,10 @@ export const revalidate = 60;
 
 export default async function Categories() {
   // 2) Get your category data
+  const datatitlecatgoray=await gettitlecategory();
+  const titlecatgoray = JSON.parse(datatitlecatgoray);
   const categories = await getCategoriesData();
-
+  //console.log(tai)
   // 3) Render the same UI you had before
   return (
     <div className="desktop max-md:w-[95%] flex flex-col gap-10 py-8 mt-4">
@@ -23,10 +25,10 @@ export default async function Categories() {
         <div>
           <div className="flex-col flex gap-2 items-center w-full max-lg:text-center mb-6">
             <h3 className="font-bold text-4xl text-HomePageTitles">
-              Our categories
+            {titlecatgoray.title}
             </h3>
             <p className="text-base text-[#525566]">
-              Lots of new products and product collections
+            {titlecatgoray.subtitle}
             </p>
           </div>
           <div className="gap-4 w-full grid grid-cols-5 max-xl:grid-cols-3 max-lg:grid-cols-3 max-md:grid-cols-2">

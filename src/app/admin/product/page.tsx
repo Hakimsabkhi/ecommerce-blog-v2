@@ -411,11 +411,18 @@ const AddedProducts: React.FC = () => {
     <div className="flex flex-col mx-auto w-[90%] gap-4">
     <div className="flex items-center justify-between h-[80px] ">
       <p className="text-3xl max-sm:text-sm font-bold">ALL Products</p>
+     <div className="flex gap-2">
+     <Link href="product/costmize">
+        <button className='bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4'>
+        Costmize Product 
+          </button>
+        </Link>
         <Link href="/admin/product/addproduct">
         <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
         <p>Add Product</p>
           </button>
         </Link>
+        </div>
       </div>
 
       <div className="h-[50px] flex justify-between items-center">

@@ -4,6 +4,9 @@ import Product from "@/models/Product";
 import Promotion from '@/models/Promotion';
 import Websiteinfo from '@/models/Websiteinfo';
 import Boutique from '@/models/Boutique';
+import CustomizeCategoy from "@/models/CustomizeCategoy";
+import CustomizeBrand from "@/models/CustomizeBrand";
+import CustomizeProduct from "@/models/CustomizeProduct";
 
   
 interface CategoryType {
@@ -99,4 +102,22 @@ export async function getWebsiteinfo() {
   await connectToDatabase();
   const company = await Websiteinfo.findOne({}).exec();
   return JSON.stringify(company );
+}
+//title category
+export async function gettitlecategory(){
+  await connectToDatabase();
+  const titlecategory = await CustomizeCategoy.findOne().exec();
+  return JSON.stringify(titlecategory);
+}
+//title brand
+export async function gettitlebrand(){
+  await connectToDatabase();
+  const titlebrand = await CustomizeBrand.findOne().exec();
+  return JSON.stringify(titlebrand);
+}
+//title product
+export async function gettitleproduct(){
+  await connectToDatabase();
+  const titleproduct = await CustomizeProduct.findOne().exec();
+  return JSON.stringify(titleproduct);
 }

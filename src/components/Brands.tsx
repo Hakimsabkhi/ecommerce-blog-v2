@@ -4,6 +4,7 @@ import Image from "next/image";
 // Mongoose models & DB connection
 import connectToDatabase from "@/lib/db";
 import Brand from "@/models/Brand";
+import { gettitlebrand } from "@/lib/StaticDataHomePage";
 
 // Enable ISR at the page level
 export const revalidate = 60; // Re-generate this page every 60s
@@ -26,7 +27,8 @@ async function getAllBrands() {
 
 export default async function BrandsPage() {
   const brands = await getAllBrands();
-
+const datatitlebarnd=await gettitlebrand();
+  const titlebrand = JSON.parse(datatitlebarnd)
   // Helper function for the accordion card classes
   const getBrandCardClasses = () =>
     "group/article relative w-full rounded-xl overflow-hidden md:group-hover:[&:not(:hover)]:w-[20%] md:group-focus-within:[&:not(:focus-within):not(:hover)]:w-[20%] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.15)] focus-within:ring focus-within:ring-indigo-300";
@@ -36,10 +38,10 @@ export default async function BrandsPage() {
       {/* Page Header */}
       <div className="flex flex-col gap-2 max-md:gap-1 text-center w-full ">
         <h3 className="font-bold text-4xl text-HomePageTitles">
-          Shopping by brands
+          {titlebrand.title}
         </h3>
         <p className="text-base text-[#525566]">
-          Discover lots of products from popular brands
+        {titlebrand.subtitle}
         </p>
       </div>
 
