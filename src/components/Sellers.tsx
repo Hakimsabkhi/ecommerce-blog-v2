@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getBestsellersData } from "@/lib/StaticDataHomePage";
+import { getBestsellersData, gettitleproduct } from "@/lib/StaticDataHomePage";
 
 // 1) Incremental Static Regeneration at the page level
 export const revalidate = 60;
@@ -12,7 +12,8 @@ export const revalidate = 60;
 export default async function Sellers() {
   // 3) Fetch your data
   const bestsellers = await getBestsellersData();
-
+const datatitleproduct=await gettitleproduct();
+  const titleproduct = JSON.parse(datatitleproduct)
   // 4) Return a grid similar to Categories
   return (
     <div className="desktop max-md:w-[95%] flex flex-col gap-10 py-8 mx-auto">
@@ -21,10 +22,10 @@ export default async function Sellers() {
           {/* Title + Subtitle */}
           <div className="flex-col flex gap-2 items-center w-full max-lg:text-center">
             <h3 className="font-bold text-4xl text-HomePageTitles">
-              Weekly bestsellers
+            {titleproduct.wbtitle}
             </h3>
             <p className="text-base text-[#525566]">
-              Don&apos;t miss out on these top-selling items
+            {titleproduct.wbsubtitle}
             </p>
           </div>
 

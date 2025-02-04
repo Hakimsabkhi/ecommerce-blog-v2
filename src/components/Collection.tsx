@@ -3,7 +3,7 @@ export const revalidate = 60;
 
 import React from "react";
 import ProductCard from "@/components/Products/ProductPage/ProductCard";
-import { getproductstatusData } from "@/lib/StaticDataHomePage";
+import { getproductstatusData, gettitleproduct } from "@/lib/StaticDataHomePage";
 
 interface Brand {
   _id: string;
@@ -40,6 +40,8 @@ interface Products {
 const Collection: React.FC = async () => {
   const rawProducts = await getproductstatusData();
   const rawProduct=JSON.parse(rawProducts)
+  const datatitleproduct=await gettitleproduct();
+    const titleproduct = JSON.parse(datatitleproduct)
   // Cast `rawProducts` to match the `Products[]` type
   const products: Products[] = Array.isArray(rawProduct) 
   ? rawProduct.map((product: Products) => ({
@@ -57,8 +59,11 @@ const Collection: React.FC = async () => {
       {filteredProductsCount > 0 && (
         <div className="col-span-full flex flex-col items-center gap-2">
           <h2 className="font-bold text-HomePageTitles text-4xl">
-            Product Collection
+          {titleproduct.pctitle}
           </h2>
+          <p className="text-base text-[#525566]">
+            {titleproduct.pcsubtitle}
+            </p>
         </div>
       )}
 
