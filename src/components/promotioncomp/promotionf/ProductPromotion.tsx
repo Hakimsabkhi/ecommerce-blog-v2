@@ -22,6 +22,7 @@ interface ProductData {
   status?: string;
   category: Category;
   slug: string;
+  boutique: { _id: string; nom: string };
 }
 
 interface Category {
@@ -93,19 +94,30 @@ const ProductPromotion: React.FC = () => {
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc'); // Added sorting state
-
+ const [selectedBoutique, setSelectedBoutique] = useState<string | null>(null);
   // Helper function to get unique values
   const getUniqueValues = (array: (string | undefined)[]) => {
     return Array.from(new Set(array.filter(item => item !== undefined))).filter((item): item is string => !!item);
   };
-
+  const boutique = Array.from(
+    new Map(
+      products
+        .map((product) => product?.boutique)
+        .filter(Boolean)
+        .map((boutique) => [boutique._id, boutique]) // Map the brand by _id
+    ).values()
+  );
   // Get unique colors and materials from products
   const uniqueColors = getUniqueValues(products.map(product => product.color));
   const uniqueMaterials = getUniqueValues(products.map(product => product.material));
 
   // Filter products based on the selected filters
   const filteredProducts = products.filter(product => {
+    
     const brandMatch = selectedBrand ? product?.brand?._id === selectedBrand : true;
+    const boutiqueMatch = selectedBoutique
+        ? product?.boutique?._id === selectedBoutique
+        : true;
     const colorMatch = selectedColor ? product.color === selectedColor : true;
     const materialMatch = selectedMaterial ? product.material === selectedMaterial : true;
 
@@ -118,7 +130,7 @@ const ProductPromotion: React.FC = () => {
       (minPrice !== null ? effectivePrice >= minPrice : true) &&
       (maxPrice !== null ? effectivePrice <= maxPrice : true);
 
-    return brandMatch && colorMatch && materialMatch && priceMatch;
+    return brandMatch && boutiqueMatch && colorMatch && materialMatch && priceMatch;
   });
 
   // Sort the filtered products
@@ -147,8 +159,10 @@ const ProductPromotion: React.FC = () => {
           setMaxPrice={setMaxPrice}
           brands={brands}
           uniqueColors={uniqueColors}
-          uniqueMaterials={uniqueMaterials}
-        
+          uniqueMaterials={uniqueMaterials} 
+          selectedBoutique={selectedBoutique} 
+          setSelectedBoutique={setSelectedBoutique } 
+          boutique={boutique}        
         />
       </div>
 

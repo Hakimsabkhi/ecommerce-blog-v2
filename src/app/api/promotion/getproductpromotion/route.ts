@@ -3,6 +3,7 @@ import dbConnect from "@/lib/db";
 import Product from "@/models/Product";
 import Category from "@/models/Category";
 import Brand from "@/models/Brand";
+import Boutique from "@/models/Boutique";
 
 // Handler for GET requests
 export async function GET() {
@@ -10,12 +11,14 @@ export async function GET() {
     await dbConnect();
 
     await Category.find();
+    await Boutique.find();
     await Brand.find();
     const product = await Product.find({
       discount: { $gt: 0 },
       vadmin: "approve",
     })
       .populate("category")
+      .populate("boutique")
       .populate("brand")
       .exec();
 
