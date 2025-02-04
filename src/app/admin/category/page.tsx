@@ -199,7 +199,11 @@ const AddedCategories: React.FC = () => {
     <div className="mx-auto w-[90%]  flex flex-col gap-4">
       <div className="flex items-center justify-between h-[80px] ">
         <p className="text-3xl max-sm:text-sm font-bold">ALL Post Categories</p>
-
+        <Link href="category/costmize">
+        <button className='bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4'>
+       Costmize Category
+          </button>
+        </Link>
         <Link href="category/addcategory">
         <button className='bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4'>
         Add category
