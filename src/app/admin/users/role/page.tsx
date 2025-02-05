@@ -187,7 +187,7 @@ const Role = () => {
 
         {/* Conditional rendering for duplicate role message */}
         {errorMessage && (
-          <p className="text-red-500 text-sm font-bold">{errorMessage}</p>
+          <p className="text-red-500 text-xs font-bold">{errorMessage}</p>
         )}
       </div>
 
@@ -214,45 +214,39 @@ const Role = () => {
             </thead>
             <tbody>
               {specialRoles.map((role) => {
-                // Show Admin only if user is SuperAdmin, or if it's not the "Admin" role
                 if (
-                  (session?.user?.role !== "SuperAdmin" &&
-                    role.name !== "Admin") ||
-                  session?.user?.role === "SuperAdmin"
+                  session?.user?.role !== "SuperAdmin" &&
+                  role.name === "Admin"
                 ) {
-                  return (
-                    <tr
-                      key={role._id}
-                      className="even:bg-gray-100 odd:bg-white"
-                    >
-                      <td className="border border-gray-300 px-2 py-2">
-                        {role.name}
-                      </td>
-                      {DashboardAdmin.flatMap((section) =>
-                        section.items ? section.items.map((item) => item.name) : []
-                      ).map((dashboardSection) => (
-                        <td
-                          key={dashboardSection}
-                          className="border border-gray-300 px-2 py-2 text-center"
-                        >
-                          <input
-                            type="checkbox"
-                            checked={role.access[dashboardSection] || false}
-                            onChange={(e) =>
-                              handleAccessUpdate(
-                                role.name,
-                                dashboardSection,
-                                e.target.checked
-                              )
-                            }
-                            className="w-6 h-6"
-                          />
-                        </td>
-                      ))}
-                    </tr>
-                  );
+                  return null; // Hide Admin row unless SuperAdmin
                 }
-                return null;
+
+                return (
+                  <tr key={role._id} className="even:bg-gray-100 odd:bg-white">
+                    <td className="border border-gray-300 px-2 py-2">
+                      {role.name}
+                    </td>
+                    {DashboardAdmin.flatMap((group) =>
+                      group.items.map((item) => item.path)
+                    ).map((dashboardSection) => (
+                      <td
+                        key={dashboardSection}
+                        className="border border-gray-300 px-2 py-2 text-center"
+                      >
+                        {/* 
+                          No need to update role "Admin" or "Visiteur" 
+                          so we disable the checkbox
+                        */}
+                        <input
+                          type="checkbox"
+                          checked={role.access[dashboardSection] || false}
+                          disabled
+                          className="w-6 h-6 cursor-not-allowed"
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                );
               })}
             </tbody>
           </table>
@@ -260,8 +254,8 @@ const Role = () => {
       </div>
 
       {/* ------------------------- Table for Other Roles ------------------------- */}
-      <h2 className="text-xl font-semibold ">Other Roles</h2>
-      <div className=" overflow-x-auto max-xl:hidden h-[170px]">
+      <h2 className="text-xl font-semibold">Other Roles</h2>
+      <div className="overflow-x-auto max-xl:hidden h-[170px]">
         {isLoading ? (
           <div className="flex justify-center items-center h-20">
             <FaSpinner className="animate-spin text-2xl" />
@@ -269,7 +263,7 @@ const Role = () => {
         ) : (
           <table className="rounded overflow-hidden w-full table-fixed mx-auto">
             <thead>
-              <tr className="bg-gray-800 text-sm">
+              <tr className="bg-gray-800 text-xs">
                 <th className="border border-gray-300 p-2">Role Name</th>
                 {DashboardAdmin.flatMap((section) =>
                   section.items ? section.items.map((item) => item.name) : []
@@ -282,56 +276,47 @@ const Role = () => {
               </tr>
             </thead>
             <tbody>
-              {displayedOtherRoles.map((role) => {
-            
-                  
-                  return (
-                    <tr
-                      key={role._id}
-                      className="even:bg-gray-100 odd:bg-white"
+              {displayedOtherRoles.map((role) => (
+                <tr key={role._id} className="even:bg-gray-100 odd:bg-white">
+                  <td className="border border-gray-300 px-2 py-2">
+                    {role.name}
+                  </td>
+                  {DashboardAdmin.flatMap((section) =>
+                    section.items ? section.items.map((item) => item.name) : []
+                  ).map((dashboardSection) => (
+                    <td
+                      key={dashboardSection}
+                      className="border border-gray-300 px-2 py-2 text-center"
                     >
-                      <td className="border border-gray-300 px-2 py-2">
-                        {role.name}
-                      </td>
-                      {DashboardAdmin.flatMap((section) =>
-                        section.items ? section.items.map((item) => item.name) : []
-                      ).map((dashboardSection) => (
-                        <td
-                          key={dashboardSection}
-                          className="border border-gray-300 px-2 py-2 text-center"
-                        >
-                          <input
-                            type="checkbox"
-                            checked={role.access[dashboardSection] || false}
-                            onChange={(e) =>
-                              handleAccessUpdate(
-                                role.name,
-                                dashboardSection,
-                                e.target.checked
-                              )
-                            }
-                            className="w-6 h-6"
-                          />
-                        </td>
-                      ))}
-                      <td className="border flex justify-center border-gray-300 px-2 py-2">
-                        <button
-                          onClick={() => handleDeleteClick(role)}
-                          className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
-                          disabled={updatingRole === role._id}
-                        >
-                          {updatingRole === role._id ? (
-                            <FaSpinner className="animate-spin" />
-                          ) : (
-                            <FaTrashAlt />
-                          )}
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                
-                return null;
-              })}
+                      <input
+                        type="checkbox"
+                        checked={role.access[dashboardSection] || false}
+                        onChange={(e) =>
+                          handleAccessUpdate(
+                            role.name,
+                            dashboardSection,
+                            e.target.checked
+                          )
+                        }
+                        className="w-6 h-6"
+                      />
+                    </td>
+                  ))}
+                  <td className="border flex justify-center border-gray-300 px-2 py-2">
+                    <button
+                      onClick={() => handleDeleteClick(role)}
+                      className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                      disabled={updatingRole === role._id}
+                    >
+                      {updatingRole === role._id ? (
+                        <FaSpinner className="animate-spin" />
+                      ) : (
+                        <FaTrashAlt />
+                      )}
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         )}
