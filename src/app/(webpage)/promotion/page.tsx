@@ -1,31 +1,30 @@
 import React from 'react';
-import { notFound } from 'next/navigation';
-import ChairsPromation from '@/components/promotioncomp/promotionf/ChairsPromotion';
-import ProductPromotion from '@/components/promotioncomp/promotionf/ProductPromotion';
-import { promotionData } from '@/lib/StaticDataHomePage';
+import { getproductpromotionData } from '@/lib/StaticCatgoryproduct';
+import ProductFilterClient from '@/components/Products/ProductPage/ProductFilterClient';
+import { gettitleproduct } from '@/lib/StaticDataHomePage';
+import Chairsproduct from '@/components/Chairsproduct';
 
 
 
 
 
 
-// HomePage component
-async function promotionPage() {
 
-  const promotion = await promotionData();
-  
-  if (!promotion ) {
-    return notFound();
-  } 
-
-  return (
-    <div>
-      {/* Uncomment the following if you need to show a banner */}
-      <ChairsPromation promotion={promotion} />
-      <ProductPromotion/> 
-    </div>
-  );
+export default async function promotionPage() {
+ 
+  try {
+    const productstitledata= await gettitleproduct()
+    const productsRe= await getproductpromotionData()
+    
+    const products = JSON.parse(productsRe)
+    const producttitle = JSON.parse(productstitledata)
+    return (
+      <><Chairsproduct title={producttitle?.cptitle} banner={producttitle?.cpbanner} url={"/bestcollection"} />
+      <ProductFilterClient
+        products={products} /></>
+    );
+  } catch (error) {
+    return <div className="text-red-500 text-center">Error: {String(error)}</div>;
+  }
 }
 
-// Export the HomePage component at the end
-export default promotionPage;

@@ -109,3 +109,25 @@ export async function getproductbycatgory(categorySlug:string){
       return JSON.stringify(products );
 }
 
+export async function getproductpromotionData() {
+
+    await connectToDatabase();
+
+    await Category.find();
+    await Boutique.find();
+    await Brand.find();
+    const product = await Product.find({
+      discount: { $gt: 0 },
+      vadmin: "approve",
+    })
+      .populate("category")
+      .populate("boutique")
+      .populate("brand")
+      .exec();
+
+    
+
+    return JSON.stringify(product);
+  
+  
+}

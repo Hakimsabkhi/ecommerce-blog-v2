@@ -157,11 +157,7 @@ const ListPromotion: React.FC = () => {
     <div className="flex flex-col mx-auto w-[90%] gap-4">
     <div className="flex items-center justify-between h-[80px] ">
       <p className="text-3xl max-sm:text-sm font-bold">ALL Products Promotion</p>
-        <Link href="/admin/promotion/banner">
-        <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
-        <p>Banner promotion</p>
-          </button>
-        </Link>
+       
       </div>
 
       <div className="h-[50px] flex justify-between items-center">
