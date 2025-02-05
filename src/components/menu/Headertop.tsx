@@ -1,26 +1,14 @@
+import { getWebsiteinfo } from "@/lib/StaticDataHomePage";
 import React from "react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa"; // Import social media icons
 
 
 
-async function fetchCompanyData() {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/websiteinfo/getwebsiteinfo`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  if (!res.ok) {
-    console.log("Failed to fetch data");
-  }
-  return res.json();
-}
+
 
 const Headertop: React.FC = async () => {
-  const companyData = await fetchCompanyData();
+   const company = await getWebsiteinfo();
+        const companyData = JSON.parse(company);
 
   if (!companyData) {
     return <div>Loading...</div>;
