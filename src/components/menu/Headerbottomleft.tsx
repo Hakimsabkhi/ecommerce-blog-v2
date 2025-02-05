@@ -17,7 +17,10 @@ interface Category {
     slug: string;
     logoUrl?: string;
   }
-const Headerbottomleft = () => {
+  interface Headerbottomleftprop{
+    categorys:Category[]
+  }
+  const Headerbottomleft: React.FC<Headerbottomleftprop> =  ({categorys}) => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [subcategories, setSubcategories] = useState<{ [key: string]: Subcategory[] }>({});
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -27,18 +30,10 @@ const Headerbottomleft = () => {
   
     // Fetch all categories on mount
     useEffect(() => {
-      const fetchCategoryData = async () => {
-        try {
-          const res = await fetch(`/api/category/getAllCategory`);
-          if (!res.ok) throw new Error("Failed to fetch data");
-          const data = await res.json();
-          setCategories(data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      fetchCategoryData();
-    }, []);
+     
+          setCategories(categorys);
+    
+    }, [categorys]);
   
     // Fetch subcategories for a given category ID if not already loaded
     const fetchSubcategories = async (categoryId: string) => {

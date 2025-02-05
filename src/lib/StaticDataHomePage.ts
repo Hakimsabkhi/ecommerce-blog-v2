@@ -146,3 +146,13 @@ export async function getBestCollectionData() {
   // Convert `_id` to string so Next.js won’t complain
  
 }
+export async function getcategoryData() {
+
+    await connectToDatabase(); // Ensure the database connection is established
+
+    // Fetch all categories but only return the name and imageUrl fields
+    const categories = await Category.find({vadmin:"approve"}).exec(); // Only select the 'name' and 'imageUrl' fields
+
+    // Return the fetched category names and image URLs
+    return JSON.stringify(categories);
+  }
