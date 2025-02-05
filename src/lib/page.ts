@@ -1,3 +1,5 @@
+// src/lib/page.ts
+
 export const DashboardAdmin = [
   { group: "Info Mon Entreprise",
     items:[
@@ -43,3 +45,8 @@ export const DashboardAdmin = [
     ],
   },
 ];
+
+// Flatten them into an array of strings
+export function getAllDashboardPaths(): string[] {
+  return DashboardAdmin.flatMap((group) => group.items.map((item) => item.path));
+}
