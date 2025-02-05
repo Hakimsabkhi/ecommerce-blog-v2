@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { getWebsiteinfoData } from "@/lib/StaticDataHomePage";
 
-export const revalidate = 60;
+export const revalidate =1000;
 
 export default async function Banner() {
   const companyData = await getWebsiteinfoData();

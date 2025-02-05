@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getCategoriesData, gettitlecategory } from "@/lib/StaticDataHomePage";
 
-export const revalidate = 60;
+export const revalidate =1000;
 // This enables ISR (Incremental Static Regeneration)
 // Next.js will re-generate this page in the background every 60s.
 

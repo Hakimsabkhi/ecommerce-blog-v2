@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getBestsellersData, gettitleproduct } from "@/lib/StaticDataHomePage";
 
 // 1) Incremental Static Regeneration at the page level
-export const revalidate = 60;
+export const revalidate =1000;
 
 // 2) Fetch sellers (best-selling products) directly from the DB
 

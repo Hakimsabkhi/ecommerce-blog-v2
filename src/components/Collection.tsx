@@ -1,5 +1,5 @@
 // 1) Export a `revalidate` constant so the page re-generates every 60 seconds
-export const revalidate = 60;
+export const revalidate =1000;
 
 import React from "react";
 import ProductCard from "@/components/Products/ProductPage/ProductCard";
