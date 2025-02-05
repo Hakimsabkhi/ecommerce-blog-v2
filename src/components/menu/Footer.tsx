@@ -8,28 +8,17 @@ import { FaFacebookF } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa6";
+import { getWebsiteinfo } from '@/lib/StaticDataHomePage';
 
 
-  async function fetchCompanyData() {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/websiteinfo/getwebsiteinfo`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        next:{revalidate:0},
-      });
-    if (!res.ok) {
-       console.log('Failed to fetch data');
-    }
-    return res.json();
-}
-  
 
  
   
 
 export default async function Bb() {
-    const companyData = await fetchCompanyData();
+     const company = await getWebsiteinfo();
+      const companyData = JSON.parse(company);
+  
     const formatPhoneNumber = (phone: string | number): string => {
         // Convert number to string if needed
         const phoneStr = phone?.toString().trim();

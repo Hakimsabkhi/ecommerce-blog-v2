@@ -3,25 +3,14 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getWebsiteinfo } from "@/lib/StaticDataHomePage";
 
 
-async function fetchCompanyData() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/websiteinfo/getwebsiteinfo`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      next:{revalidate:0}
-    });
-  if (!res.ok) {
-      console.log('Failed to fetch data');
-  }
-  return res.json();
-}
 
 
 const Header: React.FC = async() => {
-  const companyData = await fetchCompanyData();
+ const company = await getWebsiteinfo();
+      const companyData = JSON.parse(company);
   return (
     
       <div className="flex w-fit max-lg:w-[50%] gap-4 items-center justify-around">

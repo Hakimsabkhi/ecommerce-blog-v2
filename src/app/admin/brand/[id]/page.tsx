@@ -24,6 +24,8 @@ const ModifyBrand = () => {
   });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedIcon, setSelectedIcon] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [iconUrl, setIconUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true); // Initially loading is true
 
   useEffect(() => {
@@ -58,12 +60,16 @@ const ModifyBrand = () => {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedImage(e.target.files[0]);
+      const url = URL.createObjectURL(e.target.files[0]);
+      setImageUrl(url); // Create an object URL for the image
     }
   };
 
   const handleIconChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedIcon(e.target.files[0]);
+      const url = URL.createObjectURL(e.target.files[0]);
+      setIconUrl(url); // Create an object URL for the image
     }
   };
 
@@ -145,6 +151,13 @@ const ModifyBrand = () => {
                 className="rounded-md w-[200px] h-[200px]"
               />
             )}
+            {imageUrl && <Image
+                src={imageUrl}
+                alt="Current Image"
+                width={100}
+                height={100}
+                className="rounded-md w-[200px] h-[200px]"
+              />}
             <input
               type="file"
               accept="image/*"
@@ -177,6 +190,13 @@ const ModifyBrand = () => {
                 className="rounded-md w-[200px] h-[200px]"
               />
             )}
+             {iconUrl && <Image
+                src={iconUrl}
+                alt="Current Image"
+                width={100}
+                height={100}
+                className="rounded-md w-[200px] h-[200px]"
+              />}
             <label
               htmlFor="upload-icon"
               className="bg-[#EFEFEF] max-xl:text-xs text-black rounded-md w-[50%] h-10 border-2 flex items-center justify-center cursor-pointer"
@@ -184,8 +204,8 @@ const ModifyBrand = () => {
               Select an Icon
             </label>
           </div>
-        </form>
-      )}
+    
+    
       <div className="flex gap-[10px] justify-center col-span-2">
         <button
           type="submit"
@@ -199,6 +219,7 @@ const ModifyBrand = () => {
           </button>
         </Link>
       </div>
+      </form> )}
     </div>
   );
 };

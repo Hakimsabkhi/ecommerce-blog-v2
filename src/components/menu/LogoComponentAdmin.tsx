@@ -1,27 +1,15 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { getWebsiteinfo } from "@/lib/StaticDataHomePage";
 
 
 
-async function fetchCompanyData() {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/websiteinfo/getwebsiteinfo`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  if (!res.ok) {
-    console.log("Failed to fetch data");
-  }
-  return res.json();
-}
+
 
 const LogoComponentAdmin: React.FC =async () => {
-  const companyData = await fetchCompanyData();
+ const company = await getWebsiteinfo();
+      const companyData = JSON.parse(company);
   
 
   return (
