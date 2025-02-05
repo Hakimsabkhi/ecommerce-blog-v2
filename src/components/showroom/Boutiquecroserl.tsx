@@ -59,9 +59,7 @@ const BoutiqueCard: React.FC<BoutiqueCardProps> = ({
       {/* Info Section */}
       <div className="w-1/2 max-sm:w-full my-auto">
         <div className=" flex flex-col gap-4 max-sm:items-center ">
-          <h2 className=" text-2xl font-bold uppercase">
-            {boutique.nom}
-          </h2>
+          <h2 className=" text-2xl font-bold uppercase">{boutique.nom}</h2>
           <div className=" text-black flex  gap-2 flex-col max-sm:flex-row ">
             <div className="flex  gap-2 items-center">
               <span>
@@ -187,12 +185,15 @@ const BoutiqueCarousel: React.FC<BoutiqueProps> = ({ boutiques }) => {
         <button
           onClick={prevSlide}
           className="absolute top-1/2 -left-1 transform -translate-y-1/2 p-1 z-10"
+          aria-label="Go to previous slide" // Adds an accessible name
         >
           <FaRegArrowAltCircleLeft size={50} />
         </button>
+
         <button
           onClick={nextSlide}
           className="absolute top-1/2 -right-1 transform -translate-y-1/2 p-1 z-10"
+          aria-label="Go to next slide" // Adds an accessible name
         >
           <FaRegArrowAltCircleRight size={50} />
         </button>

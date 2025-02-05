@@ -56,10 +56,10 @@ const Furniture = async () => {
       {filteredProductsCount > 0 && (
         <div className="flex w-full flex-col gap-2 items-center">
           <h3 className="font-bold text-4xl text-HomePageTitles">
-          {titleproduct.cptitle}
+          {titleproduct?.cptitle}
           </h3>
           <p className="text-base text-[#525566]">
-            {titleproduct.cpsubtitle}
+            {titleproduct?.cpsubtitle}
             </p>
         </div>
       )}

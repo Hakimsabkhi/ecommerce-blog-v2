@@ -40,7 +40,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
   uniqueMaterials,
 }) => {
   return (
-    <div className="flex flex-col w-full justify-center px-2 bg-white">
+    <div className="flex  flex-col w-full justify-center px-2">
       {/* Brand Filter */}
       <div className="mb-4">
         <label htmlFor="brand-filter" className="font-bold">

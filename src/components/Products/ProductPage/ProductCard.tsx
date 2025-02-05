@@ -57,7 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
   };
 
   return (
-    <div className="flex gap-2 h-fit flex-col duration-500 lg:group-hover:scale-[0.85] lg:hover:!scale-100 max-md:h-fit relative">
+    <div className="flex gap-1 max-sm:mb-5  h-fit flex-col duration-500 lg:group-hover:scale-[0.85] lg:hover:!scale-100 max-md:h-fit relative">
       <Link href={`/${item.category?.slug}/${item.slug}`}>
         <Image
           className="w-full h-auto mx-auto top-5"
@@ -67,9 +67,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
           width={300}
         />
       </Link>
-      <div className="flex-col flex bottom-0 gap-2 pl-2 pr-2 w-full">
+      <div className="flex-col flex pl-2 pr-2 w-full">
         <Link href={`/${item.category?.slug}/${item.slug}`}>
-          <div className="flex justify-between h-24 max-md:h-20">
+          <div className="flex justify-between h-20 max-sm:h-16 max-md:h-20">
             <div className="flex-col flex gap-1">
               <p className="text-productNameCard cursor-pointer text-2xl max-md:text-lg font-bold first-letter:uppercase">
                 {item.name}
@@ -78,7 +78,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
                   It will display the star ratings using the same CSS as your original file. */}
               <Reviews productId={item._id} summary={true} />
             </div>
-            <div className="flex-col gap-1">
+            <div className="flex-col gap-1 text-right truncate">
               {item.discount && item.discount !== 0 ? (
                 <div className="flex-col flex gap-1">
                   <p className="text-2xl max-md:text-lg font-bold rounded-lg text-primary">

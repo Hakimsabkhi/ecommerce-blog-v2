@@ -88,14 +88,14 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose }) => {
           onPageChange={setCurrentPage}
         />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col ">
         {items.length === 0 ? (
           <p className="text-center text-black">Your cart is empty.</p>
         ) : (
           paginatedItems.map((item) => (
             <div
               key={item._id}
-              className="flex items-center justify-between py-2 max-md:mx-[10%] border-b-2"
+              className="flex items-center gap-4 justify-center py-2  border-b-2"
             >
               <Image
                 className="object-cover"
