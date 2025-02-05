@@ -44,7 +44,7 @@ const Boutique: React.FC<Boutiqueprops> = ({ boutiques }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-8 py-8">
         {/* Repeated block */}
         {currentProducts.map((item: StoreData) => (
-          <div key={item._id} className="bg-white shadow-lg flex overflow-hidden">
+          <div key={item._id} className="bg-white shadow-lg flex overflow-hidden rounded-lg">
             
       <div className="w-1/3">
       {item.image && (
@@ -59,7 +59,7 @@ const Boutique: React.FC<Boutiqueprops> = ({ boutiques }) => {
 
 <div className="bg-white w-2/3 h-full overflow-hidden">
             <div className="p-6">
-              <h2 className="text-center text-lg font-bold uppercase mb-4">
+              <h2 className="text-center text-2xl font-bold uppercase mb-4">
                 {item.nom}
               </h2>
           <div className="text-center text-black flex justify-center items-center gap-4">

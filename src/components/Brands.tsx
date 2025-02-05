@@ -34,7 +34,7 @@ const datatitlebarnd=await gettitlebrand();
     "group/article relative w-full rounded-xl overflow-hidden md:group-hover:[&:not(:hover)]:w-[20%] md:group-focus-within:[&:not(:focus-within):not(:hover)]:w-[20%] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.15)] focus-within:ring focus-within:ring-indigo-300";
 
   return (
-    <div className="desktop max-md:w-[95%] flex flex-col gap-10 max-md:gap-4 py-8">
+    <div className=" max-md:w-[95%] flex flex-col gap-10 max-md:gap-4 py-8">
       {/* Page Header */}
       <div className="flex flex-col gap-2 max-md:gap-1 text-center w-full ">
         <h3 className="font-bold text-4xl text-HomePageTitles">
@@ -61,19 +61,19 @@ const datatitlebarnd=await gettitlebrand();
             />
 
             {/* Top Black Overlay (30% height, 50% opacity) */}
-            <div className="absolute top-0 left-0 w-full h-[15%] bg-black/70 z-10"></div>
+            <div className="absolute max-md:hidden top-0 left-0 w-full h-[15%] bg-black/70 z-10"></div>
 
             {/* Bottom Black Overlay (20% height, 50% opacity) - appears on hover */}
-            <div className="absolute bottom-0 left-0 w-full h-[15%] bg-black/70 opacity-0 group-hover/article:opacity-100 transition-opacity duration-200 z-[15]"></div>
+            <div className="absolute max-md:hidden bottom-0 left-0 w-full h-[15%] bg-black/70 opacity-0 group-hover/article:opacity-100 transition-opacity duration-200 z-[15]"></div>
 
             {/* Overlay with brand details */}
             <div
               className="absolute inset-0 text-white z-20"
             >
-              <span className="absolute inset-x-0 top-0 text-2xl uppercase tracking-widest font-bold p-6 transition duration-200 ease-[cubic-bezier(.5,.85,.25,1.8)]">
+              <span className="absolute inset-x-0 top-0 text-2xl max-lg:text-xs max-xl:text-sm uppercase tracking-widest font-bold p-6 transition duration-200 ease-[cubic-bezier(.5,.85,.25,1.8)]">
                 {brand.place}
               </span>
-              <span className="absolute inset-x-0 bottom-0 text-2xl uppercase tracking-widest font-bold p-6 opacity-0 group-hover/article:opacity-100 group-focus-within/article:opacity-100 transition duration-200 ease-[cubic-bezier(.5,.85,.25,1.8)]">
+              <span className="absolute inset-x-0 bottom-0 max-md:hidden text-2xl uppercase tracking-widest font-bold p-6 opacity-0 group-hover/article:opacity-100 group-focus-within/article:opacity-100 transition duration-200 ease-[cubic-bezier(.5,.85,.25,1.8)]">
                 {brand.name}
               </span>
             </div>

@@ -22,10 +22,10 @@ const datatitleproduct=await gettitleproduct();
           {/* Title + Subtitle */}
           <div className="flex-col flex gap-2 items-center w-full max-lg:text-center">
             <h3 className="font-bold text-4xl text-HomePageTitles">
-            {titleproduct.wbtitle}
+            {titleproduct?.wbtitle}
             </h3>
             <p className="text-base text-[#525566]">
-            {titleproduct.wbsubtitle}
+            {titleproduct?.wbsubtitle}
             </p>
           </div>
 
@@ -57,7 +57,7 @@ const datatitleproduct=await gettitleproduct();
                   <Image
                     className="w-full rounded-full"
                     src={item.imageUrl}
-                    alt={item.name}
+                    alt={`Image of ${item.name}`} 
                     width={500}
                     height={500}
                     style={{ objectFit: "contain" }}

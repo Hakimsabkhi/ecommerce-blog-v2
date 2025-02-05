@@ -12,9 +12,9 @@ export default function HomePage() {
     <>
       <Banner />
       <Categories />
-      <Sellers />
+      <Collection />
       <Brands />
-      <Collection />  {/*   fixed */}
+      <Sellers />  {/*   fixed */}
       <Furniture />   {/*   fixed */}
       <Boutique/>
     </>

@@ -59,10 +59,10 @@ const Collection: React.FC = async () => {
       {filteredProductsCount > 0 && (
         <div className="col-span-full flex flex-col items-center gap-2">
           <h2 className="font-bold text-HomePageTitles text-4xl">
-          {titleproduct.pctitle}
+          {titleproduct?.pctitle}
           </h2>
           <p className="text-base text-[#525566]">
-            {titleproduct.pcsubtitle}
+            {titleproduct?.pcsubtitle}
             </p>
         </div>
       )}
