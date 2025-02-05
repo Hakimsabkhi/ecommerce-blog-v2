@@ -53,12 +53,12 @@ const Pagination: React.FC<PaginationProps> = ({
       {/* Previous button */}
       <div
         className={`flex items-center gap-1 cursor-pointer ${
-          currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+          currentPage === 1 ? ' cursor-not-allowed' : ''
         }`}
         onClick={() => handlePageChange(currentPage - 1)}
       >
         <FaArrowLeft className="cursor-pointer" />
-        <p className="-xs font-semibold">Back</p>
+        <p className="font-semibold">Back</p>
       </div>
 
       {/* Display pages */}
@@ -83,7 +83,7 @@ const Pagination: React.FC<PaginationProps> = ({
       {/* Next button */}
       <div
         className={`flex items-center gap-1 cursor-pointer ${
-          currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+          currentPage === totalPages ? ' cursor-not-allowed' : ''
         }`}
         onClick={() => handlePageChange(currentPage + 1)}
       >

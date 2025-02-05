@@ -1,7 +1,40 @@
-import React from "react";
+import React, {
+  ReactElement,
+  HTMLAttributes,
+  cloneElement
+} from "react";
 import Slider from "rc-slider";
-import "rc-slider/assets/index.css"; 
+import "rc-slider/assets/index.css";
 
+interface RenderProps {
+  index: number;
+  value: number;
+  dragging: boolean;
+}
+
+// 1) Define your handleRender function
+function handleRender(
+  origin: ReactElement<HTMLAttributes<HTMLDivElement>>,
+  { index, value }: RenderProps
+): ReactElement<HTMLAttributes<HTMLDivElement>> {
+  const ariaLabel =
+    index === 0 ? "Minimum price slider handle" : "Maximum price slider handle";
+
+  return cloneElement(origin, {
+    role: "slider",
+    "aria-label": ariaLabel,
+    "aria-valuemin": 1,
+    "aria-valuemax": 200000,
+    "aria-valuenow": value,
+    style: {
+      ...origin.props.style,
+      borderColor: "#007bff", // your custom color
+      backgroundColor: "#fff",
+    },
+  });
+}
+
+// 2) Other interfaces (unchanged from your code)
 interface FilterProductsProps {
   selectedBrand: string | null;
   setSelectedBrand: (brand: string | null) => void;
@@ -40,7 +73,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
   uniqueMaterials,
 }) => {
   return (
-    <div className="flex  flex-col w-full justify-center px-2">
+    <div className="flex flex-col w-full justify-center px-2">
       {/* Brand Filter */}
       <div className="mb-4">
         <label htmlFor="brand-filter" className="font-bold">
@@ -60,12 +93,14 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
           ))}
         </select>
       </div>
+
+      {/* Boutique Filter */}
       <div className="mb-4">
-        <label htmlFor="brand-filter" className="font-bold">
+        <label htmlFor="boutique-filter" className="font-bold">
           Boutique:
         </label>
         <select
-          id="brand-filter"
+          id="boutique-filter"
           className="w-full p-2 border border-gray-300 rounded"
           value={selectedBoutique || ""}
           onChange={(e) => setSelectedBoutique(e.target.value || null)}
@@ -141,19 +176,17 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
         <Slider
           range
           min={1}
-          max={200000}
-          value={[minPrice || 1, maxPrice || 200000]}
+          max={10000}
+          value={[minPrice || 1, maxPrice || 10000]}
           onChange={(values) => {
-            const [min, max] = values as number[]; // Explicitly assert as number[]
+            const [min, max] = values as number[];
             setMinPrice(min);
             setMaxPrice(max);
           }}
           allowCross={false}
           trackStyle={[{ backgroundColor: "#007bff" }]}
-          handleStyle={[
-            { borderColor: "#007bff", backgroundColor: "#fff" },
-            { borderColor: "#007bff", backgroundColor: "#fff" },
-          ]}
+          // 3) The typed handleRender function
+          handleRender={handleRender}
         />
       </div>
     </div>
