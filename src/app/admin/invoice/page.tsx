@@ -264,7 +264,16 @@ const Listinvoice: React.FC = () => {
   const indexOfFirstItem = indexOfLastItem - invoicesPerPage;
   const currentInvoices = filtered.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filtered.length / invoicesPerPage);
-
+  function getdatetime(date:string){
+    const dates=new Date(date).getDate();
+    const nowdate=new Date().getDate();
+    console.log(nowdate)
+    if(dates==nowdate){
+      return true
+    }else{
+      return false
+    } 
+  }
   // ─────────────────────────────────────────────────────────────────────────────
   // RENDER
   // ─────────────────────────────────────────────────────────────────────────────
@@ -497,13 +506,13 @@ const Listinvoice: React.FC = () => {
                             Facture
                           </button>
                         </Link>
-                        <button
+                        {getdatetime(inv.createdAt)==true  && <button
                           onClick={() => handleDeleteClick(inv)}
                           className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
                           disabled={loadingInvoiceId === inv._id}
                         >
                           {loadingInvoiceId === inv._id ? "..." : <FaTrashAlt />}
-                        </button>
+                        </button>}
                         {isPopupOpen && (
                           <DeletePopup
                             handleClosePopup={handleClosePopup}
@@ -573,13 +582,13 @@ const Listinvoice: React.FC = () => {
                     Facture
                   </button>
                 </Link>
-                <button
+              {getdatetime(inv.createdAt)==true  &&<button
                   onClick={() => handleDeleteClick(inv)}
                   className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
                   disabled={loadingInvoiceId === inv._id}
                 >
                   {loadingInvoiceId === inv._id ? "..." : <FaTrashAlt />}
-                </button>
+                </button>}
                 {isPopupOpen && (
                   <DeletePopup
                     handleClosePopup={handleClosePopup}
