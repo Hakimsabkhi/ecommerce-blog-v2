@@ -10,15 +10,50 @@ const Costmizecatgorey = () => {
   const [formdata, setFormdata] = useState({
     wbtitle:'',
     wbsubtitle:'',
+    wbbanner:'',
     pctitle:'',
     pcsubtitle:'',
+    pcbanner:'',
     cptitle:'',
     cpsubtitle:'',
+    cpbanner:'',
   });
    const name="product"
             const url="/admin/product/"
 const [id,setId]=useState('')
   const [error, setError] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState({
+    pcbannerPreview: formdata.pcbanner,
+    wbbannerPreview: formdata.wbbanner,
+    cpbannerPreview: formdata.cpbanner,
+  });
+  const [images, setImages] = useState<{
+    pcbanner: File | null;
+    wbbanner: File | null;
+    cpbanner: File | null;
+  }>({
+    pcbanner: null,
+    wbbanner: null,
+    cpbanner: null,
+  });
+  
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+    const file = e.target.files ? e.target.files[0] : null;
+
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview((prevState) => ({
+        ...prevState,
+        [`${fieldName}Preview`]: previewUrl,
+      }));
+      setImages((prevState) => ({
+        ...prevState,
+      [`${fieldName}`]: file, // Update the specific field
+      }));
+      handleChange(e); // Call the handleChange to update the form data
+    }
+  };
   useEffect(()=>{
   const fetchcostmizeData = async () => {
     try {
@@ -32,13 +67,22 @@ const [id,setId]=useState('')
         const data = await response.json();
       setId(data._id);
       setFormdata(data);
+      setImagePreview({
+        cpbannerPreview:data.cpbanner,
+        pcbannerPreview:data.pcbanner,
+        wbbannerPreview:data.wbbanner
+      })
       }else if(response.status===404){
         setFormdata( {wbtitle:'',
           wbsubtitle:'',
+          wbbanner:'',
           pctitle:'',
           pcsubtitle:'',
+          pcbanner:'',
           cptitle:'',
-          cpsubtitle:'',})
+          cpsubtitle:'',
+        cpbanner:'',
+      })
       }
 
      
@@ -67,15 +111,36 @@ if (!formdata.wbtitle || !formdata.wbsubtitle ||!formdata.pctitle || !formdata.p
   return;
 }
 
-
-   
+const formData = new FormData();
+    for (const [key, value] of Object.entries(formdata)) {
+      formData.append(key, value); // appending the key-value pairs to FormData
+    }
+    if (images.wbbanner) {
+      // Only append to FormData if cpbanner is not null
+      formData.append('wbbanners', images.wbbanner);
+    } else {
+      // Handle the case when cpbanner is null, if necessary
+      console.log('No cpbanner file selected');
+    }
+    if (images.cpbanner) {
+      // Only append to FormData if cpbanner is not null
+      formData.append('cpbanners', images.cpbanner);
+    } else {
+      // Handle the case when cpbanner is null, if necessary
+      console.log('No cpbanner file selected');
+    }
+    if (images.pcbanner) {
+      // Only append to FormData if cpbanner is not null
+      formData.append('pcbanners', images.pcbanner);
+    } else {
+      // Handle the case when cpbanner is null, if necessary
+      console.log('No cpbanner file selected');
+    }
+    
     try {
       const response = await fetch("/api/products/admin/costmize/postcostmize", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formdata),
+        body: formData,
 
       });
 
@@ -106,6 +171,28 @@ if (!formdata.wbtitle || !formdata.wbsubtitle ||!formdata.pctitle || !formdata.p
     for (const [key, value] of Object.entries(formdata)) {
       formData.append(key, value); // appending the key-value pairs to FormData
     }
+    if (images.wbbanner) {
+      // Only append to FormData if cpbanner is not null
+      formData.append('wbbanners', images.wbbanner);
+    } else {
+      // Handle the case when cpbanner is null, if necessary
+      console.log('No cpbanner file selected');
+    }
+    if (images.cpbanner) {
+      // Only append to FormData if cpbanner is not null
+      formData.append('cpbanners', images.cpbanner);
+    } else {
+      // Handle the case when cpbanner is null, if necessary
+      console.log('No cpbanner file selected');
+    }
+    if (images.pcbanner) {
+      // Only append to FormData if cpbanner is not null
+      formData.append('pcbanners', images.pcbanner);
+    } else {
+      // Handle the case when cpbanner is null, if necessary
+      console.log('No cpbanner file selected');
+    }
+    
     formData.append('id', id);
     try {
       const response = await fetch("/api/products/admin/costmize/updatecostmize", {
@@ -126,7 +213,7 @@ if (!formdata.wbtitle || !formdata.wbsubtitle ||!formdata.pctitle || !formdata.p
     }
   };
   return (
-    <Costmizepoductcomp name={name} handleSubmit={handleSubmit }handleUpdate={handleUpdate } formdata={formdata} handleChange={handleChange} error={error} url={url} id={id}/>
+    <Costmizepoductcomp name={name} handleSubmit={handleSubmit }handleUpdate={handleUpdate } formdata={formdata} handleChange={handleChange} error={error} url={url} id={id} handleImageChange={handleImageChange} imagePreview={imagePreview}/>
   );
 };
 

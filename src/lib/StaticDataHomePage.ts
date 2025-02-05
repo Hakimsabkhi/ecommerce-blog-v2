@@ -1,7 +1,6 @@
 import connectToDatabase from "@/lib/db";
 import Category from "@/models/Category";
 import Product from "@/models/Product";
-import Promotion from '@/models/Promotion';
 import Websiteinfo from '@/models/Websiteinfo';
 import Boutique from '@/models/Boutique';
 import CustomizeCategoy from "@/models/CustomizeCategoy";
@@ -36,18 +35,7 @@ export async function getproductstatusData() {
 
 
 
-//promation
 
-export async function promotionData() {
-
-    await connectToDatabase(); // Ensure the database connection is established
-
-    // Fetch all categories but only return the name and imageUrl fields
-    const promotion = await Promotion.findOne({}).exec(); // Only select the 'name' and 'imageUrl' fields
-   
-        // Return the fetched category names and image URLs
-    return promotion;
-}
   //Banner
   
   export async function getWebsiteinfoData() {

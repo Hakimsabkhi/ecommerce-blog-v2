@@ -12,6 +12,7 @@ type User = {
   _id: string;
   username: string;
 };
+
 interface Boutique {
   _id: string;
   nom: string;
@@ -23,6 +24,18 @@ interface Boutique {
   vadmin: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+interface Category {
+  _id: string;
+  name: string;
+  slug: string;
+}
+
+interface SubCategory {
+  _id: string;
+  name: string;
+  slug: string;
 }
 
 type Product = {
@@ -45,36 +58,36 @@ type Product = {
   updatedAt: Date;
   slug: string;
 };
-interface Category {
-  _id: string;
-  name: string;
-  slug: string;
-}
-interface SubCategory {
-  _id: string;
-  name: string;
-  slug: string;
-}
 
 const AddedProducts: React.FC = () => {
   const [boutiques, setBoutiques] = useState<Boutique[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subcategories, setSubCategories] = useState<SubCategory[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const is2xl = useIs2xl();
   const productsPerPage = is2xl ? 7 : 5;
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+
   const [selectedProduct, setSelectedProduct] = useState({ id: "", name: "" });
   const [loadingProductId, setLoadingProductId] = useState<string | null>(null);
+
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
   const [selectedBoutique, setSelectedBoutique] = useState<string>("");
+
   const [colSpan, setColSpan] = useState(6);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 1) HANDLERS FOR DELETE / APPROVE / STATUS / PLACEMENT
+  // ─────────────────────────────────────────────────────────────────────────────
   const handleDeleteClick = (product: Product) => {
     setLoadingProductId(product._id);
     setSelectedProduct({ id: product._id, name: product.name });
@@ -100,13 +113,12 @@ const AddedProducts: React.FC = () => {
       }
 
       setCurrentPage(1);
-      setProducts(products.filter((Product) => Product._id !== productId));
+      setProducts((prev) => prev.filter((p) => p._id !== productId));
       toast.success(`Product ${selectedProduct.name} deleted successfully!`);
       handleClosePopup();
     } catch (error: unknown) {
-      // Handle different error types effectively
       if (error instanceof Error) {
-        console.error("Error deleting category:", error.message);
+        console.error("Error deleting product:", error.message);
         setError(error.message);
       } else if (typeof error === "string") {
         console.error("String error:", error);
@@ -141,8 +153,6 @@ const AddedProducts: React.FC = () => {
         throw new Error(`Error: ${response.statusText}`);
       }
 
-      const data = await response.json();
-      console.log("Product status updated successfully:", data);
       setProducts((prevData) =>
         prevData.map((item) =>
           item._id === productId ? { ...item, status: newStatus } : item
@@ -155,6 +165,7 @@ const AddedProducts: React.FC = () => {
       setLoadingProductId(null);
     }
   };
+
   const updateProductvadmin = async (productId: string, newStatus: string) => {
     setLoadingProductId(productId);
     try {
@@ -177,15 +188,14 @@ const AddedProducts: React.FC = () => {
           item._id === productId ? { ...item, vadmin: newStatus } : item
         )
       );
-      const data = await response.json();
-      console.log("Product status updated successfully:", data);
     } catch (error) {
-      console.error("Failed to update product status approve:", error);
+      console.error("Failed to update product approve status:", error);
       toast.error("Failed to update product approve");
     } finally {
       setLoadingProductId(null);
     }
   };
+
   const updateProductStatusPlace = async (
     productId: string,
     statuspage: string
@@ -221,53 +231,68 @@ const AddedProducts: React.FC = () => {
     }
   };
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 2) CALCULATE COLSPAN DYNAMICALLY
+  // ─────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     const updateColSpan = () => {
       const isSmallestScreen = window.innerWidth <= 640; // max-sm
       const isSmallScreen = window.innerWidth <= 768; // max-md
       const isMediumScreen = window.innerWidth <= 1024; // max-lg
-      const isXlLScreen = window.innerWidth <= 1280; // max-lg
+      const isXlLScreen = window.innerWidth <= 1280; // max-xl
 
       if (isSmallestScreen) {
-        setColSpan(1); // max-sm: colSpan = 3
+        setColSpan(1);
       } else if (isSmallScreen) {
-        setColSpan(2); // max-md: colSpan = 4
+        setColSpan(2);
       } else if (isMediumScreen) {
-        setColSpan(3); // max-lg: colSpan = 5
+        setColSpan(3);
       } else if (isXlLScreen) {
-        setColSpan(4); // max-lg: colSpan = 5
+        setColSpan(4);
       } else {
-        setColSpan(6); // Default: colSpan = 6
+        setColSpan(6); // default
       }
     };
 
-    // Initial check
     updateColSpan();
-
-    // Add event listener
     window.addEventListener("resize", updateColSpan);
-
-    // Cleanup event listener
     return () => window.removeEventListener("resize", updateColSpan);
   }, []);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 3) FETCH ALL DATA IN ONE PLACE USING Promise.all
+  // ─────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
-    const getProducts = async () => {
+    const fetchAllData = async () => {
       try {
-        const response = await fetch("/api/products/admin/getAllProduct", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data: Product[] = await response.json();
-        setProducts(data);
-      } catch (error: unknown) {
-        // Handle different error types effectively
+        setLoading(true);
+
+        const [prodRes, storeRes, catRes, subcatRes] = await Promise.all([
+          fetch("/api/products/admin/getAllProduct"),
+          fetch("/api/store/admin/getallstore"),
+          fetch("/api/category/admin/getAllCategoryAdmin"),
+          fetch("/api/SubCategory/admin/getallSubCategory"),
+        ]);
+
+        if (!prodRes.ok) throw new Error("Failed to fetch products");
+        if (!storeRes.ok) throw new Error("Failed to fetch boutiques");
+        if (!catRes.ok) throw new Error("Failed to fetch categories");
+        if (!subcatRes.ok) throw new Error("Failed to fetch subcategories");
+
+        const [prodData, storeData, catData, subcatData] = await Promise.all([
+          prodRes.json(),
+          storeRes.json(),
+          catRes.json(),
+          subcatRes.json(),
+        ]);
+
+        setProducts(prodData);
+        setBoutiques(storeData);
+        setCategories(catData);
+        setSubCategories(subcatData);
+      } catch (error) {
         if (error instanceof Error) {
-          console.error("Error  products:", error.message);
+          console.error("Error fetching data:", error.message);
           setError(error.message);
         } else if (typeof error === "string") {
           console.error("String error:", error);
@@ -280,103 +305,16 @@ const AddedProducts: React.FC = () => {
         setLoading(false);
       }
     };
-    const getcompany = async (): Promise<void> => {
-      try {
-        const response = await fetch(`/api/store/admin/getallstore`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data: Boutique[] = await response.json();
-        setBoutiques(data);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error("Error deleting category:", error.message);
-        } else if (typeof error === "string") {
-          console.error("String error:", error);
-        } else {
-          console.error("Unknown error:", error);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    const getCategory = async () => {
-      try {
-        const response = await fetch(
-          "/api/category/admin/getAllCategoryAdmin",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data: Product[] = await response.json();
-        setCategories(data);
-      } catch (error: unknown) {
-        // Handle different error types effectively
-        if (error instanceof Error) {
-          console.error("Error  Category:", error.message);
-          setError(error.message);
-        } else if (typeof error === "string") {
-          console.error("String error:", error);
-          setError(error);
-        } else {
-          console.error("Unknown error:", error);
-          setError("An unexpected error occurred. Please try again.");
-        }
-      }
-    };
-    const getSubCategory = async () => {
-      try {
-        const response = await fetch(
-          "/api/SubCategory/admin/getallSubCategory",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data: Product[] = await response.json();
-        setSubCategories(data);
-      } catch (error: unknown) {
-        // Handle different error types effectively
-        if (error instanceof Error) {
-          console.error("Error  sub Category:", error.message);
-          setError(error.message);
-        } else if (typeof error === "string") {
-          console.error("String error:", error);
-          setError(error);
-        } else {
-          console.error("Unknown error:", error);
-          setError("An unexpected error occurred. Please try again.");
-        }
-      }
-    };
-    getSubCategory();
-    getcompany();
-    getCategory();
-    getProducts();
+    fetchAllData();
   }, []);
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 4) FILTER PRODUCTS
+  // ─────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     const filtered = products.filter((product) => {
       const searchTermLower = searchTerm.toLowerCase();
-
       const matchesSearchTerm =
         product.name.toLowerCase().includes(searchTermLower) ||
         product.ref.toLowerCase().includes(searchTermLower);
@@ -386,7 +324,6 @@ const AddedProducts: React.FC = () => {
       const matchesSubCategory =
         !selectedSubCategory ||
         product.subcategory?._id === selectedSubCategory;
-
       const matchesBoutique =
         !selectedBoutique || product.boutique?._id === selectedBoutique;
 
@@ -403,11 +340,14 @@ const AddedProducts: React.FC = () => {
   }, [
     searchTerm,
     selectedCategory,
-    selectedBoutique,
     selectedSubCategory,
+    selectedBoutique,
     products,
   ]);
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 5) PAGINATION CALCS
+  // ─────────────────────────────────────────────────────────────────────────────
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(
@@ -416,29 +356,33 @@ const AddedProducts: React.FC = () => {
   );
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 6) RENDERING
+  // ─────────────────────────────────────────────────────────────────────────────
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="mx-auto mt-4 text-red-500">Error: {error}</div>;
   }
 
   return (
     <div className="flex flex-col mx-auto w-[90%] gap-4">
+      {/* Header */}
       <div className="flex items-center justify-between h-[80px] ">
         <p className="text-3xl max-sm:text-sm font-bold">ALL Products</p>
         <div className="flex gap-2">
-        <Link href="/admin/product/costmize">
-          <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
-            <p>Costmize Product</p>
-          </button>
-        </Link>
-        <Link href="/admin/product/addproduct">
-          <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
-            <p>Add Product</p>
-          </button>
-        </Link>
+          <Link href="/admin/product/costmize">
+            <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
+              <p>Costmize Product</p>
+            </button>
+          </Link>
+          <Link href="/admin/product/addproduct">
+            <button className="bg-gray-800 hover:bg-gray-600 max-sm:text-sm text-white rounded-lg py-2 px-4">
+              <p>Add Product</p>
+            </button>
+          </Link>
         </div>
-       
       </div>
 
+      {/* Search & Filters */}
       <div className="h-[50px] flex justify-between items-center">
         <input
           type="text"
@@ -493,23 +437,25 @@ const AddedProducts: React.FC = () => {
         </div>
       </div>
 
+      {/* Table View (Desktop) */}
       <div className="h-[50vh] max-2xl:h-80 max-md:hidden">
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
-            <tr className="bg-gray-800">
+            <tr className="bg-gray-800 text-white">
               <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">REF</th>
               <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">Name</th>
               <th className="px-4 py-3 xl:w-[8%] max-xl:hidden">Quantity</th>
               <th className="px-4 py-3 xl:w-[8%] lg:w-1/6 max-lg:hidden">
-                {" "}
-                Image{" "}
+                Image
               </th>
               <th className="px-4 py-3 xl:w-[11%] max-xl:hidden">Created By</th>
               <th className="px-4 py-3 xl:w-[55%] lg:w-2/3 md:w-4/6 text-center">
-                Action{" "}
+                Action
               </th>
             </tr>
           </thead>
+
+          {/* MAIN LOGIC: LOADING / NO DATA / RENDER ROWS */}
           {loading ? (
             <tbody>
               <tr>
@@ -520,12 +466,7 @@ const AddedProducts: React.FC = () => {
                 </td>
               </tr>
             </tbody>
-          ) : // 2) Check if a filter is applied AND no results
-          (searchTerm ||
-              selectedCategory ||
-              selectedSubCategory ||
-              selectedBoutique) &&
-            filteredProducts.length === 0 ? (
+          ) : filteredProducts.length === 0 ? (
             <tbody>
               <tr>
                 <td colSpan={colSpan}>
@@ -541,7 +482,7 @@ const AddedProducts: React.FC = () => {
                 <tr key={item._id} className="even:bg-gray-100 odd:bg-white">
                   <td className="border px-4 py-2 truncate">{item.ref}</td>
                   <td className="border px-4 py-2 truncate">{item.name}</td>
-                  <td className="border px-4 py-2 text-center  max-xl:hidden">
+                  <td className="border px-4 py-2 text-center max-xl:hidden">
                     {item.stock}
                   </td>
                   <td className="border px-4 py-2 max-lg:hidden">
@@ -557,8 +498,9 @@ const AddedProducts: React.FC = () => {
                   <td className="border px-4 py-2 truncate max-xl:hidden">
                     {item?.user?.username}
                   </td>
-                  <td className="flex gap-2 justify-center">
-                    <div className="flex justify-center gap-2">
+                  <td className="border px-4 py-2">
+                    <div className="flex flex-wrap items-center justify-center gap-2">
+                      {/* Approve / Not approve */}
                       <select
                         className={`w-32 text-black rounded-md h-10 ${
                           item.vadmin === "not-approve"
@@ -569,51 +511,48 @@ const AddedProducts: React.FC = () => {
                         onChange={(e) =>
                           updateProductvadmin(item._id, e.target.value)
                         }
+                        disabled={loadingProductId === item._id}
                       >
-                        <option
-                          value="approve"
-                          className="text-white uppercase"
-                        >
+                        <option value="approve" className="text-white uppercase">
                           approve
                         </option>
                         <option
                           value="not-approve"
                           className="text-white uppercase"
                         >
-                          Not approve{" "}
+                          Not approve
                         </option>
                       </select>
+
+                      {/* In stock / out of stock */}
                       {item.stock > 0 ? (
                         <select
-                          className={` w-full max-w-44 h-10 text-black truncate rounded-md p-2 ${
+                          className={`w-32 h-10 text-white text-center rounded-md p-2 ${
                             item.status === "in-stock"
-                              ? "bg-gray-800 text-white"
-                              : item.status === "out-of-stock"
-                              ? "bg-red-700 text-white"
-                              : "bg-gray-800 text-white" // If none of the conditions match, apply no background color
+                              ? "bg-gray-800"
+                              : "bg-red-700"
                           }`}
                           value={item.status}
                           onChange={(e) =>
                             updateProductStatusstock(item._id, e.target.value)
                           }
+                          disabled={loadingProductId === item._id}
                         >
-                          <option value="in-stock" className="text-white">
-                            In stock
-                          </option>
-                          <option value="out-of-stock" className="text-white">
-                            Out of stock
-                          </option>
+                          <option value="in-stock">In stock</option>
+                          <option value="out-of-stock">Out of stock</option>
                         </select>
                       ) : (
-                        <div className="w-full max-w-44 bg-gray-500 text-white rounded-md p-2 ">
-                          <p>Out of stock</p>
+                        <div className="w-32 bg-gray-500 text-white text-center rounded-md p-2">
+                          Out of stock
                         </div>
                       )}
+
+                      {/* Place: home-page/best-collection/promotion */}
                       <select
-                        className={` w-full max-w-44 h-10 text-black rounded-md p-2 truncate  ${
+                        className={`w-36 h-10 text-white rounded-md p-2 ${
                           item.statuspage === "none"
-                            ? "bg-gray-800 text-white"
-                            : "bg-emerald-950 text-white"
+                            ? "bg-gray-800"
+                            : "bg-emerald-950"
                         }`}
                         value={item.statuspage || ""}
                         onChange={(e) =>
@@ -627,40 +566,42 @@ const AddedProducts: React.FC = () => {
                         <option value="promotion">Promotion</option>
                       </select>
 
+                      {/* Edit */}
                       <Link href={`/admin/product/${item._id}`}>
-                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                        <button
+                          className="bg-gray-800 text-white w-10 h-10 hover:bg-gray-600 rounded-md flex items-center justify-center"
+                          disabled={loadingProductId === item._id}
+                        >
                           <FaRegEdit />
                         </button>
                       </Link>
+
+                      {/* Delete */}
                       <button
                         onClick={() => handleDeleteClick(item)}
-                        className="bg-gray-800 text-white pl-3 w-10 min-w-10 h-10 hover:bg-gray-600 rounded-md"
+                        className="bg-gray-800 text-white w-10 h-10 hover:bg-gray-600 rounded-md flex items-center justify-center"
                         disabled={loadingProductId === item._id}
                       >
                         {loadingProductId === item._id ? (
-                          "Processing..."
+                          "..."
                         ) : (
                           <FaTrashAlt />
                         )}
                       </button>
+
+                      {/* Eye / View */}
                       <Link
-                        href={`/${item.vadmin === "approve" ? "" : "admin/"}${
-                          item.category?.slug
-                        }/${item.slug}`}
+                        href={`/${
+                          item.vadmin === "approve" ? "" : "admin/"
+                        }${item.category?.slug}/${item.slug}`}
                       >
-                        <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                        <button
+                          className="bg-gray-800 text-white w-10 h-10 hover:bg-gray-600 rounded-md flex items-center justify-center"
+                          disabled={loadingProductId === item._id}
+                        >
                           <FaRegEye />
                         </button>
                       </Link>
-
-                      {isPopupOpen && (
-                        <DeletePopup
-                          handleClosePopup={handleClosePopup}
-                          Delete={deleteProduct}
-                          id={selectedProduct.id}
-                          name={selectedProduct.name}
-                        />
-                      )}
                     </div>
                   </td>
                 </tr>
@@ -668,7 +609,19 @@ const AddedProducts: React.FC = () => {
             </tbody>
           )}
         </table>
+
+        {/* Delete Confirmation Popup */}
+        {isPopupOpen && (
+          <DeletePopup
+            handleClosePopup={handleClosePopup}
+            Delete={deleteProduct}
+            id={selectedProduct.id}
+            name={selectedProduct.name}
+          />
+        )}
       </div>
+
+      {/* Card View (Mobile) */}
       <div className="space-y-4 md:hidden">
         {loading ? (
           <div className="flex justify-center items-center h-full w-full py-6">
@@ -676,7 +629,7 @@ const AddedProducts: React.FC = () => {
           </div>
         ) : filteredProducts.length === 0 ? (
           <div className="text-center py-6 text-gray-600 w-full">
-            <p>No products found.</p>
+            <p>Aucune Products trouvée.</p>
           </div>
         ) : (
           currentProducts.map((item) => (
@@ -685,20 +638,19 @@ const AddedProducts: React.FC = () => {
               className="p-4 mb-4 flex flex-col gap-4 bg-gray-100 rounded shadow-md"
             >
               <div>
-                <div className="flex gap-1 text-3xl font-semibold uppercase text-center justify-center ">
-                  <p className="text-gray-600  w-1/5">REF:</p>
+                <div className="flex gap-1 text-3xl font-semibold uppercase text-center justify-center">
+                  <p className="text-gray-600 w-1/5">REF:</p>
                   <p>{item.ref}</p>
                 </div>
                 <hr className="border-white border-2 w-full my-2" />
-                <div className="flex  gap-1 font-semibold pl-[15%]">
+                <div className="flex gap-1 font-semibold pl-[15%]">
                   <p className="text-gray-600 w-1/5 mr-4">Name:</p>
                   <p className="truncate">{item.name}</p>
                 </div>
                 <div className="flex gap-1 font-semibold pl-[15%]">
-                  <p className="text-gray-600  w-1/5 mr-4">Quantity:</p>
+                  <p className="text-gray-600 w-1/5 mr-4">Quantity:</p>
                   <p>{item.stock}</p>
                 </div>
-
                 <div className="w-full flex justify-center py-2">
                   <Image
                     alt={item.name}
@@ -711,7 +663,8 @@ const AddedProducts: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-2">
-                <div className="justify-center flex gap-4">
+                <div className="flex justify-center gap-4">
+                  {/* Approve / Not approve */}
                   <select
                     className={`w-50 text-black rounded-md p-2 ${
                       item.vadmin === "not-approve"
@@ -722,6 +675,7 @@ const AddedProducts: React.FC = () => {
                     onChange={(e) =>
                       updateProductvadmin(item._id, e.target.value)
                     }
+                    disabled={loadingProductId === item._id}
                   >
                     <option value="approve" className="text-white uppercase">
                       Approve
@@ -733,37 +687,38 @@ const AddedProducts: React.FC = () => {
                       Not Approve
                     </option>
                   </select>
+
+                  {/* In-stock / Out-of-stock */}
                   {item.stock > 0 ? (
                     <select
-                      className={`w-50 text-black rounded-md p-2 ${
+                      className={`w-50 text-white rounded-md p-2 ${
                         item.status === "in-stock"
-                          ? "bg-gray-800 text-white"
-                          : "bg-red-700 text-white"
+                          ? "bg-gray-800"
+                          : "bg-red-700"
                       }`}
                       value={item.status}
                       onChange={(e) =>
                         updateProductStatusstock(item._id, e.target.value)
                       }
+                      disabled={loadingProductId === item._id}
                     >
-                      <option value="in-stock" className="text-white">
-                        In Stock
-                      </option>
-                      <option value="out-of-stock" className="text-white">
-                        Out of Stock
-                      </option>
+                      <option value="in-stock">In Stock</option>
+                      <option value="out-of-stock">Out of Stock</option>
                     </select>
                   ) : (
-                    <div className="w-32 bg-gray-500 text-white rounded-md p-2">
-                      <p>Out of Stock</p>
+                    <div className="w-32 bg-gray-500 text-white rounded-md p-2 text-center">
+                      Out of Stock
                     </div>
                   )}
                 </div>
+
+                {/* Placement */}
                 <div className="flex justify-center">
                   <select
-                    className={`w-72 text-black rounded-md p-2 ${
+                    className={`w-72 text-white rounded-md p-2 ${
                       item.statuspage === "none"
-                        ? "bg-gray-800 text-white"
-                        : "bg-emerald-950 text-white"
+                        ? "bg-gray-800"
+                        : "bg-emerald-950"
                     }`}
                     value={item.statuspage || ""}
                     onChange={(e) =>
@@ -777,29 +732,35 @@ const AddedProducts: React.FC = () => {
                     <option value="promotion">Promotion</option>
                   </select>
                 </div>
-                <div className="flex justify-center gap-5  ">
+
+                {/* Edit/Delete/View Buttons */}
+                <div className="flex justify-center gap-5">
                   <Link href={`/admin/product/${item._id}`}>
-                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                    <button
+                      className="bg-gray-800 text-white w-10 h-10 hover:bg-gray-600 rounded-md flex items-center justify-center"
+                      disabled={loadingProductId === item._id}
+                    >
                       <FaRegEdit />
                     </button>
                   </Link>
+
                   <button
                     onClick={() => handleDeleteClick(item)}
-                    className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md"
+                    className="bg-gray-800 text-white w-10 h-10 hover:bg-gray-600 rounded-md flex items-center justify-center"
                     disabled={loadingProductId === item._id}
                   >
-                    {loadingProductId === item._id ? (
-                      "Processing..."
-                    ) : (
-                      <FaTrashAlt />
-                    )}
+                    {loadingProductId === item._id ? "..." : <FaTrashAlt />}
                   </button>
+
                   <Link
-                    href={`/${item.vadmin === "approve" ? "" : "admin/"}${
-                      item.category?.slug
-                    }/${item.slug}`}
+                    href={`/${
+                      item.vadmin === "approve" ? "" : "admin/"
+                    }${item.category?.slug}/${item.slug}`}
                   >
-                    <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">
+                    <button
+                      className="bg-gray-800 text-white w-10 h-10 hover:bg-gray-600 rounded-md flex items-center justify-center"
+                      disabled={loadingProductId === item._id}
+                    >
                       <FaRegEye />
                     </button>
                   </Link>
@@ -809,6 +770,8 @@ const AddedProducts: React.FC = () => {
           ))
         )}
       </div>
+
+      {/* Pagination */}
       <div className="mt-4">
         <Pagination
           currentPage={currentPage}
