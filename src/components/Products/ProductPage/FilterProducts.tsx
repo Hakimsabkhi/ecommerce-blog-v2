@@ -121,41 +121,60 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
 
       {/* Price Range Filter */}
       <div className="mb-4">
-        <label className="font-bold">Price:</label>
-        <div className="flex gap-2 mb-2">
-          <input
-            type="number"
-            placeholder="Min Price"
-            className="w-1/2 p-2 border border-gray-300 rounded"
-            value={minPrice || ""}
-            onChange={(e) => setMinPrice(Number(e.target.value) || null)}
-          />
-          <input
-            type="number"
-            placeholder="Max Price"
-            className="w-1/2 p-2 border border-gray-300 rounded"
-            value={maxPrice || ""}
-            onChange={(e) => setMaxPrice(Number(e.target.value) || null)}
-          />
-        </div>
-        <Slider
-          range
-          min={1}
-          max={200000}
-          value={[minPrice || 1, maxPrice || 200000]}
-          onChange={(values) => {
-            const [min, max] = values as number[]; // Explicitly assert as number[]
-            setMinPrice(min);
-            setMaxPrice(max);
-          }}
-          allowCross={false}
-          trackStyle={[{ backgroundColor: "#007bff" }]}
-          handleStyle={[
-            { borderColor: "#007bff", backgroundColor: "#fff" },
-            { borderColor: "#007bff", backgroundColor: "#fff" },
-          ]}
-        />
-      </div>
+  {/* Label for Price Range */}
+  <label className="font-bold" htmlFor="price-range">Price Range:</label>
+
+  {/* Min and Max Price Inputs */}
+  <div className="flex gap-2 mb-2">
+    <div className="w-1/2">
+      <label htmlFor="min-price" className="sr-only">Minimum Price</label>
+      <input
+        aria-label="min-price"
+        type="number"
+        placeholder="Min Price"
+        className="w-full p-2 border border-gray-300 rounded"
+        value={minPrice || ""}
+        onChange={(e) => setMinPrice(Number(e.target.value) || null)}
+      />
+    </div>
+    <div className="w-1/2">
+      <label htmlFor="max-price" className="sr-only">Maximum Price</label>
+      <input
+        aria-label="max-price"
+        type="number"
+        placeholder="Max Price"
+        className="w-full p-2 border border-gray-300 rounded"
+        value={maxPrice || ""}
+        onChange={(e) => setMaxPrice(Number(e.target.value) || null)}
+      />
+    </div>
+  </div>
+
+  {/* Slider Component */}
+  <div>
+  <label id="price-range-label" className="font-bold"></label>
+  <Slider
+    aria-labelledby="price-range-label"
+    range
+    min={1}
+    max={200000}
+    value={[minPrice || 1, maxPrice || 200000]}
+    onChange={(values) => {
+      const [min, max] = values as number[];
+      setMinPrice(min);
+      setMaxPrice(max);
+    }}
+    allowCross={false}
+    trackStyle={[{ backgroundColor: "#007bff" }]}
+    handleStyle={[
+      { borderColor: "#007bff", backgroundColor: "#fff" },
+      { borderColor: "#007bff", backgroundColor: "#fff" },
+    ]}
+  />
+</div>
+
+</div>
+
     </div>
   );
 };

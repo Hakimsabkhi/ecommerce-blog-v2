@@ -53,7 +53,7 @@ const Pagination: React.FC<PaginationProps> = ({
       {/* Previous button */}
       <div
         className={`flex items-center gap-1 cursor-pointer ${
-          currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+          currentPage === 1 ? 'opacity-60 cursor-not-allowed' : ''
         }`}
         onClick={() => handlePageChange(currentPage - 1)}
       >
@@ -83,7 +83,7 @@ const Pagination: React.FC<PaginationProps> = ({
       {/* Next button */}
       <div
         className={`flex items-center gap-1 cursor-pointer ${
-          currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+          currentPage === totalPages ? 'opacity-60 cursor-not-allowed' : ''
         }`}
         onClick={() => handlePageChange(currentPage + 1)}
       >
