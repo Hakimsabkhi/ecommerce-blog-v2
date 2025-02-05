@@ -1,4 +1,4 @@
-export const revalidate = 60;
+export const revalidate =1000;
 
 import React from 'react';
 import ProductCard from './Products/ProductPage/ProductCard';

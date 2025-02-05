@@ -7,7 +7,7 @@ import Brand from "@/models/Brand";
 import { gettitlebrand } from "@/lib/StaticDataHomePage";
 
 // Enable ISR at the page level
-export const revalidate = 60; // Re-generate this page every 60s
+export const revalidate =1000; // Re-generate this page every 60s
 
 // Fetch brands data directly from MongoDB
 async function getAllBrands() {
