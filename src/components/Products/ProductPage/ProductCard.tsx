@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,7 +12,6 @@ import {
 import { useDispatch } from "react-redux";
 import { addItem } from "@/store/cartSlice";
 import { addToWishlist } from "@/store/wishlistSlice";
-import Reviews from "@/components/Reviews"; // Adjust the path if necessary
 
 interface Brand {
   _id: string;
@@ -47,7 +47,9 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
   const dispatch = useDispatch();
-
+  const Reviews = dynamic(() => import("@/components/Reviews"), {
+    loading: () => <p>Loading reviews...</p>,
+  });
   const addToCartHandler = (product: ProductData, quantity: number) => {
     dispatch(addItem({ item: product, quantity }));
   };
