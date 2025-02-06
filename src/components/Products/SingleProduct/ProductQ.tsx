@@ -79,7 +79,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
             <div className="flex w-full max-md:flex-col xl:flex-col justify-between gap-5">
               <div className=" justify-center flex">
                 <div className="flex items-center justify-center space-x-2">
-                  <p>Quantity:&nbsp;</p><label htmlFor="quantityInput" className="text-lg">
+                  <p>Quantité:&nbsp;</p><label htmlFor="quantityInput" className="text-lg">
                   <button
                     onClick={decreaseQuantity}
                     className="p-2 border text-xl text-gray-700"
@@ -114,7 +114,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
                   onClick={() => addToCartHandler(product, quantity)}
                   className="text-white bg-primary hover:bg-[#15335D] h-10 w-[60%]  font-bold rounded-md"
                 >
-                  <p>Add to cart </p>
+                  <p>Ajouter au panier </p>
                 </button>
                 <Link
                   href={"/checkout"}
@@ -124,7 +124,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
                     onClick={() => addToCartHandler(product, quantity)}
                     className="text-white bg-black h-10 w-[60%] font-bold rounded-md"
                   >
-                    <p>Buy now</p>
+                    <p>Acheter</p>
                   </button>
                 </Link>
               </div>
@@ -157,7 +157,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
               className="text-white bg-gray-500 h-10 w-[60%] font-bold rounded-md"
               disabled
             >
-              <p>Out of stock</p>
+              <p>Rupture de stock</p>
             </button>
           )
         ) : (
@@ -165,7 +165,7 @@ const ProductQ: React.FC<ProductQProps> = ({ product, addToCartHandler }) => {
             className="text-white bg-gray-500 h-10 w-[60%] font-bold rounded-md"
             disabled
           >
-            <p>Out of stock</p>
+            <p>Rupture de stock</p>
           </button>
         )}
       </div>

@@ -79,7 +79,7 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose }) => {
       onClick={(event) => event.stopPropagation()} // Prevents modal from closing when clicking inside
     >
       <h1 className="text-lg font-bold text-black border-b-2 text-center py-2 max-md:text-sm">
-        Your shopping cart ({items.length} items)
+      Votre panier ({items.length} articles) 
       </h1>
       <div className="py-2 text-gray-500 border-b-2">
         <Pagination

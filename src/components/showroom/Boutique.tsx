@@ -49,12 +49,15 @@ const Boutique: React.FC<Boutiqueprops> = ({ boutiques }) => {
       <div className="w-1/3">
       {item.image && (
               <Image
-                src={item.image} // Replace with your image path
-                alt="Store Image"
-                width={1920}
-                height={1080}
-            className="w-full h-full object-cover"
-              />
+              src={item.image} // Replace with your image path
+              alt="Store Image"
+              className="w-full h-full object-cover"
+              layout="responsive" // Ensures the image scales with its container
+              width={1920} // Intrinsic width
+              height={1080} // Intrinsic height
+              priority // Improves performance for LCP
+              sizes="33vw" // Responsive sizes
+            />
             )}</div>
 
 <div className="bg-white w-2/3 h-full overflow-hidden">

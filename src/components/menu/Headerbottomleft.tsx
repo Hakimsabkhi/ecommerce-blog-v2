@@ -100,7 +100,7 @@ interface Category {
   >
     <div className="flex gap-6 items-center select-none">
       <FaBars />
-      <p>ALL OUR CATEGORIES</p>
+      <p>TOUTES NOS CATEGORIES</p>
     </div>
 
     {/* Dropdown Menu */}

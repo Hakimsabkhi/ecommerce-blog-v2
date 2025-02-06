@@ -77,7 +77,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
       {/* Brand Filter */}
       <div className="mb-4">
         <label htmlFor="brand-filter" className="font-bold">
-          Brand:
+        marque:
         </label>
         <select
           id="brand-filter"
@@ -85,7 +85,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
           value={selectedBrand || ""}
           onChange={(e) => setSelectedBrand(e.target.value || null)}
         >
-          <option value="">All Brands</option>
+          <option value="">Toutes les marques</option>
           {brands.map((brand) => (
             <option key={brand._id} value={brand._id}>
               {brand.name}
@@ -105,7 +105,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
           value={selectedBoutique || ""}
           onChange={(e) => setSelectedBoutique(e.target.value || null)}
         >
-          <option value="">All Boutique</option>
+          <option value="">Toutes les boutiques</option>
           {boutique.map((b) => (
             <option key={b._id} value={b._id}>
               {b.nom}
@@ -117,7 +117,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
       {/* Color Filter */}
       <div className="mb-4">
         <label htmlFor="color-filter" className="font-bold">
-          Color:
+          Couleur:
         </label>
         <select
           id="color-filter"
@@ -125,7 +125,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
           value={selectedColor || ""}
           onChange={(e) => setSelectedColor(e.target.value || null)}
         >
-          <option value="">All Colors</option>
+          <option value="">Toutes les couleurs</option>
           {uniqueColors.map((color) => (
             <option key={color} value={color}>
               {color}
@@ -137,7 +137,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
       {/* Material Filter */}
       <div className="mb-4">
         <label htmlFor="material-filter" className="font-bold">
-          Material:
+        Matériel:
         </label>
         <select
           id="material-filter"
@@ -145,7 +145,7 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
           value={selectedMaterial || ""}
           onChange={(e) => setSelectedMaterial(e.target.value || null)}
         >
-          <option value="">All Materials</option>
+          <option value="">Tous les matériaux</option>
           {uniqueMaterials.map((material) => (
             <option key={material} value={material}>
               {material}
@@ -156,18 +156,18 @@ const FilterProducts: React.FC<FilterProductsProps> = ({
 
       {/* Price Range Filter */}
       <div className="mb-4">
-        <label className="font-bold">Price:</label>
+        <label className="font-bold">Prix:</label>
         <div className="flex gap-2 mb-2">
           <input
             type="number"
-            placeholder="Min Price"
+            placeholder="Prix ​​minimum"
             className="w-1/2 p-2 border border-gray-300 rounded"
             value={minPrice || ""}
             onChange={(e) => setMinPrice(Number(e.target.value) || null)}
           />
           <input
             type="number"
-            placeholder="Max Price"
+            placeholder="Prix ​​maximum" 
             className="w-1/2 p-2 border border-gray-300 rounded"
             value={maxPrice || ""}
             onChange={(e) => setMaxPrice(Number(e.target.value) || null)}

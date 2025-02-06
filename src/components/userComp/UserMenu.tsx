@@ -136,8 +136,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ session }) => {
         </div>
 
         <div className="flex flex-col">
-          <p className="text-[#C1C4D6] text-sm max-md:hidden">My Account</p>
-          <p className="text-white font-bold max-lg:hidden">Details</p>
+          <p className="text-[#C1C4D6] text-sm max-md:hidden">Mon Compte</p>
+          <p className="text-white font-bold max-lg:hidden">détails</p>
         </div>
       </div>
     </div>

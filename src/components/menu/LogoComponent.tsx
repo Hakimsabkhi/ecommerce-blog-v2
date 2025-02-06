@@ -13,11 +13,11 @@ const Header: React.FC = async() => {
       const companyData = JSON.parse(company);
   return (
     
-      <div className="flex w-fit max-lg:w-[50%] gap-4 items-center justify-around">
+      <div className="flex w-fit max-lg:w-[50%] gap-4 items-center justify-around relative aspect-w-16 aspect-h-9">
         <Link href="/" aria-label="Home page">    
           <Image
               width={300}
-              height={300}
+              height={16}
               className="w-[300px]"
               src={companyData?.logoUrl}
               alt="Luxe Home logo"

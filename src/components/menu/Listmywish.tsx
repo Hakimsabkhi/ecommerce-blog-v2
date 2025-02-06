@@ -100,8 +100,8 @@ const Listmywish: React.FC<ListmywishProps> = ({ data }) => {
           </span>
         </div>
         <div className="flex flex-col">
-          <p className="text-[#C1C4D6] text-sm">Favorite</p>
-          <p className="text-white font-bold max-md:hidden">My Wishlist</p>
+          <p className="text-[#C1C4D6] text-sm">Préféré</p>
+          <p className="text-white font-bold max-md:hidden">Liste souhaits</p>
         </div>
       </div>
       {/* Render the wishlist items based on visibility */}

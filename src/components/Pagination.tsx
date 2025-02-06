@@ -58,7 +58,7 @@ const Pagination: React.FC<PaginationProps> = ({
         onClick={() => handlePageChange(currentPage - 1)}
       >
         <FaArrowLeft className="cursor-pointer" />
-        <p className="font-semibold">Back</p>
+        <p className="font-semibold">avant</p>
       </div>
 
       {/* Display pages */}
@@ -87,7 +87,7 @@ const Pagination: React.FC<PaginationProps> = ({
         }`}
         onClick={() => handlePageChange(currentPage + 1)}
       >
-        <p className="text-sm font-semibold">Next</p>
+        <p className="text-sm font-semibold">suivant</p>
         <FaArrowRight className="cursor-pointer" />
       </div>
     </div>

@@ -79,7 +79,7 @@ const ProductQuantity: React.FC<ProductQuantityProps> = ({ product }) => {
             <div className="flex max-md:flex-col xl:flex-col justify-between gap-5">
               <div className=" items-center md:max-xl:w-2/5 ">
                 <div className="flex items-center max-md:justify-center space-x-2">
-                  <p>Quantity:&nbsp;</p>
+                  <p>Quantité:&nbsp;</p>
                   <button
                     onClick={decreaseQuantity}
                     className="p-2 border text-xl text-gray-700"
@@ -109,7 +109,7 @@ const ProductQuantity: React.FC<ProductQuantityProps> = ({ product }) => {
                
                   className="text-white bg-primary hover:bg-[#15335D] h-10 w-[60%]  font-bold rounded-md"
                 >
-                  <p>Add to cart </p>
+                  <p>Ajouter au panier </p>
                 </button>
                 <Link
                   href={""}
@@ -119,7 +119,7 @@ const ProductQuantity: React.FC<ProductQuantityProps> = ({ product }) => {
                     
                     className="text-white bg-black h-10 w-[60%] font-bold rounded-md"
                   >
-                    <p>Buy now</p>
+                    <p>Acheter</p>
                   </button>
                 </Link>
               </div>
@@ -149,7 +149,7 @@ const ProductQuantity: React.FC<ProductQuantityProps> = ({ product }) => {
               className="text-white bg-gray-500 h-10 w-[60%] font-bold rounded-md"
               disabled
             >
-              <p>Out of stock</p>
+              <p>Rupture de stock</p>
             </button>
           )
         ) : (
@@ -157,7 +157,7 @@ const ProductQuantity: React.FC<ProductQuantityProps> = ({ product }) => {
             className="text-white bg-gray-500 h-10 w-[60%] font-bold rounded-md"
             disabled
           >
-            <p>Out of stock</p>
+            <p>Rupture de stock</p>
           </button>
         )}
       </div>

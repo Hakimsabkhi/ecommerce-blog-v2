@@ -97,8 +97,8 @@ const BoutiqueCard: React.FC<BoutiqueCardProps> = ({
                             return `${openTime} - ${closeTime}`;
                           })
                           .filter(Boolean)
-                          .join(" / ") || "Closed"
-                      : "Closed"}
+                          .join(" / ") || "fermé"
+                      : "fermé"}
                   </li>
                 ))}
             </ul>

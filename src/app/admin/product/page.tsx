@@ -82,7 +82,7 @@ const AddedProducts: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
   const [selectedBoutique, setSelectedBoutique] = useState<string>("");
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [colSpan, setColSpan] = useState(6);
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -384,70 +384,86 @@ const AddedProducts: React.FC = () => {
 
       {/* Search & Filters */}
       <div className="h-[50px] flex justify-between items-center">
-        <input
+      <input
           type="text"
           placeholder="Search products"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 border border-gray-300 rounded-lg max-w-max"
+          className="p-2 border border-gray-300 rounded-lg md:flex-grow-0"
         />
-        <div className=" flex gap-2">
-          <select
-            name="boutique"
-            value={selectedBoutique}
-            onChange={(e) => setSelectedBoutique(e.target.value)}
-            className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
-            required
+        <div className="relative">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="lg:hidden p-2 border bg-gray-50 w-48 border-gray-300 rounded-lg"
           >
-            <option value="">Select Boutique</option>
-            {boutiques.map((boutique) => (
-              <option key={boutique._id} value={boutique._id}>
-                {boutique.nom}
-              </option>
-            ))}
-          </select>
-          <select
-            name="category"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
-            required
+            Filters
+          </button>
+
+          {/* Dropdown Content */}
+          <div
+            className={`${
+              isMenuOpen ? 'absolute top-full right-0' : 'hidden'
+            } lg:flex md:gap-2 bg-white md:bg-transparent border md:border-none rounded-lg shadow-md md:shadow-none mt-1 md:mt-0 z-10`}
           >
-            <option value="">Select Category</option>
-            {categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <select
-            name="subcategory"
-            value={selectedSubCategory}
-            onChange={(e) => setSelectedSubCategory(e.target.value)}
-            className="p-2 border bg-gray-50 border-gray-300 rounded-lg max-w-max"
-            required
-          >
-            <option value="">Select SubCategory</option>
-            {subcategories.map((subcategory) => (
-              <option key={subcategory._id} value={subcategory._id}>
-                {subcategory.name}
-              </option>
-            ))}
-          </select>
+            <div className="flex flex-col lg:flex-row gap-2 p-2 mt-3 md:p-0">
+              <select
+                name="boutique"
+                value={selectedBoutique}
+                onChange={(e) => setSelectedBoutique(e.target.value)}
+                className="p-2 border bg-gray-50 border-gray-300 rounded-lg w-full md:w-auto"
+                required
+              >
+                <option value="">Select Boutique</option>
+                {boutiques.map((boutique) => (
+                  <option key={boutique._id} value={boutique._id}>
+                    {boutique.nom}
+                  </option>
+                ))}
+              </select>
+              <select
+                name="category"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="p-2 border bg-gray-50 border-gray-300 rounded-lg w-full md:w-auto"
+                required
+              >
+                <option value="">Select Category</option>
+                {categories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+              <select
+                name="subcategory"
+                value={selectedSubCategory}
+                onChange={(e) => setSelectedSubCategory(e.target.value)}
+                className="p-2 border bg-gray-50 border-gray-300 rounded-lg w-full md:w-auto"
+                required
+              >
+                <option value="">Select SubCategory</option>
+                {subcategories.map((subcategory) => (
+                  <option key={subcategory._id} value={subcategory._id}>
+                    {subcategory.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
       </div>
+      
 
       {/* Table View (Desktop) */}
-      <div className="h-[50vh] max-2xl:h-80 max-md:hidden">
+      <div className="h-[50vh] max-2xl:h-80 max-lg:hidden">
         <table className="w-full rounded overflow-hidden table-fixed ">
           <thead>
             <tr className="bg-gray-800 text-white">
               <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">REF</th>
               <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">Name</th>
               <th className="px-4 py-3 xl:w-[8%] max-xl:hidden">Quantity</th>
-              <th className="px-4 py-3 xl:w-[8%] lg:w-1/6 max-xl:hidden">
-                Image
-              </th>
+              <th className="px-4 py-3 xl:w-[8%] lg:w-1/6 max-xl:hidden">Image</th>
               <th className="px-4 py-3 xl:w-[11%] max-xl:hidden">Created By</th>
               <th className="px-4 py-3 xl:w-[55%] lg:w-2/3 md:w-4/6 text-center">
                 Action
@@ -622,7 +638,7 @@ const AddedProducts: React.FC = () => {
       </div>
 
       {/* Card View (Mobile) */}
-      <div className="space-y-4 md:hidden">
+      <div className="space-y-4 lg:hidden">
         {loading ? (
           <div className="flex justify-center items-center h-full w-full py-6">
             <FaSpinner className="animate-spin text-[30px]" />

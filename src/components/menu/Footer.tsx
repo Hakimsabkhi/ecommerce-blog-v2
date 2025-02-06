@@ -62,12 +62,12 @@ export default async function Bb() {
                             
                                 <Link href="/about">
                                     <p className="   hover:text-white cursor-pointer">
-                                        About
+                                    À propos
                                     </p>
                                 </Link>
                                 <Link href="/contactus">
                                     <p className="   hover:text-white cursor-pointer">
-                                        Contact Us
+                                    Contactez-nous
                                     </p>
                                 </Link>
                                
