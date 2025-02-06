@@ -445,7 +445,7 @@ const AddedProducts: React.FC = () => {
               <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">REF</th>
               <th className="px-4 py-3 xl:w-[9%] lg:w-1/6 md:w-1/6">Name</th>
               <th className="px-4 py-3 xl:w-[8%] max-xl:hidden">Quantity</th>
-              <th className="px-4 py-3 xl:w-[8%] lg:w-1/6 max-lg:hidden">
+              <th className="px-4 py-3 xl:w-[8%] lg:w-1/6 max-xl:hidden">
                 Image
               </th>
               <th className="px-4 py-3 xl:w-[11%] max-xl:hidden">Created By</th>
@@ -485,7 +485,7 @@ const AddedProducts: React.FC = () => {
                   <td className="border px-4 py-2 text-center max-xl:hidden">
                     {item.stock}
                   </td>
-                  <td className="border px-4 py-2 max-lg:hidden">
+                  <td className="border px-4 py-2 max-xl:hidden">
                     <div className="flex justify-center ">
                       <Image
                         alt={item.name}
