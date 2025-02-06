@@ -245,7 +245,7 @@ const AddedCategories: React.FC = () => {
                 </td>
               </tr>
             </tbody>
-          ) :   searchTerm && filteredCategory.length === 0 ? (
+          ) :    filteredCategory.length === 0 ? (
             <tbody>
               <tr>
                 <td colSpan={colSpan}>
