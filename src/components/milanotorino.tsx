@@ -48,10 +48,10 @@ const Milanotorino = () => {
     };
 
     return (
-        <div className='desktop max-lg:w-[95%] flex flex-col justify-center items-center gap-8 py-8'>
-            <div className='flex justify-center w-full gap-10 max-lg:flex-col'>
+        <div className='desktop  flex flex-col justify-center items-center gap-8 py-8'>
+            <div className='flex justify-center w-4/5 max-lg:w-full gap-10 max-lg:flex-col'>
                 <div className='flex flex-col w-[100%] gap-6 max-lg:w-full max-lg:flex-col'>
-                    <p className='text-3xl flex justify-center font-bold'>Contact</p>
+                    <p className='text-3xl flex justify-center font-bold'>Contactez-nous</p>
                     <form className='grid gap-2' onSubmit={handleSubmit}>
                         <div className='flex-col flex gap-3'>
                             <input 
@@ -60,7 +60,7 @@ const Milanotorino = () => {
                                 onChange={handleChange}
                                 type="text"
                                 className="bg-gray-50 border w-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Name"
+                                placeholder="Nom"
                                 required
                             />
                             <input 
@@ -77,16 +77,16 @@ const Milanotorino = () => {
                                 name="message"
                                 onChange={handleChange}
                                 className="bg-gray-50 border h-[200px] border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Write your message..."
+                                placeholder="Écrivez votre message..."
                                 required
                             />
                         </div>
                         <div className='flex justify-end'>
                             <button 
                                 type="submit" 
-                                className='w-[30%] bg-orange-400 hover:bg-[#15335D] rounded-md px-8 py-3 font-bold text-white'
+                                className='w-[50%] bg-slate-600 hover:bg-[#15335D] rounded-md px-8 py-3 font-bold text-white'
                             >
-                                <p>Send Message</p>
+                                <p>Envoyer le message</p>
                             </button>
                         </div>
                     </form>

@@ -84,7 +84,8 @@ function PostCategory() {
             <Image
               width={1000}
               height={1000}
-              className="w-full h-40 rounded-t-xl"
+              className="w-full h-40 rounded-t-xl object-cover"
+
               src={item.imageUrl}
               alt={item.title} // It's a good practice to provide alt text
             />

@@ -10,10 +10,10 @@ const Headerbottonright = () => {
               PROMOTION
             </Link>
             <Link className="hover:text-secondary" href="/bestproducts">
-              BEST PRODUCTS
+            MEILLEURS PRODUITS
             </Link>
             <Link className="hover:text-secondary" href="/bestcollection">
-              BEST COLLECTION
+            MEILLEURE COLLECTION
             </Link>
             <Link className="hover:text-secondary" href="/stores">
               NOS BOUTIQUES
@@ -22,7 +22,7 @@ const Headerbottonright = () => {
               BLOG
             </Link>
             <Link className="hover:text-secondary" href="/contactus">
-              CONTACT US
+            CONTACTEZ-NOUS
             </Link>
           </div>
   )

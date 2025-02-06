@@ -107,7 +107,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
                 className="AddtoCart bg-primary hover:bg-[#15335D] text-white w-[50%] max-lg:w-[60%] max-md:rounded-[3px] group/box"
               >
                 <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease max-md:text-xs">
-                  Add to cart
+                A. au panier
                 </p>
                 <p className="text-white absolute flex items-center justify-center w-full h-full duration-300 -translate-x-[100%] lg:group-hover/box:translate-x-[-30%] ease">
                   <FaCartShopping
@@ -123,7 +123,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
                 disabled
               >
                 <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-x-[10%] ease max-md:text-xs">
-                  Out of stock
+                Rupture de stock
                 </p>
               </button>
             )
@@ -133,7 +133,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
               disabled
             >
               <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 ease max-md:text-xs">
-                Out of stock
+              Rupture de stock
               </p>
             </button>
           )}
@@ -141,7 +141,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
           <a href={`/${item.category?.slug}/${item.slug}`} className="w-[25%] max-lg:w-[30%]">
             <button className="AddtoCart bg-white max-md:rounded-[3px] w-full group/box text-primary border border-primary">
               <p className="absolute flex items-center justify-center w-full h-full transition-all duration-300 transform lg:group-hover/box:translate-y-[-100%] ease max-md:text-xs">
-                View
+                Voir
               </p>
               <p className="text-primary absolute w-full h-full flex items-center justify-center duration-300 -translate-y-[-100%] lg:group-hover/box:translate-y-0 ease">
                 <FaEye

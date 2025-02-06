@@ -9,11 +9,11 @@ const Contactusbanner = ({ companyData }: { companyData: CompanyData }) => {
         <div className="max-lg:pt-16">
             <div className='relative  w-full '>
                 <div className='absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/4 text-white'>
-                    <h1 className='text-8xl font-bold max-lg:text-6xl max-md:text-xl'>Contact us</h1>
-                    <p className='max-md:text-xs'>HOME / CONTACT US</p>
+                    <h1 className='text-8xl font-bold max-lg:text-6xl max-md:text-xl'>Contactez-nous</h1>
+                    <p className='max-md:text-xs'>HOME / Contactez-nous</p>
                 </div>
                  <Image
-          className="w-full h-[500px] "
+          className="w-full h-[500px] object-cover"
           src={companyData.bannercontacts}
           alt="banner"
           width={1920} // Adjust width and height as per your requirements
