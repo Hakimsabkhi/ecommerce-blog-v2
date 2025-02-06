@@ -51,26 +51,26 @@ const ListPromotion: React.FC = () => {
   const [colSpan, setColSpan] = useState(5);
 
   useEffect(() => {
-    const getProducts = async () => {
+    const fatchalldata = async () => {
       try {
-        const response = await fetch(
-          "/api/promotion/admin/getproductpromotionB",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data: Product[] = await response.json();
-        setProducts(data);
-      } catch (error: unknown) {
-        // Handle different error types effectively
+        setLoading(true);
+        const [productRes, categoryRes] = await Promise.all([
+          fetch("/api/promotion/admin/getproductpromotionB"),
+          fetch("/api/category/admin/getAllCategoryAdmin"),
+        ]);
+       
+        if (!productRes.ok) throw new Error("Failed to fetch products");
+        if (!categoryRes.ok) throw new Error("Failed to fetch categorey");
+        const [productData, categoryData] = await Promise.all([
+          productRes.json(),
+          categoryRes.json(),
+          
+        ]);
+        setProducts(productData);
+        setCategories(categoryData);
+      } catch (error) {
         if (error instanceof Error) {
-          console.error("Error deleting category:", error.message);
+          console.error("Error fetching data:", error.message);
           setError(error.message);
         } else if (typeof error === "string") {
           console.error("String error:", error);
@@ -83,24 +83,7 @@ const ListPromotion: React.FC = () => {
         setLoading(false);
       }
     };
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(
-          "/api/category/admin/getAllCategoryAdmin",
-          {
-            method: "GET",
-            next: { revalidate: 0 }, // Disable caching to always fetch the latest data
-          }
-        );
-        if (!response.ok) throw new Error("Failed to fetch categories");
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-    fetchCategories();
-    getProducts();
+    fatchalldata();
   }, []);
   useEffect(() => {
     const updateColSpan = () => {

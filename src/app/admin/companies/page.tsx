@@ -36,7 +36,7 @@ const Page = () => {
 
   const is2xl = useIs2xl();
   const CompaniesPerPage = is2xl ? 7 : 5;
-
+  const [colSpan, setColSpan] = useState(6);
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
@@ -61,7 +61,33 @@ const Page = () => {
 
     fetchCompanies();
   }, []);
+ // ─────────────────────────────────────────────────────────────────────────────
+  // 2) CALCULATE COLSPAN DYNAMICALLY
+  // ─────────────────────────────────────────────────────────────────────────────
+  useEffect(() => {
+    const updateColSpan = () => {
+      const isSmallestScreen = window.innerWidth <= 640; // max-sm
+      const isSmallScreen = window.innerWidth <= 768; // max-md
+      const isMediumScreen = window.innerWidth <= 1024; // max-lg
+      const isXlLScreen = window.innerWidth <= 1280; // max-xl
 
+      if (isSmallestScreen) {
+        setColSpan(1);
+      } else if (isSmallScreen) {
+        setColSpan(2);
+      } else if (isMediumScreen) {
+        setColSpan(3);
+      } else if (isXlLScreen) {
+        setColSpan(4);
+      } else {
+        setColSpan(6); // default
+      }
+    };
+
+    updateColSpan();
+    window.addEventListener("resize", updateColSpan);
+    return () => window.removeEventListener("resize", updateColSpan);
+  }, []);
   useEffect(() => {
     const filtered = companies.filter((company) =>
       company.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -125,11 +151,7 @@ const Page = () => {
         />
       </div>
 
-      {loading ? (
-        <div className="flex justify-center items-center h-[50vh]">
-          <FaSpinner className="animate-spin text-2xl" />
-        </div>
-      ) : (
+     
         <div className='max-2xl:h-80 h-[50vh] max-md:hidden'>
         <table className="w-full rounded overflow-hidden table-fixed">
           <thead>
@@ -142,6 +164,27 @@ const Page = () => {
               <th className="px-4 py-3 text-center">Actions</th>
             </tr>
           </thead>
+       {loading ? (
+          <tbody>
+                     <tr>
+                       <td colSpan={colSpan}>
+                         <div className="flex justify-center items-center h-full w-full py-6">
+                           <FaSpinner className="animate-spin text-[30px]" />
+                         </div>
+                       </td>
+                     </tr>
+                   </tbody>
+      )  : currentCompanies.length === 0 ? (
+        <tbody>
+          <tr>
+            <td colSpan={colSpan}>
+              <div className="text-center py-6 text-gray-600 w-full">
+                <p>Aucune companies trouvée.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      ) : (
           <tbody>
             {currentCompanies.map((company) => (
               <tr key={company._id} className="even:bg-gray-100 odd:bg-white">
@@ -169,9 +212,10 @@ const Page = () => {
               </tr>
             ))}
           </tbody>
+          )}
         </table>
         </div>
-      )}
+      
 
       {isPopupOpen && (
         <DeletePopup
