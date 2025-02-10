@@ -8,16 +8,17 @@ interface CostmizepoductcompParam {
   handleUpdate: (e: React.FormEvent) => void;
   handleImageChange:(e: React.ChangeEvent<HTMLInputElement>, fieldName: string)=>void;
   formdata: {
-    wbtitle: string;
-    wbsubtitle: string;
-    wbbanner: string;
-    pctitle: string;
-    pcsubtitle: string;
-    pcbanner: string;
-    cptitle: string;
-    cpsubtitle: string;
-    cpbanner: string;
+    BestProductTitle: string;
+    BestProductSubtitle: string;
+    BestProductBanner: string;
+    ProductCollectionTitle: string;
+    ProductCollectionSubtitle: string;
+    ProductCollectionBanner: string;
+    ProductPromotionTitle: string;
+    ProductPromotionSubtitle: string;
+    ProductPromotionBanner: string;
   };
+  
   imagePreview: {
     pcbannerPreview: string | null;
     wbbannerPreview: string | null;
@@ -53,9 +54,9 @@ export const Costmizepoductcomp: React.FC<CostmizepoductcompParam> = ({
           <div className="flex items-center gap-6 w-full justify-between">
             <p className="text-xl max-lg:text-base font-bold">Product Collection Title*</p>
             <input
-              name="pctitle"
+              name="ProductCollectionTitle"
               type="text"
-              value={formdata.pctitle}
+              value={formdata.ProductCollectionTitle}
               onChange={handleChange}
               className="bg-gray-50 border w-1/2 border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
               required
@@ -66,9 +67,9 @@ export const Costmizepoductcomp: React.FC<CostmizepoductcompParam> = ({
           <div className="flex items-center gap-6 w-full justify-between">
             <p className="text-xl max-lg:text-base font-bold">Product Collection SubTitle*</p>
             <input
-              name="pcsubtitle"
+              name="ProductCollectionSubtitle"
               type="text"
-              value={formdata.pcsubtitle}
+              value={formdata.ProductCollectionSubtitle}
               onChange={handleChange}
               className="bg-gray-50 border w-1/2 border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
               required
@@ -106,9 +107,9 @@ export const Costmizepoductcomp: React.FC<CostmizepoductcompParam> = ({
           <div className="flex items-center gap-6 w-full justify-between">
             <p className="text-xl max-lg:text-base font-bold">Best Product Title*</p>
             <input
-              name="wbtitle"
+              name="BestProductTitle"
               type="text"
-              value={formdata.wbtitle}
+              value={formdata.BestProductTitle}
               onChange={handleChange}
               className="bg-gray-50 border w-1/2 border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
               required
@@ -119,9 +120,9 @@ export const Costmizepoductcomp: React.FC<CostmizepoductcompParam> = ({
           <div className="flex items-center gap-6 w-full justify-between">
             <p className="text-xl max-lg:text-base font-bold">Best Product SubTitle*</p>
             <input
-              name="wbsubtitle"
+              name="BestProductSubtitle"
               type="text"
-              value={formdata.wbsubtitle}
+              value={formdata.BestProductSubtitle}
               onChange={handleChange}
               className="bg-gray-50 border w-1/2 border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
               required
@@ -159,9 +160,9 @@ export const Costmizepoductcomp: React.FC<CostmizepoductcompParam> = ({
           <div className="flex items-center gap-6 w-full justify-between">
             <p className="text-xl max-lg:text-base font-bold">Product Promotion Title*</p>
             <input
-              name="cptitle"
+              name="ProductPromotionTitle"
               type="text"
-              value={formdata.cptitle}
+              value={formdata.ProductPromotionTitle}
               onChange={handleChange}
               className="bg-gray-50 border w-1/2 border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
               required
@@ -172,9 +173,9 @@ export const Costmizepoductcomp: React.FC<CostmizepoductcompParam> = ({
           <div className="flex items-center gap-6 w-full justify-between">
             <p className="text-xl max-lg:text-base font-bold">Product Promotion SubTitle*</p>
             <input
-              name="cpsubtitle"
+              name="ProductPromotionSubtitle"
               type="text"
-              value={formdata.cpsubtitle}
+              value={formdata.ProductPromotionSubtitle}
               onChange={handleChange}
               className="bg-gray-50 border w-1/2 border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5"
               required

@@ -22,14 +22,14 @@ export const revalidate =1000;
 
 //Collection et Furniture
 // 2) Fetch sellers (best-selling products) directly from the DB
-export const getproductstatusData = cache(async function getproductstatusData() {
+export const getApprovedProducts = cache(async function getApprovedProducts() {
     await connectToDatabase();
     await Category.find();
     const product = await Product.find({ vadmin: "approve" }).populate({
       path: 'category', // The field you're populating
       match: { vadmin: "approve" }, // Only populate categories where status is "approved"
     }).lean();
-    //const products = product.map((product) => product.category);
+    
     return JSON.stringify(product);
 });
 
@@ -41,7 +41,7 @@ export const getWebsiteinfoData = cache(async function getWebsiteinfoData() {
 });
 
 // Categories
-export const getCategoriesData = cache(async function getCategoriesData(): Promise<CategoryType[]> {
+export const getApprovedCategories = cache(async function getApprovedCategories(): Promise<CategoryType[]> {
   await connectToDatabase();
   // Use .lean() to get plain JS objects instead of Mongoose documents
   const categories = await Category.find({ vadmin: "approve" }).lean();
@@ -54,7 +54,7 @@ export const getCategoriesData = cache(async function getCategoriesData(): Promi
 });
 
 // Sellers
-export const getBestsellersData = cache(async function getBestsellersData() {
+export const getHomepageBestsellers = cache(async function getHomepageBestsellers() {
   await connectToDatabase();
   // You can adjust the filters as needed (e.g., `statuspage: "home-page"` or any other filters)
   const bestsellers = await Product.find({
@@ -69,47 +69,41 @@ export const getBestsellersData = cache(async function getBestsellersData() {
   }));
 });
 
-/* 
-export async function getstore(){
-  await connectToDatabase(); 
-  const boutique = await Boutique.find({vadmin:"approve"}).limit(2).exec();
-  return JSON.stringify(boutique );
-}
-*/
-export const getstores = cache(async function getstores() {
+
+export const getApprovedStores = cache(async function getApprovedStores() {
   await connectToDatabase(); 
   const boutique = await Boutique.find({ vadmin: "approve" }).exec();
   return JSON.stringify(boutique);
 });
   
-export const getWebsiteinfo = cache(async function getWebsiteinfo() {
+export const getWebsiteInfoJSON = cache(async function getWebsiteInfoJSON() {
   await connectToDatabase();
   const company = await Websiteinfo.findOne({}).exec();
   return JSON.stringify(company);
 });
 
 // Title category
-export const gettitlecategory = cache(async function gettitlecategory() {
+export const getCustomCategoryTitle = cache(async function getCustomCategoryTitle() {
   await connectToDatabase();
   const titlecategory = await CustomizeCategoy.findOne().exec();
   return JSON.stringify(titlecategory);
 });
 
 // Title brand
-export const gettitlebrand = cache(async function gettitlebrand() {
+export const getCustomBrandTitle = cache(async function getCustomBrandTitle() {
   await connectToDatabase();
   const titlebrand = await CustomizeBrand.findOne().exec();
   return JSON.stringify(titlebrand);
 });
 
 // Title product
-export const gettitleproduct = cache(async function gettitleproduct() {
+export const getCustomProductTitle = cache(async function getCustomProductTitle() {
   await connectToDatabase();
   const titleproduct = await CustomizeProduct.findOne().exec();
   return JSON.stringify(titleproduct);
 });
 
-export const getBestproductData = cache(async function getBestproductData() {
+export const getBestProducts = cache(async function getBestProducts() {
   await connectToDatabase();
   // You can adjust the filters as needed (e.g., `statuspage: "home-page"` or any other filters)
   await Category.find();
@@ -125,7 +119,7 @@ export const getBestproductData = cache(async function getBestproductData() {
   return JSON.stringify(bestsellers);
 });
 
-export const getBestCollectionData = cache(async function getBestCollectionData() {
+export const getBestCollections = cache(async function getBestCollections() {
   await connectToDatabase();
   // You can adjust the filters as needed (e.g., `statuspage: "home-page"` or any other filters)
   await Category.find();
@@ -141,7 +135,7 @@ export const getBestCollectionData = cache(async function getBestCollectionData(
   return JSON.stringify(bestsellers);
 });
 
-export const getcategoryData = cache(async function getcategoryData() {
+export const getApprovedCategoriesData = cache(async function getApprovedCategoriesData() {
   await connectToDatabase(); // Ensure the database connection is established
   // Fetch all categories but only return the name and imageUrl fields
   const categories = await Category.find({ vadmin: "approve" }).exec(); // Only select the 'name' and 'imageUrl' fields

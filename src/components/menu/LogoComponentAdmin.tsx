@@ -1,14 +1,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { getWebsiteinfo } from "@/lib/StaticDataHomePage";
+import { getWebsiteInfoJSON } from "@/lib/StaticDataHomePage";
 
 
 
 
 
 const LogoComponentAdmin: React.FC =async () => {
- const company = await getWebsiteinfo();
+ const company = await getWebsiteInfoJSON();
       const companyData = JSON.parse(company);
   
 

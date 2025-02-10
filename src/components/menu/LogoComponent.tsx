@@ -3,13 +3,13 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getWebsiteinfo } from "@/lib/StaticDataHomePage";
+import { getWebsiteInfoJSON } from "@/lib/StaticDataHomePage";
 
 
 
 
 const Header: React.FC = async() => {
- const company = await getWebsiteinfo();
+ const company = await getWebsiteInfoJSON();
       const companyData = JSON.parse(company);
   return (
     

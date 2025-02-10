@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getCategoriesData, gettitlecategory } from "@/lib/StaticDataHomePage";
+import { getApprovedCategories, getCustomCategoryTitle } from "@/lib/StaticDataHomePage";
 
 export const revalidate =1000;
 // This enables ISR (Incremental Static Regeneration)
@@ -14,9 +14,9 @@ export const revalidate =1000;
 
 export default async function Categories() {
   // 2) Get your category data
-  const datatitlecatgoray=await gettitlecategory();
+  const datatitlecatgoray=await getCustomCategoryTitle();
   const titlecatgoray = JSON.parse(datatitlecatgoray);
-  const categories = await getCategoriesData();
+  const categories = await getApprovedCategories();
   //console.log(tai)
   // 3) Render the same UI you had before
   return (

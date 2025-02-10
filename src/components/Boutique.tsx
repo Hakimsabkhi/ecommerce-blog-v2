@@ -1,4 +1,4 @@
-import { getstores } from '@/lib/StaticDataHomePage';
+import { getApprovedStores } from '@/lib/StaticDataHomePage';
 
 import React from 'react'
 import Boutiquecroserl from './showroom/Boutiquecroserl';
@@ -6,7 +6,7 @@ import Boutiquecroserl from './showroom/Boutiquecroserl';
 
 
 const Boutiquehomepage = async () => {
-    const store = await getstores();
+    const store = await getApprovedStores();
       const boutiques=JSON.parse(store)
 
   return (

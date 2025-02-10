@@ -8,24 +8,24 @@ import { Costmizepoductcomp } from "@/components/costmize/Costmizepoductcomp";
 const Costmizecatgorey = () => {
   const router = useRouter();
   const [formdata, setFormdata] = useState({
-    wbtitle:'',
-    wbsubtitle:'',
-    wbbanner:'',
-    pctitle:'',
-    pcsubtitle:'',
-    pcbanner:'',
-    cptitle:'',
-    cpsubtitle:'',
-    cpbanner:'',
+    BestProductTitle:'',
+    BestProductSubtitle:'',
+    BestProductBanner:'',
+    ProductCollectionTitle:'',
+    ProductCollectionSubtitle:'',
+    ProductCollectionBanner:'',
+    ProductPromotionTitle:'',
+    ProductPromotionSubtitle:'',
+    ProductPromotionBanner:'',
   });
    const name="product"
             const url="/admin/product/"
 const [id,setId]=useState('')
   const [error, setError] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState({
-    pcbannerPreview: formdata.pcbanner,
-    wbbannerPreview: formdata.wbbanner,
-    cpbannerPreview: formdata.cpbanner,
+    pcbannerPreview: formdata.ProductCollectionBanner,
+    wbbannerPreview: formdata.BestProductBanner,
+    cpbannerPreview: formdata.ProductPromotionBanner,
   });
   const [images, setImages] = useState<{
     pcbanner: File | null;
@@ -68,20 +68,20 @@ const [id,setId]=useState('')
       setId(data._id);
       setFormdata(data);
       setImagePreview({
-        cpbannerPreview:data.cpbanner,
-        pcbannerPreview:data.pcbanner,
-        wbbannerPreview:data.wbbanner
+        cpbannerPreview:data.ProductPromotionBanner,
+        pcbannerPreview:data.ProductCollectionBanner,
+        wbbannerPreview:data.BestProductBanner
       })
       }else if(response.status===404){
-        setFormdata( {wbtitle:'',
-          wbsubtitle:'',
-          wbbanner:'',
-          pctitle:'',
-          pcsubtitle:'',
-          pcbanner:'',
-          cptitle:'',
-          cpsubtitle:'',
-        cpbanner:'',
+        setFormdata( {BestProductTitle:'',
+          BestProductSubtitle:'',
+          BestProductBanner:'',
+          ProductCollectionTitle:'',
+          ProductCollectionSubtitle:'',
+          ProductCollectionBanner:'',
+          ProductPromotionTitle:'',
+          ProductPromotionSubtitle:'',
+        ProductPromotionBanner:'',
       })
       }
 
@@ -106,7 +106,7 @@ const [id,setId]=useState('')
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 // Check if required fields are empty
-if (!formdata.wbtitle || !formdata.wbsubtitle ||!formdata.pctitle || !formdata.pcsubtitle||!formdata.pctitle || !formdata.pcsubtitle) {
+if (!formdata.BestProductTitle || !formdata.BestProductSubtitle ||!formdata.ProductCollectionTitle || !formdata.ProductCollectionSubtitle||!formdata.ProductPromotionTitle || !formdata.ProductPromotionSubtitle) {
   setError("Title  are required.");
   return;
 }
@@ -117,21 +117,21 @@ const formData = new FormData();
     }
     if (images.wbbanner) {
       // Only append to FormData if cpbanner is not null
-      formData.append('wbbanners', images.wbbanner);
+      formData.append('BestProductBannerFile', images.wbbanner);
     } else {
       // Handle the case when cpbanner is null, if necessary
       console.log('No cpbanner file selected');
     }
     if (images.cpbanner) {
       // Only append to FormData if cpbanner is not null
-      formData.append('cpbanners', images.cpbanner);
+      formData.append('ProductPromotionBannerFile', images.cpbanner);
     } else {
       // Handle the case when cpbanner is null, if necessary
       console.log('No cpbanner file selected');
     }
     if (images.pcbanner) {
       // Only append to FormData if cpbanner is not null
-      formData.append('pcbanners', images.pcbanner);
+      formData.append('ProductCollectionBannerFile', images.pcbanner);
     } else {
       // Handle the case when cpbanner is null, if necessary
       console.log('No cpbanner file selected');
@@ -149,7 +149,7 @@ const formData = new FormData();
         throw new Error(errorData.message || "Error posting costmize");
       }
 
-      toast.success(`costmize product ${formdata.wbtitle} ${formdata.pctitle}${formdata.cptitle}Add successfully!`);
+      toast.success(`costmize product ${formdata.BestProductTitle} ${formdata.ProductCollectionTitle}${formdata.ProductPromotionTitle}Add successfully!`);
       router.push(url);
     } catch (error: unknown) {
       // Handle different error types effectively
@@ -173,21 +173,21 @@ const formData = new FormData();
     }
     if (images.wbbanner) {
       // Only append to FormData if cpbanner is not null
-      formData.append('wbbanners', images.wbbanner);
+      formData.append('BestProductBannerFile', images.wbbanner);
     } else {
       // Handle the case when cpbanner is null, if necessary
       console.log('No cpbanner file selected');
     }
     if (images.cpbanner) {
       // Only append to FormData if cpbanner is not null
-      formData.append('cpbanners', images.cpbanner);
+      formData.append('ProductPromotionBannerFile', images.cpbanner);
     } else {
       // Handle the case when cpbanner is null, if necessary
       console.log('No cpbanner file selected');
     }
     if (images.pcbanner) {
       // Only append to FormData if cpbanner is not null
-      formData.append('pcbanners', images.pcbanner);
+      formData.append('ProductCollectionBannerFile', images.pcbanner);
     } else {
       // Handle the case when cpbanner is null, if necessary
       console.log('No cpbanner file selected');
@@ -204,7 +204,7 @@ const formData = new FormData();
         throw new Error("Failed to update costmize");
       }
 
-      toast.success(`costmize product ${formdata.wbtitle} ${formdata.pctitle}${formdata.cptitle}Add successfully!`);
+      toast.success(`costmize product ${formdata.BestProductTitle} ${formdata.ProductCollectionTitle}${formdata.ProductPromotionTitle}Add successfully!`);
 
       router.push(url);
      

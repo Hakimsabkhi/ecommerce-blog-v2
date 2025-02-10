@@ -1,4 +1,4 @@
-import {  getstores, getWebsiteinfo } from '@/lib/StaticDataHomePage';
+import {  getApprovedStores, getWebsiteInfoJSON } from '@/lib/StaticDataHomePage';
 import React from 'react'
 import Showroombanner from './../../../components/showroom/showroombanner';
   
@@ -6,9 +6,9 @@ import Showroombanner from './../../../components/showroom/showroombanner';
 
 import Boutique from '@/components/showroom/Boutique';
 const page = async () => {
-    const store = await getstores();
+    const store = await getApprovedStores();
       const boutiques=JSON.parse(store)
-const company = await getWebsiteinfo();
+const company = await getWebsiteInfoJSON();
   const companyData = JSON.parse(company);
   return (
 

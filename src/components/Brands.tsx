@@ -4,7 +4,7 @@ import Image from "next/image";
 // Mongoose models & DB connection
 import connectToDatabase from "@/lib/db";
 import Brand from "@/models/Brand";
-import { gettitlebrand } from "@/lib/StaticDataHomePage";
+import { getCustomBrandTitle } from "@/lib/StaticDataHomePage";
 
 // Enable ISR at the page level
 export const revalidate =1000; // Re-generate this page every 60s
@@ -27,7 +27,7 @@ async function getAllBrands() {
 
 export default async function BrandsPage() {
   const brands = await getAllBrands();
-const datatitlebarnd=await gettitlebrand();
+const datatitlebarnd=await getCustomBrandTitle();
   const titlebrand = JSON.parse(datatitlebarnd)
   // Helper function for the accordion card classes
   const getBrandCardClasses = () =>

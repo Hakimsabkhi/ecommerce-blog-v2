@@ -4,30 +4,30 @@ import { IUser } from './User';
 
 
 export interface ICustomizeProduct extends Document {
-    wbtitle: string;
-    wbsubtitle:string;
-    wbbanner:string;
-    pctitle: string;
-    pcsubtitle:string;
-    pcbanner:string;
-    cptitle: string;
-    cpsubtitle:string;
-    cpbanner:string;
+  BestProductTitle: string;
+  BestProductSubtitle: string;
+  BestProductBanner: string;
+  ProductCollectionTitle: string;
+  ProductCollectionSubtitle: string;
+  ProductCollectionBanner: string;
+  ProductPromotionTitle: string;
+  ProductPromotionSubtitle: string;
+  ProductPromotionBanner: string;
   user: IUser | string; 
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export const CustomizeProductSchema: Schema = new Schema({
-    wbtitle: {type:String,required:true},
-  wbsubtitle: {type:String,required:false},
-  wbbanner: {type:String,required:true},
-  pctitle: {type:String,required:true},
-  pcsubtitle: {type:String,required:false},
-  pcbanner:{type:String,required:false},
-  cptitle: {type:String,required:true},
-  cpsubtitle: {type:String,required:false},
-  cpbanner: {type:String,required:true},
+  BestProductTitle: { type: String, required: true },
+  BestProductSubtitle: { type: String, required: false },
+  BestProductBanner: { type: String, required: false },
+  ProductCollectionTitle: { type: String, required: true },
+  ProductCollectionSubtitle: { type: String, required: false },
+  ProductCollectionBanner: { type: String, required: true },
+  ProductPromotionTitle: { type: String, required: true },
+  ProductPromotionSubtitle: { type: String, required: false },
+  ProductPromotionBanner: { type: String, required: true },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 },{ timestamps: true });
 

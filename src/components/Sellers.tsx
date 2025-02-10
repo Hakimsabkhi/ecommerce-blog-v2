@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getBestsellersData, gettitleproduct } from "@/lib/StaticDataHomePage";
+import { getHomepageBestsellers, getCustomProductTitle } from "@/lib/StaticDataHomePage";
 
 // 1) Incremental Static Regeneration at the page level
 export const revalidate =1000;
@@ -11,8 +11,8 @@ export const revalidate =1000;
 
 export default async function Sellers() {
   // 3) Fetch your data
-  const bestsellers = await getBestsellersData();
-const datatitleproduct=await gettitleproduct();
+  const bestsellers = await getHomepageBestsellers();
+const datatitleproduct=await getCustomProductTitle();
   const titleproduct = JSON.parse(datatitleproduct)
   // 4) Return a grid similar to Categories
   return (
@@ -22,10 +22,10 @@ const datatitleproduct=await gettitleproduct();
           {/* Title + Subtitle */}
           <div className="flex-col flex gap-2 items-center w-full max-lg:text-center">
             <h3 className="font-bold text-4xl text-HomePageTitles">
-            {titleproduct?.wbtitle}
+            {titleproduct?.BestProductTitle}
             </h3>
             <p className="text-base text-[#525566]">
-            {titleproduct?.wbsubtitle}
+            {titleproduct?.BestProductSubtitle}
             </p>
           </div>
 
