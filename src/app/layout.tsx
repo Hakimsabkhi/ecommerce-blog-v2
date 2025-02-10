@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions"; // Ensure the path is correct
-import SessionProviderWrapper from "@/components/ProviderComp/SessionProviderWrapper";
+import SessionProviderWrapper from "@/components/Provider/SessionProviderWrapper";
 import { Poppins } from "next/font/google";
 import "@/app/globals.css";
 import "react-toastify/dist/ReactToastify.css";

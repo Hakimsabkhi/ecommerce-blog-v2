@@ -3,7 +3,7 @@ import Image from "next/image";
 interface CompanyData {
   bannercontacts: string;
 }
-const Showroombanner = ({ companyData }: { companyData: CompanyData }) => {
+const StoreBanner = ({ companyData }: { companyData: CompanyData }) => {
   return (
     <div className="max-lg:pt-16">
       <div className="relative  w-full">
@@ -28,4 +28,4 @@ const Showroombanner = ({ companyData }: { companyData: CompanyData }) => {
   );
 };
 
-export default Showroombanner;
+export default StoreBanner;

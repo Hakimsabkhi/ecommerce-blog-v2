@@ -19,11 +19,11 @@ interface StoreData {
   localisation: string;
   openingHours: OpeningHours;
 }
-interface Boutiqueprops {
+interface AllStoreprops {
   boutiques: StoreData[];
 }
 
-const Boutique: React.FC<Boutiqueprops> = ({ boutiques }) => {
+const AllStore : React.FC<AllStoreprops> = ({ boutiques }) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
    
      const [filteredProducts, setFilteredProducts] = useState<StoreData[]>([]);
@@ -120,4 +120,4 @@ const Boutique: React.FC<Boutiqueprops> = ({ boutiques }) => {
   );
 };
 
-export default Boutique;
+export default AllStore ;

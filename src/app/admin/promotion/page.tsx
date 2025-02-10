@@ -1,4 +1,4 @@
-import ListPromotion from '@/components/promotioncomp/listpromotion'
+import ListPromotion from '@/components/promotion/listpromotion'
 import React from 'react'
 
 const page = () => {

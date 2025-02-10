@@ -1,5 +1,5 @@
  "use client"
-import Listorders from '@/components/OrderComp/FetchAllorders';
+import Listorders from '@/components/Order/FetchAllorders';
 
 
   

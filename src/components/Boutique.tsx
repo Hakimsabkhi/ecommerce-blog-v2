@@ -1,7 +1,7 @@
 import { getApprovedStores } from '@/lib/StaticDataHomePage';
 
 import React from 'react'
-import Boutiquecroserl from './showroom/Boutiquecroserl';
+import BoutiqueCarousel from './OurStores/BoutiqueCarousel';
 
 
 
@@ -20,7 +20,7 @@ const Boutiquehomepage = async () => {
           </h3>
         </div>
       )}
-    <Boutiquecroserl boutiques={boutiques} />
+    <BoutiqueCarousel boutiques={boutiques} />
   </div>
       
   )
