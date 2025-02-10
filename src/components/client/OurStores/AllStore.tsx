@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import Pagination from "../Pagination";
+import Pagination from "../../Pagination";
 //import Pagination from "../Pagination";
 interface OpeningHours {
   [day: string]: { open: string; close: string }[];

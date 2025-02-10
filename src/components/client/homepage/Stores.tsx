@@ -1,7 +1,7 @@
 import { getApprovedStores } from '@/lib/StaticDataHomePage';
 
 import React from 'react'
-import BoutiqueCarousel from './BoutiqueCarousel';
+import BoutiqueCarousel from '../OurStores/BoutiqueCarousel';
 
 
 

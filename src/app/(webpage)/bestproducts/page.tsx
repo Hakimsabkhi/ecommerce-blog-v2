@@ -1,5 +1,5 @@
 import React from "react";
-import ProductFilterClient from "@/components/Products/ProductPage/ProductFilterClient"; // <-- Our client component
+import ProductFilterClient from "@/components/client/Products/ProductPage/ProductFilterClient"; // <-- Our client component
 import { getBestProducts, getCustomProductTitle } from "@/lib/StaticDataHomePage";
 import CollectionBanner from "@/components/client/Banner/CollectionBanner";
 

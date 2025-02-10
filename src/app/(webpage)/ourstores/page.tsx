@@ -1,10 +1,10 @@
 import {  getApprovedStores, getWebsiteInfoJSON } from '@/lib/StaticDataHomePage';
 import React from 'react'
-import StoreBanner from '../../../components/OurStores/StoreBanner';
+import StoreBanner from '../../../components/client/OurStores/StoreBanner';
   
 
 
-import AllStore  from '@/components/OurStores/AllStore';
+import AllStore  from '@/components/client/OurStores/AllStore';
 const page = async () => {
     const store = await getApprovedStores();
       const boutiques=JSON.parse(store)

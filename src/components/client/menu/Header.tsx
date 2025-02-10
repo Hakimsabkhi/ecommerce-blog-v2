@@ -5,7 +5,7 @@ import Headertop from "@/components/client/menu/Headertop";
 import HeaderBottom from "@/components/client/menu/Headerbottom";
 import LogoComponent from "@/components/client/menu/LogoComponent";
 import SearchBar from "@/components/client/menu/SearchBar";
-import CartLogic from "@/components/client/menu/CartLogic";
+import CartLogic from "@/components/client/menu/cart/CartLogic";
 import Wishlist from "@/components/client/menu/Wishlist";
 import UserMenu from "@/components/client/user/UserMenu";
 

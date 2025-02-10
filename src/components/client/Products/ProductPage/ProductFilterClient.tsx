@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import FilterProducts from "@/components/Products/ProductPage/FilterProducts";
-import OrderPrice from "@/components/Products/ProductPage/OrderPrice";
-import ProductList from "@/components/Products/ProductPage/ProductList";
+import FilterProducts from "@/components/client/Products/ProductPage/FilterProducts";
+import OrderPrice from "@/components/client/Products/ProductPage/OrderPrice";
+import ProductList from "@/components/client/Products/ProductPage/ProductList";
 
 interface ProductData {
   _id: string;

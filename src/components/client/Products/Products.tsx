@@ -1,5 +1,5 @@
 import React from "react";
-import ProductFilterClient from "@/components/Products/ProductPage/ProductFilterClient"; // <-- Our client component
+import ProductFilterClient from "@/components/client/Products/ProductPage/ProductFilterClient"; // <-- Our client component
 import { getproductbycatgory } from "@/lib/StaticCatgoryproduct";
 
 

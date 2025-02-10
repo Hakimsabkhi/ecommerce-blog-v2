@@ -3,10 +3,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SlBag } from "react-icons/sl";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import Total from "./Total";
-import CartModal from "../CartModal";
-import CartModalOnscroll from "../CartModalOnscroll";
+import { RootState } from "../../../../store";
+import Total from "../Total";
+import CartModal from "./CartModal";
+import CartModalOnscroll from "./CartModalOnscroll";
 import { usePathname } from "next/navigation";
 
 const CartLogic = () => {

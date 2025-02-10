@@ -1,5 +1,5 @@
 import React from 'react';
-import Products from '@/components/Products';
+import Products from '@/components/client/Products/Products';
 import CategoryBanner from '@/components/client/Banner/CategoryBanner';
 import { notFound } from 'next/navigation';
 import { searchcategory } from '@/lib/StaticCatgoryproduct';
