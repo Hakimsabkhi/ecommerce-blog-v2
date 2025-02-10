@@ -2,13 +2,13 @@ export const dynamic = 'force-dynamic'; // Ensure the page is dynamically render
 
 import Contactusbanner from '@/components/contactusbanner';
 import Milanotorino from '@/components/milanotorino';
-import { getWebsiteinfo } from '@/lib/StaticDataHomePage';
+import { getWebsiteInfoJSON } from '@/lib/StaticDataHomePage';
 import React from 'react';
 
 
 
 const Page = async () => {
-  const company = await getWebsiteinfo();
+  const company = await getWebsiteInfoJSON();
   const companyData = JSON.parse(company);
   return (
     <div>

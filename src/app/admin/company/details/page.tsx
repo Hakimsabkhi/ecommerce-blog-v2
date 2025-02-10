@@ -15,6 +15,7 @@ function CreateCompany() {
   const [city, setCity] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [governorate, setGovernorate] = useState("");
+  const [titlehome, setTitlehome] = useState("");
   const [facebook, setFacebook] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [instagram, setInstagram] = useState("");
@@ -80,6 +81,7 @@ function CreateCompany() {
       setFacebook(data.facebook || "");
       setLinkedin(data.linkedin || "");
       setInstagram(data.instagram || "");
+      setTitlehome(data.titlehome || "")
       if (data.logoUrl) {
         setIconPreview(data.logoUrl);
       }
@@ -115,7 +117,7 @@ function CreateCompany() {
     formData.append("facebook", facebook || "");
     formData.append("linkedin", linkedin || "");
     formData.append("instagram", instagram || "");
-
+    formData.append("titlehome", titlehome || "");
     if (iconFile) {
       formData.append("image", iconFile);
     }
@@ -160,7 +162,7 @@ function CreateCompany() {
     formData.append("facebook", facebook || "");
     formData.append("linkedin", linkedin || "");
     formData.append("instagram", instagram || "");
-
+    formData.append("titlehome", titlehome || "");
     if (iconFile) {
       formData.append("image", iconFile);
     }
@@ -277,6 +279,16 @@ function CreateCompany() {
             />
           </div>
         </div>
+        <div className="mb-4">
+            <p className="pb-2 block text-sm font-medium">Title Banner Home Page*</p>
+            <input
+              type="text"
+              value={titlehome}
+              onChange={(e) => setTitlehome(e.target.value)}
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+              required
+            />
+          </div>
         <div className=" md:flex gap-4">
           <div className="mb-4 md:w-1/3">
             <p className="pb-2 block text-sm font-medium">Upload Icon SVG*</p>

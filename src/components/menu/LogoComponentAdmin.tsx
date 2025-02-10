@@ -1,14 +1,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { getWebsiteinfo } from "@/lib/StaticDataHomePage";
+import { getWebsiteInfoJSON } from "@/lib/StaticDataHomePage";
 
 
 
 
 
 const LogoComponentAdmin: React.FC =async () => {
- const company = await getWebsiteinfo();
+ const company = await getWebsiteInfoJSON();
       const companyData = JSON.parse(company);
   
 
@@ -17,7 +17,7 @@ const LogoComponentAdmin: React.FC =async () => {
       <div className="flex w-fit max-lg:w-[50%] gap-4 items-center justify-around">
         <Link href="/" aria-label="Home page " >    
           
-       <Image src={companyData.logoUrl} alt={""} width={200} height={200}/>
+       <Image src={companyData?.logoUrl} alt={""} width={200} height={200}/>
            
         </Link>       
       </div>

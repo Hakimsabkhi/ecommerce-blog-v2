@@ -8,7 +8,7 @@ import { FaFacebookF } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa6";
-import { getWebsiteinfo } from '@/lib/StaticDataHomePage';
+import { getWebsiteInfoJSON } from '@/lib/StaticDataHomePage';
 
 
 
@@ -16,7 +16,7 @@ import { getWebsiteinfo } from '@/lib/StaticDataHomePage';
   
 
 export default async function Bb() {
-     const company = await getWebsiteinfo();
+     const company = await getWebsiteInfoJSON();
       const companyData = JSON.parse(company);
   
     const formatPhoneNumber = (phone: string | number): string => {

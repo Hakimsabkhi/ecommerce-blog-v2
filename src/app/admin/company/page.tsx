@@ -17,6 +17,7 @@ interface Company {
   linkedin?: string;
   instagram?: string;
   logoUrl?: string;
+  titlehome?:string;
   imageUrl?: string;
   bannercontacts?: string;
 }
@@ -29,7 +30,7 @@ const Display: React.FC = () => {
   const [city, setCity] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [governorate, setGovernorate] = useState("");
-  
+  const [titlehome, setTitlehome] = useState("");
   const [facebook, setFacebook] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [instagram, setInstagram] = useState("");
@@ -68,6 +69,7 @@ const Display: React.FC = () => {
       setIconPreview(data.logoUrl || null);
       setIconPreviewBanner(data.imageUrl || null);
       setIconPreviewBannerContacts(data.bannercontacts || null);
+      setTitlehome(data.titlehome || "");
     } catch (error) {
       console.error("Error fetching company data:", error);
     } finally {
@@ -195,13 +197,14 @@ const Display: React.FC = () => {
               <tr className="bg-gray-800">
                 <th className="px-4 py-3 text-center">Upload Icon</th>
                 <th className="px-4 py-3 text-center"> Banner</th>
+                <th className="px-4 py-3 text-center">Title Banner</th>
                 <th className="px-4 py-3 text-center"> B. Contact</th>
               </tr>
             </thead>
             {loading ? (
                         <tbody>
                           <tr>
-                            <td colSpan={3}>
+                            <td colSpan={4}>
                               <div className="flex justify-center items-center w-full">
                                 <FaSpinner className="animate-spin text-[30px]" />
                               </div>
@@ -211,7 +214,7 @@ const Display: React.FC = () => {
                       ) : iconPreview === null ? (
                         <tbody>
                           <tr>
-                            <td colSpan={3}>
+                            <td colSpan={4}>
                               <div className="text-center py-6 text-gray-600 w-full">
                                 <p>Aucune Company trouvée.</p>
                               </div>
@@ -231,7 +234,7 @@ const Display: React.FC = () => {
                 />
               )}</td>
 
-                <td className="border px-4 py-2 ">{iconPreviewBanner && (
+              <td className="border px-4 py-2 ">{iconPreviewBanner && (
                 <Image
                   src={iconPreviewBanner}
                   alt="Banner preview"
@@ -240,7 +243,7 @@ const Display: React.FC = () => {
                   height={50}
                 />
               )}</td>
-
+ <td className="border px-4 py-2 ">{titlehome}</td>
                 <td className="border px-4 py-2 ">{iconPreviewContacts && (
                 <Image
                   src={iconPreviewContacts}

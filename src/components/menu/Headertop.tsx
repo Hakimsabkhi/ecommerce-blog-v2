@@ -1,4 +1,4 @@
-import { getWebsiteinfo } from "@/lib/StaticDataHomePage";
+import { getWebsiteInfoJSON } from "@/lib/StaticDataHomePage";
 import React from "react";
 import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa"; // Import social media icons
 
@@ -7,7 +7,7 @@ import { FaFacebookF, FaTwitter, FaLinkedinIn } from "react-icons/fa"; // Import
 
 
 const Headertop: React.FC = async () => {
-   const company = await getWebsiteinfo();
+   const company = await getWebsiteInfoJSON();
         const companyData = JSON.parse(company);
 
   if (!companyData) {

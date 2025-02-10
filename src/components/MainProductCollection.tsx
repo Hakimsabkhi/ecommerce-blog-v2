@@ -3,7 +3,7 @@ export const revalidate =1000;
 
 import React from "react";
 import ProductCard from "@/components/Products/ProductPage/ProductCard";
-import { getproductstatusData, gettitleproduct } from "@/lib/StaticDataHomePage";
+import { getApprovedProducts, getCustomProductTitle } from "@/lib/StaticDataHomePage";
 
 interface Brand {
   _id: string;
@@ -37,10 +37,10 @@ interface Products {
 
 
 
-const Collection: React.FC = async () => {
-  const rawProducts = await getproductstatusData();
+const MainProductCollection: React.FC = async () => {
+  const rawProducts = await getApprovedProducts();
   const rawProduct=JSON.parse(rawProducts)
-  const datatitleproduct=await gettitleproduct();
+  const datatitleproduct=await getCustomProductTitle();
     const titleproduct = JSON.parse(datatitleproduct)
   // Cast `rawProducts` to match the `Products[]` type
   const products: Products[] = Array.isArray(rawProduct) 
@@ -59,10 +59,10 @@ const Collection: React.FC = async () => {
       {filteredProductsCount > 0 && (
         <div className="col-span-full flex flex-col items-center gap-2">
           <h2 className="font-bold text-HomePageTitles text-4xl">
-          {titleproduct?.pctitle}
+          {titleproduct?.ProductCollectionTitle}
           </h2>
           <p className="text-base text-[#525566]">
-            {titleproduct?.pcsubtitle}
+            {titleproduct?.ProductCollectionSubtitle}
             </p>
         </div>
       )}
@@ -79,4 +79,4 @@ const Collection: React.FC = async () => {
   );
 };
 
-export default Collection;
+export default MainProductCollection;

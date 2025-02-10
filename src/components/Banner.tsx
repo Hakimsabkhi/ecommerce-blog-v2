@@ -10,6 +10,9 @@ export default async function Banner() {
 
   return (
     <div className="relative md:h-[600px] shadow-lg">
+     <h1 className="absolute z-10 text-xl md:text-4xl lg:text-7xl text-white transform animate-pulse -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 font-bold text-center">
+      {companyData?.titlehome}
+    </h1>
       <Image
         className="w-full md:h-full"
         fill

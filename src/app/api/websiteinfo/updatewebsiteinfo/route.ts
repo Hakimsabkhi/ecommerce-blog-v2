@@ -65,6 +65,7 @@ export async function PUT(req: NextRequest) {
     const address = formData.get("address") as string | null;
     const city = formData.get("city") as string | null;
     const governorate = formData.get("governorate") as string | null;
+    const titlehome = formData.get('titlehome') as string | null;
     const zipcode = formData.get("zipcode") as string | null;
     const phoneRaw = formData.get("phone") as string | null;
     const phone = phoneRaw ? parseInt(phoneRaw, 10) : null;
@@ -149,6 +150,7 @@ export async function PUT(req: NextRequest) {
     if (address !== null) existingCompany.address = address;
     if (city !== null) existingCompany.city = city;
     if (governorate !== null) existingCompany.governorate = governorate;
+    if (titlehome !== null) existingCompany.titlehome = titlehome;
     if (zipcode !== null) existingCompany.zipcode = zipcode;
     if (facebook !== null) existingCompany.facebook = facebook;
     if (linkedin !== null) existingCompany.linkedin = linkedin;

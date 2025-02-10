@@ -2,7 +2,7 @@ export const revalidate =1000;
 
 import React from 'react';
 import ProductCard from './Products/ProductPage/ProductCard';
-import { getproductstatusData, gettitleproduct } from '@/lib/StaticDataHomePage';
+import { getApprovedProducts, getCustomProductTitle } from '@/lib/StaticDataHomePage';
 
 interface Brand {
   _id: string;
@@ -35,10 +35,10 @@ interface Products {
 }
 
 
-const Furniture = async () => {
-   const rawProducts = await getproductstatusData();
+const ProductInPromotionCollection = async () => {
+   const rawProducts = await getApprovedProducts();
    const rawProduct=JSON.parse(rawProducts)
-   const datatitleproduct=await gettitleproduct();
+   const datatitleproduct=await getCustomProductTitle();
      const titleproduct = JSON.parse(datatitleproduct)
     // Cast `rawProducts` to match the `Products[]` type
     const products: Products[] = Array.isArray(rawProduct) 
@@ -56,10 +56,10 @@ const Furniture = async () => {
       {filteredProductsCount > 0 && (
         <div className="flex w-full flex-col gap-2 items-center">
           <h3 className="font-bold text-4xl text-HomePageTitles">
-          {titleproduct?.cptitle}
+          {titleproduct?.ProductPromotionTitle}
           </h3>
           <p className="text-base text-[#525566]">
-            {titleproduct?.cpsubtitle}
+            {titleproduct?.ProductPromotionSubtitle}
             </p>
         </div>
       )}
@@ -76,4 +76,4 @@ const Furniture = async () => {
   );
 };
 
-export default Furniture;
+export default ProductInPromotionCollection;

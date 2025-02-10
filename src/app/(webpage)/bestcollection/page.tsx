@@ -1,20 +1,20 @@
 import React from "react";
 import ProductFilterClient from "@/components/Products/ProductPage/ProductFilterClient"; // <-- Our client component
-import { getBestCollectionData, gettitleproduct } from "@/lib/StaticDataHomePage";
-import Chairsproduct from "@/components/Chairsproduct";
+import { getBestCollections, getCustomProductTitle } from "@/lib/StaticDataHomePage";
+import CollectionBanner from "@/components/CollectionBanner";
 
 
 
 export default async function ProductsPage() {
  
   try {
-    const productstitledata= await gettitleproduct()
-    const productsRe= await getBestCollectionData()
+    const productstitledata= await getCustomProductTitle()
+    const productsRe= await getBestCollections()
     
     const products = JSON.parse(productsRe)
     const producttitle = JSON.parse(productstitledata)
     return (
-      <><Chairsproduct title={producttitle?.pctitle} banner={producttitle?.pcbanner} url={"/bestcollection"} />
+      <><CollectionBanner title={producttitle?.ProductCollectionTitle} banner={producttitle?.ProductCollectionBanner} url={"/bestcollection"} />
       <ProductFilterClient
         products={products} /></>
     );

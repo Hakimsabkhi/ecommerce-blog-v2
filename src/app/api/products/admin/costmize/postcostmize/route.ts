@@ -28,18 +28,18 @@ export async function POST(req: NextRequest) {
   try {
     // Handle form data
     const formData = await req.formData();
-    const wbtitle = formData.get("wbtitle") as string ;
-    const wbsubtitle = formData.get("wbsubtitle") as string ;
-    const wbbannerFile = formData.get("wbbanners") as File ;
-    const pctitle = formData.get("pctitle") as string ;
-    const pcsubtitle = formData.get("pcsubtitle") as string ;
-    const pcbannerFile = formData.get("pcbanners") as File ;
-    const cptitle = formData.get("cptitle") as string ;
-    const cpsubtitle = formData.get("cpsubtitle") as string ;
-    const cpbannerFile = formData.get("cpbanners") as File ;
+    const BestProductTitle = formData.get("BestProductTitle") as string ;
+    const BestProductSubtitle = formData.get("BestProductSubtitle") as string ;
+    const BestProductBannerFile = formData.get("BestProductBannerFile") as File ;
+    const ProductCollectionTitle = formData.get("ProductCollectionTitle") as string ;
+    const ProductCollectionSubtitle = formData.get("ProductCollectionSubtitle") as string ;
+    const ProductCollectionBannerFile = formData.get("ProductCollectionBannerFile") as File ;
+    const ProductPromotionTitle = formData.get("ProductPromotionTitle") as string ;
+    const ProductPromotionSubtitle = formData.get("ProductPromotionSubtitle") as string ;
+    const ProductPromotionBannerFile = formData.get("ProductPromotionBannerFile") as File ;
 
 
-    if (!wbtitle||!pctitle||!cptitle ||!wbbannerFile||!pcbannerFile||!cpbannerFile) {
+    if (!BestProductTitle||!ProductCollectionTitle||!ProductPromotionTitle ||!BestProductBannerFile||!ProductCollectionBannerFile||!ProductPromotionBannerFile) {
       return NextResponse.json({ message: 'title and image are required' }, { status: 400 });
     }
 
@@ -49,9 +49,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'A CustomizeProduct already exists' }, { status: 400 });
     }
 
-     let wbbanner = '';
-         let pcbanner = '';
-         let cpbanner = '';
+     let BestProductBanner = '';
+         let ProductCollectionBanner = '';
+         let ProductPromotionBanner = '';
      
          // Helper function for Cloudinary upload
          const uploadToCloudinary = async (file: File, folder: string, format: string): Promise<UploadResult> => {
@@ -73,32 +73,32 @@ export async function POST(req: NextRequest) {
            });
          };
      
-         if (wbbannerFile) {
-          console.log(wbbannerFile)
-           const result = await uploadToCloudinary(wbbannerFile, 'banner', 'webp');
-           wbbanner = result.secure_url;
+         if (BestProductBannerFile) {
+          console.log(BestProductBannerFile)
+           const result = await uploadToCloudinary(BestProductBannerFile, 'banner', 'webp');
+           BestProductBanner = result.secure_url;
          }
      
-         if (cpbannerFile) {
-           const result = await uploadToCloudinary(cpbannerFile, 'banner', 'webp');
-           cpbanner = result.secure_url;
+         if ( ProductPromotionBannerFile) {
+           const result = await uploadToCloudinary(ProductPromotionBannerFile, 'banner', 'webp');
+           ProductPromotionBanner = result.secure_url;
          }
      
-         if (pcbannerFile) {
-           const result = await uploadToCloudinary(pcbannerFile, 'banner', 'webp');
-           pcbanner = result.secure_url;
+         if (ProductCollectionBannerFile) {
+           const result = await uploadToCloudinary(ProductCollectionBannerFile, 'banner', 'webp');
+           ProductCollectionBanner = result.secure_url;
          }
 
     const newCustomizeProduct= new CustomizeProduct({
-      wbtitle,
-      wbsubtitle,
-      wbbanner,
-      pctitle,
-      pcsubtitle,
-      pcbanner,
-      cptitle,
-      cpsubtitle,
-      cpbanner,
+      BestProductTitle,
+      BestProductSubtitle,
+      BestProductBanner,
+      ProductCollectionTitle,
+      ProductCollectionSubtitle,
+      ProductCollectionBanner,
+      ProductPromotionTitle,
+      ProductPromotionSubtitle,
+      ProductPromotionBanner,
       user,
     });
 

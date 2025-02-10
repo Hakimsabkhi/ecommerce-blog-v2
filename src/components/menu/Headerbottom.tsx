@@ -1,12 +1,12 @@
 import React from "react";
 import Headerbottonright from "./Headerbottonright";
 import Headerbottomleft from "./Headerbottomleft";
-import { getcategoryData } from "@/lib/StaticDataHomePage";
+import { getApprovedCategoriesData } from "@/lib/StaticDataHomePage";
 
 
 const Headerbottom: React.FC = async () => {
   
-const categorydata= await getcategoryData()
+const categorydata= await getApprovedCategoriesData()
 
     const categorys = JSON.parse(categorydata)
   return (

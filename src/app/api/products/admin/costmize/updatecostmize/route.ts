@@ -48,27 +48,32 @@ export async function PUT(req: NextRequest) {
         { status: 404 }
       );
     }
+    const BestProductTitle = formData.get("BestProductTitle") as string ;
+    const BestProductSubtitle = formData.get("BestProductSubtitle") as string ;
+    const BestProductBannerFile = formData.get("BestProductBannerFile") as File ;
+    const ProductCollectionTitle = formData.get("ProductCollectionTitle") as string ;
+    const ProductCollectionSubtitle = formData.get("ProductCollectionSubtitle") as string ;
+    const ProductCollectionBannerFile = formData.get("ProductCollectionBannerFile") as File ;
+    const ProductPromotionTitle = formData.get("ProductPromotionTitle") as string ;
+    const ProductPromotionSubtitle = formData.get("ProductPromotionSubtitle") as string ;
+    const ProductPromotionBannerFile = formData.get("ProductPromotionBannerFile") as File ;
+    
+   
 
-    const wbtitle = formData.get("wbtitle") as string ;
-    const wbsubtitle = formData.get("wbsubtitle") as string ;
-    const wbbannerFile = formData.get("wbbanners") as File ;
-    const pctitle = formData.get("pctitle") as string ;
-    const pcsubtitle = formData.get("pcsubtitle") as string ;
-    const pcbannerFile = formData.get("pcbanners") as File ;
-    const cptitle = formData.get("cptitle") as string ;
-    const cpsubtitle = formData.get("cpsubtitle") as string ;
-    const cpbannerFile = formData.get("cpbanners") as File ;
+
+ 
+
 
     // Update company with new values if provided
-    if (wbtitle !== null) existingCustomizeProduct.wbtitle = wbtitle;
-    if (wbsubtitle !== null) existingCustomizeProduct.wbsubtitle = wbsubtitle;
-    if (pctitle !== null) existingCustomizeProduct.pctitle = pctitle;
-    if (pcsubtitle !== null) existingCustomizeProduct.pcsubtitle = pcsubtitle;
-    if (cptitle !== null) existingCustomizeProduct.cptitle = cptitle;
-    if (cpsubtitle !== null) existingCustomizeProduct.cpsubtitle = cpsubtitle;
-         let wbbanner = existingCustomizeProduct.wbbanner;
-        let cpbanner = existingCustomizeProduct.cpbanner;
-        let pcbanner = existingCustomizeProduct.pcbanner;
+    if (BestProductTitle !== null) existingCustomizeProduct.BestProductTitle = BestProductTitle;
+    if (BestProductSubtitle !== null) existingCustomizeProduct.BestProductSubtitle = BestProductSubtitle;
+    if (ProductCollectionTitle !== null) existingCustomizeProduct.ProductCollectionTitle = ProductCollectionTitle;
+    if (ProductCollectionSubtitle !== null) existingCustomizeProduct.ProductCollectionSubtitle = ProductCollectionSubtitle;
+    if (ProductPromotionTitle !== null) existingCustomizeProduct.ProductPromotionTitle = ProductPromotionTitle;
+    if (ProductPromotionSubtitle !== null) existingCustomizeProduct.ProductPromotionSubtitle = ProductPromotionSubtitle;
+         let BestProductBanner = existingCustomizeProduct.BestProductBanner;
+        let ProductPromotionBanner = existingCustomizeProduct.ProductPromotionBanner;
+        let ProductCollectionBanner = existingCustomizeProduct.ProductCollectionBanner;
 
         // Reusable function for Cloudinary upload
         const uploadToCloudinary = async (file: File, folder: string, format: string): Promise<string> => {
@@ -90,31 +95,31 @@ export async function PUT(req: NextRequest) {
           return result.secure_url;
         };
     
-        if (wbbannerFile) {
-          if (existingCustomizeProduct.wbbanner) {
-            const publicId = extractPublicId(existingCustomizeProduct.wbbanner);
+        if (BestProductBannerFile) {
+          if (existingCustomizeProduct.BestProductBanner) {
+            const publicId = extractPublicId(existingCustomizeProduct.BestProductBanner);
             if (publicId) await cloudinary.uploader.destroy(publicId);
           }
-          wbbanner = await uploadToCloudinary(wbbannerFile, "banner", "webp");
-          existingCustomizeProduct.wbbanner=wbbanner;
+          BestProductBanner = await uploadToCloudinary(BestProductBannerFile, "banner", "webp");
+          existingCustomizeProduct.BestProductBanner=BestProductBanner;
         }
     
-        if (cpbannerFile) {
-          if (existingCustomizeProduct.cpbanner) {
-            const publicId = extractPublicId(existingCustomizeProduct.cpbanner);
+        if (ProductPromotionBannerFile) {
+          if (existingCustomizeProduct.ProductPromotionBanner) {
+            const publicId = extractPublicId(existingCustomizeProduct.ProductPromotionBanner);
             if (publicId) await cloudinary.uploader.destroy(publicId);
           }
-          cpbanner = await uploadToCloudinary(cpbannerFile, "banner", "webp");
-          existingCustomizeProduct.cpbanner=cpbanner;
+          ProductPromotionBanner = await uploadToCloudinary(ProductPromotionBannerFile, "banner", "webp");
+          existingCustomizeProduct.ProductPromotionBanner=ProductPromotionBanner;
         }
     
-        if (pcbannerFile) {
-          if (existingCustomizeProduct.pcbanner) {
-            const publicId = extractPublicId(existingCustomizeProduct.pcbanner);
+        if (ProductCollectionBannerFile) {
+          if (existingCustomizeProduct.ProductCollectionBanner) {
+            const publicId = extractPublicId(existingCustomizeProduct.ProductCollectionBanner);
             if (publicId) await cloudinary.uploader.destroy(publicId);
           }
-          pcbanner = await uploadToCloudinary(pcbannerFile, "banner", "webp");
-          existingCustomizeProduct.pcbanner=pcbanner;
+          ProductCollectionBanner = await uploadToCloudinary(ProductCollectionBannerFile, "banner", "webp");
+          existingCustomizeProduct.ProductCollectionBanner=ProductCollectionBanner;
         }
     
     

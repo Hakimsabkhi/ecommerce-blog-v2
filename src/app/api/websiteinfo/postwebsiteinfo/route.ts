@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
     const address = formData.get('address') as string | null;
     const city = formData.get('city') as string | null;
     const governorate = formData.get('governorate') as string | null;
+    const titlehome = formData.get('titlehome') as string | null;
     const zipcode = formData.get('zipcode') as string | null;
     const phone = formData.get('phone') as string | null;
     const email = formData.get('email') as string | null;
@@ -44,8 +45,8 @@ export async function POST(req: NextRequest) {
     const bannerFile = formData.get('banner') as File | null;
     const bannerFileContacts = formData.get('bannercontacts') as File | null;
 
-    if (!name || !address || !city || !governorate || !zipcode || !phone || !email) {
-      return NextResponse.json({ message: 'Name, Address, City, Governorate, Zipcode, Phone, and Email are required' }, { status: 400 });
+    if (!name || !address || !city || !governorate || !zipcode || !phone || !email||!titlehome) {
+      return NextResponse.json({ message: 'Name, Address, City, Governorate, Zipcode, Phone,titlehome and Email are required' }, { status: 400 });
     }
 
     const existingCompany = await Websiteinfo.find({});
@@ -99,6 +100,7 @@ export async function POST(req: NextRequest) {
       zipcode,
       email,
       logoUrl,
+      titlehome,
       imageUrl,
       bannercontacts: bannerContactsUrl,
       phone,

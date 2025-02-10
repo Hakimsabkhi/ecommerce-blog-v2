@@ -1,6 +1,6 @@
 import React from 'react';
 import Products from '@/components/Products';
-import Chairsbanner from '@/components/Chairsbanner';
+import CategoryBanner from '@/components/CategoryBanner';
 import { notFound } from 'next/navigation';
 import { searchcategory } from '@/lib/StaticCatgoryproduct';
 
@@ -30,7 +30,7 @@ async function CategoryPage({ params }:{ params:Promise< { slugCategory: string 
   return (
     <div>
       {/* Banner showcasing category details */}
-      <Chairsbanner category={category} />
+      <CategoryBanner category={category} />
       {/* Products listing */}
       <Products params={resolvedParams} />
     </div>
