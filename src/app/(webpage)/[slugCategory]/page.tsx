@@ -1,6 +1,6 @@
 import React from 'react';
 import Products from '@/components/Products';
-import CategoryBanner from '@/components/CategoryBanner';
+import CategoryBanner from '@/components/client/Banner/CategoryBanner';
 import { notFound } from 'next/navigation';
 import { searchcategory } from '@/lib/StaticCatgoryproduct';
 

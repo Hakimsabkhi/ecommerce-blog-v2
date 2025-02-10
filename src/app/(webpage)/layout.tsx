@@ -1,7 +1,7 @@
 
 import "@/app/globals.css";
-import Footer from "@/components/menu/Footer";
-import Header from "@/components/menu/Header";
+import Footer from "@/components/client/menu/Footer";
+import Header from "@/components/client/menu/Header";
 import StoreProviders from "@/components/Provider/StoreProvider";
 
 

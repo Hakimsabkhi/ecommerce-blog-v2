@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import FirstBlock from '@/components/Products/Admin/NotApproved/SingleProduct/FirstBlock';
-import SecondBlock from '@/components/Products/SingleProduct/SecondBlock';
+import FirstBlock from '@/components/admin/Products/Admin/NotApproved/SingleProduct/FirstBlock';
+import SecondBlock from '@/components/admin/Products/Admin/NotApproved/SingleProduct/SecondBlock';
 
 interface ProductData {
   _id: string;

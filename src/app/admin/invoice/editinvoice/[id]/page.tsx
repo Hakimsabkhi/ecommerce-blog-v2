@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import InvoiceTable from "@/components/invoice/InvoiceTable";
-import InvoiceAddress from "@/components/invoice/InvoiceAddress";
-import Invoiceitemproduct from "@/components/invoice/Invoiceitemproduct";
-import InvoiceCustomerinfo from "@/components/invoice/InvoiceCustomerinfo";
-import InvoiceCompanyinfo from "@/components/invoice/postinvoice/InvoiceCompanyinfo";
+import InvoiceTable from "@/components/admin/invoice/InvoiceTable";
+import InvoiceAddress from "@/components/admin/invoice/InvoiceAddress";
+import Invoiceitemproduct from "@/components/admin/invoice/Invoiceitemproduct";
+import InvoiceCustomerinfo from "@/components/admin/invoice/InvoiceCustomerinfo";
+import InvoiceCompanyinfo from "@/components/admin/invoice/InvoiceCompanyinfo";
 
 // Item interface
 interface Items {

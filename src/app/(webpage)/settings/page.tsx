@@ -1,5 +1,5 @@
 
-import SettingProfile from "@/components/settingsprofile";
+import SettingProfile from "@/components/client/settingsprofile";
 
 
 const Page = () => {

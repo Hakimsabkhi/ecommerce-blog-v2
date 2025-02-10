@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import Pagination from "@/components/Pagination";
-import DeletePopup from "@/components/Popup/DeletePopup";
+import DeletePopup from "@/components/admin/Popup/DeletePopup";
 import { FaSpinner } from "react-icons/fa6";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 

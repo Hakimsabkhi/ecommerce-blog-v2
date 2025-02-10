@@ -1,6 +1,6 @@
 "use client";
 
-import DeletePopup from "@/components/Popup/DeletePopup";
+import DeletePopup from "@/components/admin/Popup/DeletePopup";
 import React, { useEffect, useMemo, useState } from "react";
 import { FaTrashAlt, FaSpinner } from "react-icons/fa";
 import { DashboardAdmin } from "@/lib/page";

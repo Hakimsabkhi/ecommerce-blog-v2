@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaRegEdit, FaSpinner, FaTrashAlt } from "react-icons/fa";
-import DeletePopup from "@/components/Popup/DeletePopup";
+import DeletePopup from "@/components/admin/Popup/DeletePopup";
 import Pagination from "@/components/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 

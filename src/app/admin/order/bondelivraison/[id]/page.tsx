@@ -1,4 +1,4 @@
-import BondeLivraison from '@/components/BondeLivraison'
+import BondeLivraison from '@/components/admin/order/BondeLivraison'
 import React from 'react'
 
  const Bondelivraison: React.FC = ()  => {

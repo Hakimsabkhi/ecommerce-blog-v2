@@ -4,13 +4,13 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartItem, removeItem, updateItemQuantity } from '@/store/cartSlice';
 import { RootState } from '@/store';
-import OrderSummary from '@/components/checkout/OrderSummary';
-import CheckoutNav from '@/components/checkout/CheckoutNav';
-import RecapProduct from '@/components/checkout/RecapProduct';
-import PaymentSummary from '@/components/checkout/PaymentSummary';
-import PaymentMethode from '@/components/checkout/PaymentMethode';
-import Addresse from '@/components/checkout/addresse';
-import DeliveryMethod from '@/components/checkout/DeliveryMethod';
+import OrderSummary from '@/components/client/checkout/OrderSummary';
+import CheckoutNav from '@/components/client/checkout/CheckoutNav';
+import RecapProduct from '@/components/client/checkout/RecapProduct';
+import PaymentSummary from '@/components/client/checkout/PaymentSummary';
+import PaymentMethode from '@/components/client/checkout/PaymentMethode';
+import Addresse from '@/components/client/checkout/addresse';
+import DeliveryMethod from '@/components/client/checkout/DeliveryMethod';
 
 const Checkout = () => {
   const items = useSelector((state: RootState) => state.cart.items);
