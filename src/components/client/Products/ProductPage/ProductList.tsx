@@ -2,7 +2,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/admin/Pagination";
 
 
 interface ProductData {

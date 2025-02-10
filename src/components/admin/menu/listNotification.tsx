@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Notification } from "./Notification";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/admin/Pagination";
 import { FaSpinner } from "react-icons/fa";
 
 interface ListNotificationProps {

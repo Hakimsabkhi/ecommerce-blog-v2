@@ -7,7 +7,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { removeFromWishlist } from "@/store/wishlistSlice";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/admin/Pagination";
 
 interface ListmywishProps {
   data: Product[];

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import DeletePopup from "../Popup/DeletePopup";
 import ConfirmPopup from "../Popup/ConfirmPopup";
 import { FaSpinner, FaTrashAlt, FaRegEye, FaRegEdit } from "react-icons/fa";
-import Pagination from "../../Pagination";
+import Pagination from "../Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 type User = {
   _id: string;
