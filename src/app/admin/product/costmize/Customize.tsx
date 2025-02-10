@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import React, {  useEffect, useState } from "react";
 
-import { Costmizepoductcomp } from "@/components/admin/costmize/Costmizepoductcomp";
+import { CustomizeProduct } from "@/components/admin/costmize/CustomizeProduct";
 
 const Costmizecatgorey = () => {
   const router = useRouter();
@@ -213,7 +213,7 @@ const formData = new FormData();
     }
   };
   return (
-    <Costmizepoductcomp name={name} handleSubmit={handleSubmit }handleUpdate={handleUpdate } formdata={formdata} handleChange={handleChange} error={error} url={url} id={id} handleImageChange={handleImageChange} imagePreview={imagePreview}/>
+    <CustomizeProduct name={name} handleSubmit={handleSubmit }handleUpdate={handleUpdate } formdata={formdata} handleChange={handleChange} error={error} url={url} id={id} handleImageChange={handleImageChange} imagePreview={imagePreview}/>
   );
 };
 

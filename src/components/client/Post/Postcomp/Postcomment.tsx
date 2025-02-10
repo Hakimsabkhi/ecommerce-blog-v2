@@ -56,11 +56,11 @@ interface comment {
   updatedAt: string;
 }
 
-interface BlogCommentProps {
+interface PostCommentsProps {
   blog: blog;
 }
 
-const BlogComment: React.FC<BlogCommentProps> = ({ blog }) => {
+const PostComments: React.FC<PostCommentsProps> = ({ blog }) => {
   const { data: session } = useSession();
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState<comment[]>([]);
@@ -209,4 +209,4 @@ const BlogComment: React.FC<BlogCommentProps> = ({ blog }) => {
   );
 };
 
-export default BlogComment;
+export default PostComments;

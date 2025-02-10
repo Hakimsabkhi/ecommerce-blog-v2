@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-interface CostmizepoductcompParam {
+interface CustomizeProductParam {
   name: string;
   handleSubmit: (e: React.FormEvent) => void;
   handleUpdate: (e: React.FormEvent) => void;
@@ -30,7 +30,7 @@ interface CostmizepoductcompParam {
   id: string;
 }
 
-export const Costmizepoductcomp: React.FC<CostmizepoductcompParam> = ({
+export const CustomizeProduct: React.FC<CustomizeProductParam> = ({
   name,
   handleSubmit,
   handleUpdate,

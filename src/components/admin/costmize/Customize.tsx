@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-interface CostmizecompParam {
+interface CustomizeParam {
     name:string;
   handleSubmit: (e: React.FormEvent) => void;
   handleUpdate: (e: React.FormEvent) => void;
@@ -12,7 +12,7 @@ interface CostmizecompParam {
   id:string;
 }
 
-export const Costmizecomp: React.FC<CostmizecompParam> = ({ name,handleSubmit,handleUpdate, formdata, handleChange, error,url,id }) => {
+export const Customize: React.FC<CustomizeParam> = ({ name,handleSubmit,handleUpdate, formdata, handleChange, error,url,id }) => {
 
   return (
     <div>    <div className="flex flex-col gap-8  mx-auto w-[90%] py-8 ">

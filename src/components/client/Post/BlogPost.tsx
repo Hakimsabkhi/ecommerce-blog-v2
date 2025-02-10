@@ -3,7 +3,7 @@ import React from 'react';
 
 
 import Blogcomp from './Postcomp/Postcomp';
-import Blogcomment from './Postcomp/Postcomment';
+import PostComments from './Postcomp/Postcomment';
 import Blogright from './Postcomp/Postright';
 
 interface Postsecondsubsection {
@@ -57,7 +57,7 @@ const BlogPost: React.FC<blogprops> = ({ blog }) => {
         <div className="desktop flex py-8 max-lg:py-20 gap-10 ">
             <div className='w-[900px] max-lg:w-full flex flex-col gap-16'>
               <Blogcomp blog={blog}/>
-              <Blogcomment blog={blog}/>
+              <PostComments blog={blog}/>
             </div>
             <Blogright/>
         </div>

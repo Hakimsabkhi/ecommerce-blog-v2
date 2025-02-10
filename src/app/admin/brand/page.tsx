@@ -24,7 +24,7 @@ interface User {
   username: string;
 }
 
-const AddedBrands: React.FC = () => {
+const AllBrandsAdmin: React.FC = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [filteredBrands, setFilteredBrands] = useState<Brand[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -339,4 +339,4 @@ const AddedBrands: React.FC = () => {
   );
 };
 
-export default AddedBrands;
+export default AllBrandsAdmin;
