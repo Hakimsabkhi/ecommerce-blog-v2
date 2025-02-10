@@ -9,7 +9,7 @@ export const revalidate =1000;
 // 2) Fetch sellers (best-selling products) directly from the DB
 
 
-export default async function Sellers() {
+export default async function BestProductCollection() {
   // 3) Fetch your data
   const bestsellers = await getHomepageBestsellers();
 const datatitleproduct=await getCustomProductTitle();

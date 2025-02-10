@@ -9,6 +9,7 @@ export interface IWebsiteinfo extends Document {
   zipcode:string;
   governorate:string
   logoUrl?:string;
+  titlehome:string;
   imageUrl?:string;
   bannercontacts:string;
   email:string;
@@ -33,6 +34,7 @@ const WebsiteinfoSchema: Schema = new Schema({
   linkedin:{type: String},
   instagram:{type: String},
   logoUrl: { type: String,required: true },
+  titlehome: { type: String,required: true },
   imageUrl: { type: String,required: true },
   bannercontacts:{ type: String,required: true },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

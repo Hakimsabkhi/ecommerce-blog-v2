@@ -35,7 +35,7 @@ interface Products {
 }
 
 
-const Furniture = async () => {
+const ProductInPromotionCollection = async () => {
    const rawProducts = await getApprovedProducts();
    const rawProduct=JSON.parse(rawProducts)
    const datatitleproduct=await getCustomProductTitle();
@@ -76,4 +76,4 @@ const Furniture = async () => {
   );
 };
 
-export default Furniture;
+export default ProductInPromotionCollection;

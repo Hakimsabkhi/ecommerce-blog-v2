@@ -2,7 +2,7 @@ import React from 'react';
 import { getproductpromotionData } from '@/lib/StaticCatgoryproduct';
 import ProductFilterClient from '@/components/Products/ProductPage/ProductFilterClient';
 import { getCustomProductTitle } from '@/lib/StaticDataHomePage';
-import Chairsproduct from '@/components/Chairsproduct';
+import CollectionBanner from '@/components/CollectionBanner';
 
 
 
@@ -19,7 +19,7 @@ export default async function promotionPage() {
     const products = JSON.parse(productsRe)
     const producttitle = JSON.parse(productstitledata)
     return (
-      <><Chairsproduct title={producttitle?.ProductPromotionTitle} banner={producttitle?.ProductPromotionBanner} url={"/bestcollection"} />
+      <><CollectionBanner title={producttitle?.ProductPromotionTitle} banner={producttitle?.ProductPromotionBanner} url={"/bestcollection"} />
       <ProductFilterClient
         products={products} /></>
     );

@@ -1,9 +1,9 @@
 import Banner from "@/components/Banner";
 
-import Sellers from "@/components/Sellers";
+import BestProductCollection from "@/components/BestProductCollection";
 import Brands from "@/components/Brands";
-import Collection from "@/components/Collection";  
-import Furniture from "@/components/Furniture";    
+import MainProductCollection from "@/components/MainProductCollection";  
+import ProductInPromotionCollection from "@/components/ProductInPromotionCollection";    
 import Categories from "@/components/Categorys/Categories";
 import Boutique from "@/components/Boutique";
 
@@ -12,10 +12,10 @@ export default function HomePage() {
     <>
       <Banner />
       <Categories />
-      <Collection />
+      <MainProductCollection />
       <Brands />
-      <Sellers />  
-      <Furniture />   
+      <BestProductCollection />  
+      <ProductInPromotionCollection />   
       <Boutique/>
     </>
   );

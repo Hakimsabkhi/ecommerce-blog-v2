@@ -17,7 +17,7 @@ const LogoComponentAdmin: React.FC =async () => {
       <div className="flex w-fit max-lg:w-[50%] gap-4 items-center justify-around">
         <Link href="/" aria-label="Home page " >    
           
-       <Image src={companyData.logoUrl} alt={""} width={200} height={200}/>
+       <Image src={companyData?.logoUrl} alt={""} width={200} height={200}/>
            
         </Link>       
       </div>

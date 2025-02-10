@@ -1,36 +1,32 @@
-
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 
-interface ChairsbannerProps {
-  category?: {
-    slug:string;
-    name: string;
-    bannerUrl?: string;
-  };
+interface CollectionBannerProps {
+    title:string;
+    banner:string;
+  url:string;
 }
 
-const Chairsbanner: React.FC <ChairsbannerProps>= ({ category }) => {
+const CollectionBanner: React.FC <CollectionBannerProps>= ({ title,banner ,url}) => {
 
 
 
 
   return (
-   
+    
       <div className='relative w-full'>
         <Link 
-          href={`/${category?.slug}`}
-
-          className='max-2xl:pl-40 max-sm:pl-2 text-xl md:text-4xl lg:text-7xl  text-white transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/4 absolute font-bold'>
-          { category?.name }
+ href={`${url}`}
+          className='max-2xl:pl-40 max-sm:pl-2 text-xl md:text-4xl lg:text-6xl  text-white transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/4 absolute font-bold'>
+          {title ?  title: 'Loading...'}
         </Link>
-        <div className='w-full h-full flex items-center justify-center'>        
+        <div className='w-full h-full flex items-center justify-center  '>        
               <Image
               className='object-cover w-full h-[400px]'
-              src={category?.bannerUrl || 'default'}
-              alt='category logo'
+              src={banner || 'default'}
+              alt='banner logo'
               height={400}
               width={1920}
               priority // This will preload the image
@@ -42,8 +38,8 @@ const Chairsbanner: React.FC <ChairsbannerProps>= ({ category }) => {
          
         </div>
       </div>
-   
+    
   );
 }
 
-export default Chairsbanner;
+export default CollectionBanner;

@@ -37,7 +37,7 @@ interface Products {
 
 
 
-const Collection: React.FC = async () => {
+const MainProductCollection: React.FC = async () => {
   const rawProducts = await getApprovedProducts();
   const rawProduct=JSON.parse(rawProducts)
   const datatitleproduct=await getCustomProductTitle();
@@ -79,4 +79,4 @@ const Collection: React.FC = async () => {
   );
 };
 
-export default Collection;
+export default MainProductCollection;

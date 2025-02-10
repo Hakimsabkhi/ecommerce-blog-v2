@@ -1,7 +1,7 @@
 import React from "react";
 import ProductFilterClient from "@/components/Products/ProductPage/ProductFilterClient"; // <-- Our client component
 import { getBestProducts, getCustomProductTitle } from "@/lib/StaticDataHomePage";
-import Chairsproduct from "@/components/Chairsproduct";
+import CollectionBanner from "@/components/CollectionBanner";
 
 
 
@@ -16,7 +16,7 @@ export default async function ProductsPage() {
     return (
 
       <>
-      <Chairsproduct title={producttitle?.BestProductTitle} banner={producttitle?.BestProductBanner} url={"/bestproducts"} />
+      <CollectionBanner title={producttitle?.BestProductTitle} banner={producttitle?.BestProductBanner} url={"/bestproducts"} />
       <ProductFilterClient
         products={products}
       />
