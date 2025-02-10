@@ -1,5 +1,5 @@
 "use client";
-import Blog from '@/components/PostComponents/Post';
+import Blog from '@/components/Post/Post';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';

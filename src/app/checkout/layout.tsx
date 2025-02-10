@@ -1,6 +1,6 @@
 
 import "@/app/globals.css";
-import StoreProviders from "@/components/ProviderComp/StoreProvider";
+import StoreProviders from "@/components/Provider/StoreProvider";
 
 
 const SubLayout = ({ children }: { children: React.ReactNode }) => {

@@ -7,7 +7,7 @@ import LogoComponent from "@/components/menu/LogoComponent";
 import SearchBar from "@/components/menu/SearchBar";
 import CartLogic from "@/components/menu/CartLogic";
 import Wishlist from "@/components/menu/Wishlist";
-import UserMenu from "@/components/userComp/UserMenu";
+import UserMenu from "@/components/user/UserMenu";
 
 const Header = async () => {
   // Fetch the session on the server-side

@@ -3,8 +3,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
-import Reviewsbyproduct from "@/components/ReviewComp/Reviewsbyproduct";
-import FormReply from "@/components/ReviewComp/Formreplay";
+import Reviewsbyproduct from "@/components/Review/Reviewsbyproduct";
+import FormReply from "@/components/Review/Formreplay";
 import DeletePopup from "@/components/Popup/DeletePopup";
 import LoadingSpinner from "@/components/LoadingSpinner";
 

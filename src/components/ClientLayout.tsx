@@ -3,7 +3,7 @@ import Footer from "@/components/menu/Footer";
 import Header from "./menu/LogoComponent";
 import Headertop from "./menu/Headertop";
 import HeaderBottom from "./menu/Headerbottom";
-import UserMenu from "@/components/userComp/UserMenu";
+import UserMenu from "@/components/user/UserMenu";
 import { Session } from "next-auth";
 
 interface ClientLayoutProps {

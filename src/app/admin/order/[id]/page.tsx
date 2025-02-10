@@ -1,5 +1,5 @@
 
-import Orderone from '@/components/OrderComp/orderone';
+import Orderone from '@/components/Order/orderone';
 import React from 'react';
 
 const Page = () => {

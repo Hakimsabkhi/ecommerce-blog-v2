@@ -15,7 +15,7 @@ const Headerbottonright = () => {
             <Link className="hover:text-secondary" href="/bestcollection">
             MEILLEURE COLLECTION
             </Link>
-            <Link className="hover:text-secondary" href="/stores">
+            <Link className="hover:text-secondary" href="/ourstores">
               NOS BOUTIQUES
             </Link>
             <Link className="hover:text-secondary" href="/blog">
