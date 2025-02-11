@@ -1,4 +1,4 @@
-import AddProduct from '@/components/Products/AddProduct';
+import AddProduct from '@/components/admin/Products/AddProduct';
 import React from 'react';
 
 const Page = () => {

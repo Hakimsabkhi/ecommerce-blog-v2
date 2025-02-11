@@ -1,4 +1,4 @@
-import AddCategory from '@/components/Categorys/AddCategory';
+import AddCategory from '@/components/admin/Categorys/AddCategory';
 import React from 'react';
 
 const Page = () => {

@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
-import DeletePopup from "@/components/Popup/DeletePopup";
-import Pagination from "@/components/Pagination";
+import DeletePopup from "@/components/admin/Popup/DeletePopup";
+import Pagination from "@/components/admin/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 import { toast } from "react-toastify";
 import {  FaRegEye, FaSpinner } from "react-icons/fa6";

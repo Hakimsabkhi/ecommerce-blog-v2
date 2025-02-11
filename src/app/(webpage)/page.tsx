@@ -1,11 +1,11 @@
-import Banner from "@/components/Banner";
+import Banner from "@/components/client/homepage/Banner";
 
-import BestProductCollection from "@/components/BestProductCollection";
-import Brands from "@/components/Brands";
-import MainProductCollection from "@/components/MainProductCollection";  
-import ProductInPromotionCollection from "@/components/ProductInPromotionCollection";    
-import Categories from "@/components/Categorys/Categories";
-import Boutique from "@/components/Boutique";
+import BestProductCollection from "@/components/client/homepage/BestProductCollection";
+import Brands from "@/components/client/homepage/Brands";
+import MainProductCollection from "@/components/client/homepage/MainProductCollection";  
+import ProductInPromotionCollection from "@/components/client/homepage/ProductInPromotionCollection";    
+import Categories from "@/components/client/homepage/Categories";
+import Stores from "@/components/client/homepage/Stores";
 
 export default function HomePage() {
   return (
@@ -16,7 +16,7 @@ export default function HomePage() {
       <Brands />
       <BestProductCollection />  
       <ProductInPromotionCollection />   
-      <Boutique/>
+      <Stores/>
     </>
   );
 }

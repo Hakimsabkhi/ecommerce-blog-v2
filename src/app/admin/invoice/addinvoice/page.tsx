@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import InvoiceTable from "@/components/invoice/postinvoice/InvoiceTable";
-import Invoiceitemproduct from "@/components/invoice/postinvoice/Invoiceitemproduct";
-import InvoiceCompanyinfo from "@/components/invoice/postinvoice/InvoiceCompanyinfo";
+import InvoiceTable from "@/components/admin/invoice/postinvoice/InvoiceTable";
+import Invoiceitemproduct from "@/components/admin/invoice/postinvoice/Invoiceitemproduct";
+import InvoiceCompanyinfo from "@/components/admin/invoice/InvoiceCompanyinfo";
 
 
 // Item interface

@@ -1,9 +1,9 @@
 "use client";
 import { FaSpinner, FaTrashAlt } from "react-icons/fa";
 import { useEffect, useMemo, useState, useCallback } from "react";
-import DeletePopup from "@/components/Popup/DeletePopup";
+import DeletePopup from "@/components/admin/Popup/DeletePopup";
 import { toast } from "react-toastify";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/admin/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 import { useSession } from "next-auth/react";
 

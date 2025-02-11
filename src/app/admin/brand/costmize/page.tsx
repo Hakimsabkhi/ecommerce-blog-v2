@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import React, {  useEffect, useState } from "react";
 
-import { Costmizecomp } from "@/components/costmize/Costmizecomp";
+import { Customize } from "@/components/admin/costmize/Customize";
 
 const CostmizeBrand = () => {
   const router = useRouter();
@@ -113,7 +113,7 @@ if (!formdata.title || !formdata.subtitle) {
     }
   };
   return (
-    <Costmizecomp name={name} handleSubmit={handleSubmit} handleUpdate={handleUpdate} formdata={formdata} handleChange={handleChange} error={error} url={url} id={id}/>
+    <Customize name={name} handleSubmit={handleSubmit} handleUpdate={handleUpdate} formdata={formdata} handleChange={handleChange} error={error} url={url} id={id}/>
   );
 };
 

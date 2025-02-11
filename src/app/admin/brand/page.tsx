@@ -4,8 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaRegEdit, FaSpinner, FaTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-import DeletePopup from "@/components/Popup/DeletePopup";
-import Pagination from "@/components/Pagination";
+import DeletePopup from "@/components/admin/Popup/DeletePopup";
+import Pagination from "@/components/admin/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 
 type Brand = {
@@ -24,7 +24,7 @@ interface User {
   username: string;
 }
 
-const AddedBrands: React.FC = () => {
+const AllBrandsAdmin: React.FC = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [filteredBrands, setFilteredBrands] = useState<Brand[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -339,4 +339,4 @@ const AddedBrands: React.FC = () => {
   );
 };
 
-export default AddedBrands;
+export default AllBrandsAdmin;

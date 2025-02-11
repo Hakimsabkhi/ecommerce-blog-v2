@@ -1,4 +1,4 @@
-import Blog from '@/components/fPostadmin/Post';
+import Blog from '@/components/client/Post/Post';
 import { fetchBlogData } from '@/lib/StaticDataBlog';
 import React from 'react';
 

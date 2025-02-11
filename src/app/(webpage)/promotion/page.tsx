@@ -1,8 +1,8 @@
 import React from 'react';
 import { getproductpromotionData } from '@/lib/StaticCatgoryproduct';
-import ProductFilterClient from '@/components/Products/ProductPage/ProductFilterClient';
+import ProductFilterClient from '@/components/client/Products/ProductPage/ProductFilterClient';
 import { getCustomProductTitle } from '@/lib/StaticDataHomePage';
-import CollectionBanner from '@/components/CollectionBanner';
+import CollectionBanner from '@/components/client/Banner/CollectionBanner';
 
 
 

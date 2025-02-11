@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import ModifyProduct from '@/components/Products/ModifyProduct';
+import ModifyProduct from '@/components/admin/Products/ModifyProduct';
 import { useParams } from 'next/navigation';
 
 // Define the ProductData type
