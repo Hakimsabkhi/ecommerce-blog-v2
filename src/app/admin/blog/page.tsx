@@ -305,7 +305,7 @@ const BlogTable: React.FC = () => {
                       {blog.postcategory && (
                         <Link
                           href={`/${
-                            blog.vadmin === "approve" ? `blog/${blog.postcategory.slug}/${blog.slug}` : `admin/blog/${blog.slug}`
+                            blog.vadmin === "approve" ? `blog/${blog.postcategory.slug}/${blog.slug}` : `admin/blog/${blog.postcategory.slug}/${blog.slug}`
                           }`}
                         >
                           <button className="bg-gray-800 text-white pl-3 w-10 h-10 hover:bg-gray-600 rounded-md">

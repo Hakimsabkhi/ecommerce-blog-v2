@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import FirstBlock from '@/components/Admin/Products/Admin/NotApproved/SingleProduct/FirstBlock';
 import SecondBlock from '@/components/Admin/Products/Admin/NotApproved/SingleProduct/SecondBlock';
+import { FaSpinner } from 'react-icons/fa6';
 
 interface ProductData {
   _id: string;
@@ -43,7 +44,7 @@ interface Brand {
 export default function ProductPage() {
   const { slugCategory, slugProduct } = useParams();
   const [product, setProduct] = useState<ProductData | null>(null);
-
+ const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -71,20 +72,26 @@ export default function ProductPage() {
         setProduct(data);
       } catch (error) {
         console.error('Error fetching product data:', error);
-      }
+      }finally{
+        setLoading(false);
+            }
     };
 
     fetchProduct();
   }, [slugCategory, slugProduct]);
 
-  if (!product) {
-    return <div>Product not found or loading...</div>;
-  }
-
+  
   return (
+    <>
+    {loading? (
+              <div className="flex justify-center items-center h-full w-full py-6 pt-50">
+                                  <FaSpinner className="animate-spin text-[30px]" />
+                                </div> // or another appropriate fallback UI
+            ):(
     <div>
       <FirstBlock product={product} />
       <SecondBlock product={product} />
-    </div>
+    </div>)}
+    </>
   );
 }

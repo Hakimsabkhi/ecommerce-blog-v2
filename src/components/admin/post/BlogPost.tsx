@@ -3,8 +3,6 @@ import React from 'react';
 
 
 import Blogcomp from './Postcomp';
-
-
 interface Postsecondsubsection {
   secondtitle: string;
   description: string;
@@ -50,7 +48,7 @@ interface  User{
     blog:blog
   }
   
-const BlogPost: React.FC<blogprops> = ({ blog }) => {
+const BlogPost: React.FC<blogprops> = ({blog}) => {
     return (
         /* whole page */
         <div className="desktop flex py-8 max-lg:py-20 gap-10 ">
