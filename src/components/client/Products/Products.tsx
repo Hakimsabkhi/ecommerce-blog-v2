@@ -1,6 +1,6 @@
 import React from "react";
 import ProductFilterClient from "@/components/Client/Products/ProductPage/ProductFilterClient"; // <-- Our client component
-import { getproductbycatgory } from "@/lib/StaticCatgoryproduct";
+import { getproductbycatgory } from "@/lib/StaticCatgoryProduct";
 
 
 interface ProductsPageProps {

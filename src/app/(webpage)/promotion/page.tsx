@@ -1,5 +1,5 @@
 import React from 'react';
-import { getproductpromotionData } from '@/lib/StaticCatgoryproduct';
+import { getproductpromotionData } from '@/lib/StaticCatgoryProduct';
 import ProductFilterClient from '@/components/Client/Products/ProductPage/ProductFilterClient';
 import { getCustomProductTitle } from '@/lib/StaticDataHomePage';
 import CollectionBanner from '@/components/Client/Banner/CollectionBanner';
