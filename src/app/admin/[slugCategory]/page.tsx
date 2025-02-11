@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import Products from '@/components/admin/Products/approve/Products';
-import Banner from '@/components/admin/Products/approve/Banner';
+import Products from '@/components/Admin/Products/approve/Products';
+import Banner from '@/components/Admin/Products/approve/Banner';
 
 interface ProductData {
   _id: string;

@@ -1,5 +1,5 @@
-import Blog from '@/components/client/Post/Post';
-import Blogbanner from '@/components/client/Post/blogbanner';
+import Blog from '@/components/Client/Post/Post';
+import Blogbanner from '@/components/Client/Post/blogbanner';
 import { getBlogs } from '@/lib/StaticDataBlog';
 
 

@@ -1,4 +1,4 @@
-import BlogPost from '@/components/client/Post/BlogPost';
+import BlogPost from '@/components/Client/Post/BlogPost';
 import { fetchDatapostid } from '@/lib/StaticDataBlog';
 import { notFound } from 'next/navigation';
 import React from 'react';

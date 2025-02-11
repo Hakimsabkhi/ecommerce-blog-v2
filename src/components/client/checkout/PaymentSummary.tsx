@@ -1,4 +1,4 @@
-import PaypalButton from '@/components/client/checkout/PaypalButton';
+import PaypalButton from '@/components/Client/checkout/PaypalButton';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';

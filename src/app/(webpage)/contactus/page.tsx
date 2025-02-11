@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'; // Ensure the page is dynamically rendered
 
-import Contactusbanner from '@/components/client/Banner/contactusbanner';
-import Milanotorino from '@/components/client/contact/milanotorino';
+import Contactusbanner from '@/components/Client/Banner/contactusbanner';
+import Milanotorino from '@/components/Client/contact/milanotorino';
 import { getWebsiteInfoJSON } from '@/lib/StaticDataHomePage';
 import React from 'react';
 

@@ -1,6 +1,6 @@
 // ProductPage/ProductList.tsx
 import React from "react";
-import ProductCard from "@/components/admin/Categorys/NotApproved/ProductCard";
+import ProductCard from "@/components/Admin/Categorys/NotApproved/ProductCard";
 
 
 interface ProductData {

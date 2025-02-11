@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaSpinner, FaTrashAlt, FaRegEye, FaRegEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
-import DeletePopup from "@/components/admin/Popup/DeletePopup";
-import Pagination from "@/components/admin/Pagination";
+import DeletePopup from "@/components/Admin/Popup/DeletePopup";
+import Pagination from "@/components/Admin/Pagination";
 import Image from "next/image";
 import useIs2xl from "@/hooks/useIs2x";
 

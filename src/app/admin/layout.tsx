@@ -1,5 +1,5 @@
-import NavAdmin from "@/components/admin/menu/NavAdmin";
-import HeaderAdmin from "@/components/admin/menu/HeaderAdmin";
+import NavAdmin from "@/components/Admin/menu/NavAdmin";
+import HeaderAdmin from "@/components/Admin/menu/HeaderAdmin";
 import "@/app/globals.css";
 import { ToastContainer } from "react-toastify";
 

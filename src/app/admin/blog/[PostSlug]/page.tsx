@@ -1,4 +1,4 @@
-import BlogPost from '@/components/admin/post/BlogPost';
+import BlogPost from '@/components/Admin/post/BlogPost';
 import { notFound } from 'next/navigation';
 import React from 'react';
 

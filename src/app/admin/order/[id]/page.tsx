@@ -1,5 +1,5 @@
 
-import Orderone from '@/components/admin/order/orderone';
+import Orderone from '@/components/Admin/order/orderone';
 import React from 'react';
 
 const Page = () => {

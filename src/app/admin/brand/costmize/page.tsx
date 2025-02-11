@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import React, {  useEffect, useState } from "react";
 
-import Customize  from "@/components/admin/costmize/Customize";
+import Customize  from "@/components/Admin/costmize/Customize";
 
 const CostmizeBrand = () => {
   const router = useRouter();

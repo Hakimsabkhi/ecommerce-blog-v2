@@ -1,5 +1,5 @@
 "use client"
-import Pagination from '@/components/admin/Pagination';
+import Pagination from '@/components/Admin/Pagination';
 import useIs2xl from '@/hooks/useIs2x';
 import Image from 'next/image';
 import Link from 'next/link';

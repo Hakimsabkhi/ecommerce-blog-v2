@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import React, {  useEffect, useState } from "react";
 
-import { CustomizeProduct } from "@/components/admin/costmize/CustomizeProduct";
+import { CustomizeProduct } from "@/components/Admin/costmize/CustomizeProduct";
 
 const Costmizecatgorey = () => {
   const router = useRouter();

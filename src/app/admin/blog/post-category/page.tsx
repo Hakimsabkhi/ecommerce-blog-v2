@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import Pagination from "@/components/admin/Pagination";
-import DeletePopup from "@/components/admin/Popup/DeletePopup";
+import Pagination from "@/components/Admin/Pagination";
+import DeletePopup from "@/components/Admin/Popup/DeletePopup";
 import { FaSpinner } from "react-icons/fa6";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 

@@ -5,7 +5,7 @@ import React, { Key, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import LoadingSpinner from "@/components/admin/LoadingSpinner";
+import LoadingSpinner from "@/components/Admin/LoadingSpinner";
 import NumberToLetter  from "@/lib/ConvertNtoW"
 
 

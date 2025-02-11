@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { AiOutlineUser } from "react-icons/ai";
-import Dropdown from "@/components/admin/user/Dropdownadmin";
+import Dropdown from "@/components/Admin/user/Dropdownadmin";
 import { usePathname } from "next/navigation";
 import { Session } from "next-auth";
 
