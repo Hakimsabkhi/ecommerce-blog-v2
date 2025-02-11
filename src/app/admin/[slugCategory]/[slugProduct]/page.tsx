@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import FirstBlock from '@/components/Admin/Products/Admin/NotApproved/SingleProduct/FirstBlock';
-import SecondBlock from '@/components/Admin/Products/Admin/NotApproved/SingleProduct/SecondBlock';
+import FirstBlock from '@/components/Admin/Products/NotApproved/SingleProduct/FirstBlock';
+import SecondBlock from '@/components/Admin/Products/NotApproved/SingleProduct/SecondBlock';
 import { FaSpinner } from 'react-icons/fa6';
 
 interface ProductData {

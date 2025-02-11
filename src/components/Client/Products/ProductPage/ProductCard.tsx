@@ -47,7 +47,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
   const dispatch = useDispatch();
-  const Reviews = dynamic(() => import("@/components/Client/Products/ProductPage/Reviews"), {
+  const Reviews = dynamic(() => import("@/components/Client/Products/ProductPage/ReviewClient"), {
     loading: () => <p>Loading reviews...</p>,
   });
   const addToCartHandler = (product: ProductData, quantity: number) => {

@@ -30,7 +30,7 @@ const fetchReviews = async (productId: string): Promise<Review[]> => {
   return response.json();
 };
 
-const Reviews: React.FC<ReviewsProps> = ({ productId, summary = false }) => {
+const ReviewClient: React.FC<ReviewsProps> = ({ productId, summary = false }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -135,4 +135,4 @@ const Reviews: React.FC<ReviewsProps> = ({ productId, summary = false }) => {
   );
 };
 
-export default Reviews;
+export default ReviewClient;
