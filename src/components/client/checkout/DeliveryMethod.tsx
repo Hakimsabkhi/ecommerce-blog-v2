@@ -48,7 +48,7 @@ const DeliveryMethod: React.FC<MethodeDeLivraisonProps> = ({ selectedMethod, onM
               </div>
               <div className="ms-4 text-sm">
                 <span className="font-medium text-gray-900 dark:text-white">{method.label}</span>
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{method.description}</p>
+                <span className="mt-1 text-xs text-gray-500 dark:text-gray-400">{method.description}</span>
               </div>
             </div>
           </label>
