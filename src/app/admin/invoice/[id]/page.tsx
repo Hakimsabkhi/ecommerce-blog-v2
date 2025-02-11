@@ -256,13 +256,13 @@ const InvoiceEdit = () => {
                 {invoice?.ref}
               </span>
 
-              
-              <p className="mt-4 not-italic text-gray-800 dark:text-neutral-200 border p-2 rounded-md">
+           <p className="mt-4 not-italic text-gray-800  border p-2 rounded-md dark:text-neutral-200 ">
             {webinfo?.address} {webinfo?.city}<br/>
             {webinfo?.governorate} {webinfo?.zipcode}<br/>
             {webinfo?.phone}<br/>
     
               </p>
+              
             </div>
           </div>
 
