@@ -83,7 +83,7 @@ const AddCategory = () => {
     formData.append("banner", banner); // Added banner field
 
     try {
-      const response = await fetch("/api/category/postCategory", {
+      const response = await fetch("/api/category/admin/postCategory", {
         method: "POST",
         body: formData,
       });
