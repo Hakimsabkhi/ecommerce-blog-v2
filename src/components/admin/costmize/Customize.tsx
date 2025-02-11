@@ -12,7 +12,7 @@ interface CustomizeParam {
   id:string;
 }
 
-export const Customize: React.FC<CustomizeParam> = ({ name,handleSubmit,handleUpdate, formdata, handleChange, error,url,id }) => {
+  const Customize: React.FC<CustomizeParam> = ({ name,handleSubmit,handleUpdate, formdata, handleChange, error,url,id }) => {
 
   return (
     <div>    <div className="flex flex-col gap-8  mx-auto w-[90%] py-8 ">
@@ -68,3 +68,4 @@ export const Customize: React.FC<CustomizeParam> = ({ name,handleSubmit,handleUp
   </div></div>
   )
 }
+export default Customize;
