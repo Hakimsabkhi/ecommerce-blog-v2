@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react'
-import PostCategory from './PostCategory';
+import PostCategory from '@/components/Client/Post/Postcomp/PostCategory';
 import { getCategorypost } from '@/lib/StaticDataBlog';
 
 export default async function Blogright ()  {

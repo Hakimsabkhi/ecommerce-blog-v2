@@ -2,9 +2,9 @@
 import React from 'react';
 
 
-import Blogcomp from './Postcomp/Postcomp';
-import PostComments from './Postcomp/Postcomment';
-import Blogright from './Postcomp/Postright';
+import Blogcomp from '@/components/Client/Post/Postcomp/Postcomp';
+import PostComments from '@/components/Client/Post/Postcomp/Postcomment';
+import Blogright from '@/components/Client/Post/Postcomp/Postright';
 
 interface Postsecondsubsection {
   secondtitle: string;

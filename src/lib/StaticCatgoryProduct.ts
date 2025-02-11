@@ -77,7 +77,6 @@ export async function getproductbycatgory(categorySlug:string){
         .populate('category', 'name slug') // Populate category with only needed fields
         .populate('brand', 'name')  // Populate brand with only needed fields
         .populate("boutique", 'nom')      // Populate boutique with only needed fields
-        .populate('user', 'name email')  // Populate user with only needed fields
         .exec();
       
     }else{
@@ -89,7 +88,6 @@ export async function getproductbycatgory(categorySlug:string){
         .populate('category', 'name slug') // Populate category with only needed fields
         .populate('brand', 'name')        // Populate brand with only needed fields
         .populate("boutique", 'nom')      // Populate boutique with only needed fields
-        .populate('user', 'name email')  // Populate user with only needed fields
         .exec();
     }
    /*  
