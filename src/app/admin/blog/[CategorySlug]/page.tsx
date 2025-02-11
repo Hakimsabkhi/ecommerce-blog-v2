@@ -1,6 +1,4 @@
 "use client";
-
-import { flag } from '@/assets/image';
 import Blog from '@/components/Admin/post/Post'
 import { notFound, useParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
