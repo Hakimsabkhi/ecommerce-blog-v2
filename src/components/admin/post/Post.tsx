@@ -31,6 +31,7 @@ const Blog: React.FC<blogprops> = ({ blogs }) => {
 
   return (
     <div className="py-8 w-[96%] mx-auto items-center flex flex-col gap-5 justify-center">
+      
       <div className="grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 w-full group gap-10     ">
         {blogs.map((item, index) => (
           <div
