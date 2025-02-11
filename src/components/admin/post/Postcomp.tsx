@@ -17,13 +17,14 @@ interface Postfirstsubsection {
 }
 
 interface blog {
+  _id:string;
   title: string;
   description: string;
-  
   Postfirstsubsections: Postfirstsubsection[];
   postcategory: postcategory;
   imageUrl?: string;
   user:User;
+  numbercomment:number;
   createdAt:string;
 }
 interface User{
@@ -33,6 +34,12 @@ interface User{
 interface postcategory {
   _id: string;
   name: string;
+}
+
+interface  User{
+  _id:string;
+  username:string;
+  email:string;
 }
 
 
@@ -46,18 +53,18 @@ const Blogcomp: React.FC<Blogcompprops> = ({ blog }) => {
     <div className="flex flex-col w-full gap-4">
       {/* Title */}
       <div className="flex flex-col gap-6">
-        <p className="text-4xl font-bold">{blog.title}</p>
+        <p className="text-4xl font-bold">{blog?.title}</p>
         <div className="flex flex-col gap-2">
           <p className="text-gray-400 text-sm">
-            Posted on {new Date(blog.createdAt).toLocaleDateString('en-US', {
+            Posted on {new Date(blog?.createdAt).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
-})} by {blog.user?.username}
+})} by {blog?.user?.username}
           </p>
           <div className="flex items-center gap-2">
             <p className="text-xs px-4 py-2 rounded-md bg-gray-600 text-white">
-            {blog.postcategory?.name}
+            {blog?.postcategory?.name}
             </p>
            
           </div>
@@ -66,17 +73,17 @@ const Blogcomp: React.FC<Blogcompprops> = ({ blog }) => {
       {/* Post */}
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-5">
-           {blog.imageUrl &&<Image
+           {blog?.imageUrl &&<Image
             src={blog.imageUrl}
             width={1000}
             height={1000}
             alt="blogpost"
             className=" h-[320px]"
           />}
-          <div className="flex flex-col gap-4">{blog.description}</div>
+          <div className="flex flex-col gap-4">{blog?.description}</div>
         </div>
-        {blog.Postfirstsubsections?.length > 0 ? (
-  blog.Postfirstsubsections.map((blogers, index) => (
+        {blog?.Postfirstsubsections?.length > 0 ? (
+  blog?.Postfirstsubsections.map((blogers, index) => (
     <div key={index} className="flex flex-col gap-6">
       <p className="text-4xl font-bold">{blogers.fisttitle}</p>
       <div className="flex flex-col gap-4">
