@@ -1,6 +1,6 @@
 import {  getApprovedStores, getWebsiteInfoJSON } from '@/lib/StaticDataHomePage';
 import React from 'react'
-import StoreBanner from '../../../components/Client/OurStores/StoreBanner';
+import StoreBanner from '@/components/Client/OurStores/StoreBanner';
   
 
 

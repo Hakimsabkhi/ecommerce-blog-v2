@@ -5,7 +5,7 @@ import Image from "next/image";
 import { RxCross1 } from "react-icons/rx";
 import { useParams, useRouter } from 'next/navigation';
 
-import LoadingSpinner from '../LoadingSpinner';
+import LoadingSpinner from '@/components/Admin/LoadingSpinner';
 // Define interfaces
 interface Address {
     _id: string;
