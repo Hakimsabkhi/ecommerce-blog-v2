@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import ProductCard from '../ProductPage/ProductCard';
+import ProductCard from '@/components/Client/Products/ProductPage/ProductCard';
 
 
 interface ProductData {

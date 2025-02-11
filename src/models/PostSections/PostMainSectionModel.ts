@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-import { IUser } from '../User';
+import { IUser } from '@/models/User';
 import {IPostCategory} from './PostCategory'
 export interface Postsecondsubsection {
     secondtitle: string;

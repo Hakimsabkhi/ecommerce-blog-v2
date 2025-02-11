@@ -166,7 +166,7 @@ function AddPost() {
     const formData = new FormData();
     formData.append('file', file);
 
-    const uploadResponse = await fetch('/api/uploadImage', {
+    const uploadResponse = await fetch('/api/image/uploadImage', {
       method: 'POST',
       body: formData,
     });

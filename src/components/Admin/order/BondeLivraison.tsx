@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image';
 import React, { Key, useEffect, useState } from 'react'
-import LoadingSpinner from '../LoadingSpinner';
+import LoadingSpinner from '@/components/Admin/LoadingSpinner';
 import { useParams } from 'next/navigation';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';

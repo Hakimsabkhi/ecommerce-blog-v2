@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document,Model} from 'mongoose';
-import { IUser } from '../User'; // Import the IUser interface
+import { IUser } from '@/models/User'; // Import the IUser interface
 export interface IPostCategory extends Document {
   name: string;
   slug: string;

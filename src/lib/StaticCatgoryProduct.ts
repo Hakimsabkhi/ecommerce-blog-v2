@@ -90,17 +90,7 @@ export async function getproductbycatgory(categorySlug:string){
         .populate("boutique", 'nom')      // Populate boutique with only needed fields
         .exec();
     }
-   /*  
-    // Check if products exist for the category
-    const productCount = await Product.countDocuments({
-      category: foundCategory?._id,
-      vadmin: 'approve',
-    });
-
-    if (productCount === 0) {
-      console.error('No products found for this category.');
-        
-    } */
+  
 
     // Fetch the products with populated references
    

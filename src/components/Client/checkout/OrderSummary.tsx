@@ -3,7 +3,7 @@
 import React, { Key, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { FiCheckCircle } from 'react-icons/fi';
-import LoadingSpinner from '../../Admin/LoadingSpinner';
+import LoadingSpinner from '@/components/Admin/LoadingSpinner';
 import { useRouter } from 'next/navigation';
 
 

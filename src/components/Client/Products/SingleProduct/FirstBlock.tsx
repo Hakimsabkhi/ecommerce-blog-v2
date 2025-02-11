@@ -5,7 +5,7 @@ import { IoCheckboxOutline } from "react-icons/io5";
 import Head from "next/head";
 import ProductQ from "./ProductQ";
 import { useDispatch} from "react-redux";
-import { addItem } from "../../../../store/cartSlice";
+import { addItem } from "@/store/cartSlice";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import { FaStarHalfAlt } from "react-icons/fa";
 

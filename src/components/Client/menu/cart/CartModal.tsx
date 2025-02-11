@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { removeItem, updateItemQuantity } from "../../../../store/cartSlice";
+import { removeItem, updateItemQuantity } from "@/store/cartSlice";
 import Pagination from "@/components/Admin/Pagination";
 
 interface CartItem {
