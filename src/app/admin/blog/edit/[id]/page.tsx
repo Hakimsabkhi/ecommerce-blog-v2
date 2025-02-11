@@ -332,7 +332,7 @@ const handleback=()=>{
 
           try {
             // Perform the API request to delete the image
-            await fetch(`/api/deleteImage`, {
+            await fetch(`/api/image/deleteImage`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ imageUrl }),
@@ -351,7 +351,7 @@ const handleback=()=>{
       // Step 1: Delete old main image if a new one is uploaded
  
       if (newImage && postData.imageUrl) {
-        await fetch(`/api/deleteImage`, {
+        await fetch(`/api/image/deleteImage`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ imageUrl: postData.imageUrl }),
@@ -363,7 +363,7 @@ const handleback=()=>{
       if (newImage) {
         const formData = new FormData();
         formData.append("file", newImage);
-        const uploadResponse = await fetch(`/api/uploadImage`, {
+        const uploadResponse = await fetch(`/api/image/uploadImage`, {
           method: "POST",
           body: formData,
         });
@@ -379,7 +379,7 @@ const handleback=()=>{
           if (subtitle.imageFile) {
             const formData = new FormData();
             formData.append("file", subtitle.imageFile);
-            const response = await fetch("/api/uploadImage", {
+            const response = await fetch("/api/image/uploadImage", {
               method: "POST",
               body: formData,
             });
@@ -396,7 +396,7 @@ const handleback=()=>{
               if (subsubtitle.imageFile) {
                 const formData = new FormData();
                 formData.append("file", subsubtitle.imageFile);
-                const response = await fetch("/api/uploadImage", {
+                const response = await fetch("/api/image/uploadImage", {
                   method: "POST",
                   body: formData,
                 });
