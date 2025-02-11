@@ -3,10 +3,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
-import Commentsbyblog from "@/components/admin/post/comments/Commentsbyblog";
-import FormReply from "@/components/admin/post/comments/Formreplay";
-import DeletePopup from "@/components/admin/Popup/DeletePopup";
-import LoadingSpinner from "@/components/admin/LoadingSpinner";
+import Commentsbyblog from "@/components/Admin/post/comments/Commentsbyblog";
+import FormReply from "@/components/Admin/post/comments/Formreplay";
+import DeletePopup from "@/components/Admin/Popup/DeletePopup";
+import LoadingSpinner from "@/components/Admin/LoadingSpinner";
 
 interface commentsData {
   _id: string;

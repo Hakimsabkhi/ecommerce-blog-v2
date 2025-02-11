@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { AiOutlineUser } from "react-icons/ai";
-import Dropdown from "@/components/client/user/Dropdown";
+import Dropdown from "@/components/Client/user/Dropdown";
 import { usePathname } from "next/navigation";
 import { Session } from "next-auth";
 

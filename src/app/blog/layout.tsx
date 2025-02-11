@@ -1,6 +1,6 @@
 
 import "@/app/globals.css";
-import Footer from "@/components/client/menu/Footer";
+import Footer from "@/components/Client/menu/Footer";
 
 
 const SubLayout = ({ children }: { children: React.ReactNode }) => {

@@ -4,8 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { toast } from "react-toastify";
-import DeletePopup from "@/components/admin/Popup/DeletePopup";
-import Pagination from "@/components/admin/Pagination";
+import DeletePopup from "@/components/Admin/Popup/DeletePopup";
+import Pagination from "@/components/Admin/Pagination";
 import useIs2xl from "@/hooks/useIs2x";
 import { FaRegEye, FaSpinner } from "react-icons/fa6";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";

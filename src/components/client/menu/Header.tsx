@@ -1,13 +1,13 @@
 
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions";
-import Headertop from "@/components/client/menu/Headertop";
-import HeaderBottom from "@/components/client/menu/Headerbottom";
-import LogoComponent from "@/components/client/menu/LogoComponent";
-import SearchBar from "@/components/client/menu/SearchBar";
-import CartLogic from "@/components/client/menu/cart/CartLogic";
-import Wishlist from "@/components/client/menu/Wishlist";
-import UserMenu from "@/components/client/user/UserMenu";
+import Headertop from "@/components/Client/menu/Headertop";
+import HeaderBottom from "@/components/Client/menu/Headerbottom";
+import LogoComponent from "@/components/Client/menu/LogoComponent";
+import SearchBar from "@/components/Client/menu/SearchBar";
+import CartLogic from "@/components/Client/menu/cart/CartLogic";
+import Wishlist from "@/components/Client/menu/Wishlist";
+import UserMenu from "@/components/Client/user/UserMenu";
 
 const Header = async () => {
   // Fetch the session on the server-side

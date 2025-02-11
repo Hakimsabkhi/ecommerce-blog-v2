@@ -6,9 +6,9 @@ import { authOptions } from "@/lib/authOptions";
 
 
 
-import Notification from "@/components/admin/menu/Notification";
+import Notification from "@/components/Admin/menu/Notification";
 import LogoComponentAdmin from "./LogoComponentAdmin";
-import UserMenuadmin from "@/components/admin/user/UserMenuadmin";
+import UserMenuadmin from "@/components/Admin/user/UserMenuadmin";
 
 const HeaderAdmin = async () => {
   // Fetch the session on the server-side

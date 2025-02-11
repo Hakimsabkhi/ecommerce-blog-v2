@@ -1,5 +1,5 @@
  "use client"
-import Listorders from '@/components/admin/order/FetchAllorders';
+import Listorders from '@/components/Admin/order/FetchAllorders';
 
 
   

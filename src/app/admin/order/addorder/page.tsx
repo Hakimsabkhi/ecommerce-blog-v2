@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import OrderTable from "@/components/admin/order/OrderTable";
-import OrderAddress from "@/components/admin/order/OrderAddress";
-import Orderitemslistproduct from "@/components/admin/order/Orderitemslistproduct";
-import Ordercustomerinfo from "@/components/admin/order/Ordercustomerinfo";
+import OrderTable from "@/components/Admin/order/OrderTable";
+import OrderAddress from "@/components/Admin/order/OrderAddress";
+import Orderitemslistproduct from "@/components/Admin/order/Orderitemslistproduct";
+import Ordercustomerinfo from "@/components/Admin/order/Ordercustomerinfo";
 
 
 // Item interface

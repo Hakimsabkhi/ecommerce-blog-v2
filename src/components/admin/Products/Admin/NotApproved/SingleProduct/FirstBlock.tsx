@@ -3,8 +3,8 @@ import React, { useState, MouseEvent } from "react";
 import Image from "next/image";
 import { IoCheckboxOutline } from "react-icons/io5";
 import Head from "next/head";
-import ProductQuantity from "@/components/admin/Products/Admin/NotApproved/SingleProduct/ProductQuantity";
-import Reviews from "@/components/admin/Products/Admin/NotApproved/SingleProduct/Reviews"; // Adjust the import path as needed
+import ProductQuantity from "@/components/Admin/Products/Admin/NotApproved/SingleProduct/ProductQuantity";
+import Reviews from "@/components/Admin/Products/Admin/NotApproved/SingleProduct/Reviews"; // Adjust the import path as needed
 
 const noimage =
   "https://res.cloudinary.com/dx499gc6x/image/upload/v1723623372/na_mma1mw.webp";

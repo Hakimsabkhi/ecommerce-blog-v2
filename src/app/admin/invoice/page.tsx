@@ -4,8 +4,8 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import useIs2xl from "@/hooks/useIs2x";
 import { FaTrashAlt, FaSpinner, FaRegEdit } from "react-icons/fa";
-import Pagination from "@/components/admin/Pagination";
-import DeletePopup from "@/components/admin/Popup/DeletePopup";
+import Pagination from "@/components/Admin/Pagination";
+import DeletePopup from "@/components/Admin/Popup/DeletePopup";
 
 type User = {
   _id: string;

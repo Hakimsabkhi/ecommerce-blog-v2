@@ -4,7 +4,7 @@ import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import Image from 'next/image';
 import { FaRegCircleXmark } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
-import Postaffiche from '@/components/admin/post/Postaffiche';
+import Postaffiche from '@/components/Admin/post/Postaffiche';
 
 
 interface Postsecondsubsection {

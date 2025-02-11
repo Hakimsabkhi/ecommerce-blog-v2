@@ -1,9 +1,9 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import FirstBlock from "@/components/client/Products/SingleProduct/FirstBlock";
-import SecondBlock from "@/components/client/Products/SingleProduct/SecondBlock";
-import ForthBlock from "@/components/client/Products/SingleProduct/ForthBlock";
-import FifthBlock from "@/components/client/Products/SingleProduct/FifthBlock";
+import FirstBlock from "@/components/Client/Products/SingleProduct/FirstBlock";
+import SecondBlock from "@/components/Client/Products/SingleProduct/SecondBlock";
+import ForthBlock from "@/components/Client/Products/SingleProduct/ForthBlock";
+import FifthBlock from "@/components/Client/Products/SingleProduct/FifthBlock";
 import { getproductbycatgory, getProductById } from "@/lib/StaticCatgoryproduct";
 
 

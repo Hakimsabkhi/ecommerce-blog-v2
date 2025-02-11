@@ -1,5 +1,5 @@
 "use client";
-import LoadingSpinner from "@/components/admin/LoadingSpinner";
+import LoadingSpinner from "@/components/Admin/LoadingSpinner";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

@@ -1,7 +1,7 @@
 export const revalidate =1000;
 
 import React from 'react';
-import ProductCard from '@/components/client/Products/ProductPage/ProductCard';
+import ProductCard from '@/components/Client/Products/ProductPage/ProductCard';
 import { getApprovedProducts, getCustomProductTitle } from '@/lib/StaticDataHomePage';
 
 interface Brand {
