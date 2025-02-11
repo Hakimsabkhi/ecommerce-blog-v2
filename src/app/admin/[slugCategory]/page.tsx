@@ -114,7 +114,7 @@ export default function CategoryPage() {
     const fetchBrandData = async () => {
       try {
         const res = await fetch(
-          `/api/brand/getAllBrand`,
+          `/api/brand/admin/getAllBrand`,
           {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
