@@ -46,13 +46,42 @@ interface User{
   username:string
   phone:number
 }
-
+interface websiteinfo {
+  name: string;
+  address:string;
+  city:string;
+  zipcode:string;
+  governorate:string
+  logoUrl:string;
+  email:string;
+  phone:number;
+}
 
 const BondeLivraioncustomer=()=>{
   const params = useParams() as { id: string }; // Explicitly type the params object
   const [order, setOrder] = useState<Order | null>(null); 
     const [loading, setLoading] = useState(true);
-    
+     const [webinfo,setwebinfo]=useState<websiteinfo>();
+      const fetchCompanyinfo =  async () => {
+        try {
+          const response = await fetch(`/api/websiteinfo/getwebsiteinfo`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Error fetching websiteinfo data');
+          }
+          
+          const data = await response.json();
+          setwebinfo(data);
+        } catch (error) {
+          console.error('Error fetching company data:', error);
+        }finally{
+          setLoading(false);
+        }
+      }
 
     useEffect(() => {
       // Fetch category data by ID
@@ -77,7 +106,7 @@ const BondeLivraioncustomer=()=>{
           console.error("Error fetching order data:", error);
         }
       };
-      
+      fetchCompanyinfo();
       fetchOrderData();
      
     }, [params.id]);
@@ -192,21 +221,21 @@ if (loading) {
 
       <div className="flex justify-between">
         <div>
-        <Image src={`https://res.cloudinary.com/dx499gc6x/image/upload/v1726668655/luxehome_o59kp7.webp`} alt='logo' width={200} height={200} className='bg-primary'/>
-          <h1 className="mt-2 text-lg md:text-xl font-semibold text-primary dark:text-white">LuxeHome Inc.</h1>
+        <Image   src={webinfo?.logoUrl?? '/default-image.jpg'} alt='logo' width={200} height={200} className='bg-primary'/>
+          <h1 className="mt-2 text-lg md:text-xl font-semibold text-primary dark:text-white">  {webinfo?.name}  Inc.</h1>
         </div>
   
 
         <div className="text-end">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200">Invoice #</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200">Bon de Livraion #</h2>
           <span className="mt-1 block text-gray-500 dark:text-neutral-500">{order?.ref.replace('ORDER-', '')}</span>
 
-          <p className="mt-4 not-italic text-gray-800 dark:text-neutral-200">
-            45 Roker Terrace<br/>
-            Latheronwheel<br/>
-            KW5 8NW, London<br/>
-            United Kingdom<br/>
-          </p>
+          <span className="mt-4 not-italic text-gray-800 dark:text-neutral-200 border p-2 rounded-md">
+            {webinfo?.address} {webinfo?.city}<br/>
+            {webinfo?.governorate} {webinfo?.zipcode}<br/>
+            {webinfo?.phone}<br/>
+    
+              </span>
         </div>
   
       </div>
@@ -217,11 +246,11 @@ if (loading) {
         <div className=' border border-gray-200 p-2 rounded-md'>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">Facturer à:</h3>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200 uppercase">{order?.user.username}</h3>
-          <p className="mt-2 not-italic text-gray-500 dark:text-neutral-500">
+          <span className="mt-2 not-italic text-gray-500 dark:text-neutral-500">
             {order?.address.address}<br/>
            {order?.address.city}, OR {order?.address.zipcode},<br/>
            {order?.address.governorate}<br/>
-          </p>
+          </span>
         </div>
    
 
@@ -282,68 +311,68 @@ if (loading) {
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                       ref
                       </h5>
-                      <p className="font-medium text-gray-800 dark:text-neutral-200">
+                      <span className="font-medium text-gray-800 dark:text-neutral-200">
                         {item.refproduct}
-                      </p>
+                      </span>
                     </div>
                     <div className="col-span-full sm:col-span-2">
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                       Désignation
                       </h5>
-                      <p className="font-medium text-gray-800 dark:text-neutral-200">
+                      <span className="font-medium text-gray-800 dark:text-neutral-200">
                         {item.name}
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         Qty
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {item.quantity}
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         PU Brut
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {(item.price / (1 + item.tva / 100)).toFixed(3)} TND
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         Rem
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {item.discount}%
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         PU HT
                       </h5>
-                      <p className="text-gray-800 dark:text-neutral-200">
+                      <span className="text-gray-800 dark:text-neutral-200">
                         {item.discount != null && item.discount > 0 ? (
-                          <p>
+                          <span>
                             {(
                               (item.price -
                                 (item.price * item.discount) / 100) /
                               (1 + item.tva / 100)
                             ).toFixed(3)}{" "}
                             TND
-                          </p>
+                          </span>
                         ) : (
-                          <p>
+                          <span>
                             {(item.price / (1 + item.tva / 100)).toFixed(3)} TND
-                          </p>
+                          </span>
                         )}
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         Prix Tot.HT{" "}
                       </h5>
-                      <p className="sm:text-end text-gray-800 dark:text-neutral-200">
+                      <span className="sm:text-end text-gray-800 dark:text-neutral-200">
                         {" "}
                         {item.discount != null && item.discount > 0
                           ? // If discount exists, calculate the discounted price multiplied by the quantity
@@ -359,15 +388,15 @@ if (loading) {
                               (1 + item.tva / 100)
                             ).toFixed(3)}{" "}
                         TND
-                      </p>
+                      </span>
                     </div>
                     <div>
                       <h5 className="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                         Tva
                       </h5>
-                      <p className="sm:text-end text-gray-800 dark:text-neutral-200">
+                      <span className="sm:text-end text-gray-800 dark:text-neutral-200">
                         {item.tva}%
-                      </p>
+                      </span>
                     </div>
                   </div>
   </div>
