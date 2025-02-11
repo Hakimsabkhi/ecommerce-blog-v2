@@ -2,7 +2,7 @@ import React from 'react';
 import Products from '@/components/Client/Products/Products';
 import CategoryBanner from '@/components/Client/Banner/CategoryBanner';
 import { notFound } from 'next/navigation';
-import { searchcategory } from '@/lib/StaticCatgoryproduct';
+import { searchcategory } from '@/lib/StaticCatgoryProduct';
 
 
 

@@ -1,5 +1,5 @@
 
-import "@/app/globals.css";
+
 import StoreProviders from "@/components/Provider/StoreProvider";
 
 
