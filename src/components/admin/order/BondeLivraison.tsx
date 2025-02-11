@@ -246,7 +246,7 @@ if (loading) {
       <div className="mt-8 grid sm:grid-cols-2 gap-3">
         <div className=' border border-gray-200 p-2 rounded-md'>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200">Facturer à:</h3>
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200 uppercase">{order?.user.username}</h3>
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-neutral-200 uppercase">{order?.user?.username}</h3>
           <p className="mt-2 not-italic text-gray-500 dark:text-neutral-500">
             {order?.address.address}<br/>
            {order?.address.city}, OR {order?.address.zipcode},<br/>

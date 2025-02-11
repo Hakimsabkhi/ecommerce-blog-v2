@@ -219,26 +219,25 @@ if (loading) {
 
     <div   id="invoice-content" className="flex flex-col p-4 sm:p-10 bg-white  rounded-xl dark:bg-neutral-800">
 
-      <div className="flex justify-between">
-        <div>
-        <Image   src={webinfo?.logoUrl?? '/default-image.jpg'} alt='logo' width={200} height={200} className='bg-primary'/>
-          <h1 className="mt-2 text-lg md:text-xl font-semibold text-primary dark:text-white">  {webinfo?.name}  Inc.</h1>
-        </div>
-  
-
-        <div className="text-end">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200">Bon de Livraion #</h2>
-          <span className="mt-1 block text-gray-500 dark:text-neutral-500">{order?.ref.replace('ORDER-', '')}</span>
-
-          <span className="mt-4 not-italic text-gray-800 dark:text-neutral-200 border p-2 rounded-md">
-            {webinfo?.address} {webinfo?.city}<br/>
-            {webinfo?.governorate} {webinfo?.zipcode}<br/>
-            {webinfo?.phone}<br/>
-    
-              </span>
-        </div>
-  
-      </div>
+        <div className="flex justify-between">
+             <div>
+             <Image src={webinfo?.logoUrl?? '/default-image.jpg'} alt='logo' width={200} height={200} className='bg-primary'/>
+               <h1 className="mt-2 text-lg md:text-xl font-semibold text-primary dark:text-white">{webinfo?.name}.inc</h1>
+             </div>
+       
+     
+             <div className="text-end">
+               <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200">Bonde Livraison  #</h2>
+               <span className="mt-1 block text-gray-500 dark:text-neutral-500">{order?.ref.replace('ORDER-', '')}</span>
+     
+               <p className="mt-4 not-italic text-gray-800 dark:text-neutral-200 border p-2 rounded-md">
+                 {webinfo?.address} {webinfo?.city}<br/>
+                 {webinfo?.governorate} {webinfo?.zipcode}<br/>
+                 {webinfo?.phone}<br/>
+               </p>
+             </div>
+       
+           </div>
    
 
 
