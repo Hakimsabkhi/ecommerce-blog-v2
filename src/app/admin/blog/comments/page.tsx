@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
-import Pagination from "@/components/Admin/Pagination";
+import Pagination from "@/components/Admin/PaginationAdmin";
 import Image from "next/image";
 import Link from "next/link";
 import { FaSpinner } from "react-icons/fa6";

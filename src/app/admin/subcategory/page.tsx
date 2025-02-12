@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import DeletePopup from "@/components/Admin/Popup/DeletePopup";
-import Pagination from "@/components/Admin/Pagination";
+import Pagination from "@/components/Admin/PaginationAdmin";
 import useIs2xl from "@/hooks/useIs2x";
 import { toast } from "react-toastify";
 import {  FaRegEye, FaSpinner } from "react-icons/fa6";

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FaRegEdit, FaSpinner, FaTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 import DeletePopup from "@/components/Admin/Popup/DeletePopup";
-import Pagination from "@/components/Admin/Pagination";
+import Pagination from "@/components/Admin/PaginationAdmin";
 import useIs2xl from "@/hooks/useIs2x";
 
 type Brand = {
