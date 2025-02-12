@@ -3,8 +3,7 @@
 import React, { useState, useMemo } from "react";
 import OrderPrice from "./OrderPrice";
 import ProductList from "./ProductList";
-import FilterProducts from "@/components/Admin/Products/approve/FilterProducts";
-
+import FilterProducts from "@/components/Client/Products/ProductPage/FilterProducts";
 interface ProductData {
   _id: string;
   name: string;
