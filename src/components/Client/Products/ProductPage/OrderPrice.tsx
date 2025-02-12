@@ -7,11 +7,11 @@ interface OrderPriceProps {
 
 const OrderPrice: React.FC<OrderPriceProps> = ({ setSortOrder, sortOrder }) => {
   return (
-    <div className="my-4 gap-2 flex items-center justify-end">
+    <div className="my-4 gap-2 flex items-center justify-end max-md:justify-center">
       <label htmlFor="sort-order" className="font-bold">Trier par prix :</label>
       <select
         id="sort-order"
-        className="w-[150px] p-2  border border-gray-300 rounded"
+        className=" p-2  border border-gray-300 rounded"
         value={sortOrder}
         onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
       >

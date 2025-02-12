@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import FilterProducts from "@/components/Client/Products/ProductPage/FilterProducts";
-import OrderPrice from "@/components/Client/Products/ProductPage/OrderPrice";
-import ProductList from "@/components/Client/Products/ProductPage/ProductList";
+import OrderPrice from "./OrderPrice";
+import ProductList from "./ProductList";
+import FilterProducts from "@/components/Admin/Products/approve/FilterProducts";
 
 interface ProductData {
   _id: string;
@@ -121,10 +121,12 @@ const ProductFilterClient: React.FC<ProductFilterClientProps> = ({
 
   return (
     <div>
-      <div className="desktop max-2xl:w-[95%] -mb-4"><OrderPrice setSortOrder={setSortOrder} sortOrder={sortOrder} /></div>
-      <div className="py-8 desktop max-2xl:w-[95%] gap-8 max-md:items-center xl:flex xl:flex-cols-2">
+      <div className="desktop max-2xl:w-[95%]">
+        <OrderPrice setSortOrder={setSortOrder} sortOrder={sortOrder} />
+      </div>
+      <div className=" desktop max-2xl:w-[95%] gap-8 max-md:items-center xl:flex xl:flex-cols-2">
         {/* Filters */}
-        <div className="xl:w-1/6 sm:w-5/6 mx-auto border-2 p-2 h-fit rounded-lg shadow-md">
+        <div className="xl:w-1/6 xl:mx-auto xl:border-2 xl:p-2 h-fit rounded-lg xl:shadow-md mb-8 max-xl:flex max-xl:justify-end">
           <FilterProducts
             selectedBrand={selectedBrand}
             setSelectedBrand={setSelectedBrand}
