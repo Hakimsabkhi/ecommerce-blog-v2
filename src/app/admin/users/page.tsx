@@ -3,7 +3,7 @@ import { FaSpinner, FaTrashAlt } from "react-icons/fa";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import DeletePopup from "@/components/Admin/Popup/DeletePopup";
 import { toast } from "react-toastify";
-import Pagination from "@/components/Admin/Pagination";
+import Pagination from "@/components/Admin/PaginationAdmin";
 import useIs2xl from "@/hooks/useIs2x";
 import { useSession } from "next-auth/react";
 

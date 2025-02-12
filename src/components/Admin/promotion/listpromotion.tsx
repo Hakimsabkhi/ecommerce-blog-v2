@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaSpinner } from "react-icons/fa";
-import Pagination from "@/components/Admin/Pagination";
+import Pagination from "@/components/Admin/PaginationAdmin";
 import Image from "next/image";
 import useIs2xl from "@/hooks/useIs2x";
 import { FaRegEye } from "react-icons/fa6";

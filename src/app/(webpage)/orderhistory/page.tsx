@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Pagination from "@/components/Admin/Pagination";
+import Pagination from "@/components/Client/PaginationClient";
 
 interface Address {
   _id: string;
